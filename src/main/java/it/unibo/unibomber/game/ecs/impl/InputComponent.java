@@ -36,7 +36,7 @@ public class InputComponent extends AbstractComponent{
 
                }
                if(spazio.isPresent()){
-                    this.getEntity().getComponent(BombPlaceComponent.class).get().bombPlace();
+                    this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
                }
                var movementComponent = this.getEntity().getComponent(MovementComponent.class);
                if(movementComponent.isPresent()){

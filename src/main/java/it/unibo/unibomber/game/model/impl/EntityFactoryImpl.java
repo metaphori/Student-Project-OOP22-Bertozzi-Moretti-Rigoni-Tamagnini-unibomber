@@ -5,6 +5,7 @@ import java.util.List;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.BombPlaceComponent;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.EntityImpl;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
@@ -33,6 +34,7 @@ public class EntityFactoryImpl implements EntityFactory{
         return new EntityImpl(game,position,type)
             //TODO add other component
             .addComponent(new PowerUpListComponent(1, 1, List.of()))
+            .addComponent(new BombPlaceComponent())
             .addComponent(new DestroyComponent());  
     }
 
@@ -50,8 +52,10 @@ public class EntityFactoryImpl implements EntityFactory{
 
     @Override
     public Entity makeBomb(Entity placer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeBomb'");
+        return new EntityImpl(game, placer.getPosition(), Type.BOMB)
+                    //TODO add other component
+                   .addComponent(new PowerUpListComponent(placer))
+                   .addComponent(new DestroyComponent());
     }
 
     @Override
