@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
 public class FieldImpl implements Field{
@@ -33,8 +35,9 @@ public class FieldImpl implements Field{
                             .collect(Collectors.toList());
         this.field.clear();
         for (var entity : fieldentities) {
-            if (entity.getType() == Type.BOMB) {
-                //TODO: aggiungere il controllo della direzione della bomb
+            if (entity.getType() == Type.BOMB && 
+                (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT || 
+                entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
                 row = (int) Math.round(entity.getPosition().getX());
                 col = (int) Math.round(entity.getPosition().getY());
             } else {
