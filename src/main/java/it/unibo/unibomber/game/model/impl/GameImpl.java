@@ -13,7 +13,7 @@ public class GameImpl implements Game {
 
     private List<Entity> entities = new ArrayList<>();
     private List<Integer> keysPressedQueue = new ArrayList<>();  
-    private Field gameField = new FieldImpl();
+    private Field gameField = new FieldImpl(this);
     private int columns;
     private int rows;
     private World world;
