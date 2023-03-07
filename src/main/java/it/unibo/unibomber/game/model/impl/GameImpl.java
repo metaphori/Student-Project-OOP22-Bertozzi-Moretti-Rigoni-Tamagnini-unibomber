@@ -17,6 +17,8 @@ public class GameImpl implements Game {
     private int columns;
     private int rows;
     private World world;
+    private final EntityFactoryImpl entityFactory=new EntityFactoryImpl(this);
+
 
     public GameImpl(World world){
         this.world=world;
@@ -64,4 +66,10 @@ public class GameImpl implements Game {
     public World getWorld() {
         return this.world   ;
     }
+    
+    @Override
+    public EntityFactoryImpl getFactory(){
+        return entityFactory;
+    }
+
 }

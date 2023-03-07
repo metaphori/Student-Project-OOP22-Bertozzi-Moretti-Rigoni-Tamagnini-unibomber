@@ -52,4 +52,9 @@ public interface Game {
      * @return if key is contaned into Map
      */
     World getWorld();
+    
+    /**
+     * @return the entity factory associated to the game
+     */
+    EntityFactory getFactory();
 }

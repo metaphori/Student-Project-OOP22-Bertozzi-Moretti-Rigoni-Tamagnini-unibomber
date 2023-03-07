@@ -4,10 +4,16 @@ import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.EntityFactory;
+import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
 
 public class EntityFactoryImpl implements EntityFactory{
 
+    Game game;
+    public EntityFactoryImpl(Game game){
+        this.game=game;
+    }
+    
     @Override
     public Entity makePowerUp(Pair<Float, Float> pos, PowerUpType powerUpType) {
         // TODO Auto-generated method stub
