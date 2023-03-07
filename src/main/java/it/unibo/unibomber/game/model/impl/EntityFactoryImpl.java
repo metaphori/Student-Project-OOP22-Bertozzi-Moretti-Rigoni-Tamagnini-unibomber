@@ -56,14 +56,13 @@ public class EntityFactoryImpl implements EntityFactory{
 
     @Override
     public Entity makeDestructibleWall(Pair<Float, Float> position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeDestructibleWall'");
+        return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
+                    .addComponent(new DestroyComponent());
     }
 
     @Override
     public Entity makeIndestructibleWall(Pair<Float, Float> position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeIndestructibleWall'");
+        return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL);
     }
     
 }

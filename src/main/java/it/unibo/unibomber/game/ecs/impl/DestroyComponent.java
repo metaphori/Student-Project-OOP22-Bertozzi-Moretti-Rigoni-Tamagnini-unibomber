@@ -11,9 +11,9 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class DestroyComponent extends AbstractComponent{
 
-    final float droppedPowerUpsPercent = 0.25f;
+    private final float droppedPowerUpsPercent = 0.25f;
     private boolean isDestroyed = false;
-    private int destroyFrames;
+    private int destroyFrames = 4;
 
     @Override
     public void update() {
