@@ -1,42 +1,19 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-public class PowerUpHandlerComponent extends AbstractComponent {
+import java.util.List;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 
-    private int bombNumber;
-    private int bombPower;
-    private int speed;
-
-    public PowerUpHandlerComponent(int bombNumber, int bombPower, int speed) {
-        this.bombNumber = bombNumber;
-        this.bombPower = bombPower;
-        this.speed = speed;
-    }
-
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+public class PowerUpHandlerComponent extends PowerUpListComponent {
+    
+    public PowerUpHandlerComponent(int bombNumber, int bombPower, List<PowerUpType> powerUpList) {
+        super(bombNumber, bombPower, powerUpList);
     }
 
     /**
-     * @return actual bomb number of player
+     * @param powerUp that modify powerup parameter of player
      */
-    public int getBombNumber() {
-        return this.bombNumber;
-    }
+    public void addPowerUp(PowerUpType powerUpType) {
+        //TODO update value with controll
 
-    /**
-     * @return actual bomb power of player
-     */
-    public int getBombPower() {
-        return this.bombPower;
     }
-
-    /**
-     * @return actual speed of player
-     */
-    public int getSpeed() {
-        return this.speed;
-    }
-
 }
