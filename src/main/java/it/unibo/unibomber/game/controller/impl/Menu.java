@@ -3,12 +3,10 @@ package it.unibo.unibomber.game.controller.impl;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
+import it.unibo.unibomber.game.view.MenuView;
 import it.unibo.unibomber.utilities.Constants;
-import it.unibo.unibomber.utilities.UploadRes;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,18 +16,12 @@ import java.awt.event.MouseListener;
 public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop{
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
-	private BufferedImage backgroundImage;
-	private int menuWidth, menuHeight;
+    private MenuView view;
+
 	public Menu(WorldImpl world) {
 		super(world);
+        view= new MenuView(this);
 		loadButtons();
-		loadBackground();
-	}
-
-    private void loadBackground() {
-		backgroundImage = UploadRes.GetSpriteAtlas(MENU_BACKGROUND);
-		menuWidth = (int) (Constants.UI.Game.G_WIDTH);
-		menuHeight = (int) (Constants.UI.Game.G_HEIGHT);
 	}
 
 	private void loadButtons() {
@@ -37,20 +29,17 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
 		buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (190 * Constants.UI.Game.SCALE), 1, Gamestate.QUIT);
 
 	}
-
+    public MenuButtonImpl[] getButtons(){
+        return buttons;
+    }
 	@Override
 	public void update() {
-		for (MenuButtonImpl mb : buttons)
-			mb.update();
+		view.update();
 	}
 
 	@Override
 	public void draw(Graphics g) {
-
-		g.drawImage(backgroundImage, 0, 0, menuWidth, menuHeight, null);
-
-		for (MenuButtonImpl mb : buttons)
-			mb.draw(g);
+        view.draw(g);
 	}
 
     @Override
