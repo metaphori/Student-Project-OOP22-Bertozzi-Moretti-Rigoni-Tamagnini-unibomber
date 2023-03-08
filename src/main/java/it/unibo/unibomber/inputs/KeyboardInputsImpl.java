@@ -29,7 +29,7 @@ public class KeyboardInputsImpl implements KeyListener{
     public void keyReleased(KeyEvent e) {
 		switch (Gamestate.state) {
 			case PLAY:
-			worldPanel.getWorld().getPlay().keyPressed(e);
+			worldPanel.getWorld().getPlay().keyReleased(e);
 				break;
 			default:
 				break;

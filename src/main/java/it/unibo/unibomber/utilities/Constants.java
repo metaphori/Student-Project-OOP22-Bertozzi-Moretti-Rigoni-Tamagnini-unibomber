@@ -16,7 +16,7 @@ public class Constants {
 		}
 		public static class Game {
 			public final static int TILES_DEFAULT = 16;
-			public final static float SCALE = 2f;
+			public final static float SCALE = 3f;
 			public final static int TILES_WIDTH = 15;
 			public final static int TILES_HEIGHT = 18;
 			public final static int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);

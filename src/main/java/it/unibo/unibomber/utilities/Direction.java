@@ -24,13 +24,11 @@ public enum Direction {
 
     //TODO refactor
     public static Direction extractDirecion(Pair<Float,Float> movement){
-        int x = (int)(movement.getX()/(1/movement.getX()));
-        int y = (int)(movement.getY()/(1/movement.getY()));
 
-        if(x>0 && y==0)return RIGHT;
-        else if(x<0 && y==0)return LEFT;
-        else if(x==0 && y<0)return DOWN;
-        else if(x==0 && y>0)return UP;
+        if(movement.getX()>0 && movement.getY()==0)return RIGHT;
+        else if(movement.getX()<0 && movement.getY()==0)return LEFT;
+        else if(movement.getX()==0 && movement.getY()<0)return UP;
+        else if(movement.getX()==0 && movement.getY()>0)return DOWN;
         return CENTER; 
     }
 

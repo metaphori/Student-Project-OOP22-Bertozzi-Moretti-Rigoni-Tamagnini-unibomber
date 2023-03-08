@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Play;
-import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
@@ -28,10 +27,10 @@ public class PlayView  implements GameLoop{
     }
 
     private void loadSprites() {
-		animations = new BufferedImage[1][3];
+		animations = new BufferedImage[1][12];
 		for (int j = 0; j < animations.length; j++) {
 			for (int i = 0; i < animations[j].length; i++) {
-				animations[j][i] = UploadRes.GetSpriteAtlas(spritesPath.get(Type.PLAYABLE)).getSubimage(i * 16, j * 16, 16, 16);
+				animations[j][i] = UploadRes.GetSpriteAtlas(spritesPath.get(Type.PLAYABLE)).getSubimage(i * 48, j * 48, 48, 48);
 			}
 		}
 	}
@@ -71,7 +70,24 @@ public class PlayView  implements GameLoop{
                 null);
             }
             else if(controller.getEntities().get(i).getType() == Type.PLAYABLE){
-                g.drawImage((animations[playerAction][animationIndex % 3]),
+                Integer indexDir = 0;
+                switch(controller.getEntities().get(i).getComponent(MovementComponent.class).get().getDirection()){
+                    default:
+                    case DOWN:
+                        indexDir=0;
+                        break;
+                    case LEFT:
+                        indexDir=3;
+                    break;
+                    case RIGHT:
+                        indexDir=6;
+                        break;
+                    case UP:
+                        indexDir=9;
+                        break;
+                    
+                }
+                g.drawImage((animations[playerAction][(animationIndex % 3)+indexDir]),
                 Math.round(controller.getEntities().get(i).getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
                 Math.round(controller.getEntities().get(i).getPosition().getY()* Constants.UI.Game.TILES_DEFAULT),
                 (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 

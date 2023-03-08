@@ -20,7 +20,6 @@ public class MovementComponent extends AbstractComponent {
         this.getEntity().addPosition(moveBy);
         handleDirection();
         //checkCollisions();
-        moveBy= new Pair<Float,Float>(0f, 0f);
     }
 
     private void handleDirection() {
@@ -56,7 +55,9 @@ public class MovementComponent extends AbstractComponent {
     public int getPassedFram(){
         return this.passedFrame;
     }
-
+    public void resetMoveBy() {
+        moveBy = new Pair<Float,Float>(0f, 0f);
+    }
     public static void setGlobalSpeedMultiplier(float speed){
         globalSpeedMultiplier=speed;
     }

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
@@ -18,6 +19,8 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -69,7 +72,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		/*
 		for (int index = 0; index < 19; index++) {
 			List<String> singleLine = Arrays.asList(map.get(index).split(" "));
 			for (int j = 0; j < singleLine.size(); j++) {
@@ -83,7 +86,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 				}
 			}
         }
-		field.updateField();
+		field.updateField();*/
 	}
 
 	@Override
@@ -110,7 +113,11 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
+		game.getEntities().stream()
+			.filter(x -> x.getType()==Type.PLAYABLE)
+			.collect(Collectors.toList())
+			.get(0)
+			.getComponent(MovementComponent.class).get().resetMoveBy();
 	}
 
     @Override
