@@ -92,7 +92,7 @@ public class Constants {
 		}
 	}
 	public static class PowerUp {
-		public static final int CHANCE_COMPLEX = 25;
+		public static final int complexPercentage = 25;
 	}
 	
 }

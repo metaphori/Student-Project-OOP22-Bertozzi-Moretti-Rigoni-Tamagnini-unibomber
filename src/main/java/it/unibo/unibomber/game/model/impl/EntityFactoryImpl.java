@@ -21,9 +21,9 @@ import it.unibo.unibomber.utilities.Pair;
 
 public class EntityFactoryImpl implements EntityFactory{
 
-    Game game;
+    private final Game game;
     public EntityFactoryImpl(Game game){
-        this.game=game;
+        this.game = game;
     }
     @Override
     public Entity makePowerUp(Pair<Float, Float> pos, PowerUpType powerUpType) {
