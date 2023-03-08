@@ -9,6 +9,7 @@ import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
+import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.*;
@@ -23,10 +24,10 @@ public class PlayView  implements GameLoop{
 
     public PlayView(Play controller){
         this.controller=controller;
-        loadAnimations();
+        loadSprites();
     }
 
-    private void loadAnimations() {
+    private void loadSprites() {
 		animations = new BufferedImage[1][3];
 		for (int j = 0; j < animations.length; j++) {
 			for (int i = 0; i < animations[j].length; i++) {
@@ -42,7 +43,7 @@ public class PlayView  implements GameLoop{
 		.get(0)
 		.getComponent(MovementComponent.class)
 		.get()
-		.getFrameInDirection();
+		.getPassedFram();
 	}
 
     @Override
@@ -52,9 +53,8 @@ public class PlayView  implements GameLoop{
 
     @Override
     public void draw(Graphics g) {
-        if(animationIndex % 20 == 0){
         for(int i = 0; i<controller.getEntities().size();i++) {
-            if(controller.getEntities().get(i).getType()!=Type.PLAYABLE) {
+            if(controller.getEntities().get(i).getType() != Type.PLAYABLE && controller.getEntities().get(i).getType() != Type.POWERUP) {
                 g.drawImage(UploadRes.GetSpriteAtlas(spritesPath.get(controller.getEntities().get(i).getType())),
                 Math.round(controller.getEntities().get(i).getPosition().getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                 Math.round(controller.getEntities().get(i).getPosition().getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
@@ -62,16 +62,22 @@ public class PlayView  implements GameLoop{
                 (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
                 null);
             }
-        }
-        Entity player = controller.getEntities().stream()
-            .filter(x -> x.getType()==Type.PLAYABLE)
-            .collect(Collectors.toList()).get(0);
-            g.drawImage((animations[playerAction][animationIndex % 3]),
-            Math.round(player.getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
-            Math.round(player.getPosition().getY()* Constants.UI.Game.TILES_DEFAULT),
-            (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
-            (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
-            null);
-        }
+            else if(controller.getEntities().get(i).getType() == Type.POWERUP){
+                g.drawImage(UploadRes.GetSpriteAtlas(spritesPoweUpPath.get(controller.getEntities().get(i).getComponent(PowerUpComponent.class).get().getPowerUpType())),
+                Math.round(controller.getEntities().get(i).getPosition().getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                Math.round(controller.getEntities().get(i).getPosition().getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
+                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
+                null);
+            }
+            else if(controller.getEntities().get(i).getType() == Type.PLAYABLE){
+                g.drawImage((animations[playerAction][animationIndex % 3]),
+                Math.round(controller.getEntities().get(i).getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
+                Math.round(controller.getEntities().get(i).getPosition().getY()* Constants.UI.Game.TILES_DEFAULT),
+                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
+                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
+                null);
+            }
+        }         
     }
 }

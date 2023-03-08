@@ -17,6 +17,7 @@ import java.io.IOException;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -69,17 +70,20 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 			e.printStackTrace();
 		}
 		
-		/*for (int index = 0; index < 19; index++) {
+		for (int index = 0; index < 19; index++) {
 			List<String> singleLine = Arrays.asList(map.get(index).split(" "));
 			for (int j = 0; j < singleLine.size(); j++) {
 				switch(Integer.parseInt(singleLine.get(j))){
 					case 6:
 						game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new Pair<Float,Float>((float)j, (float)index)));
 					break;
+                    case 2:
+                        game.addEntity(new EntityFactoryImpl(game).makePowerUp(new Pair<Float,Float>((float)j, (float)index),PowerUpType.FIREUP));
+                    break;
 				}
 			}
         }
-		field.updateField();  */  
+		field.updateField();
 	}
 
 	@Override
@@ -89,7 +93,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 				c.update();
 			}
 		}
-		//field.updateField();
+		field.updateField();
 		view.update();
 		key_queue.clear();
 	}

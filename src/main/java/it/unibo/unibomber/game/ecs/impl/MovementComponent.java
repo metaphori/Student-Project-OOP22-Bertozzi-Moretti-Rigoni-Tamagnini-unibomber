@@ -11,14 +11,14 @@ public class MovementComponent extends AbstractComponent {
     private Pair<Float,Float> moveBy;
     private Direction direction = Direction.CENTER;
     private int framesInDirection=0;
-
+    private int passedFrame=0;
     public MovementComponent(){
-        moveBy= new Pair<Float,Float>(0f, 0f);
+        moveBy = new Pair<Float,Float>(0f, 0f);
     }
     @Override
     public void update() {
         this.getEntity().addPosition(moveBy);
-        //handleDirection();
+        handleDirection();
         //checkCollisions();
         moveBy= new Pair<Float,Float>(0f, 0f);
     }
@@ -31,7 +31,11 @@ public class MovementComponent extends AbstractComponent {
         else{
             this.framesInDirection=0;
             this.direction = newDirection;
-        } 
+        }
+        if(framesInDirection == 10){
+            passedFrame++;
+            this.framesInDirection=0;
+        }
     }
     private void checkCollisions() {        
         Optional<CollisionComponent> collisionComp = this.getEntity().getComponent(CollisionComponent.class);
@@ -48,6 +52,9 @@ public class MovementComponent extends AbstractComponent {
     }
     public int getFrameInDirection(){
         return this.framesInDirection;
+    }
+    public int getPassedFram(){
+        return this.passedFrame;
     }
 
     public static void setGlobalSpeedMultiplier(float speed){

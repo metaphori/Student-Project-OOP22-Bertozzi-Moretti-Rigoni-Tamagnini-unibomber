@@ -44,6 +44,8 @@ public class Constants {
 				spritesPath.put(Type.DESTRUCTIBLE_WALL, null);
 				spritesPath.put(Type.INDESTRUCTIBLE_WALL, "indestructible_wall.png");
 				spritesPath.put(Type.BOMB, "bomba.png");
+				spritesPoweUpPath.put(PowerUpType.FIREUP, "fire_up.png");
+
 			}
 		}
 	}

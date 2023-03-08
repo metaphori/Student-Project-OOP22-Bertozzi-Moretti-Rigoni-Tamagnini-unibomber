@@ -64,11 +64,11 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	}
 
 	@Override
-	public void run() {double timePerFrame = 1000000000.0 / Constants.UI.GameLoop.FPS_SET;
+	public void run() {
+		double timePerFrame = 1000000000.0 / Constants.UI.GameLoop.FPS_SET;
 
 		long previousTime = System.nanoTime();
 
-		int frames = 0;
 		long lastCheck = System.currentTimeMillis();
 
 		double deltaF = 0;
@@ -81,14 +81,11 @@ public class WorldImpl implements World,Runnable, GameLoop{
 			if (deltaF >= 1) {
 				update();
 				unibomberPanel.repaint();
-				frames++;
 				deltaF--;
 			}
 
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + frames);
-				frames = 0;
 			}
 		}
 	}
