@@ -4,24 +4,25 @@ import java.awt.Graphics;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
-import it.unibo.unibomber.game.controller.api.WorldPanel;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Constants;
 
 public class WorldImpl implements World,Runnable, GameLoop{
     
-	private WorldPanel unibomberPanel;
+	private WorldPanelImpl unibomberPanel;
+	private Menu menu;
 	private Thread g_Thread;
 
     public WorldImpl(){
 		initClasses();
-       	unibomberPanel = new WorldPanelimpl(this);
+       	unibomberPanel = new WorldPanelImpl(this);
 		new WorldWindow(unibomberPanel);
 		unibomberPanel.requestFocus();
 		startGameLoop();
     }
 
 	private void initClasses() {
+		menu = new Menu(this);
 	}
 
 	private void startGameLoop() {
@@ -31,12 +32,31 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	
 	@Override
 	public void update() {
-
+		switch (Gamestate.state) {
+		case MENU:
+			menu.update();
+			break;
+		case PLAY:
+			break;
+		case OPTIONS:
+		case QUIT:
+		default:
+			System.exit(0);
+			break;
+		}
 	}
 
 	@Override
 	public void draw(Graphics g){
-
+		switch (Gamestate.state) {
+			case MENU:
+				menu.draw(g);
+				break;
+			case PLAY:
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override
@@ -69,4 +89,9 @@ public class WorldImpl implements World,Runnable, GameLoop{
 		}
 	}
 
+	@Override
+	public Menu getMenu() {
+		return menu;
+	}
+	
 }

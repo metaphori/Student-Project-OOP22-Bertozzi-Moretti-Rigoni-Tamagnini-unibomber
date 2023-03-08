@@ -3,13 +3,13 @@ package it.unibo.unibomber.inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.unibomber.game.controller.api.WorldPanel;
+import it.unibo.unibomber.game.controller.impl.WorldPanelImpl;
 
 public class KeyboardInputsImpl implements KeyListener{
 	
-    private WorldPanel worldPanel;
+    private WorldPanelImpl worldPanel;
 
-	public KeyboardInputsImpl(WorldPanel worldPanel) {
+	public KeyboardInputsImpl(WorldPanelImpl worldPanel) {
 		this.worldPanel = worldPanel;
 	}
 
