@@ -3,8 +3,16 @@ package it.unibo.unibomber.inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import it.unibo.unibomber.game.controller.api.WorldPanel;
+
 public class MouseInputsImpl implements MouseListener{
 
+	private WorldPanel worldPanel;
+
+    public MouseInputsImpl(WorldPanel worldPanel) {
+		this.worldPanel = worldPanel;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
