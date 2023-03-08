@@ -40,13 +40,11 @@ public class EntityFactoryImpl implements EntityFactory{
 
     @Override
     public Entity makePlayable(Pair<Float, Float> position) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'makePlayable'");
     }
 
     @Override
     public Entity makeBot(Pair<Float, Float> position, int AI_difficulty) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'makeBot'");
     }
 
