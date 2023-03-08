@@ -9,7 +9,7 @@ public class InputComponent extends AbstractComponent{
 
      @Override
      public void update() {
-          /*
+          
           var keyPressed=this.getEntity().getGame().getWorld().getPlay().getKeys();
           Optional<Integer> moveKey = keyPressed.stream()
                          .filter(e->e ==(int) KeyEvent.VK_W || e == (int)KeyEvent.VK_A || e == (int)KeyEvent.VK_S || e == (int)KeyEvent.VK_D)
@@ -43,7 +43,7 @@ public class InputComponent extends AbstractComponent{
                     move.moveBy(moveBy);
                }
                
-          } */
+          } 
      }
      /*   
         game.addkeyPressed(87);w

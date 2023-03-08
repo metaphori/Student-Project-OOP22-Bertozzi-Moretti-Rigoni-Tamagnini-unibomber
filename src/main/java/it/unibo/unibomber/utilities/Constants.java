@@ -46,5 +46,53 @@ public class Constants {
 				spritesPath.put(Type.BOMB, "bomba.png");
 			}
 		}
-	}	
+	}
+
+	public static class Player {
+		public static final int STANDING = 0;
+		public static final int WALKING = 1;
+		public static final int POWER_GLOVE = 2;
+		public static final int THROWING = 3;
+		public static final int PUNCH = 4;
+		public static final int SHIELD = 5;
+		public static final int STUN = 6;
+		public static final int VICTORY = 7;
+		public static final int DEFEAT = 8;
+		public static final int IDLE = 9;
+		public static final int JUMPUP_DOWN = 10;
+		public static final int CRYING = 11;
+		public static final int DANCING = 12;
+
+		public static int GetSpriteAmount(int player_action) {
+			switch (player_action) {
+			case STANDING:
+			case PUNCH:
+				return 3;
+			case WALKING:
+			case POWER_GLOVE:
+			case VICTORY:
+				return 6;
+			case THROWING:
+				return 5;
+			case CRYING:
+				return 4;
+			case SHIELD:
+				return 2;
+			case STUN:
+				return 8;
+			case DEFEAT:
+				return 14;
+			case JUMPUP_DOWN:
+				return 9;
+			case DANCING:
+				return 8;
+			default:
+				return 1;
+			}
+		}
+	}
+	public static class PowerUp {
+		public static final int CHANCE_COMPLEX = 25;
+	}
+	
 }

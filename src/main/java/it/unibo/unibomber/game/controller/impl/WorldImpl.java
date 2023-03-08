@@ -11,6 +11,7 @@ public class WorldImpl implements World,Runnable, GameLoop{
     
 	private WorldPanelImpl unibomberPanel;
 	private Menu menu;
+	private Play play;
 	private Thread g_Thread;
 
     public WorldImpl(){
@@ -23,6 +24,7 @@ public class WorldImpl implements World,Runnable, GameLoop{
 
 	private void initClasses() {
 		menu = new Menu(this);
+		play = new Play(this);
 	}
 
 	private void startGameLoop() {
@@ -37,6 +39,7 @@ public class WorldImpl implements World,Runnable, GameLoop{
 			menu.update();
 			break;
 		case PLAY:
+			play.update();
 			break;
 		case OPTIONS:
 		case QUIT:
@@ -53,6 +56,7 @@ public class WorldImpl implements World,Runnable, GameLoop{
 				menu.draw(g);
 				break;
 			case PLAY:
+				play.draw(g);
 				break;
 			default:
 				break;
@@ -94,4 +98,8 @@ public class WorldImpl implements World,Runnable, GameLoop{
 		return menu;
 	}
 	
+	@Override
+	public Play getPlay() {
+		return play;
+	}
 }
