@@ -1,9 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.Optional;
-
-import com.jogamp.newt.event.KeyEvent;
-
+import java.awt.event.KeyEvent;
 import it.unibo.unibomber.utilities.Pair;
 
 public class InputComponent extends AbstractComponent{
@@ -11,11 +9,12 @@ public class InputComponent extends AbstractComponent{
 
      @Override
      public void update() {
-          var a=this.getEntity().getGame().getWorld().getPlay().getKeys();
-          Optional<Integer> moveKey = this.getEntity().getGame().getWorld().getPlay().getKeys().stream()
+          
+          var keyPressed=this.getEntity().getGame().getWorld().getPlay().getKeys();
+          Optional<Integer> moveKey = keyPressed.stream()
                          .filter(e->e ==(int) KeyEvent.VK_W || e == (int)KeyEvent.VK_A || e == (int)KeyEvent.VK_S || e == (int)KeyEvent.VK_D)
                          .findFirst();
-          Optional<Integer> spazio = this.getEntity().getGame().getWorld().getPlay().getKeys().stream()
+          Optional<Integer> spazio = keyPressed.stream()
           .filter(e->e == (int)KeyEvent.VK_SPACE)
           .findFirst();
           if(moveKey.isPresent()){
