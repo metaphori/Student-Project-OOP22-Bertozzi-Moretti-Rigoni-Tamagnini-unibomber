@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -27,11 +24,10 @@ import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
-import static it.unibo.unibomber.utilities.Constants.Player.*;
 
 public class Play extends StateImpl implements KeyListener,GameLoop{
     BufferedImage sprite;
-    private Deque<Integer> key_queue;
+    private Deque<Integer> keyQueue;
 	private Game game;
 	private List<String> map = new ArrayList<String>();
 	private PlayView view;
@@ -49,7 +45,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 	}
 	private void initClasses() {		
 		game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float,Float>(0f, 1f)));
-        key_queue = new LinkedList<>();
+        keyQueue = new LinkedList<>();
 	}
 
 	private void loadMap() {
@@ -95,7 +91,6 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 		}
 		field.updateField();
 		view.update();
-		key_queue.clear();
 	}
 
 	@Override
@@ -104,28 +99,25 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		key_queue.add(e.getKeyCode());
-		view.changePlayerAction(WALKING);
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		game.getEntities().stream()
-			.filter(x -> x.getType()==Type.PLAYABLE)
-			.collect(Collectors.toList())
-			.get(0)
-			.getComponent(MovementComponent.class).get().resetMoveBy();
-		view.changePlayerAction(STANDING);
+	public void keyReleased(KeyEvent e) {  
+		if(keyQueue.contains(e.getKeyCode()))
+		keyQueue.remove(e.getKeyCode());
 	}
 
     @Override
-    public void keyTyped(KeyEvent arg0) {     
-
+    public void keyTyped(KeyEvent e) {    
+		if(!keyQueue.contains(e.getKeyCode()))
+		keyQueue.addLast(e.getKeyCode());
     }
 
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(!keyQueue.contains(e.getKeyCode()))
+		keyQueue.addFirst(e.getKeyCode());
+	}
+
     public Deque<Integer> getKeys(){
-	return key_queue;
+		return keyQueue;
     }
 
 	public List<Entity> getEntities() {
