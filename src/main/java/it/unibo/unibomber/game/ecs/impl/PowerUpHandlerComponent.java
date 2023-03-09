@@ -11,11 +11,11 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
     /**
      * This method inherit powerUp from the superclass.
      * @param bombNumber
-     * @param bombPower
+     * @param bombFire
      * @param powerUpList
      */
-    public PowerUpHandlerComponent(final int bombNumber, final int bombPower, final List<PowerUpType> powerUpList) {
-        super(bombNumber, bombPower, powerUpList);
+    public PowerUpHandlerComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
+        super(bombNumber, bombFire, powerUpList);
     }
 
     /**
@@ -26,17 +26,17 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
         if (!powerUpType.isComplex()) {
             switch (powerUpType) {
                 case FIREUP:
-                    if (this.bombPower < 8) {
-                        this.bombPower += 1;
+                    if (this.bombFire < 8) {
+                        this.bombFire += 1;
                     }
                     break;
                 case FIREDOWN:
-                    if (this.bombPower > 1) {
-                        this.bombPower -= 1;
+                    if (this.bombFire > 1) {
+                        this.bombFire -= 1;
                     }
                     break;
                 case FIREFULL:
-                    this.bombPower = 8;
+                    this.bombFire = 8;
                     break;
                 case BOMBUP:
                     if (this.bombNumber < 8) {

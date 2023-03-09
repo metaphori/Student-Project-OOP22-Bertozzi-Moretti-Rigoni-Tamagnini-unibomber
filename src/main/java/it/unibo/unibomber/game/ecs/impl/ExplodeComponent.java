@@ -53,7 +53,7 @@ public class ExplodeComponent extends AbstractComponent {
     * @param entitiesList the entities to control
     */
     private void explodeEntities(final List<Entity> entitiesList) {
-        int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombPower();
+        int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         var field = this.getEntity().getGame().getGameField().getField();
         entitiesList.stream()
             .forEach(entity -> {

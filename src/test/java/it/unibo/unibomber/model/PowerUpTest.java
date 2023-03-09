@@ -15,12 +15,12 @@ class PowerUpTest {
 
     private static final int bombNumberBase = 1;
     private static final int bombNumberPowerUp = 1;
-    private static final int bombPowerBase = 1;
-    private static final int bombPowerPowerUp = 1;
+    private static final int bombFireBase = 1;
+    private static final int bombFirePowerUp = 1;
 
     private Entity createPlayerEntity() {
         return new EntityImpl(null, null, Type.PLAYABLE)
-                .addComponent(new PowerUpHandlerComponent(bombNumberBase, bombPowerBase, List.of()));
+                .addComponent(new PowerUpHandlerComponent(bombNumberBase, bombFireBase, List.of()));
     }
 
     @Test
@@ -32,11 +32,11 @@ class PowerUpTest {
     }
 
     @Test
-    void testBombPowerUpPowerUp() {
+    void testBombFireUpPowerUp() {
         Entity player = this.createPlayerEntity();
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.FIREUP);
-        assertEquals(bombPowerBase + bombPowerPowerUp,
-                player.getComponent(PowerUpHandlerComponent.class).get().getBombPower());
+        assertEquals(bombFireBase + bombFirePowerUp,
+                player.getComponent(PowerUpHandlerComponent.class).get().getBombFire());
     }
 
 }

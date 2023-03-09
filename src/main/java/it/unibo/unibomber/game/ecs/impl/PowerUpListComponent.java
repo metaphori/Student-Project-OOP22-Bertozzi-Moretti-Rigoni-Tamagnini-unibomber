@@ -14,18 +14,18 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 public class PowerUpListComponent extends AbstractComponent {
 
     protected int bombNumber;
-    protected int bombPower;
+    protected int bombFire;
     protected List<PowerUpType> powerUpList = new ArrayList<>();
 
     /**
      * This method sets all bomber's powerups.
      * @param bombNumber
-     * @param bombPower
+     * @param bombFire
      * @param powerUpList
      */
-    public PowerUpListComponent(final int bombNumber, final int bombPower, final List<PowerUpType> powerUpList) {
+    public PowerUpListComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
         this.bombNumber = bombNumber;
-        this.bombPower = bombPower;
+        this.bombFire = bombFire;
         this.powerUpList = powerUpList;
     }
 
@@ -37,7 +37,7 @@ public class PowerUpListComponent extends AbstractComponent {
         Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
         if (giversList.isPresent()) {
             this.bombNumber = giversList.get().getBombNumber();
-            this.bombPower = giversList.get().getBombPower();
+            this.bombFire = giversList.get().getBombFire();
             this.powerUpList = giversList.get().getPowerUpList();
         } else {
             throw new MissingFormatArgumentException("Giver does not contain a PowerUpListComponent itSelf");
@@ -59,8 +59,8 @@ public class PowerUpListComponent extends AbstractComponent {
     /**
      * @return actual bomb power of player
      */
-    public int getBombPower() {
-        return bombPower;
+    public int getBombFire() {
+        return bombFire;
     }
 
     /**
