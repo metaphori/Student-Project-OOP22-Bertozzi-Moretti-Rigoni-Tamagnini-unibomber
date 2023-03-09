@@ -13,6 +13,7 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
      * @param powerUp that modify powerup parameter of player
      */
     public void addPowerUp(PowerUpType powerUpType) {
+        // TODO Add powerUpType to powerUpList
         if (!powerUpType.isComplex()) {
             switch (powerUpType) {
                 case FIREUP:

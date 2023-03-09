@@ -14,6 +14,7 @@ import it.unibo.unibomber.game.ecs.impl.InputComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.BombPlaceComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
+import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
@@ -22,9 +23,11 @@ import it.unibo.unibomber.utilities.Pair;
 public class EntityFactoryImpl implements EntityFactory{
 
     private final Game game;
+    
     public EntityFactoryImpl(Game game){
         this.game = game;
     }
+    
     @Override
     public Entity makePowerUp(Pair<Float, Float> pos, PowerUpType powerUpType) {
         return new EntityImpl(game,pos, Type.POWERUP)
@@ -38,7 +41,7 @@ public class EntityFactoryImpl implements EntityFactory{
             .addComponent(new MovementComponent())
             .addComponent(new CollisionComponent(false))
             .addComponent(new BombPlaceComponent())
-            .addComponent(new PowerUpListComponent(1, 1, List.of()))
+            .addComponent(new PowerUpHandlerComponent(1, 1, List.of()))
             .addComponent(new DestroyComponent());  
     }
 
