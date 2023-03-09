@@ -42,7 +42,7 @@ public enum PowerUpType {
     public static PowerUpType getRandomPowerUp() {
         Random rnd = new Random();
         return List.of(PowerUpType.values()).stream()
-                .filter(e -> rnd.nextInt(100) <= Constants.PowerUp.complexPercentage ? e.isComplex : !e.isComplex)
+                .filter(e -> rnd.nextInt(100) <= Constants.PowerUp.COMPLEX_PERCENTAGE ? e.isComplex : !e.isComplex)
                 .findAny()
                 .orElseThrow();
     }

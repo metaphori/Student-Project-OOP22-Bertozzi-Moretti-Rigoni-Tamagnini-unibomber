@@ -7,6 +7,9 @@ import it.unibo.unibomber.game.ecs.impl.AbstractComponent;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This interface represents the skeleton of the entity.
+ */
 public interface Entity {
 
     /**
@@ -58,7 +61,7 @@ public interface Entity {
     float getSpeed();
 
     /**
-     * increase or decrease speed of entity
+     * @param powerUpType
      */
     void addSpeed(PowerUpType powerUpType);
 }

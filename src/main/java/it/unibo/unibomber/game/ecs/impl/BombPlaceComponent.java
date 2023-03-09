@@ -8,7 +8,7 @@ public class BombPlaceComponent extends AbstractComponent {
     private boolean bombPlaced = false;
 
     @Override
-    public void update() {
+    public final void update() {
         if (this.bombPlaced) {
             this.getEntity().getGame().addEntity(this.getEntity().getGame().getFactory().makeBomb(this.getEntity()));
             this.bombPlaced = false;
