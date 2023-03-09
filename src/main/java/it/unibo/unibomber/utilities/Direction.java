@@ -22,7 +22,6 @@ public enum Direction {
         return this.y;
     }
 
-    //TODO refactor
     public static Direction extractDirecion(Pair<Float,Float> movement){
 
         if(movement.getX()>0 && movement.getY()==0)return RIGHT;

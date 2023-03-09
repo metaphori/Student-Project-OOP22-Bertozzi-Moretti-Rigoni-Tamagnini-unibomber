@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.model.api.Field;
@@ -29,7 +27,6 @@ import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
-
 
 public class Play extends StateImpl implements KeyListener,GameLoop{
     BufferedImage sprite;
@@ -50,7 +47,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 		loadMap();
 	}
 	private void initClasses() {		
-		game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float,Float>(0f, 0f)));
+		game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float,Float>(0f, 1f)));
         key_queue = new LinkedList<>();
 	}
 
@@ -72,8 +69,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*
-		for (int index = 0; index < 19; index++) {
+		/*for (int index = 0; index < 19; index++) {
 			List<String> singleLine = Arrays.asList(map.get(index).split(" "));
 			for (int j = 0; j < singleLine.size(); j++) {
 				switch(Integer.parseInt(singleLine.get(j))){
@@ -85,8 +81,8 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
                     break;
 				}
 			}
-        }
-		field.updateField();*/
+        }*/
+		field.updateField();
 	}
 
 	@Override

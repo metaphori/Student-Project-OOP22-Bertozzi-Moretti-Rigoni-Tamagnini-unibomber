@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.game.view;
 
 import javax.swing.JFrame;
 

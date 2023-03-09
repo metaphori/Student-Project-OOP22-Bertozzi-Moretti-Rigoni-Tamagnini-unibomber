@@ -26,6 +26,7 @@ public class Constants {
 		}
 		public static class GameLoop {	
 			public final static int FPS_SET = 60;
+			public final static int UPS_SET = 60;
 		}
 		public static class SpritesMap{
 			public static final String MENU_BUTTONS = "button_atlas.png";

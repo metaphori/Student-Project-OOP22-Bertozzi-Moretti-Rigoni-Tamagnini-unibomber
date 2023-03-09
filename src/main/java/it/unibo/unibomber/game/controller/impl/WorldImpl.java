@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.view.WorldPanelImpl;
+import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
 
 public class WorldImpl implements World,Runnable, GameLoop{
@@ -66,26 +68,42 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	@Override
 	public void run() {
 		double timePerFrame = 1000000000.0 / Constants.UI.GameLoop.FPS_SET;
+		double timePerUpdate = 1000000000.0 / Constants.UI.GameLoop.UPS_SET;
 
 		long previousTime = System.nanoTime();
 
+		int frames = 0;
+		int updates = 0;
 		long lastCheck = System.currentTimeMillis();
 
+		double deltaU = 0;
 		double deltaF = 0;
 
 		while (true) {
 			long currentTime = System.nanoTime();
 
+			deltaU += (currentTime - previousTime) / timePerUpdate;
 			deltaF += (currentTime - previousTime) / timePerFrame;
 			previousTime = currentTime;
-			if (deltaF >= 1) {
+
+			if (deltaU >= 1) {
 				update();
+				updates++;
+				deltaU--;
+			}
+
+			if (deltaF >= 1) {
 				unibomberPanel.repaint();
+				frames++;
 				deltaF--;
 			}
 
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
+				System.out.println("FPS: " + frames + " | UPS: " + updates);
+				frames = 0;
+				updates = 0;
+
 			}
 		}
 	}

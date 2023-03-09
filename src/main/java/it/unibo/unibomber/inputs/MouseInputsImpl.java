@@ -3,8 +3,8 @@ package it.unibo.unibomber.inputs;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import it.unibo.unibomber.game.controller.impl.WorldPanelImpl;
 import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.view.WorldPanelImpl;
 
 public class MouseInputsImpl implements MouseListener{
 
@@ -49,14 +49,10 @@ public class MouseInputsImpl implements MouseListener{
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

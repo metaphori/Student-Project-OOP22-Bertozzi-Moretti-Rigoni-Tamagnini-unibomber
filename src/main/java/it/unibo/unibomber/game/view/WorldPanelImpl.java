@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.game.view;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import it.unibo.unibomber.inputs.MouseInputsImpl;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
+import it.unibo.unibomber.game.controller.impl.WorldImpl;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.G_WIDTH;

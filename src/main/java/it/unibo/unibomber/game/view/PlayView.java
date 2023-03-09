@@ -73,7 +73,8 @@ public class PlayView  implements GameLoop{
           }
         }
         return image;
-      }
+    }
+
     @Override
     public void draw(Graphics g) {
         for(int i = 0; i<controller.getEntities().size();i++) {

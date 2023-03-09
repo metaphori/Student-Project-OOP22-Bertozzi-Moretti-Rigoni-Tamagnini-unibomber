@@ -3,8 +3,8 @@ package it.unibo.unibomber.inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import it.unibo.unibomber.game.controller.impl.WorldPanelImpl;
 import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.view.WorldPanelImpl;
 
 public class KeyboardInputsImpl implements KeyListener{
 	
