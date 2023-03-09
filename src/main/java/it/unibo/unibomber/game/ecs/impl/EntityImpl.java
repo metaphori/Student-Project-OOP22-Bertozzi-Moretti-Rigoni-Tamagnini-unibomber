@@ -9,29 +9,40 @@ import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This method creates and manages the entity.
+ */
 public class EntityImpl implements Entity {
 
     private final Type type;
     private final Set<Component> components = new HashSet<>();
-    private Game Game;
+    private Game game;
     private Pair<Float, Float> position;
     private float speed = 1;
 
+    /**
+     * This method create a new Entity.
+     * 
+     * @param game
+     * @param position
+     * @param type
+     */
     public EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
-        this.Game = game;
+        this.game = game;
         this.position = position;
         this.type = type;
     }
 
     @Override
-    public Set<Component> getComponents() {
+    public final Set<Component> getComponents() {
         return new HashSet<>(this.components);
     }
 
     @Override
-    public <C extends Component> Optional<C> getComponent(Class<C> componentClass) {
+    public final <C extends Component> Optional<C> getComponent(final Class<C> componentClass) {
         return this.components.stream()
                 .filter(componentClass::isInstance)
                 .map(componentClass::cast)
@@ -39,47 +50,49 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public Pair<Float, Float> getPosition() {
+    public final Pair<Float, Float> getPosition() {
         return this.position;
     }
 
     @Override
-    public void setPosition(Pair<Float, Float> position) {
+    public final void setPosition(final Pair<Float, Float> position) {
         this.position = position;
     }
 
     @Override
-    public Type getType() {
+    public final Type getType() {
         return this.type;
     }
 
     @Override
-    public Game getGame() {
-        return this.Game;
+    public final Game getGame() {
+        return this.game;
     }
 
     @Override
-    public Entity addComponent(AbstractComponent component) {
+    public final Entity addComponent(final AbstractComponent component) {
         component.setEntity(this);
         this.components.add(component);
         return this;
     }
 
     @Override
-    public float getSpeed() {
+    public final float getSpeed() {
         return this.speed;
     }
 
     @Override
-    public void addSpeed(PowerUpType powerUpType) {
+    public final void addSpeed(final PowerUpType powerUpType) {
         switch (powerUpType) {
             case SPEEDUP:
-                if (this.speed < 2)
-                    this.speed += 0.20;
+                if (this.speed < 2) {
+                    this.speed += Constants.Entity.SPEED_CHANGE;
+                }
                 break;
             case SPEEDDOWN:
-                if (this.speed > 1)
-                    this.speed -= 0.20;
+                if (this.speed > 1) {
+                    this.speed -= Constants.Entity.SPEED_CHANGE;
+                }
                 break;
             default:
                 break;
@@ -87,7 +100,7 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public void addPosition(Pair<Float, Float> position) {
+    public final void addPosition(final Pair<Float, Float> position) {
         this.position = new Pair<>(this.position.getX() + position.getX(), this.position.getY() + position.getY());
     }
 

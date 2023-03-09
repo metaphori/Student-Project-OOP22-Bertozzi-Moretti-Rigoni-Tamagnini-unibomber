@@ -20,23 +20,30 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This class implements the interface that manages the creation of different entities.
+ */
 public class EntityFactoryImpl implements EntityFactory {
 
     private final Game game;
 
+    /**
+     * This method takes the game for create entity.
+     * @param game 
+     */
     public EntityFactoryImpl(final Game game) {
         this.game = game;
     }
 
     @Override
-    public Entity makePowerUp(final Pair<Float, Float> pos, final PowerUpType powerUpType) {
+    public final Entity makePowerUp(final Pair<Float, Float> pos, final PowerUpType powerUpType) {
         return new EntityImpl(game, pos, Type.POWERUP)
                 .addComponent(new PowerUpComponent(powerUpType))
                 .addComponent(new DestroyComponent());
     }
 
     @Override
-    public Entity makeBomber(final Pair<Float, Float> position, final Type type) {
+    public final Entity makeBomber(final Pair<Float, Float> position, final Type type) {
         return new EntityImpl(game, position, type)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false))
@@ -46,20 +53,20 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public Entity makePlayable(final Pair<Float, Float> position) {
+    public final Entity makePlayable(final Pair<Float, Float> position) {
         return makeBomber(position, Type.PLAYABLE)
                 .addComponent(new InputComponent());
 
     }
 
     @Override
-    public Entity makeBot(final Pair<Float, Float> position, final int AI_difficulty) {
+    public final Entity makeBot(final Pair<Float, Float> position, final int difficultyAI) {
         return makeBomber(position, Type.PLAYABLE)
                 .addComponent(new AIComponent());
     }
 
     @Override
-    public Entity makeBomb(final Entity placer) {
+    public final Entity makeBomb(final Entity placer) {
         return new EntityImpl(game, placer.getPosition(), Type.BOMB)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(true))
@@ -69,13 +76,13 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public Entity makeDestructibleWall(final Pair<Float, Float> position) {
+    public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
                 .addComponent(new DestroyComponent());
     }
 
     @Override
-    public Entity makeIndestructibleWall(final Pair<Float, Float> position) {
+    public final Entity makeIndestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL);
     }
 

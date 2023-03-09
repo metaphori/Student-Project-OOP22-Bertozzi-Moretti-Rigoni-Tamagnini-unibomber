@@ -96,7 +96,12 @@ public class Constants {
 		}
 	}
 	public static class PowerUp {
-		public static final int complexPercentage = 25;
+		public static final int COMPLEX_PERCENTAGE = 25;
+	}
+
+	public static class Entity {
+		public static final float SPEED_CHANGE = 0.20f;
+
 	}
 	public static class Explode {
 		public static final int explodeDuration = 5;

@@ -5,33 +5,37 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This interface manages the creation of different entities.
+ */
 public interface EntityFactory {
 
     /**
-     * @param pos         the position where the PowerUp will be placed
+     * @param position    the position where the PowerUp will be placed
      * @param powerUpType the Type of the PowerUp
      * @return the PowerUp described
      */
-    Entity makePowerUp(Pair<Float, Float> pos, PowerUpType powerUpType);
+    Entity makePowerUp(Pair<Float, Float> position, PowerUpType powerUpType);
 
     /**
-     * @param coordinates the initial position
-     * @param type        whether it is a playable character or a bot
+     * @param position the initial position
+     * @param type     whether it is a playable character or a bot
      * @return an instance of a Bomber
      */
     Entity makeBomber(Pair<Float, Float> position, Type type);
 
     /**
-     * @param coordinates the initial position
+     * @param position the initial position
      * @return an instance of a Playable Bomber
      */
     Entity makePlayable(Pair<Float, Float> position);
 
     /**
-     * @param coordinates the initial position
+     * @param position     the initial position
+     * @param difficultyAI the difficulty of AI
      * @return an instance of a non playable Bomber
      */
-    Entity makeBot(Pair<Float, Float> position, int AI_difficulty);
+    Entity makeBot(Pair<Float, Float> position, int difficultyAI);
 
     /**
      * @param placer the reference to the entity which placed the bomb
