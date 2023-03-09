@@ -8,26 +8,38 @@ import java.util.Optional;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 
+/**
+ * This component manage a list of all bombers powerUp.
+ */
 public class PowerUpListComponent extends AbstractComponent {
 
     protected int bombNumber;
     protected int bombPower;
     protected List<PowerUpType> powerUpList = new ArrayList<>();
 
-    public PowerUpListComponent(int bombNumber, int bombPower, List<PowerUpType> powerUpList) {
+    /**
+     * This method sets all bomber's powerups.
+     * @param bombNumber
+     * @param bombPower
+     * @param powerUpList
+     */
+    public PowerUpListComponent(final int bombNumber, final int bombPower, final List<PowerUpType> powerUpList) {
         this.bombNumber = bombNumber;
         this.bombPower = bombPower;
         this.powerUpList = powerUpList;
     }
 
-    public PowerUpListComponent(Entity giver) {
+    /**
+     * This method takes all powerups from giver.
+     * @param giver 
+     */
+    public PowerUpListComponent(final Entity giver) {
         Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
         if (giversList.isPresent()) {
             this.bombNumber = giversList.get().getBombNumber();
             this.bombPower = giversList.get().getBombPower();
             this.powerUpList = giversList.get().getPowerUpList();
-        }
-        else {
+        } else {
             throw new MissingFormatArgumentException("Giver does not contain a PowerUpListComponent itSelf");
         }
     }
@@ -36,18 +48,18 @@ public class PowerUpListComponent extends AbstractComponent {
     public void update() {
 
     }
-  
+
     /**
      * @return actual bomb number of player
      */
-    public int getBombNumber(){
+    public int getBombNumber() {
         return bombNumber;
     }
 
     /**
      * @return actual bomb power of player
      */
-    public int getBombPower(){
+    public int getBombPower() {
         return bombPower;
     }
 

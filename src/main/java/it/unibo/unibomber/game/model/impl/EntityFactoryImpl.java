@@ -24,19 +24,19 @@ public class EntityFactoryImpl implements EntityFactory {
 
     private final Game game;
 
-    public EntityFactoryImpl(Game game) {
+    public EntityFactoryImpl(final Game game) {
         this.game = game;
     }
 
     @Override
-    public Entity makePowerUp(Pair<Float, Float> pos, PowerUpType powerUpType) {
+    public Entity makePowerUp(final Pair<Float, Float> pos, final PowerUpType powerUpType) {
         return new EntityImpl(game, pos, Type.POWERUP)
                 .addComponent(new PowerUpComponent(powerUpType))
                 .addComponent(new DestroyComponent());
     }
 
     @Override
-    public Entity makeBomber(Pair<Float, Float> position, Type type) {
+    public Entity makeBomber(final Pair<Float, Float> position, final Type type) {
         return new EntityImpl(game, position, type)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false))
@@ -46,20 +46,20 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public Entity makePlayable(Pair<Float, Float> position) {
+    public Entity makePlayable(final Pair<Float, Float> position) {
         return makeBomber(position, Type.PLAYABLE)
                 .addComponent(new InputComponent());
 
     }
 
     @Override
-    public Entity makeBot(Pair<Float, Float> position, int AI_difficulty) {
+    public Entity makeBot(final Pair<Float, Float> position, final int AI_difficulty) {
         return makeBomber(position, Type.PLAYABLE)
                 .addComponent(new AIComponent());
     }
 
     @Override
-    public Entity makeBomb(Entity placer) {
+    public Entity makeBomb(final Entity placer) {
         return new EntityImpl(game, placer.getPosition(), Type.BOMB)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(true))
@@ -69,13 +69,13 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public Entity makeDestructibleWall(Pair<Float, Float> position) {
+    public Entity makeDestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
                 .addComponent(new DestroyComponent());
     }
 
     @Override
-    public Entity makeIndestructibleWall(Pair<Float, Float> position) {
+    public Entity makeIndestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL);
     }
 

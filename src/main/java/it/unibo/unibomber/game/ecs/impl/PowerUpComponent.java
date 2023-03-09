@@ -2,11 +2,18 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 
+/**
+ * This component manage the type of all powerUps.
+ */
 public class PowerUpComponent extends AbstractComponent {
 
     private PowerUpType powerUpType;
 
-    public PowerUpComponent(PowerUpType powerUpType) {
+    /**
+     * This method set the type of powerUp.
+     * @param powerUpType
+     */
+    public PowerUpComponent(final PowerUpType powerUpType) {
         this.powerUpType = powerUpType;
     }
 
@@ -18,8 +25,7 @@ public class PowerUpComponent extends AbstractComponent {
     /**
      * @return powerup type
      */
-    public PowerUpType getPowerUpType(){
+    public PowerUpType getPowerUpType() {
         return this.powerUpType;
     }
-    
 }

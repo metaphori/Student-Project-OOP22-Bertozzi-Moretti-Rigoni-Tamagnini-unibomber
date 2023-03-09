@@ -23,7 +23,7 @@ public enum PowerUpType {
     /**
      * @param isComplex to establish if powerUp is complex or not
      */
-    private PowerUpType(Boolean isComplex) {
+    PowerUpType(final Boolean isComplex) {
         this.isComplex = isComplex;
     }
 

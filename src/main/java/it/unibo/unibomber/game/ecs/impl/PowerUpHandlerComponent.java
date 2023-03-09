@@ -3,16 +3,25 @@ package it.unibo.unibomber.game.ecs.impl;
 import java.util.List;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 
+/**
+ * This component manage bombers powerUp.
+ */
 public class PowerUpHandlerComponent extends PowerUpListComponent {
 
-    public PowerUpHandlerComponent(int bombNumber, int bombPower, List<PowerUpType> powerUpList) {
+    /**
+     * This method inherit powerUp from the superclass.
+     * @param bombNumber
+     * @param bombPower
+     * @param powerUpList
+     */
+    public PowerUpHandlerComponent(final int bombNumber, final int bombPower, final List<PowerUpType> powerUpList) {
         super(bombNumber, bombPower, powerUpList);
     }
 
     /**
-     * @param powerUp that modify powerup parameter of player
+     * @param powerUpType that modify powerup parameter of player
      */
-    public void addPowerUp(PowerUpType powerUpType) {
+    public void addPowerUp(final PowerUpType powerUpType) {
         // TODO Add powerUpType to powerUpList
         if (!powerUpType.isComplex()) {
             switch (powerUpType) {

@@ -1,7 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 /**
- * This component manage bomb placement
+ * This component manage bomb placement.
  */
 public class BombPlaceComponent extends AbstractComponent {
 
@@ -15,6 +15,9 @@ public class BombPlaceComponent extends AbstractComponent {
         }
     }
 
+    /**
+     * This method set the state of the bomb.
+     */
     public void placeBomb() {
         this.bombPlaced = true;
     }
