@@ -32,7 +32,8 @@ public class Constants {
 			public static final String MENU_BUTTONS = "button_atlas.png";
 			public static final String MENU_BACKGROUND = "menu_background.png";
 			public static final String SHADOW = "shadow.png";
-			
+			public static final int COL_PLAYER_SPRITES = 24;
+			public static final int ROW_PLAYER_SPRITES = 2;
 			public static final Map<Type,String> spritesPath= new HashMap<>();
 			public static final Map<PowerUpType,String> spritesPoweUpPath= new HashMap<>();
 			public SpritesMap(){

@@ -1,7 +1,5 @@
 package it.unibo.unibomber.game.ecs.api;
-
 public enum Type {
-
     PLAYABLE,
     BOT,
     POWERUP,
