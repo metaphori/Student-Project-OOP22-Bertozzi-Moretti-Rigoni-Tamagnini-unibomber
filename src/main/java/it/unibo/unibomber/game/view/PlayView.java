@@ -55,6 +55,11 @@ public class PlayView  implements GameLoop{
     }
 
     public void changePlayerAction(Integer action){
+        if(action==STANDING){
+            Integer animation =(animationIndex % Constants.Player.GetSpriteAmount(playerAction))+indexDir;
+            Integer basicDir=(int)(animation/Constants.Player.GetSpriteAmount(playerAction));
+            indexDir=basicDir*Constants.Player.GetSpriteAmount(action);
+        }
         playerAction=action;
     }
 
@@ -112,8 +117,9 @@ public class PlayView  implements GameLoop{
                         indexDir=Constants.Player.GetSpriteAmount(playerAction)*3;
                         break;
                     case CENTER:
-                        indexDir=indexDir %Constants.Player.GetSpriteAmount(playerAction);
-                        break;  
+                        break;
+                    default:
+                        break; 
                 }
                 g.drawImage((animations[playerAction][(animationIndex % Constants.Player.GetSpriteAmount(playerAction))+indexDir]),
                 Math.round(controller.getEntities().get(i).getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
