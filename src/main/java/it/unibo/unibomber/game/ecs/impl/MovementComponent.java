@@ -21,8 +21,7 @@ public class MovementComponent extends AbstractComponent {
     public void update() {
         this.getEntity().addPosition(moveBy);
         handleDirection();
-        System.out.println(direction.toString());
-        // checkCollisions();
+    // checkCollisions();
     }
 
     private void handleDirection() {

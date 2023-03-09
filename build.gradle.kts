@@ -7,8 +7,21 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+
+    // Apply the java plugin to add support for Java
+    java
+
+    // Apply the application plugin to add support for building a CLI application
+    // You can run your app via task "run": ./gradlew run
     application
+
+    /*
+     * Adds tasks to export a runnable jar.
+     * In order to create it, launch the "shadowJar" task.
+     * The runnable jar will be found in build/libs/projectname-all.jar
+     */
+    id("org.danilopianini.gradle-java-qa") version "0.41.0"
+
 }
 
 repositories {
@@ -17,6 +30,10 @@ repositories {
 }
 
 dependencies {
+    
+    // Suppressions for SpotBugs
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.7.3")
+
     val jUnitVersion = "5.9.1"
     // JUnit API and testing engine
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
