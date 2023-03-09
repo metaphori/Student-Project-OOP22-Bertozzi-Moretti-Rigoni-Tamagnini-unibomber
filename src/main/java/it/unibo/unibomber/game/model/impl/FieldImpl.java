@@ -12,32 +12,43 @@ import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * Field is an object that manages the game field frame by frame.
+ */
 public class FieldImpl implements Field {
 
+    /**
+     * Field will contain all entity info.
+     */
     private final Map<Pair<Integer, Integer>, Pair<Type, Entity>> field = new HashMap<>();
     private final Game game;
 
-    public FieldImpl(Game game) {
+    /**
+     * Initialize the field.
+     * @param game the game started
+     */
+    public FieldImpl(final Game game) {
         this.game = game;
     }
 
     @Override
-    public Map<Pair<Integer, Integer>, Pair<Type, Entity>> getField() {
+    public final Map<Pair<Integer, Integer>, Pair<Type, Entity>> getField() {
         return new HashMap<>(this.field);
     }
 
     @Override
-    public void updateField() {
+    public final void updateField() {
         int row;
         int col;
         var fieldentities = this.game.getEntities().stream()
-                .filter(e -> e.getType() != Type.BOT && e.getType() != Type.PLAYABLE)
+                .filter(e -> e.getType() != Type.BOT 
+                        && e.getType() != Type.PLAYABLE)
                 .collect(Collectors.toList());
         this.field.clear();
         for (var entity : fieldentities) {
-            if (entity.getType() == Type.BOMB &&
-                    (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT ||
-                            entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
+            if (entity.getType() == Type.BOMB 
+                && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT 
+                    || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
                 row = (int) Math.round(entity.getPosition().getX());
                 col = (int) Math.round(entity.getPosition().getY());
             } else {

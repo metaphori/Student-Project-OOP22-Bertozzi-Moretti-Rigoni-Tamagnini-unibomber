@@ -98,5 +98,10 @@ public class Constants {
 	public static class PowerUp {
 		public static final int complexPercentage = 25;
 	}
-	
+	public static class Explode {
+		public static final int explodeDuration = 5;
+	}
+	public static class Destroy {
+		public static final int destroyDuration = 4;
+	}
 }

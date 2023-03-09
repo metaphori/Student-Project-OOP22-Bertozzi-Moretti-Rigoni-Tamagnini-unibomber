@@ -4,32 +4,33 @@ import java.util.List;
 import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
- * This component manage the destroy of the entity
+ * This component manage the destroy of the entity.
  */
-public class DestroyComponent extends AbstractComponent{
+public final class DestroyComponent extends AbstractComponent {
 
     private final float droppedPowerUpsPercent = 0.25f;
     private boolean isDestroyed = false;
-    private int destroyFrames = 4;
+    private int destroyFrames = 0;
 
     @Override
     public void update() {
         if (this.isDestroyed) {
-            if (this.destroyFrames == 0) {
+            this.destroyFrames++;
+            if (this.destroyFrames == Constants.Destroy.destroyDuration) {
                 dropPowerUps();
                 this.getEntity().getGame().removeEntity(this.getEntity());
                 this.isDestroyed = false;
-            } else {
-                this.destroyFrames--;
+                this.destroyFrames = 0;
             }
         }
     }
 
     /**
-     * A method to set if the entity is destroyed
+     * A method to set if the entity is destroyed.
      */
     public void destroy() {
         this.isDestroyed = true;
@@ -37,7 +38,8 @@ public class DestroyComponent extends AbstractComponent{
 
     /**
      * A method to drop the powerups.
-     * It will drop a single powerup if the destroyed entity was a wall, otherwise it will drop all powerups of the entity player/bot
+     * It will drop a single powerup if the destroyed entity was a wall, 
+     * otherwise it will drop all powerups of the entity player/bot
      */
     private void dropPowerUps() {
         var entity = this.getEntity();
@@ -53,16 +55,16 @@ public class DestroyComponent extends AbstractComponent{
     }
 
     /**
-     * A method to drop the remaining powerups
+     * A method to drop the remaining powerups.
      * @param powerUps the list of powerups
      * @param droppedPowerUps the number of powerups to drop
      */
-    private void dropRemaining(List<PowerUpType> powerUps, int droppedPowerUps) {
+    private void dropRemaining(final List<PowerUpType> powerUps, final int droppedPowerUps) {
         Pair<Integer, Integer> gameDimensions;
         Pair<Float, Float> newRandomPos;
         var game = this.getEntity().getGame();
         while (powerUps.size() > droppedPowerUps) {
-            powerUps.remove((int) (Math.random()*powerUps.size()));
+            powerUps.remove((int) (Math.random() * powerUps.size()));
         }
         for (var powerUp : powerUps) {
             gameDimensions = game.getDimensions();
@@ -72,17 +74,17 @@ public class DestroyComponent extends AbstractComponent{
     }
 
     /**
-     * A method to create a random position in the field
+     * A method to create a random position in the field.
      * @param gameDimensions the dimensions of the field
      * @return a random position
      */
-    private Pair<Float, Float> getRandomPos(Pair<Integer, Integer> gameDimensions) {
+    private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions) {
         final Random rnd = new Random();
         Pair<Float, Float> rndPos;
         do {
             rndPos = new Pair<Float,Float>((float) rnd.nextInt(gameDimensions.getX()), 
-                    (float) rnd.nextInt(gameDimensions.getY()));
-        } while(this.getEntity().getGame().getGameField().getField().containsKey(rndPos));
+            (float) rnd.nextInt(gameDimensions.getY()));
+        } while (this.getEntity().getGame().getGameField().getField().containsKey(rndPos));
         return rndPos;
     } 
 }
