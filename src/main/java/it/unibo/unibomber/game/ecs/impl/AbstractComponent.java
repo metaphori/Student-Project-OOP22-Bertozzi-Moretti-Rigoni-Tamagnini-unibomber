@@ -10,19 +10,19 @@ import it.unibo.unibomber.game.ecs.api.Entity;
  */
 public abstract class AbstractComponent implements Component {
 
-    /**
-     * {@inheritDoc}
-     */
     private Entity entity;
 
+    /**
+     * @return entity
+     */
     protected Entity getEntity() {
         return this.entity;
     }
 
     /**
-     * {@inheritDoc}
+     * @param entity
      */
-    protected void setEntity(Entity entity) {
+    protected void setEntity(final Entity entity) {
         this.entity = entity;
     }
 }

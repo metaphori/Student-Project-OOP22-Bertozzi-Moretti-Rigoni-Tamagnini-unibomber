@@ -18,10 +18,10 @@ public class MovementComponent extends AbstractComponent {
     }
 
     @Override
-    public void update() {
+    public final void update() {
         this.getEntity().addPosition(moveBy);
         handleDirection();
-    // checkCollisions();
+        // checkCollisions();
     }
 
     private void handleDirection() {
@@ -45,24 +45,24 @@ public class MovementComponent extends AbstractComponent {
         }
     }
 
-    public void moveBy(final Pair<Float, Float> moveBy) {
+    public final void moveBy(final Pair<Float, Float> moveBy) {
         this.moveBy = new Pair<>(moveBy.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
                 moveBy.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
     }
 
-    public Direction getDirection() {
+    public final Direction getDirection() {
         return this.direction;
     }
 
-    public int getFrameInDirection() {
+    public final int getFrameInDirection() {
         return this.framesInDirection;
     }
 
-    public int getPassedFram() {
+    public final int getPassedFram() {
         return this.passedFrame;
     }
 
-    public static void setGlobalSpeedMultiplier(float speed) {
+    public static void setGlobalSpeedMultiplier(final float speed) {
         globalSpeedMultiplier = speed;
     }
 }

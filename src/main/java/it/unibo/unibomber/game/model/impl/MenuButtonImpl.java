@@ -7,37 +7,40 @@ import java.awt.image.BufferedImage;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.api.MenuButton;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.*;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.*;
 
-public class MenuButtonImpl implements MenuButton, GameLoop{
-    private int x, Y, rowIndex, index;
-	private int x_button_position = B_WIDTH / 2;
-	private Gamestate game_state;
-	private BufferedImage[] buffer_images;
+public class MenuButtonImpl implements MenuButton, GameLoop {
+	private int x, y, rowIndex, index;
+	private int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
+	private Gamestate gameState;
+	private BufferedImage[] bufferImages;
 	private boolean mouseOver, mousePressed;
 	private Rectangle bounds;
 
-	public MenuButtonImpl(int x, int Y, int rowIndex, Gamestate game_state) {
+	public MenuButtonImpl(final int x, final int y, final int rowIndex, final Gamestate gameState) {
 		this.x = x;
-		this.Y = Y;
+		this.y = y;
 		this.rowIndex = rowIndex;
-		this.game_state = game_state;
-		loadbuffer_images();
-		bounds = new Rectangle(x - x_button_position, Y, B_WIDTH, B_HEIGHT);
+		this.gameState = gameState;
+		loadbufferImages();
+		bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH, Constants.UI.Buttons.B_HEIGHT);
 	}
 
-	private void loadbuffer_images() {
-		buffer_images = new BufferedImage[3];
-		BufferedImage temp = UploadRes.GetSpriteAtlas(MENU_BUTTONS);
-		for (int i = 0; i < buffer_images.length; i++)
-			buffer_images[i] = temp.getSubimage(i * WIDTH_DEFAULT, rowIndex * HEIGHT_DEFAULT, WIDTH_DEFAULT, HEIGHT_DEFAULT);
+	private void loadbufferImages() {
+		bufferImages = new BufferedImage[3];
+		BufferedImage temp = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BUTTONS);
+		for (int i = 0; i < bufferImages.length; i++) {
+			bufferImages[i] = temp.getSubimage(i * Constants.UI.Buttons.WIDTH_DEFAULT,
+					rowIndex * Constants.UI.Buttons.HEIGHT_DEFAULT, Constants.UI.Buttons.WIDTH_DEFAULT,
+					Constants.UI.Buttons.HEIGHT_DEFAULT);
+		}
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		g.drawImage(buffer_images[index], x - x_button_position, Y, B_WIDTH, B_HEIGHT, null);
+	public final void draw(final Graphics g) {
+		g.drawImage(bufferImages[index], x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH,
+				Constants.UI.Buttons.B_HEIGHT, null);
 	}
 
 	@Override
@@ -45,37 +48,37 @@ public class MenuButtonImpl implements MenuButton, GameLoop{
 	}
 
 	@Override
-	public boolean isMouseOver() {
+	public final boolean isMouseOver() {
 		return mouseOver;
 	}
 
 	@Override
-	public void setMouseOver(boolean mouseOver) {
+	public final void setMouseOver(final boolean mouseOver) {
 		this.mouseOver = mouseOver;
 	}
 
 	@Override
-	public boolean isMousePressed() {
+	public final boolean isMousePressed() {
 		return mousePressed;
 	}
 
 	@Override
-	public void setMousePressed(boolean mousePressed) {
+	public final void setMousePressed(final boolean mousePressed) {
 		this.mousePressed = mousePressed;
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public final Rectangle getBounds() {
 		return bounds;
 	}
 
 	@Override
-	public void applyGamestate() {
-		Gamestate.state = game_state;
+	public final void applyGamestate() {
+		Gamestate.state = gameState;
 	}
 
 	@Override
-	public void reset() {
+	public final void reset() {
 		mouseOver = false;
 		mousePressed = false;
 	}

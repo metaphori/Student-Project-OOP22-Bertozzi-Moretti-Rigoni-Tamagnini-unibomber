@@ -19,32 +19,32 @@ public class GameImpl implements Game {
     private World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 
-    public GameImpl(World world) {
+    public GameImpl(final World world) {
         this.world = world;
     }
 
     @Override
-    public List<Entity> getEntities() {
+    public final List<Entity> getEntities() {
         return this.entities;
     }
 
     @Override
-    public <C extends Entity> void addEntity(C entity) {
+    public final <C extends Entity> void addEntity(final C entity) {
         entities.add(entity);
     }
 
     @Override
-    public boolean isContained(int keyCode) {
+    public final boolean isContained(final int keyCode) {
         return keysPressedQueue.contains(keyCode);
     }
 
     @Override
-    public void addkeyPressed(int keyCode) {
+    public final void addkeyPressed(final int keyCode) {
         keysPressedQueue.add(keyCode);
     }
 
     @Override
-    public void removeEntity(Entity entity) {
+    public final void removeEntity(final Entity entity) {
         entities.remove(entity);
     }
 
@@ -54,22 +54,22 @@ public class GameImpl implements Game {
     }
 
     @Override
-    public Pair<Integer, Integer> getDimensions() {
+    public final Pair<Integer, Integer> getDimensions() {
         return new Pair<Integer, Integer>(rows, columns);
     }
 
     @Override
-    public Field getGameField() {
+    public final Field getGameField() {
         return gameField;
     }
 
     @Override
-    public World getWorld() {
+    public final World getWorld() {
         return this.world;
     }
 
     @Override
-    public EntityFactoryImpl getFactory() {
+    public final EntityFactoryImpl getFactory() {
         return entityFactory;
     }
 

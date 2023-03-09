@@ -20,18 +20,18 @@ public interface Game {
     <C extends Entity> void addEntity(C entity);
 
     /**
+     * @param keyCode code contained
      * @return if key is contaned into Map
      */
     boolean isContained(int keyCode);
 
     /**
-     * @param keyCode   the actual code of the keyboard key
-     * @param isPressed whether it was pressed or released
+     * @param keyCode the actual code of the keyboard key
      */
     void addkeyPressed(int keyCode);
 
     /**
-     * after the keys are read the list is cleaned
+     * after the keys are read the list is cleaned.
      */
     void clearKeysPressed();
 

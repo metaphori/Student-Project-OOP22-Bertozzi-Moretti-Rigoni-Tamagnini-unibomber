@@ -49,7 +49,7 @@ public final class PlayView implements GameLoop {
         animations = new BufferedImage[ROW_PLAYER_SPRITES][COL_PLAYER_SPRITES];
         for (Integer j = 0; j < animations.length; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
-                animations[j][i] = UploadRes.GetSpriteAtlas(spritesPath.get(Type.PLAYABLE))
+                animations[j][i] = UploadRes.getSpriteAtlas(spritesPath.get(Type.PLAYABLE))
                         .getSubimage(i * TILES_SIZE, j * TILES_SIZE, TILES_SIZE, TILES_SIZE);
             }
         }
@@ -110,7 +110,7 @@ public final class PlayView implements GameLoop {
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             if (controller.getEntities().get(i).getType() != Type.PLAYABLE
                     && controller.getEntities().get(i).getType() != Type.POWERUP) {
-                g.drawImage(UploadRes.GetSpriteAtlas(spritesPath.get(controller.getEntities().get(i).getType())),
+                g.drawImage(UploadRes.getSpriteAtlas(spritesPath.get(controller.getEntities().get(i).getType())),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
@@ -123,7 +123,7 @@ public final class PlayView implements GameLoop {
                         (int) (Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.POWERUP) {
-                g.drawImage(UploadRes.GetSpriteAtlas(spritesPoweUpPath.get(controller
+                g.drawImage(UploadRes.getSpriteAtlas(spritesPoweUpPath.get(controller
                         .getEntities()
                         .get(i)
                         .getComponent(PowerUpComponent.class)

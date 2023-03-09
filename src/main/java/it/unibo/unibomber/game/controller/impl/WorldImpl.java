@@ -9,20 +9,20 @@ import it.unibo.unibomber.game.view.WorldPanelImpl;
 import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
 
-public class WorldImpl implements World,Runnable, GameLoop{
-    
+public class WorldImpl implements World, Runnable, GameLoop {
+
 	private WorldPanelImpl unibomberPanel;
 	private Menu menu;
 	private Play play;
-	private Thread g_Thread;
+	private Thread gThread;
 
-    public WorldImpl(){
+	public WorldImpl() {
 		initClasses();
-       	unibomberPanel = new WorldPanelImpl(this);
+		unibomberPanel = new WorldPanelImpl(this);
 		new WorldWindow(unibomberPanel);
 		unibomberPanel.requestFocus();
 		startGameLoop();
-    }
+	}
 
 	private void initClasses() {
 		menu = new Menu(this);
@@ -30,29 +30,29 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	}
 
 	private void startGameLoop() {
-		g_Thread = new Thread(this);
-		g_Thread.start();
+		gThread = new Thread(this);
+		gThread.start();
 	}
-	
+
 	@Override
-	public void update() {
+	public final void update() {
 		switch (Gamestate.state) {
-		case MENU:
-			menu.update();
-			break;
-		case PLAY:
-			play.update();
-			break;
-		case OPTIONS:
-		case QUIT:
-		default:
-			System.exit(0);
-			break;
+			case MENU:
+				menu.update();
+				break;
+			case PLAY:
+				play.update();
+				break;
+			case OPTIONS:
+			case QUIT:
+			default:
+				System.exit(0);
+				break;
 		}
 	}
 
 	@Override
-	public void draw(Graphics g){
+	public final void draw(final Graphics g) {
 		switch (Gamestate.state) {
 			case MENU:
 				menu.draw(g);
@@ -66,7 +66,7 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	}
 
 	@Override
-	public void run() {
+	public final void run() {
 		double timePerFrame = 1000000000.0 / Constants.UI.GameLoop.FPS_SET;
 		double timePerUpdate = 1000000000.0 / Constants.UI.GameLoop.UPS_SET;
 
@@ -109,12 +109,12 @@ public class WorldImpl implements World,Runnable, GameLoop{
 	}
 
 	@Override
-	public Menu getMenu() {
+	public final Menu getMenu() {
 		return menu;
 	}
-	
+
 	@Override
-	public Play getPlay() {
+	public final Play getPlay() {
 		return play;
 	}
 }

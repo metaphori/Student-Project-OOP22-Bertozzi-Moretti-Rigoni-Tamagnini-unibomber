@@ -11,86 +11,89 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
-
-public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop{
+public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop {
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
     private MenuView view;
 
-	public Menu(WorldImpl world) {
-		super(world);
-        view= new MenuView(this);
-		loadButtons();
-	}
+    public Menu(final WorldImpl world) {
+        super(world);
+        view = new MenuView(this);
+        loadButtons();
+    }
 
-	private void loadButtons() {
-		buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (150 * Constants.UI.Game.SCALE), 0, Gamestate.PLAY);
-		buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (190 * Constants.UI.Game.SCALE), 1, Gamestate.QUIT);
+    private void loadButtons() {
+        buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (150 * Constants.UI.Game.SCALE), 0,
+                Gamestate.PLAY);
+        buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (190 * Constants.UI.Game.SCALE), 1,
+                Gamestate.QUIT);
 
-	}
-    public MenuButtonImpl[] getButtons(){
+    }
+
+    public final MenuButtonImpl[] getButtons() {
         return buttons;
     }
-	@Override
-	public void update() {
-		view.update();
-	}
 
-	@Override
-	public void draw(Graphics g) {
+    @Override
+    public final void update() {
+        view.update();
+    }
+
+    @Override
+    public final void draw(final Graphics g) {
         view.draw(g);
-	}
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseClicked(final MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseEntered(final MouseEvent e) {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mouseExited(final MouseEvent e) {
+    }
+
+    @Override
+    public final void mousePressed(final MouseEvent e) {
         for (MenuButtonImpl mb : buttons) {
-			if (isMouseIn(e, mb)) {
-				mb.setMousePressed(true);
-			}
-		}
+            if (isMouseIn(e, mb)) {
+                mb.setMousePressed(true);
+            }
+        }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public final void mouseReleased(final MouseEvent e) {
         for (MenuButtonImpl mb : buttons) {
-			if (isMouseIn(e, mb)) {
-				if (mb.isMousePressed())
-					mb.applyGamestate();
-				break;
-			}
-		}
-		resetButtons();
+            if (isMouseIn(e, mb)) {
+                if (mb.isMousePressed()) {
+                    mb.applyGamestate();
+                }
+                break;
+            }
+        }
+        resetButtons();
     }
 
     private void resetButtons() {
-		for (MenuButtonImpl mb : buttons) {
-			mb.reset();
+        for (MenuButtonImpl mb : buttons) {
+            mb.reset();
         }
 
-	}
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-	}
-
-    @Override
-    public void keyReleased(KeyEvent e) {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(final KeyEvent e) {
+    }
+
+    @Override
+    public void keyTyped(final KeyEvent e) {
     }
 }

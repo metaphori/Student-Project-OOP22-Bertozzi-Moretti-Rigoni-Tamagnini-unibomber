@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,31 +24,33 @@ import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 
-public class Play extends StateImpl implements KeyListener,GameLoop{
-    BufferedImage sprite;
-    private Deque<Integer> keyQueue;
+public class Play extends StateImpl implements KeyListener, GameLoop {
+    // TODO
+	//private BufferedImage sprite;
+	private Deque<Integer> keyQueue;
 	private Game game;
 	private List<String> map = new ArrayList<String>();
 	private PlayView view;
-	Field field;
+	private Field field;
 
-    public Play(WorldImpl world) {
+	public Play(final WorldImpl world) {
 		super(world);
 		new SpritesMap();
 		game = new GameImpl(world);
-		view= new PlayView(this);
-		field= new FieldImpl(game);
+		view = new PlayView(this);
+		field = new FieldImpl(game);
 		initClasses();
-		//TODO load map at settings not in constructor
+		// TODO load map at settings not in constructor
 		loadMap();
 	}
-	private void initClasses() {		
-		game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float,Float>(0f, 1f)));
-        keyQueue = new LinkedList<>();
+
+	private void initClasses() {
+		game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float, Float>(0f, 1f)));
+		keyQueue = new LinkedList<>();
 	}
 
 	private void loadMap() {
-        BufferedReader bf;
+		BufferedReader bf;
 		try {
 			bf = new BufferedReader(new FileReader("./src/main/res/area1.map"));
 			String line;
@@ -66,26 +67,30 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		/*for (int index = 0; index < 19; index++) {
-			List<String> singleLine = Arrays.asList(map.get(index).split(" "));
-			for (int j = 0; j < singleLine.size(); j++) {
-				switch(Integer.parseInt(singleLine.get(j))){
-					case 6:
-						game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new Pair<Float,Float>((float)j, (float)index)));
-					break;
-                    case 2:
-                        game.addEntity(new EntityFactoryImpl(game).makePowerUp(new Pair<Float,Float>((float)j, (float)index),PowerUpType.FIREUP));
-                    break;
-				}
-			}
-        }*/
+		/* TODO
+		 * for (int index = 0; index < 19; index++) {
+		 * List<String> singleLine = Arrays.asList(map.get(index).split(" "));
+		 * for (int j = 0; j < singleLine.size(); j++) {
+		 * switch(Integer.parseInt(singleLine.get(j))){
+		 * case 6:
+		 * game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new
+		 * Pair<Float,Float>((float)j, (float)index)));
+		 * break;
+		 * case 2:
+		 * game.addEntity(new EntityFactoryImpl(game).makePowerUp(new
+		 * Pair<Float,Float>((float)j, (float)index),PowerUpType.FIREUP));
+		 * break;
+		 * }
+		 * }
+		 * }
+		 */
 		field.updateField();
 	}
 
 	@Override
-	public void update() {
-		for(int i = 0; i<game.getEntities().size();i++){
-			for(Component c : game.getEntities().get(i).getComponents()){
+	public final void update() {
+		for (int i = 0; i < game.getEntities().size(); i++) {
+			for (Component c : game.getEntities().get(i).getComponents()) {
 				c.update();
 			}
 		}
@@ -94,33 +99,36 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 	}
 
 	@Override
-    public void draw(Graphics g) {
-		view.draw(g);		
+	public final void draw(final Graphics g) {
+		view.draw(g);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {  
-		if(keyQueue.contains(e.getKeyCode()))
-		keyQueue.remove(e.getKeyCode());
+	public final void keyReleased(final KeyEvent e) {
+		if (keyQueue.contains(e.getKeyCode())) {
+			keyQueue.remove(e.getKeyCode());
+		}
 	}
-
-    @Override
-    public void keyTyped(KeyEvent e) {    
-		if(!keyQueue.contains(e.getKeyCode()))
-		keyQueue.addLast(e.getKeyCode());
-    }
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		if(!keyQueue.contains(e.getKeyCode()))
-		keyQueue.addFirst(e.getKeyCode());
+	public final void keyTyped(final KeyEvent e) {
+		if (!keyQueue.contains(e.getKeyCode())) {
+			keyQueue.addLast(e.getKeyCode());
+		}
 	}
 
-    public Deque<Integer> getKeys(){
+	@Override
+	public final void keyPressed(final KeyEvent e) {
+		if (!keyQueue.contains(e.getKeyCode())) {
+			keyQueue.addFirst(e.getKeyCode());
+		}
+	}
+
+	public final Deque<Integer> getKeys() {
 		return keyQueue;
-    }
+	}
 
-	public List<Entity> getEntities() {
+	public final List<Entity> getEntities() {
 		return game.getEntities();
 	}
 }

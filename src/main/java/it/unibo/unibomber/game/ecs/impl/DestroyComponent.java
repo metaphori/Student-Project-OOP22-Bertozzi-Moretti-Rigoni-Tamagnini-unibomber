@@ -38,7 +38,7 @@ public final class DestroyComponent extends AbstractComponent {
 
     /**
      * A method to drop the powerups.
-     * It will drop a single powerup if the destroyed entity was a wall, 
+     * It will drop a single powerup if the destroyed entity was a wall,
      * otherwise it will drop all powerups of the entity player/bot
      */
     private void dropPowerUps() {
@@ -49,14 +49,16 @@ public final class DestroyComponent extends AbstractComponent {
         if (powerUpComponent.isPresent()) {
             powerUps = powerUpComponent.get().getPowerUpList();
             droppedPowerUps = (int) Math.ceil(powerUps.size() * this.droppedPowerUpsPercent);
-            entity.getGame().addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
+            entity.getGame()
+                    .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
             dropRemaining(powerUps, droppedPowerUps);
         }
     }
 
     /**
      * A method to drop the remaining powerups.
-     * @param powerUps the list of powerups
+     * 
+     * @param powerUps        the list of powerups
      * @param droppedPowerUps the number of powerups to drop
      */
     private void dropRemaining(final List<PowerUpType> powerUps, final int droppedPowerUps) {
@@ -75,6 +77,7 @@ public final class DestroyComponent extends AbstractComponent {
 
     /**
      * A method to create a random position in the field.
+     * 
      * @param gameDimensions the dimensions of the field
      * @return a random position
      */
@@ -82,9 +85,9 @@ public final class DestroyComponent extends AbstractComponent {
         final Random rnd = new Random();
         Pair<Float, Float> rndPos;
         do {
-            rndPos = new Pair<Float,Float>((float) rnd.nextInt(gameDimensions.getX()), 
-            (float) rnd.nextInt(gameDimensions.getY()));
+            rndPos = new Pair<Float, Float>((float) rnd.nextInt(gameDimensions.getX()),
+                    (float) rnd.nextInt(gameDimensions.getY()));
         } while (this.getEntity().getGame().getGameField().getField().containsKey(rndPos));
         return rndPos;
-    } 
+    }
 }

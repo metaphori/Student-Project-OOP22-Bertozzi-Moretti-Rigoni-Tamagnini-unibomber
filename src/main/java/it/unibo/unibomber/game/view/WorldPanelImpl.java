@@ -44,7 +44,7 @@ public final class WorldPanelImpl extends JPanel {
   @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
-    tile = UploadRes.GetSpriteAtlas(spritesPath.get(Type.EMPTY_AREA));
+    tile = UploadRes.getSpriteAtlas(spritesPath.get(Type.EMPTY_AREA));
     Graphics2D g2d = (Graphics2D) g.create();
     for (int y = 0; y < G_HEIGHT; y += TILES_SIZE) {
       for (int x = 0; x < G_WIDTH; x += TILES_SIZE) {
