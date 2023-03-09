@@ -55,6 +55,11 @@ public class PlayView  implements GameLoop{
     }
 
     public void changePlayerAction(Integer action){
+        if(action==STANDING){
+            Integer animation =(animationIndex % Constants.Player.GetSpriteAmount(playerAction))+indexDir;
+            Integer basicDir=(int)(animation/Constants.Player.GetSpriteAmount(playerAction));
+            indexDir=basicDir*Constants.Player.GetSpriteAmount(action);
+        }
         playerAction=action;
     }
 
