@@ -1,13 +1,10 @@
 package it.unibo.unibomber.model;
 
-import it.unibo.unibomber.game.controller.impl.WorldImpl;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.EntityImpl;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
-import it.unibo.unibomber.game.model.impl.GameImpl;
-import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -22,7 +19,7 @@ class PowerUpTest {
     private static final int bombPowerPowerUp = 1;
 
     private Entity createPlayerEntity() {
-        return new EntityImpl(new GameImpl(new WorldImpl()), new Pair<Float, Float>(0f, 0f), Type.PLAYABLE)
+        return new EntityImpl(null, null, Type.PLAYABLE)
                 .addComponent(new PowerUpHandlerComponent(bombNumberBase, bombPowerBase, List.of()));
     }
 
@@ -41,5 +38,5 @@ class PowerUpTest {
         assertEquals(bombPowerBase + bombPowerPowerUp,
                 player.getComponent(PowerUpHandlerComponent.class).get().getBombPower());
     }
-    
+
 }
