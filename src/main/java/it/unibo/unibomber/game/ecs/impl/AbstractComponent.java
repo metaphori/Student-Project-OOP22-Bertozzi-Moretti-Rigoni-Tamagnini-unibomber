@@ -8,7 +8,7 @@ import it.unibo.unibomber.game.ecs.api.Entity;
  * common to all components, in particular the relationship between itself and the
  * Entity it is attatched to
  */
-public abstract class AbstractComponent implements Component{
+public abstract class AbstractComponent implements Component {
 
     /**
      * {@inheritDoc}
@@ -18,7 +18,7 @@ public abstract class AbstractComponent implements Component{
     protected Entity getEntity() {
         return this.entity;
     }
-    
+
     /**
      * {@inheritDoc}
      */

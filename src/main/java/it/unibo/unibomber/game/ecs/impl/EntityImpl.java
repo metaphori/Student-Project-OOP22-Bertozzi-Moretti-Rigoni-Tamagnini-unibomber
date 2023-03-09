@@ -11,16 +11,16 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
 
-public class EntityImpl implements Entity{
+public class EntityImpl implements Entity {
 
     private final Type type;
     private final Set<Component> components = new HashSet<>();
     private Game Game;
-    private Pair<Float,Float> position;
+    private Pair<Float, Float> position;
     private float speed = 1;
 
-    public EntityImpl(final Game game,final Pair<Float,Float> position, final Type type) {
-        this.Game=game;
+    public EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
+        this.Game = game;
         this.position = position;
         this.type = type;
     }
@@ -33,19 +33,19 @@ public class EntityImpl implements Entity{
     @Override
     public <C extends Component> Optional<C> getComponent(Class<C> componentClass) {
         return this.components.stream()
-                            .filter(componentClass::isInstance)
-                            .map(componentClass::cast)
-                            .findAny();
+                .filter(componentClass::isInstance)
+                .map(componentClass::cast)
+                .findAny();
     }
 
     @Override
     public Pair<Float, Float> getPosition() {
-        return this.position;    
+        return this.position;
     }
 
     @Override
     public void setPosition(Pair<Float, Float> position) {
-        this.position=position;
+        this.position = position;
     }
 
     @Override
@@ -72,17 +72,23 @@ public class EntityImpl implements Entity{
 
     @Override
     public void addSpeed(PowerUpType powerUpType) {
-        switch(powerUpType){
-            case SPEEDUP: if(this.speed < 2) this.speed+=0.20; break;
-            case SPEEDDOWN: if(this.speed > 1) this.speed-=0.20; break;
-            default : break;
+        switch (powerUpType) {
+            case SPEEDUP:
+                if (this.speed < 2)
+                    this.speed += 0.20;
+                break;
+            case SPEEDDOWN:
+                if (this.speed > 1)
+                    this.speed -= 0.20;
+                break;
+            default:
+                break;
         }
     }
 
     @Override
     public void addPosition(Pair<Float, Float> position) {
-            this.position = new Pair<>(this.position.getX()+position.getX()
-                                      ,this.position.getY()+position.getY());
-        }   
+        this.position = new Pair<>(this.position.getX() + position.getX(), this.position.getY() + position.getY());
+    }
 
 }

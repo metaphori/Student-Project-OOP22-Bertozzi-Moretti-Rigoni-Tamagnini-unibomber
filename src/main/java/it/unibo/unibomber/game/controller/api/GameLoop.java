@@ -4,5 +4,6 @@ import java.awt.Graphics;
 
 public interface GameLoop {
     public void update();
+
     public void draw(Graphics g);
 }

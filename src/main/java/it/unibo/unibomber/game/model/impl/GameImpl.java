@@ -12,17 +12,17 @@ import it.unibo.unibomber.utilities.Pair;
 public class GameImpl implements Game {
 
     private List<Entity> entities = new ArrayList<>();
-    private List<Integer> keysPressedQueue = new ArrayList<>();  
+    private List<Integer> keysPressedQueue = new ArrayList<>();
     private Field gameField = new FieldImpl(this);
     private int columns;
     private int rows;
     private World world;
-    private final EntityFactoryImpl entityFactory=new EntityFactoryImpl(this);
+    private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 
-
-    public GameImpl(World world){
-        this.world=world;
+    public GameImpl(World world) {
+        this.world = world;
     }
+
     @Override
     public List<Entity> getEntities() {
         return this.entities;
@@ -50,25 +50,26 @@ public class GameImpl implements Game {
 
     @Override
     public void clearKeysPressed() {
-        //keysPressedQueue.clear();
-    }  
+        // keysPressedQueue.clear();
+    }
+
     @Override
-    public Pair<Integer,Integer> getDimensions(){
-        return new Pair<Integer,Integer>(rows, columns);
+    public Pair<Integer, Integer> getDimensions() {
+        return new Pair<Integer, Integer>(rows, columns);
     }
 
     @Override
     public Field getGameField() {
         return gameField;
     }
-    
+
     @Override
     public World getWorld() {
-        return this.world   ;
+        return this.world;
     }
-    
+
     @Override
-    public EntityFactoryImpl getFactory(){
+    public EntityFactoryImpl getFactory() {
         return entityFactory;
     }
 
