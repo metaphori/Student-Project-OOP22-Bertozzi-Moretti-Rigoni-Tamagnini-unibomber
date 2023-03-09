@@ -25,6 +25,8 @@ public class MouseInputsImpl implements MouseListener{
 			case MENU:
 				worldPanel.getWorld().getMenu().mousePressed(e);
 				break;
+			case PLAY:
+			break;
 			default:
 				break;
 	
@@ -37,6 +39,8 @@ public class MouseInputsImpl implements MouseListener{
 			case MENU:
 				worldPanel.getWorld().getMenu().mouseReleased(e);
 				break;
+			case PLAY:
+			break;
 			default:
 				break;
 	

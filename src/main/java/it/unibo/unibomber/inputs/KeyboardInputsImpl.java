@@ -17,22 +17,26 @@ public class KeyboardInputsImpl implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (Gamestate.state) {
+			case MENU:
+			break;
 			case PLAY:
-			worldPanel.getWorld().getPlay().keyPressed(e);
-				break;
+				worldPanel.getWorld().getPlay().keyPressed(e);
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 
     @Override
     public void keyReleased(KeyEvent e) {
 		switch (Gamestate.state) {
+			case MENU:
+			break;
 			case PLAY:
-			worldPanel.getWorld().getPlay().keyReleased(e);
-				break;
+				worldPanel.getWorld().getPlay().keyReleased(e);
+			break;
 			default:
-				break;
+			break;
 		}
      }
 

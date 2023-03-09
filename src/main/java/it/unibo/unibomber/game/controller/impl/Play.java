@@ -132,7 +132,4 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 	public List<Entity> getEntities() {
 		return game.getEntities();
 	}
-	public List<String> getMap() {
-		return map;
-	}
 }

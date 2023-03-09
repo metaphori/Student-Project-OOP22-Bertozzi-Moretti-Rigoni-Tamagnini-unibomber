@@ -3,6 +3,7 @@ package it.unibo.unibomber.game.view;
 import java.awt.Graphics;
 import java.util.stream.Collectors;
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Play;
@@ -24,6 +25,9 @@ public class PlayView  implements GameLoop{
     public PlayView(Play controller){
         this.controller=controller;
         loadSprites();
+        /*animations[0][1] = colorImage(animations[0][1]);
+        animations[0][2] = colorImage(animations[0][2]);
+        animations[0][3] = colorImage(animations[0][3]);*/
     }
 
     private void loadSprites() {
@@ -50,6 +54,26 @@ public class PlayView  implements GameLoop{
         updateAnimationFrame();
     }
 
+    private static BufferedImage colorImage(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        WritableRaster raster = image.getRaster();
+    
+        for (int xx = 0; xx < width; xx++) {
+          for (int yy = 0; yy < height; yy++) {
+            int[] pixels = raster.getPixel(xx, yy, (int[]) null);
+            if((pixels[0]>=180 && pixels[0]<=255)
+            && (pixels[1]>=150 && pixels[1]<=255)
+            && (pixels[2]>=150 && pixels[2]<=255)){
+                pixels[0]=0;
+                pixels[1]=255;
+                pixels[2]=255;
+                raster.setPixel(xx, yy, pixels);
+            }
+          }
+        }
+        return image;
+      }
     @Override
     public void draw(Graphics g) {
         for(int i = 0; i<controller.getEntities().size();i++) {
@@ -90,8 +114,8 @@ public class PlayView  implements GameLoop{
                 g.drawImage((animations[playerAction][(animationIndex % 3)+indexDir]),
                 Math.round(controller.getEntities().get(i).getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
                 Math.round(controller.getEntities().get(i).getPosition().getY()* Constants.UI.Game.TILES_DEFAULT),
-                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
-                (int)(Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE), 
+                (int)(Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE+0.5f)), 
+                (int)(Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE+0.5f)), 
                 null);
             }
         }         
