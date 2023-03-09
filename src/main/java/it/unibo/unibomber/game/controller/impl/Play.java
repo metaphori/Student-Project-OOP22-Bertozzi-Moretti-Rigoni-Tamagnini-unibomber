@@ -27,6 +27,7 @@ import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
+import static it.unibo.unibomber.utilities.Constants.Player.*;
 
 public class Play extends StateImpl implements KeyListener,GameLoop{
     BufferedImage sprite;
@@ -105,6 +106,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		key_queue.add(e.getKeyCode());
+		view.changePlayerAction(WALKING);
 	}
 
 	@Override
@@ -114,6 +116,7 @@ public class Play extends StateImpl implements KeyListener,GameLoop{
 			.collect(Collectors.toList())
 			.get(0)
 			.getComponent(MovementComponent.class).get().resetMoveBy();
+		view.changePlayerAction(STANDING);
 	}
 
     @Override

@@ -37,7 +37,7 @@ public class Constants {
 			public static final Map<PowerUpType,String> spritesPoweUpPath= new HashMap<>();
 			public SpritesMap(){
 				//TYPE
-				spritesPath.put(Type.PLAYABLE, "stand.png");
+				spritesPath.put(Type.PLAYABLE, "player_sprites.png");
 				spritesPath.put(Type.BOT, null);
 				spritesPath.put(Type.POWERUP, null);
 				spritesPath.put(Type.EMPTY_AREA, "grass.png");

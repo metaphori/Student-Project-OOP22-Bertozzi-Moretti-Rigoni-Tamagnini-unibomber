@@ -9,7 +9,7 @@ public class MovementComponent extends AbstractComponent {
 
     private static float globalSpeedMultiplier=1;
     private Pair<Float,Float> moveBy;
-    private Direction direction = Direction.CENTER;
+    private Direction direction = Direction.DOWN;
     private int framesInDirection=0;
     private int passedFrame=0;
     public MovementComponent(){

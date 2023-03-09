@@ -18,10 +18,10 @@ import static it.unibo.unibomber.utilities.Constants.Player.*;
 public class PlayView  implements GameLoop{
 
     Play controller; 
-	private int animationIndex = 0;
+	private Integer animationIndex = 0;
 	private BufferedImage[][] animations;
-	private int playerAction = STANDING;
-
+	private Integer playerAction = STANDING;
+    static Integer indexDir = 0;
     public PlayView(Play controller){
         this.controller=controller;
         loadSprites();
@@ -31,9 +31,9 @@ public class PlayView  implements GameLoop{
     }
 
     private void loadSprites() {
-		animations = new BufferedImage[1][12];
-		for (int j = 0; j < animations.length; j++) {
-			for (int i = 0; i < animations[j].length; i++) {
+		animations = new BufferedImage[2][24];
+		for (Integer j = 0; j < animations.length; j++) {
+			for (Integer i = 0; i < animations[j].length; i++) {
 				animations[j][i] = UploadRes.GetSpriteAtlas(spritesPath.get(Type.PLAYABLE)).getSubimage(i * 48, j * 48, 48, 48);
 			}
 		}
@@ -54,11 +54,14 @@ public class PlayView  implements GameLoop{
         updateAnimationFrame();
     }
 
+    public void changePlayerAction(Integer action){
+        playerAction=action;
+    }
+
     private static BufferedImage colorImage(BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
         WritableRaster raster = image.getRaster();
-    
         for (int xx = 0; xx < width; xx++) {
           for (int yy = 0; yy < height; yy++) {
             int[] pixels = raster.getPixel(xx, yy, (int[]) null);
@@ -77,7 +80,7 @@ public class PlayView  implements GameLoop{
 
     @Override
     public void draw(Graphics g) {
-        for(int i = 0; i<controller.getEntities().size();i++) {
+        for(Integer i = 0; i<controller.getEntities().size();i++) {
             if(controller.getEntities().get(i).getType() != Type.PLAYABLE && controller.getEntities().get(i).getType() != Type.POWERUP) {
                 g.drawImage(UploadRes.GetSpriteAtlas(spritesPath.get(controller.getEntities().get(i).getType())),
                 Math.round(controller.getEntities().get(i).getPosition().getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
@@ -95,24 +98,24 @@ public class PlayView  implements GameLoop{
                 null);
             }
             else if(controller.getEntities().get(i).getType() == Type.PLAYABLE){
-                Integer indexDir = 0;
                 switch(controller.getEntities().get(i).getComponent(MovementComponent.class).get().getDirection()){
-                    default:
                     case DOWN:
                         indexDir=0;
                         break;
                     case LEFT:
-                        indexDir=3;
+                        indexDir=Constants.Player.GetSpriteAmount(playerAction)*1;
                     break;
                     case RIGHT:
-                        indexDir=6;
+                        indexDir=Constants.Player.GetSpriteAmount(playerAction)*2;
                         break;
                     case UP:
-                        indexDir=9;
+                        indexDir=Constants.Player.GetSpriteAmount(playerAction)*3;
                         break;
-                    
+                    case CENTER:
+                        indexDir=indexDir %Constants.Player.GetSpriteAmount(playerAction);
+                        break;  
                 }
-                g.drawImage((animations[playerAction][(animationIndex % 3)+indexDir]),
+                g.drawImage((animations[playerAction][(animationIndex % Constants.Player.GetSpriteAmount(playerAction))+indexDir]),
                 Math.round(controller.getEntities().get(i).getPosition().getX()* Constants.UI.Game.TILES_DEFAULT),
                 Math.round(controller.getEntities().get(i).getPosition().getY()* Constants.UI.Game.TILES_DEFAULT),
                 (int)(Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE+0.5f)), 
