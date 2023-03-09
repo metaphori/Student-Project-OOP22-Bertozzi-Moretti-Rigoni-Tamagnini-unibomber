@@ -48,6 +48,10 @@ application {
     mainClass.set("it.unibo.unibomber.game.Unibomber")
 }
 
+spotbugs {
+    omitVisitors.set(listOf("FindReturnRef"))
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()

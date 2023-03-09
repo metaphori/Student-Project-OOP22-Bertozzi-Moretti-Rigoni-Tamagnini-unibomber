@@ -6,53 +6,61 @@ import java.awt.event.MouseListener;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.view.WorldPanelImpl;
 
-public class MouseInputsImpl implements MouseListener{
+/**
+ * MouseInputsImpl class.
+ */
+public final class MouseInputsImpl implements MouseListener {
 
-	private WorldPanelImpl worldPanel;
+ private WorldPanelImpl worldPanel;
 
-    public MouseInputsImpl(WorldPanelImpl worldPanel) {
-		this.worldPanel = worldPanel;
-	}
+ /**
+  * MouseInputsImpl constructor.
+  * 
+  * @param worldPanel
+  */
+ public MouseInputsImpl(final WorldPanelImpl worldPanel) {
+  this.worldPanel = worldPanel;
+ }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
+ @Override
+ public void mouseClicked(final MouseEvent e) {
 
-	}
+ }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		switch (Gamestate.state) {
-			case MENU:
-				worldPanel.getWorld().getMenu().mousePressed(e);
-				break;
-			case PLAY:
-			break;
-			default:
-				break;
-	
-			}	
-	}
+ @Override
+ public void mousePressed(final MouseEvent e) {
+  switch (Gamestate.state) {
+   case MENU:
+    worldPanel.getWorld().getMenu().mousePressed(e);
+    break;
+   case PLAY:
+    break;
+   default:
+    break;
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		switch (Gamestate.state) {
-			case MENU:
-				worldPanel.getWorld().getMenu().mouseReleased(e);
-				break;
-			case PLAY:
-			break;
-			default:
-				break;
-	
-			}
-	}
+  }
+ }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+ @Override
+ public void mouseReleased(final MouseEvent e) {
+  switch (Gamestate.state) {
+   case MENU:
+    worldPanel.getWorld().getMenu().mouseReleased(e);
+    break;
+   case PLAY:
+    break;
+   default:
+    break;
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+  }
+ }
+
+ @Override
+ public void mouseEntered(final MouseEvent e) {
+ }
+
+ @Override
+ public void mouseExited(final MouseEvent e) {
+ }
 
 }
