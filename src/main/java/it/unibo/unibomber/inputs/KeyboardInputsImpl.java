@@ -23,7 +23,7 @@ public final class KeyboardInputsImpl implements KeyListener {
 
  @Override
  public void keyPressed(final KeyEvent e) {
-  switch (Gamestate.state) {
+  switch (Gamestate.getGamestate()) {
    case MENU:
     break;
    case PLAY:
@@ -36,7 +36,7 @@ public final class KeyboardInputsImpl implements KeyListener {
 
  @Override
  public void keyReleased(final KeyEvent e) {
-  switch (Gamestate.state) {
+  switch (Gamestate.getGamestate()) {
    case MENU:
     break;
    case PLAY:

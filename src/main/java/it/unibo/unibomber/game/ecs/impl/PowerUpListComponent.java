@@ -13,9 +13,9 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
  */
 public class PowerUpListComponent extends AbstractComponent {
 
-    protected int bombNumber;
-    protected int bombFire;
-    protected List<PowerUpType> powerUpList = new ArrayList<>();
+    private int bombNumber;
+    private int bombFire;
+    private List<PowerUpType> powerUpList = new ArrayList<>();
 
     /**
      * This method sets all bomber's powerups.
@@ -55,14 +55,26 @@ public class PowerUpListComponent extends AbstractComponent {
     public int getBombNumber() {
         return bombNumber;
     }
-
+    /**
+     * set bombNumber.
+     * @param bn
+     */
+    public void setBombNumer(final int bn) {
+        bombNumber = bn;
+    }
     /**
      * @return actual bomb power of player
      */
     public int getBombFire() {
         return bombFire;
     }
-
+/**
+     * set bombNumber.
+     * @param bf
+     */
+    public void setBombFire(final int bf) {
+        bombFire = bf;
+    }
     /**
      * @return list of powerup of player
      */

@@ -8,7 +8,9 @@ import it.unibo.unibomber.game.controller.impl.Menu;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
 import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants;
-
+/**
+ * Menu view class.
+ */
 public final class MenuView implements GameLoop {
 
     private Menu controller;

@@ -20,7 +20,7 @@ public final class DestroyComponent extends AbstractComponent {
     public void update() {
         if (this.isDestroyed) {
             this.destroyFrames++;
-            if (this.destroyFrames == Constants.Destroy.destroyDuration) {
+            if (this.destroyFrames == Constants.Destroy.DESTROYDURATION) {
                 dropPowerUps();
                 this.getEntity().getGame().removeEntity(this.getEntity());
                 this.isDestroyed = false;

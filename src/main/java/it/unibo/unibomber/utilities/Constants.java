@@ -6,119 +6,294 @@ import java.util.Map;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 
+/**
+ * Constants class.
+ */
 public class Constants {
-	public static class UI {
-		public static class Buttons {
-			public static final int WIDTH_DEFAULT = 140; // single button witdh
-			public static final int HEIGHT_DEFAULT = 40; // single button height
-			public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 0.5f)); // button width scale
-			public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 0.5f)); // button height scale
-		}
+/**
+ * UI constants.
+ */
+public static class UI {
+/**
+ * Button settings constans.
+ */
+public static class Buttons {
+/**
+ * distance from top of play button.
+ */
+public static final int TOP_DISTANCE_PLAY = 140;
+/**
+ * distance from top of quit button.
+ */
+public static final int TOP_DISTANCE_QUIT = 190;
+/**
+ * single button witdh.
+ */
+public static final int WIDTH_DEFAULT = 140;
+/**
+ * single button height.
+ */
+public static final int HEIGHT_DEFAULT = 40;
+/**
+ * button width scale.
+ */
+public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 0.5f));
+/**
+ * button height scale.
+ */
+public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 0.5f));
+}
 
-		public static class Game {
-			public final static int TILES_DEFAULT = 16;
-			public final static float SCALE = 3f;
-			public final static int TILES_WIDTH = 15;
-			public final static int TILES_HEIGHT = 18;
-			public final static int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
-			public final static int G_WIDTH = TILES_SIZE * TILES_WIDTH;
-			public final static int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+/**
+ * Game settings constans.
+ */
+public static class Game {
+/**
+ * tiles default dimention.
+ */
+public static final int TILES_DEFAULT = 16;
+/**
+ * scale.
+ */
+public static final float SCALE = 3f;
+/**
+ * arena width in tiles.
+ */
+public static final int TILES_WIDTH = 15;
+/**
+ * arena height in tiles.
+ */
+public static final int TILES_HEIGHT = 18;
+/**
+ * tiles dimension scaled.
+ */
+public static final int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
+/**
+ * game width.
+ */
+public static final int G_WIDTH = TILES_SIZE * TILES_WIDTH;
+/**
+ * game height.
+ */
+public static final int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
 
-		}
+}
 
-		public static class GameLoop {
-			public final static int FPS_SET = 60;
-			public final static int UPS_SET = 60;
-		}
+/**
+ * GameLoop settings constans.
+ */
+public static class GameLoop {
+/**
+ * one nano second.
+ */
+public static final double NANO_S = 1000000000.0;
+/**
+ * fps setting.
+ */
+public static final int FPS_SET = 60;
+/**
+ * ups setting.
+ */
+public static final int UPS_SET = 60;
+}
 
-		public static class SpritesMap {
-			public static final String MENU_BUTTONS = "button_atlas.png";
-			public static final String MENU_BACKGROUND = "menu_background.png";
-			public static final String SHADOW = "shadow.png";
-			public static final int COL_PLAYER_SPRITES = 24;
-			public static final int ROW_PLAYER_SPRITES = 2;
-			public static final Map<Type, String> spritesPath = new HashMap<>();
-			public static final Map<PowerUpType, String> spritesPoweUpPath = new HashMap<>();
+/**
+ * Sprites settings constans.
+ */
+public static class SpritesMap {
+/**
+ * MENU_BUTTONS sprites path.
+ */
+public static final String MENU_BUTTONS = "button_atlas.png";
+/**
+ * MENU_BACKGROUND sprites path.
+ */
+public static final String MENU_BACKGROUND = "menu_background.png";
+/**
+ * SHADOW sprites path.
+ */
+public static final String SHADOW = "shadow.png";
+/**
+ * max col of player sprites animation.
+ */
+public static final int COL_PLAYER_SPRITES = 24;
+/**
+ * max row of player sprites animation.
+ */
+public static final int ROW_PLAYER_SPRITES = 2;
+/**
+ * Map of type and path of sprites.
+ */
+public static final Map<Type, String> SPRITESPATH = new HashMap<>();
+/**
+ * Map of powerup type and path of powerup sprites.
+ */
+public static final Map<PowerUpType, String> SPRITESPOWERUPPATH = new HashMap<>();
 
-			public SpritesMap() {
-				// TYPE
-				spritesPath.put(Type.PLAYABLE, "player_sprites.png");
-				spritesPath.put(Type.BOT, null);
-				spritesPath.put(Type.POWERUP, null);
-				spritesPath.put(Type.EMPTY_AREA, "grass.png");
-				spritesPath.put(Type.RISING_WALL, null);
-				spritesPath.put(Type.DESTRUCTIBLE_WALL, null);
-				spritesPath.put(Type.INDESTRUCTIBLE_WALL, "indestructible_wall.png");
-				spritesPath.put(Type.BOMB, "bomba.png");
-				spritesPoweUpPath.put(PowerUpType.FIREUP, "fire_up.png");
+/**
+ * SpriteMap constructor.
+ */
+public SpritesMap() {
+// TYPE
+SPRITESPATH.put(Type.PLAYABLE, "player_sprites.png");
+SPRITESPATH.put(Type.BOT, null);
+SPRITESPATH.put(Type.POWERUP, null);
+SPRITESPATH.put(Type.EMPTY_AREA, "grass.png");
+SPRITESPATH.put(Type.RISING_WALL, null);
+SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, null);
+SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, "indestructible_wall.png");
+SPRITESPATH.put(Type.BOMB, "bomba.png");
+SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, "fire_up.png");
 
-			}
-		}
-	}
+}
+}
+}
 
-	public static class Player {
-		public static final int STANDING = 0;
-		public static final int WALKING = 1;
-		public static final int POWER_GLOVE = 2;
-		public static final int THROWING = 3;
-		public static final int PUNCH = 4;
-		public static final int SHIELD = 5;
-		public static final int STUN = 6;
-		public static final int VICTORY = 7;
-		public static final int DEFEAT = 8;
-		public static final int IDLE = 9;
-		public static final int JUMPUP_DOWN = 10;
-		public static final int CRYING = 11;
-		public static final int DANCING = 12;
+/**
+ * Player animation constans.
+ */
+public static class Player {
+/**
+ * STANDING animation.
+ */
+public static final int STANDING = 0;
+/**
+ * WALKING animation.
+ */
+public static final int WALKING = 1;
+/**
+ * POWER_GLOVE animation.
+ */
+public static final int POWER_GLOVE = 2;
+/**
+ * THROWING animation.
+ */
+public static final int THROWING = 3;
+/**
+ * PUNCH animation.
+ */
+public static final int PUNCH = 4;
+/**
+ * SHIELD animation.
+ */
+public static final int SHIELD = 5;
+/**
+ * STUN animation.
+ */
+public static final int STUN = 6;
+/**
+ * VICTORY animation.
+ */
+public static final int VICTORY = 7;
+/**
+ * DEFEAT animation.
+ */
+public static final int DEFEAT = 8;
+/**
+ * IDLE animation.
+ */
+public static final int IDLE = 9;
+/**
+ * JUMPUP_DOWN animation.
+ */
+public static final int JUMPUP_DOWN = 10;
+/**
+ * CRYING animation.
+ */
+public static final int CRYING = 11;
+/**
+ * DANCING animation.
+ */
+public static final int DANCING = 12;
 
-		public static int GetSpriteAmount(int player_action) {
-			switch (player_action) {
-				case STANDING:
-				case PUNCH:
-					return 3;
-				case WALKING:
-				case POWER_GLOVE:
-				case VICTORY:
-					return 6;
-				case THROWING:
-					return 5;
-				case CRYING:
-					return 4;
-				case SHIELD:
-					return 2;
-				case STUN:
-					return 8;
-				case DEFEAT:
-					return 14;
-				case JUMPUP_DOWN:
-					return 9;
-				case DANCING:
-					return 8;
-				default:
-					return 1;
-			}
-		}
-	}
+/**
+ * @param playerAction
+ * @return the number of animation of that action
+ */
+public static int getSpriteAmount(final int playerAction) {
+switch (playerAction) {
+case STANDING:
+case PUNCH:
+return 3;
+case WALKING:
+case POWER_GLOVE:
+case VICTORY:
+return 6;
+case THROWING:
+return 5;
+case CRYING:
+return 4;
+case SHIELD:
+return 2;
+case STUN:
+return 8;
+case DEFEAT:
+return 14;
+case JUMPUP_DOWN:
+return 9;
+case DANCING:
+return 8;
+default:
+return 1;
+}
+}
+}
 
-	public static class Input {
-		public static final int NO_KEYS_VALUE = -1;
-		public static final Float POSITIVE_MOVE = 0.2f;
-		public static final Float NEGATIVE_MOVE = -0.2f;
-	}
+/**
+ * Input settings constans.
+ */
+public static class Input {
+/**
+ * no keys value.
+ */
+public static final int NO_KEYS_VALUE = -1;
+/**
+ * positive movement.
+ */
+public static final Float POSITIVE_MOVE = 0.2f;
+/**
+ * negative movement.
+ */
+public static final Float NEGATIVE_MOVE = -0.2f;
+}
 
-	public static class PowerUp {
-		public static final int COMPLEX_PERCENTAGE = 25;
-	}
+/**
+ * powerUp settings constans.
+ */
+public static class PowerUp {
+/**
+ * Percentage of have complex power up.
+ */
+public static final int COMPLEX_PERCENTAGE = 25;
+}
 
-	public static class Entity {
-		public static final float SPEED_CHANGE = 0.20f;
-	}
+/**
+ * Enity speed settings constans.
+ */
+public static class Entity {
+/**
+ * Enity speed.
+ */
+public static final float SPEED_CHANGE = 0.20f;
+}
 
-	public static class Explode {
-		public static final int explodeDuration = 5;
-	}
+/**
+ * Explode duration settings constans.
+ */
+public static class Explode {
+/**
+ * Explode duration.
+ */
+public static final int EXPLODEDURATION = 5;
+}
 
-	public static class Destroy {
-		public static final int destroyDuration = 4;
-	}
+/**
+ * Destroy duration settings constans.
+ */
+public static class Destroy {
+/**
+ * Destroy duration.
+ */
+public static final int DESTROYDURATION = 4;
+}
 }

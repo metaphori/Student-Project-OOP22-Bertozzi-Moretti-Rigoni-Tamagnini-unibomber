@@ -10,22 +10,23 @@ import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_PLAY;
+import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUIT;
 public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop {
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
     private MenuView view;
 
-    public Menu(final WorldImpl world) {
-        super(world);
+    public Menu() {
+        super();
         view = new MenuView(this);
         loadButtons();
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (150 * Constants.UI.Game.SCALE), 0,
+        buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (TOP_DISTANCE_PLAY * Constants.UI.Game.SCALE), 0,
                 Gamestate.PLAY);
-        buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (190 * Constants.UI.Game.SCALE), 1,
+        buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (TOP_DISTANCE_QUIT * Constants.UI.Game.SCALE), 1,
                 Gamestate.QUIT);
 
     }

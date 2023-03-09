@@ -8,7 +8,9 @@ import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
-
+/**
+ * GameImpl class.
+ */
 public class GameImpl implements Game {
 
     private List<Entity> entities = new ArrayList<>();
@@ -19,6 +21,10 @@ public class GameImpl implements Game {
     private World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 
+    /**
+     * GameImpl constructor.
+     * @param world
+     */
     public GameImpl(final World world) {
         this.world = world;
     }

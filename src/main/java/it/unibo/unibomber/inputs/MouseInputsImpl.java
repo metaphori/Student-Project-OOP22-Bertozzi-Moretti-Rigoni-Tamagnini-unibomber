@@ -29,7 +29,7 @@ public final class MouseInputsImpl implements MouseListener {
 
  @Override
  public void mousePressed(final MouseEvent e) {
-  switch (Gamestate.state) {
+  switch (Gamestate.getGamestate()) {
    case MENU:
     worldPanel.getWorld().getMenu().mousePressed(e);
     break;
@@ -43,7 +43,7 @@ public final class MouseInputsImpl implements MouseListener {
 
  @Override
  public void mouseReleased(final MouseEvent e) {
-  switch (Gamestate.state) {
+  switch (Gamestate.getGamestate()) {
    case MENU:
     worldPanel.getWorld().getMenu().mouseReleased(e);
     break;

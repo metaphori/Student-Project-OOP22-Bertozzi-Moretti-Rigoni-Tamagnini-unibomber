@@ -24,7 +24,7 @@ public class ExplodeComponent extends AbstractComponent {
     public final void update() {
         if (this.isExploding) {
             this.explodeFrames++;
-            if (this.explodeFrames < Constants.Explode.explodeDuration) {
+            if (this.explodeFrames < Constants.Explode.EXPLODEDURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
                         .filter(e -> e.getType() == Type.BOT || e.getType() == Type.PLAYABLE)
                         .collect(Collectors.toList()));

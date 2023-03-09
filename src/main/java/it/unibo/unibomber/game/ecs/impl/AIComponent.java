@@ -1,6 +1,6 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-public class AIComponent extends AbstractComponent {
+public final class AIComponent extends AbstractComponent {
 
      @Override
      public void update() {

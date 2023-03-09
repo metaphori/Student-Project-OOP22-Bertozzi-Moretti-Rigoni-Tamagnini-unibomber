@@ -11,8 +11,8 @@ import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.spritesPath;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.spritesPoweUpPath;
+import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPATH;
+import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPOWERUPPATH;
 import static it.unibo.unibomber.utilities.Constants.Player.STANDING;
 import static it.unibo.unibomber.utilities.Constants.Player.WALKING;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
@@ -49,7 +49,7 @@ public final class PlayView implements GameLoop {
         animations = new BufferedImage[ROW_PLAYER_SPRITES][COL_PLAYER_SPRITES];
         for (Integer j = 0; j < animations.length; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
-                animations[j][i] = UploadRes.getSpriteAtlas(spritesPath.get(Type.PLAYABLE))
+                animations[j][i] = UploadRes.getSpriteAtlas(SPRITESPATH.get(Type.PLAYABLE))
                         .getSubimage(i * TILES_SIZE, j * TILES_SIZE, TILES_SIZE, TILES_SIZE);
             }
         }
@@ -77,9 +77,9 @@ public final class PlayView implements GameLoop {
      */
     public void changePlayerAction(final Integer action) {
         if (action == STANDING) {
-            Integer animation = (animationIndex % Constants.Player.GetSpriteAmount(playerAction)) + indexDir;
-            Integer basicDir = (int) (animation / Constants.Player.GetSpriteAmount(playerAction));
-            indexDir = basicDir * Constants.Player.GetSpriteAmount(action);
+            Integer animation = (animationIndex % Constants.Player.getSpriteAmount(playerAction)) + indexDir;
+            Integer basicDir = (int) (animation / Constants.Player.getSpriteAmount(playerAction));
+            indexDir = basicDir * Constants.Player.getSpriteAmount(action);
         }
         playerAction = action;
     }
@@ -110,7 +110,7 @@ public final class PlayView implements GameLoop {
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             if (controller.getEntities().get(i).getType() != Type.PLAYABLE
                     && controller.getEntities().get(i).getType() != Type.POWERUP) {
-                g.drawImage(UploadRes.getSpriteAtlas(spritesPath.get(controller.getEntities().get(i).getType())),
+                g.drawImage(UploadRes.getSpriteAtlas(SPRITESPATH.get(controller.getEntities().get(i).getType())),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
@@ -123,7 +123,7 @@ public final class PlayView implements GameLoop {
                         (int) (Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.POWERUP) {
-                g.drawImage(UploadRes.getSpriteAtlas(spritesPoweUpPath.get(controller
+                g.drawImage(UploadRes.getSpriteAtlas(SPRITESPOWERUPPATH.get(controller
                         .getEntities()
                         .get(i)
                         .getComponent(PowerUpComponent.class)
@@ -146,22 +146,22 @@ public final class PlayView implements GameLoop {
                         indexDir = 0;
                         break;
                     case LEFT:
-                        indexDir = Constants.Player.GetSpriteAmount(playerAction) * 1;
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
                         break;
                     case RIGHT:
-                        indexDir = Constants.Player.GetSpriteAmount(playerAction) * 2;
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
                         break;
                     case UP:
-                        indexDir = Constants.Player.GetSpriteAmount(playerAction) * 3;
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
                         break;
                     default:
                     case CENTER:
-                        indexDir = indexDir % Constants.Player.GetSpriteAmount(playerAction);
+                        indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
                         playerAction = STANDING;
                         break;
                 }
                 g.drawImage(
-                        (animations[playerAction][(animationIndex % Constants.Player.GetSpriteAmount(playerAction))
+                        (animations[playerAction][(animationIndex % Constants.Player.getSpriteAmount(playerAction))
                                 + indexDir]),
                         Math.round(
                                 controller.getEntities().get(i).getPosition().getX() * Constants.UI.Game.TILES_DEFAULT),

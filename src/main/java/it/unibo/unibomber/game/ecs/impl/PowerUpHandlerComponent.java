@@ -26,26 +26,26 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
         if (!powerUpType.isComplex()) {
             switch (powerUpType) {
                 case FIREUP:
-                    if (this.bombFire < 8) {
-                        this.bombFire += 1;
+                    if (this.getBombFire() < 8) {
+                        this.setBombFire(getBombFire() + 1);
                     }
                     break;
                 case FIREDOWN:
-                    if (this.bombFire > 1) {
-                        this.bombFire -= 1;
+                    if (this.getBombFire() > 1) {
+                        this.setBombFire(getBombFire() - 1);
                     }
                     break;
                 case FIREFULL:
-                    this.bombFire = 8;
+                    this.setBombFire(8);
                     break;
                 case BOMBUP:
-                    if (this.bombNumber < 8) {
-                        this.bombNumber += 1;
+                    if (this.getBombNumber() < 8) {
+                        this.setBombNumer(getBombNumber() + 1);
                     }
                     break;
                 case BOMBDOWN:
-                    if (this.bombNumber > 1) {
-                        this.bombNumber -= 1;
+                    if (this.getBombNumber() > 1) {
+                        this.setBombNumer(getBombNumber() - 1);
                     }
                     break;
                 default:
