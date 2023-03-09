@@ -98,6 +98,7 @@ public class PlayView  implements GameLoop{
                 null);
             }
             else if(controller.getEntities().get(i).getType() == Type.PLAYABLE){
+                playerAction=(WALKING);
                 switch(controller.getEntities().get(i).getComponent(MovementComponent.class).get().getDirection()){
                     case DOWN:
                         indexDir=0;
@@ -113,6 +114,7 @@ public class PlayView  implements GameLoop{
                         break;
                     case CENTER:
                         indexDir=indexDir %Constants.Player.GetSpriteAmount(playerAction);
+                        playerAction=STANDING;
                         break;  
                 }
                 g.drawImage((animations[playerAction][(animationIndex % Constants.Player.GetSpriteAmount(playerAction))+indexDir]),
