@@ -15,6 +15,13 @@ public final class DestroyComponent extends AbstractComponent {
     private boolean isDestroyed;
     private int destroyFrames;
 
+    /**
+     * The constructor set to 0 the field destroyFrames.
+     */
+    public DestroyComponent() {
+        this.destroyFrames = 0;
+    }
+
     @Override
     public void update() {
         if (this.isDestroyed) {
@@ -33,6 +40,14 @@ public final class DestroyComponent extends AbstractComponent {
      */
     public void destroy() {
         this.isDestroyed = true;
+    }
+
+    /**
+     * A method to know if the entity is destroyed.
+     * @return true if the entity is destroyed, false otherwise.
+     */
+    public boolean isDestroyed() {
+        return this.isDestroyed;
     }
 
     /**

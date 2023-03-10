@@ -80,7 +80,8 @@ public class EntityFactoryImpl implements EntityFactory {
     @Override
     public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
-                .addComponent(new DestroyComponent());
+                .addComponent(new DestroyComponent())
+                .addComponent(new PowerUpListComponent(0, 0, List.of(PowerUpType.getRandomPowerUp())));
     }
 
     @Override
