@@ -69,9 +69,9 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final Entity makeBomb(final Entity placer) {
-        Pair<Float,Float> normalizedPosition= new Pair<Float,Float>(
-                                 (float)Math.round(placer.getPosition().getX()),
-                                 (float)Math.round(placer.getPosition().getY()));
+        Pair<Float, Float> normalizedPosition = new Pair<Float, Float>(
+                                 (float) Math.round(placer.getPosition().getX()),
+                                 (float) Math.round(placer.getPosition().getY()));
         return new EntityImpl(game, normalizedPosition, Type.BOMB)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(true))

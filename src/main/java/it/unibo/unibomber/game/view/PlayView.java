@@ -160,7 +160,7 @@ public final class PlayView implements GameLoop {
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
                         break;
                 }
-                if(!movementComponent.hasMoved()) {
+                if (!movementComponent.hasMoved()) {
                     changePlayerAction(STANDING);
                 }
                 g.drawImage(
