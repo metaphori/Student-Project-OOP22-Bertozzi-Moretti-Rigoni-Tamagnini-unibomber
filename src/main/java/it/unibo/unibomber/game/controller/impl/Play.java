@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -32,7 +34,6 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     // private BufferedImage sprite;
     private Deque<Integer> keyQueue;
     private final Game game;
-    private final List<String> map = new ArrayList<>();
     private final PlayView view;
     private final Field field;
 
@@ -57,23 +58,12 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     private void loadMap() {
-        BufferedReader bf;
-        try {
-            bf = new BufferedReader(new FileReader("./src/main/res/area1.map"));
-            String line;
-            try {
-                line = bf.readLine();
-                while (line != null) {
-                    map.add(line);
-                    line = bf.readLine();
-                }
-                bf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        final List<String> mapData = extractData();
+        loadEntities(mapData);
+        field.updateField();
+    }
+
+    private void loadEntities(List<String> map) {
         /*
          * TODO
          * for (int index = 0; index < 19; index++) {
@@ -92,7 +82,28 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
          * }
          * }
          */
-        field.updateField();
+    }
+
+    private List<String> extractData() { 
+        final List<String> map = new ArrayList<>();
+        BufferedReader bf;
+        try {
+            bf = new BufferedReader(new FileReader("./src/main/res/area1.map"));
+            String line;
+            try {
+                line = bf.readLine();
+                while (line != null) {
+                    map.add(line);
+                    line = bf.readLine();
+                }
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 
     @Override
