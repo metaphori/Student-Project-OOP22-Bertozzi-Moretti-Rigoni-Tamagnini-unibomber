@@ -6,6 +6,13 @@ import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * The class is responsible for handling the movement of the enetity it is
+ * attatched to
+ * it also keeps track of the frames said entity spent in one direction so it
+ * can be
+ * graphically implemented.
+ */
 public class MovementComponent extends AbstractComponent {
 
     private static float globalSpeedMultiplier = 1;
@@ -77,9 +84,9 @@ public class MovementComponent extends AbstractComponent {
         return this.framesInDirection;
     }
 
-    /*
+    /**
      * @return the number of frames spent in one direction
-     * keeping in mind the FRAME_DELAY
+     *         keeping in mind the FRAME_DELAY
      */
     public final int getPassedFrames() {
         return this.passedFrame;
