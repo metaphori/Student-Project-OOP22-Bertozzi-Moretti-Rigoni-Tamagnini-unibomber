@@ -7,6 +7,8 @@ import it.unibo.unibomber.utilities.Pair;
 
 public class MovementComponent extends AbstractComponent {
 
+    private final int FRAME_DELAY=10;
+
     private static float globalSpeedMultiplier = 1;
     private boolean hasMoved=false;
     private Pair<Float, Float> moveBy;
@@ -25,6 +27,10 @@ public class MovementComponent extends AbstractComponent {
         // checkCollisions();
     }
 
+    /**
+     * Given the direction it updates the number of frames spent
+     * in that direction for the animation's sake
+     */
     private void handleDirection() {
         Direction newDirection = Direction.extractDirecion(moveBy).orElse(direction);
         if (this.direction == newDirection) {
@@ -33,12 +39,15 @@ public class MovementComponent extends AbstractComponent {
             this.framesInDirection = 0;
             this.direction = newDirection;
         }
-        if (framesInDirection == 10) {
+        if (framesInDirection == FRAME_DELAY) {
             passedFrame++;
             this.framesInDirection = 0;
         }
     }
 
+    /**
+     * Handles the collisions by calling the relative component
+     */
     private void checkCollisions() {
         Optional<CollisionComponent> collisionComp = this.getEntity().getComponent(CollisionComponent.class);
         if (collisionComp.isPresent()) {
@@ -46,6 +55,9 @@ public class MovementComponent extends AbstractComponent {
         }
     }
 
+    /**
+     * @param moveBy the coordinates to move by
+     */
     public final void moveBy(final Pair<Float, Float> moveBy) {
         this.moveBy = new Pair<>(moveBy.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
                 moveBy.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
@@ -53,21 +65,37 @@ public class MovementComponent extends AbstractComponent {
                 else hasMoved=true;
     }
 
+    /**
+     * @return the direction this entity is facing
+     */
     public final Direction getDirection() {
         return this.direction;
     }
 
+    /**
+     * @return the number of frames spent in one direction
+     */
     public final int getFrameInDirection() {
         return this.framesInDirection;
     }
-
-    public final int getPassedFram() {
+    /*
+    * @return the number of frames spent in one direction
+    * keeping in mind the FRAME_DELAY
+    */
+    public final int getPassedFrames() {
         return this.passedFrame;
     }
 
+    /**
+     * @param speed the new value of globalSpeedMultiplier
+     */
     public static void setGlobalSpeedMultiplier(final float speed) {
         globalSpeedMultiplier = speed;
     }
+    
+    /**
+     * @return whether the entity has moved in the last game frame
+     */
     public boolean hasMoved(){
         return this.hasMoved;
     }

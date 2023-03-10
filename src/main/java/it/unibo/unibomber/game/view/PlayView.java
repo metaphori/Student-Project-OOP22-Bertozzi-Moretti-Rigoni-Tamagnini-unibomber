@@ -62,7 +62,7 @@ public final class PlayView implements GameLoop {
                 .get(0)
                 .getComponent(MovementComponent.class)
                 .get()
-                .getPassedFram();
+                .getPassedFrames();
     }
 
     @Override
