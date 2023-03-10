@@ -42,7 +42,7 @@ public interface EntityFactory {
      *               in normal condition being the bomber
      * @return an instance of a non an instance of a non playable Bomb
      */
-    Entity makeBomb(Entity placer);
+    Entity makeBomb(Entity placer, Pair<Float,Float>position);
 
     /**
      * @param position the initial position

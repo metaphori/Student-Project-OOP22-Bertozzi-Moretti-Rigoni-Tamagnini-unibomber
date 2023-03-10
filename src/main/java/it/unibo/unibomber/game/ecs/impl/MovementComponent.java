@@ -15,7 +15,7 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class MovementComponent extends AbstractComponent {
 
-    private static float globalSpeedMultiplier = 1;
+    private static float globalSpeedMultiplier = 0.4F;
     private boolean hasMoved = false;
     private Pair<Float, Float> moveBy = new Pair<Float, Float>(0f, 0f);;
     private Direction direction = Direction.DOWN;

@@ -1,5 +1,13 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.utilities.Pair;
+
 /**
  * This component manage bomb placement.
  */
@@ -9,10 +17,22 @@ public class BombPlaceComponent extends AbstractComponent {
 
     @Override
     public final void update() {
+        Entity thisEntity = this.getEntity();
         if (this.bombPlaced) {
-            this.getEntity().getGame().addEntity(this.getEntity().getGame().getFactory().makeBomb(this.getEntity()));
-            this.getEntity().getComponent(PowerUpHandlerComponent.class)
-                    .get().setBombPlaced(1);
+            Pair<Float, Float> normalizedPosition = new Pair<Float, Float>(
+                    (float) Math.round(thisEntity.getPosition().getX()),
+                    (float) Math.round(thisEntity.getPosition().getY()));
+
+            Optional<Entity> bombSamePlace = thisEntity.getGame().getEntities().stream()
+                    .filter(e -> e.getType().equals(Type.BOMB))
+                    .filter(e -> e.getPosition().equals(normalizedPosition))
+                    .findFirst();
+            if (bombSamePlace.isEmpty()) {
+                thisEntity.getGame()
+                        .addEntity(thisEntity.getGame().getFactory().makeBomb(thisEntity, normalizedPosition));
+                thisEntity.getComponent(PowerUpHandlerComponent.class)
+                        .get().setBombPlaced(1);
+            }
             this.bombPlaced = false;
         }
     }

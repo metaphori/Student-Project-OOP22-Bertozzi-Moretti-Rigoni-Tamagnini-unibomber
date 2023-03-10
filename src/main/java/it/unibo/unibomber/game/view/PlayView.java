@@ -114,11 +114,11 @@ public final class PlayView implements GameLoop {
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getX() * Constants.UI.Game.TILES_DEFAULT),
+                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getY() * Constants.UI.Game.TILES_DEFAULT),
+                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         (int) (Constants.UI.Game.TILES_SIZE),
                         (int) (Constants.UI.Game.TILES_SIZE),
                         null);
@@ -131,13 +131,13 @@ public final class PlayView implements GameLoop {
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getX() * Constants.UI.Game.TILES_DEFAULT),
+                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getY() * Constants.UI.Game.TILES_DEFAULT),
-                        (int) (Constants.UI.Game.TILES_SIZE),
-                        (int) (Constants.UI.Game.TILES_SIZE),
+                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                        (int) (Constants.UI.Game.TILES_DEFAULT),
+                        (int) (Constants.UI.Game.TILES_DEFAULT),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.PLAYABLE) {
                 changePlayerAction(WALKING);
@@ -160,20 +160,20 @@ public final class PlayView implements GameLoop {
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
                         break;
                 }
-                if(!movementComponent.hasMoved()) {
+                if (!movementComponent.hasMoved()) {
                     changePlayerAction(STANDING);
                 }
                 g.drawImage(
                         (animations[playerAction][(animationIndex % Constants.Player.getSpriteAmount(playerAction))
                                 + indexDir]),
                         Math.round(controller.getEntities()
-                        .get(i)
-                        .getPosition()
-                        .getX() * Constants.UI.Game.TILES_DEFAULT),
+                                .get(i)
+                                .getPosition()
+                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         Math.round(controller.getEntities()
-                        .get(i)
-                        .getPosition()
-                        .getY() * Constants.UI.Game.TILES_DEFAULT),
+                                .get(i)
+                                .getPosition()
+                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         (int) (Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE + 0.5f)),
                         (int) (Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE + 0.5f)),
                         null);
