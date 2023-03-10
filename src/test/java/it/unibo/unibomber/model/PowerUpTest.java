@@ -13,21 +13,21 @@ import java.util.List;
 
 class PowerUpTest {
 
-    private static final int bombNumberBase = 1;
-    private static final int bombNumberPowerUp = 1;
-    private static final int bombFireBase = 1;
-    private static final int bombFirePowerUp = 1;
+    private static final int BOMB_NUMBER_BASE = 1;
+    private static final int BOMB_NUMBER_POWERUP = 1;
+    private static final int BOMB_FIRE_BASE = 1;
+    private static final int BOMB_FIRE_POWERUP = 1;
 
     private Entity createPlayerEntity() {
         return new EntityImpl(null, null, Type.PLAYABLE)
-                .addComponent(new PowerUpHandlerComponent(bombNumberBase, bombFireBase, List.of()));
+                .addComponent(new PowerUpHandlerComponent(BOMB_NUMBER_BASE, BOMB_FIRE_BASE, List.of()));
     }
 
     @Test
     void testBombUpPowerUp() {
         Entity player = this.createPlayerEntity();
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.BOMBUP);
-        assertEquals(bombNumberBase + bombNumberPowerUp,
+        assertEquals(BOMB_NUMBER_BASE + BOMB_NUMBER_POWERUP,
                 player.getComponent(PowerUpHandlerComponent.class).get().getBombNumber());
     }
 
@@ -35,7 +35,7 @@ class PowerUpTest {
     void testBombFireUpPowerUp() {
         Entity player = this.createPlayerEntity();
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.FIREUP);
-        assertEquals(bombFireBase + bombFirePowerUp,
+        assertEquals(BOMB_FIRE_BASE + BOMB_FIRE_POWERUP,
                 player.getComponent(PowerUpHandlerComponent.class).get().getBombFire());
     }
 
