@@ -20,9 +20,7 @@ public class InputComponent extends AbstractComponent {
           Pair<Float, Float> moveBy = calculateMovement(moveKey);
 
           if (spazio.isPresent()) {
-               if (this.getEntity().getComponent(PowerUpHandlerComponent.class).get().getRemainingBomb() > 0) {
-                    this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
-               }
+               this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
           }
           updateMovement(moveBy);
      }
