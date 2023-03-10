@@ -5,7 +5,7 @@ import java.util.Optional;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
-
+import static it.unibo.unibomber.utilities.Constants.Entity.SPEED_CHANGE;
 /**
  * The class is responsible for handling the movement of the enetity it is
  * attatched to
@@ -15,7 +15,7 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class MovementComponent extends AbstractComponent {
 
-    private static float globalSpeedMultiplier = 0.4F;
+    private static float globalSpeedMultiplier = SPEED_CHANGE;
     private boolean hasMoved = false;
     private Pair<Float, Float> moveBy = new Pair<Float, Float>(0f, 0f);;
     private Direction direction = Direction.DOWN;

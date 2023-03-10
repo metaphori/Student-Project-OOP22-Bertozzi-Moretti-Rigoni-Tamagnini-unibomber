@@ -40,9 +40,10 @@ public interface EntityFactory {
     /**
      * @param placer the reference to the entity which placed the bomb
      *               in normal condition being the bomber
+     * @param position     the initial position
      * @return an instance of a non an instance of a non playable Bomb
      */
-    Entity makeBomb(Entity placer, Pair<Float,Float>position);
+    Entity makeBomb(Entity placer, Pair<Float, Float> position);
 
     /**
      * @param position the initial position

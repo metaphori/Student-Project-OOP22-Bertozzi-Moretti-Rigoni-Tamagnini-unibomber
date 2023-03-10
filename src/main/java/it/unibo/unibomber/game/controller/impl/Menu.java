@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
+
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_PLAY;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUIT;
 
@@ -19,7 +21,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUI
 public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop {
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
-    private MenuView view;
+    private final MenuView view;
 
     /**
      * This method manage the view of game menu.
@@ -44,7 +46,7 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
      * @return button menu pressed
      */
     public final MenuButtonImpl[] getButtons() {
-        return buttons;
+        return Arrays.copyOf(buttons, buttons.length);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
 
     @Override
     public final void mousePressed(final MouseEvent e) {
-        for (MenuButtonImpl mb : buttons) {
+        for (final MenuButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 mb.setMousePressed(true);
             }
@@ -80,7 +82,7 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
 
     @Override
     public final void mouseReleased(final MouseEvent e) {
-        for (MenuButtonImpl mb : buttons) {
+        for (final MenuButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
                     mb.applyGamestate();
@@ -92,7 +94,7 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
     }
 
     private void resetButtons() {
-        for (MenuButtonImpl mb : buttons) {
+        for (final MenuButtonImpl mb : buttons) {
             mb.reset();
         }
 

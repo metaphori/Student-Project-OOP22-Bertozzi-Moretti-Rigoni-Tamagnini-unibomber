@@ -31,10 +31,10 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     // TODO
     // private BufferedImage sprite;
     private Deque<Integer> keyQueue;
-    private Game game;
-    private List<String> map = new ArrayList<String>();
-    private PlayView view;
-    private Field field;
+    private final Game game;
+    private final List<String> map = new ArrayList<>();
+    private final PlayView view;
+    private final Field field;
 
     /**
      * This method create the instance of all game parameters.

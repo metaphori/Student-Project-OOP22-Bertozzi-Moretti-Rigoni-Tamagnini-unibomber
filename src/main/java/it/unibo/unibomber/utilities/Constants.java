@@ -329,7 +329,7 @@ public class Constants {
         /**
          * Enity speed.
          */
-        public static final float SPEED_CHANGE = 0.20f;
+        public static final float SPEED_CHANGE = 0.40f;
     }
 
     /**
