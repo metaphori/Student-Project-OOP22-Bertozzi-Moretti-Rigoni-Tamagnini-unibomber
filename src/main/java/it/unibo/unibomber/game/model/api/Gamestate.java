@@ -1,7 +1,21 @@
 package it.unibo.unibomber.game.model.api;
 
+/**
+ * This enum represent the state of game.
+ */
 public enum Gamestate {
-    PLAY, MENU, OPTIONS, QUIT;
+    /**
+     * Game started.
+     */
+    PLAY,
+    /**
+     * Menu.
+     */
+    MENU,
+    /**
+    * Quit game.
+    */
+    QUIT;
 
     private static Gamestate state = MENU;
 
@@ -11,8 +25,10 @@ public enum Gamestate {
     public static Gamestate getGamestate() {
         return state;
     }
+
     /**
      * SetGameState.
+     * 
      * @param st
      */
     public static void setGameState(final Gamestate st) {

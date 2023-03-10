@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This class manage the input key.
+ */
 public class InputComponent extends AbstractComponent {
 
      @Override

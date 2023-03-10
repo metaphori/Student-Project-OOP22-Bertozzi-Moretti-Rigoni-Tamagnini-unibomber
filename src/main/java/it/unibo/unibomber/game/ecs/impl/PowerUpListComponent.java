@@ -19,6 +19,7 @@ public class PowerUpListComponent extends AbstractComponent {
 
     /**
      * This method sets all bomber's powerups.
+     * 
      * @param bombNumber
      * @param bombFire
      * @param powerUpList
@@ -31,7 +32,8 @@ public class PowerUpListComponent extends AbstractComponent {
 
     /**
      * This method takes all powerups from giver.
-     * @param giver 
+     * 
+     * @param giver
      */
     public PowerUpListComponent(final Entity giver) {
         Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
@@ -53,28 +55,34 @@ public class PowerUpListComponent extends AbstractComponent {
      * @return actual bomb number of player
      */
     public int getBombNumber() {
-        return bombNumber;
+        return this.bombNumber;
     }
+
     /**
      * set bombNumber.
-     * @param bn
+     * 
+     * @param bombNumber
      */
-    public void setBombNumer(final int bn) {
-        bombNumber = bn;
+    public void setBombNumer(final int bombNumber) {
+        this.bombNumber = bombNumber;
     }
+
     /**
-     * @return actual bomb power of player
+     * @return actual bomb fire of player
      */
     public int getBombFire() {
-        return bombFire;
+        return this.bombFire;
     }
-/**
-     * set bombNumber.
-     * @param bf
+
+    /**
+     * set bomb fire.
+     * 
+     * @param bombFire
      */
-    public void setBombFire(final int bf) {
-        bombFire = bf;
+    public void setBombFire(final int bombFire) {
+        this.bombFire = bombFire;
     }
+
     /**
      * @return list of powerup of player
      */

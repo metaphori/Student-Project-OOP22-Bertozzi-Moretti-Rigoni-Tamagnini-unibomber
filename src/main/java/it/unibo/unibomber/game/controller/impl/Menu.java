@@ -12,11 +12,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_PLAY;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUIT;
+
+/**
+ * This class manage the game menu.
+ */
 public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop {
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
     private MenuView view;
 
+    /**
+     * This method manage the view of game menu.
+     */
     public Menu() {
         super();
         view = new MenuView(this);
@@ -24,13 +31,18 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (TOP_DISTANCE_PLAY * Constants.UI.Game.SCALE), 0,
+        buttons[0] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2,
+                (int) (TOP_DISTANCE_PLAY * Constants.UI.Game.SCALE), 0,
                 Gamestate.PLAY);
-        buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2, (int) (TOP_DISTANCE_QUIT * Constants.UI.Game.SCALE), 1,
+        buttons[1] = new MenuButtonImpl(Constants.UI.Game.G_WIDTH / 2,
+                (int) (TOP_DISTANCE_QUIT * Constants.UI.Game.SCALE), 1,
                 Gamestate.QUIT);
 
     }
 
+    /**
+     * @return button menu pressed
+     */
     public final MenuButtonImpl[] getButtons() {
         return buttons;
     }

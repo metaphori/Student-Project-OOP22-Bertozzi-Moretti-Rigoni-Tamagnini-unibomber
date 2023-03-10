@@ -6,6 +6,9 @@ import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * This interface represent all entity and input in game.
+ */
 public interface Game {
 
     /**
