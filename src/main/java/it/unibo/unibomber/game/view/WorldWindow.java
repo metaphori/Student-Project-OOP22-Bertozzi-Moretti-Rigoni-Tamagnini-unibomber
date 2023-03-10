@@ -15,6 +15,7 @@ public class WorldWindow {
    */
   public WorldWindow(final WorldPanelImpl unibomberPanel) {
     jframe = new JFrame();
+    jframe.setSize(400,400);
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jframe.add(unibomberPanel);
     jframe.setLocationRelativeTo(null);
