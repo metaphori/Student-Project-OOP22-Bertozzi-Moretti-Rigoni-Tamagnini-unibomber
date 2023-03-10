@@ -21,7 +21,8 @@ import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
- * This class implements the interface that manages the creation of different entities.
+ * This class implements the interface that manages the creation of different
+ * entities.
  */
 public class EntityFactoryImpl implements EntityFactory {
 
@@ -29,7 +30,8 @@ public class EntityFactoryImpl implements EntityFactory {
 
     /**
      * This method takes the game for create entity.
-     * @param game 
+     * 
+     * @param game
      */
     public EntityFactoryImpl(final Game game) {
         this.game = game;
@@ -67,7 +69,10 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final Entity makeBomb(final Entity placer) {
-        return new EntityImpl(game, placer.getPosition(), Type.BOMB)
+        Pair<Float,Float> normalizedPosition= new Pair<Float,Float>(
+                                 (float)Math.round(placer.getPosition().getX()),
+                                 (float)Math.round(placer.getPosition().getY()));
+        return new EntityImpl(game, normalizedPosition, Type.BOMB)
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(true))
                 .addComponent(new ExplodeComponent())
