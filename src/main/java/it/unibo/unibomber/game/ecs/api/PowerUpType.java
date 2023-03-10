@@ -6,16 +6,46 @@ import it.unibo.unibomber.utilities.Constants;
 
 import java.util.List;
 
+/**
+ * This enum represent all powerUp types, complex and not.
+ */
 public enum PowerUpType {
 
+    /**
+     * Increase bomb number.
+     */
     BOMBUP(false),
+    /**
+     * Decrease bomb number.
+     */
     BOMBDOWN(false),
+    /**
+     * Increase bomb fire.
+     */
     FIREUP(false),
+    /**
+     * Decrease bomb fire.
+     */
     FIREDOWN(false),
+    /**
+     * Set bomb fire max.
+     */
     FIREFULL(false),
+    /**
+     * Increase speed.
+     */
     SPEEDUP(false),
+    /**
+     * Decrease speed.
+     */
     SPEEDDOWN(false),
+    /**
+     * Player can kick bomb.
+     */
     KICKBOMB(true),
+    /**
+     * Player can throw bomb.
+     */
     THROWBOMB(true);
 
     private boolean isComplex;
