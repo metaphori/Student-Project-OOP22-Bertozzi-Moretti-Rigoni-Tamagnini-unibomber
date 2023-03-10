@@ -34,6 +34,7 @@ public class WallTest {
         assertTrue(powerUpListComponent.isPresent());
         assertFalse(powerUpListComponent.get().getPowerUpList().isEmpty());
         assertEquals(NUM_POWERUPS_WALL, powerUpListComponent.get().getPowerUpList().size());
+        assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
     }
