@@ -14,6 +14,7 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 public class PowerUpListComponent extends AbstractComponent {
 
     private int bombNumber;
+    private int bombPlaced;
     private int bombFire;
     private List<PowerUpType> powerUpList = new ArrayList<>();
 
@@ -26,6 +27,7 @@ public class PowerUpListComponent extends AbstractComponent {
      */
     public PowerUpListComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
         this.bombNumber = bombNumber;
+        this.bombPlaced = 0;
         this.bombFire = bombFire;
         this.powerUpList = powerUpList;
     }
@@ -65,6 +67,22 @@ public class PowerUpListComponent extends AbstractComponent {
      */
     public void setBombNumer(final int bombNumber) {
         this.bombNumber = bombNumber;
+    }
+
+    /**
+     * @return actual bomb placed of player
+     */
+    public int getBombPlaced() {
+        return this.bombPlaced;
+    }
+
+    /**
+     * set bombPlaced of player.
+     * 
+     * @param bombPlaced
+     */
+    public void setBombPlaced(final int bombPlaced) {
+        this.bombPlaced = bombPlaced;
     }
 
     /**

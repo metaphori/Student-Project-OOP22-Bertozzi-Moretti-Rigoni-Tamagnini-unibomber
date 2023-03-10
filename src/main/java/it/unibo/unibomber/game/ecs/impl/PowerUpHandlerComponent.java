@@ -19,6 +19,13 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
     }
 
     /**
+     * @return remaining bomb of player
+     */
+    public final int getRemainingBomb() {
+        return this.getBombNumber() - getBombPlaced();
+    }
+
+    /**
      * @param powerUpType that modify powerup parameter of player
      */
     public void addPowerUp(final PowerUpType powerUpType) {

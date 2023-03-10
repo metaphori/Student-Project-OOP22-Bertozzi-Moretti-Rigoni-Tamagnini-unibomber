@@ -11,6 +11,9 @@ public class BombPlaceComponent extends AbstractComponent {
     public final void update() {
         if (this.bombPlaced) {
             this.getEntity().getGame().addEntity(this.getEntity().getGame().getFactory().makeBomb(this.getEntity()));
+            this.getEntity().getComponent(PowerUpHandlerComponent.class)
+                    .get().setBombPlaced(
+                            this.getEntity().getComponent(PowerUpHandlerComponent.class).get().getBombPlaced() + 1);
             this.bombPlaced = false;
         }
     }
