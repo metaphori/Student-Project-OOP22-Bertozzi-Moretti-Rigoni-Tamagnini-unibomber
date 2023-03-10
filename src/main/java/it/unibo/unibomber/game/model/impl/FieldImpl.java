@@ -40,12 +40,12 @@ public class FieldImpl implements Field {
     public final void updateField() {
         int row;
         int col;
-        var fieldentities = this.game.getEntities().stream()
+        final var fieldentities = this.game.getEntities().stream()
                 .filter(e -> e.getType() != Type.BOT 
                         && e.getType() != Type.PLAYABLE)
                 .collect(Collectors.toList());
         this.field.clear();
-        for (var entity : fieldentities) {
+        for (final var entity : fieldentities) {
             if (entity.getType() == Type.BOMB 
                 && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT 
                     || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {

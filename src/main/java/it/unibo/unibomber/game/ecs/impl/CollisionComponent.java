@@ -21,7 +21,12 @@ public class CollisionComponent extends AbstractComponent {
      public CollisionComponent(final boolean isSolid) {
           this.isSolid = isSolid;
      }
-
+     /**
+      * @return true if is solid.
+      */
+     public boolean isSolid() {
+          return isSolid;
+     }
      /**
       * This method check if entity collide with other one.
       */

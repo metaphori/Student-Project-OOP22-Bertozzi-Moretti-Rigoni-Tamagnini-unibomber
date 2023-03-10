@@ -13,12 +13,12 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class GameImpl implements Game {
 
-    private List<Entity> entities = new ArrayList<>();
-    private List<Integer> keysPressedQueue = new ArrayList<>();
-    private Field gameField = new FieldImpl(this);
+    private final List<Entity> entities = new ArrayList<>();
+    private final List<Integer> keysPressedQueue = new ArrayList<>();
+    private final Field gameField = new FieldImpl(this);
     private int columns;
     private int rows;
-    private World world;
+    private final World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 
     /**

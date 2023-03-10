@@ -6,7 +6,7 @@ import javax.swing.JFrame;
  * Word Window class.
  */
 public class WorldWindow {
-  private JFrame jframe;
+  private final JFrame jframe;
 
   /**
    * Set default window settings.

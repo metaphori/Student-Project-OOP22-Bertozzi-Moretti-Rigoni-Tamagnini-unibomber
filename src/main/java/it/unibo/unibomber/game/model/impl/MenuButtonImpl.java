@@ -13,12 +13,13 @@ import it.unibo.unibomber.utilities.UploadRes;
  * Menu Button settings implementation class.
  */
 public class MenuButtonImpl implements MenuButton, GameLoop {
- private int x, y, rowIndex, index;
- private int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
- private Gamestate gameState;
+ private int index;
+ private final int x, y, rowIndex;
+ private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
+ private final Gamestate gameState;
  private BufferedImage[] bufferImages;
  private boolean mouseOver, mousePressed;
- private Rectangle bounds;
+ private final Rectangle bounds;
 
  /**
   * @param x
@@ -37,7 +38,7 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
 
  private void loadbufferImages() {
   bufferImages = new BufferedImage[3];
-  BufferedImage temp = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BUTTONS);
+  final BufferedImage temp = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BUTTONS);
   for (int i = 0; i < bufferImages.length; i++) {
    bufferImages[i] = temp.getSubimage(i * Constants.UI.Buttons.WIDTH_DEFAULT,
      rowIndex * Constants.UI.Buttons.HEIGHT_DEFAULT, Constants.UI.Buttons.WIDTH_DEFAULT,

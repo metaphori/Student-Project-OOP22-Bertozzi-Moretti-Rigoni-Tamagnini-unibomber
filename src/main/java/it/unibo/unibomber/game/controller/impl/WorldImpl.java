@@ -15,7 +15,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.NANO_S;
  */
 public class WorldImpl implements World, Runnable, GameLoop {
 
-  private WorldPanelImpl unibomberPanel;
+  private final WorldPanelImpl unibomberPanel;
   private Menu menu;
   private Play play;
   private Thread gThread;
@@ -70,11 +70,11 @@ public class WorldImpl implements World, Runnable, GameLoop {
         break;
     }
   }
-
+  @SuppressWarnings("PMD")
   @Override
   public final void run() {
-    double timePerFrame = NANO_S / Constants.UI.GameLoop.FPS_SET;
-    double timePerUpdate = NANO_S / Constants.UI.GameLoop.UPS_SET;
+    final double timePerFrame = NANO_S / Constants.UI.GameLoop.FPS_SET;
+    final double timePerUpdate = NANO_S / Constants.UI.GameLoop.UPS_SET;
 
     long previousTime = System.nanoTime();
 
@@ -86,7 +86,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
     double deltaF = 0;
 
     while (true) {
-      long currentTime = System.nanoTime();
+      final long currentTime = System.nanoTime();
 
       deltaU += (currentTime - previousTime) / timePerUpdate;
       deltaF += (currentTime - previousTime) / timePerFrame;

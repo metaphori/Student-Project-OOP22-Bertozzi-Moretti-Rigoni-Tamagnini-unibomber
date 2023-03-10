@@ -10,7 +10,7 @@ import it.unibo.unibomber.game.view.WorldPanelImpl;
  * KeyboardInputsImpl class.
  */
 public final class KeyboardInputsImpl implements KeyListener {
- private WorldPanelImpl worldPanel;
+ private final WorldPanelImpl worldPanel;
 
  /**
   * KeyboardInputsImpl constructor.

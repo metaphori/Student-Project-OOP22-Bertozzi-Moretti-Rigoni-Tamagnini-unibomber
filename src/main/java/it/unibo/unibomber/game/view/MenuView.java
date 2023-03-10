@@ -13,7 +13,7 @@ import it.unibo.unibomber.utilities.Constants;
  */
 public final class MenuView implements GameLoop {
 
-    private Menu controller;
+    private final Menu controller;
     private BufferedImage backgroundImage;
     private int menuWidth, menuHeight;
 
@@ -27,7 +27,7 @@ public final class MenuView implements GameLoop {
 
     @Override
     public void update() {
-        for (MenuButtonImpl mb : controller.getButtons()) {
+        for (final MenuButtonImpl mb : controller.getButtons()) {
             mb.update();
         }
     }
@@ -42,7 +42,7 @@ public final class MenuView implements GameLoop {
     public void draw(final Graphics g) {
         g.drawImage(backgroundImage, 0, 0, menuWidth, menuHeight, null);
 
-        for (MenuButtonImpl mb : controller.getButtons()) {
+        for (final MenuButtonImpl mb : controller.getButtons()) {
             mb.draw(g);
         }
     }

@@ -152,7 +152,7 @@ public class Constants {
     /**
      * Player animation constans.
      */
-    public static class Player {
+    public static final class Player {
         /**
          * STANDING animation.
          */
@@ -257,7 +257,8 @@ public class Constants {
          * DANCING number of animations.
          */
         public static final int DANCING_ANIMATION = 8;
-
+        private Player() {
+        }
         /**
          * @param playerAction
          * @return the number of animation of that action

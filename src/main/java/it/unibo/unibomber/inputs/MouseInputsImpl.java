@@ -11,7 +11,7 @@ import it.unibo.unibomber.game.view.WorldPanelImpl;
  */
 public final class MouseInputsImpl implements MouseListener {
 
- private WorldPanelImpl worldPanel;
+ private final WorldPanelImpl worldPanel;
 
  /**
   * MouseInputsImpl constructor.

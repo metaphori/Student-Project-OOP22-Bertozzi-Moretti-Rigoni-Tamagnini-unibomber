@@ -16,6 +16,8 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPOWERU
 import static it.unibo.unibomber.utilities.Constants.Player.STANDING;
 import static it.unibo.unibomber.utilities.Constants.Player.WALKING;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
+import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_DEFAULT;
+import static it.unibo.unibomber.utilities.Constants.UI.Game.SCALE;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.COL_PLAYER_SPRITES;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.ROW_PLAYER_SPRITES;
 
@@ -24,11 +26,11 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.ROW_PLAYER_SP
  */
 public final class PlayView implements GameLoop {
 
-    private Play controller;
+    private final Play controller;
     private Integer animationIndex;
     private BufferedImage[][] animations;
     private Integer playerAction = STANDING;
-    private static Integer indexDir;
+    private Integer indexDir;
 
     /**
      * 
@@ -77,8 +79,8 @@ public final class PlayView implements GameLoop {
      */
     public void changePlayerAction(final Integer action) {
         if (action == STANDING) {
-            Integer animation = (animationIndex % Constants.Player.getSpriteAmount(playerAction)) + indexDir;
-            Integer basicDir = (int) (animation / Constants.Player.getSpriteAmount(playerAction));
+            final Integer animation = animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir;
+            final Integer basicDir = (int) (animation / Constants.Player.getSpriteAmount(playerAction));
             indexDir = basicDir * Constants.Player.getSpriteAmount(action);
         }
         playerAction = action;
@@ -114,13 +116,13 @@ public final class PlayView implements GameLoop {
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                                .getX() * TILES_DEFAULT * SCALE),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
-                        (int) (Constants.UI.Game.TILES_SIZE),
-                        (int) (Constants.UI.Game.TILES_SIZE),
+                                .getY() * TILES_DEFAULT * SCALE),
+                        (int) (TILES_SIZE),
+                        (int) (TILES_SIZE),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.POWERUP) {
                 g.drawImage(UploadRes.getSpriteAtlas(SPRITESPOWERUPPATH.get(controller
@@ -131,17 +133,17 @@ public final class PlayView implements GameLoop {
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                                .getX() * TILES_DEFAULT * SCALE),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
-                        (int) (Constants.UI.Game.TILES_DEFAULT),
-                        (int) (Constants.UI.Game.TILES_DEFAULT),
+                                .getY() * TILES_DEFAULT * SCALE),
+                        (int) (TILES_DEFAULT),
+                        (int) (TILES_DEFAULT),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.PLAYABLE) {
                 changePlayerAction(WALKING);
-                var movementComponent = controller.getEntities().get(i).getComponent(MovementComponent.class).get();
+                final var movementComponent = controller.getEntities().get(i).getComponent(MovementComponent.class).get();
                 switch (movementComponent.getDirection()) {
                     case DOWN:
                         indexDir = 0;
@@ -155,27 +157,27 @@ public final class PlayView implements GameLoop {
                     case UP:
                         indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
                         break;
-                    default:
                     case CENTER:
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
+                        break;
+                    default:
                         break;
                 }
                 if (!movementComponent.hasMoved()) {
                     changePlayerAction(STANDING);
                 }
                 g.drawImage(
-                        (animations[playerAction][(animationIndex % Constants.Player.getSpriteAmount(playerAction))
-                                + indexDir]),
+                        animations[playerAction][animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir],
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getX() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
+                                .getX() * TILES_DEFAULT * SCALE),
                         Math.round(controller.getEntities()
                                 .get(i)
                                 .getPosition()
-                                .getY() * Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
-                        (int) (Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE + 0.5f)),
-                        (int) (Constants.UI.Game.TILES_DEFAULT * (Constants.UI.Game.SCALE + 0.5f)),
+                                .getY() * TILES_DEFAULT * SCALE),
+                        (int) (TILES_DEFAULT * (SCALE + 0.5f)),
+                        (int) (TILES_DEFAULT * (SCALE + 0.5f)),
                         null);
             }
         }

@@ -21,8 +21,8 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPATH;
  * WordPanel implement class.
  */
 public final class WorldPanelImpl extends JPanel {
-  private WorldImpl world;
-
+  private final WorldImpl world;
+  private final BufferedImage tile;
   /**
    * WordPanelImpl constructor.
    * 
@@ -30,6 +30,7 @@ public final class WorldPanelImpl extends JPanel {
    */
   public WorldPanelImpl(final WorldImpl world) {
     this.world = world;
+    this.tile = UploadRes.getSpriteAtlas(SPRITESPATH.get(Type.EMPTY_AREA));
     setSize();
     addKeyListener(new KeyboardInputsImpl(this));
     addMouseListener(new MouseInputsImpl(this));
@@ -39,13 +40,10 @@ public final class WorldPanelImpl extends JPanel {
     setPreferredSize(new Dimension(G_WIDTH, G_HEIGHT));
   }
 
-  private BufferedImage tile;
-
   @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
-    tile = UploadRes.getSpriteAtlas(SPRITESPATH.get(Type.EMPTY_AREA));
-    Graphics2D g2d = (Graphics2D) g.create();
+    final Graphics2D g2d = (Graphics2D) g.create();
     for (int y = 0; y < G_HEIGHT; y += TILES_SIZE) {
       for (int x = 0; x < G_WIDTH; x += TILES_SIZE) {
         g2d.drawImage(tile, x, y,
