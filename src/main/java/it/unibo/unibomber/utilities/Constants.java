@@ -205,34 +205,89 @@ public class Constants {
          * DANCING animation.
          */
         public static final int DANCING = 12;
+        /**
+         * STANDING number of animations.
+         */
+        public static final int STANDING_ANIMATION = 3;
+        /**
+         * WALKING number of animations.
+         */
+        public static final int WALKING_ANIMATION = 6;
+        /**
+         * POWER_GLOVE number of animations.
+         */
+        public static final int POWER_GLOVE_ANIMATION = 6;
+        /**
+         * THROWING number of animations.
+         */
+        public static final int THROWING_ANIMATION = 5;
+        /**
+         * PUNCH number of animations.
+         */
+        public static final int PUNCH_ANIMATION = 3;
+        /**
+         * SHIELD number of animations.
+         */
+        public static final int SHIELD_ANIMATION = 2;
+        /**
+         * STUN number of animations.
+         */
+        public static final int STUN_ANIMATION = 8;
+        /**
+         * VICTORY number of animations.
+         */
+        public static final int VICTORY_ANIMATION = 6;
+        /**
+         * DEFEAT number of animations.
+         */
+        public static final int DEFEAT_ANIMATION = 14;
+        /**
+         * IDLE number of animations.
+         */
+        public static final int IDLE_ANIMATION = 9;
+        /**
+         * JUMPUP_DOWN number of animations.
+         */
+        public static final int JUMPUP_DOWN_ANIMATION = 9;
+        /**
+         * CRYING number of animations.
+         */
+        public static final int CRYING_ANIMATION = 4;
+        /**
+         * DANCING number of animations.
+         */
+        public static final int DANCING_ANIMATION = 8;
 
         /**
          * @param playerAction
          * @return the number of animation of that action
          */
-        public static int getSpriteAmount(final int playerAction) {
+        public static Integer getSpriteAmount(final int playerAction) {
             switch (playerAction) {
                 case STANDING:
+                    return STANDING_ANIMATION;
                 case PUNCH:
-                    return 3;
+                    return PUNCH_ANIMATION;
                 case WALKING:
+                    return WALKING_ANIMATION;
                 case POWER_GLOVE:
+                    return POWER_GLOVE_ANIMATION;
                 case VICTORY:
-                    return 6;
+                    return VICTORY_ANIMATION;
                 case THROWING:
-                    return 5;
+                    return THROWING_ANIMATION;
                 case CRYING:
-                    return 4;
+                    return CRYING_ANIMATION;
                 case SHIELD:
-                    return 2;
+                    return SHIELD_ANIMATION;
                 case STUN:
-                    return 8;
+                    return STUN_ANIMATION;
                 case DEFEAT:
-                    return 14;
+                    return DEFEAT_ANIMATION;
                 case JUMPUP_DOWN:
-                    return 9;
+                    return JUMPUP_DOWN_ANIMATION;
                 case DANCING:
-                    return 8;
+                    return DANCING_ANIMATION;
                 default:
                     return 1;
             }
