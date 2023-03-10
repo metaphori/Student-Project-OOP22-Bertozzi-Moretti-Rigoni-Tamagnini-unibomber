@@ -7,10 +7,10 @@ import it.unibo.unibomber.utilities.Pair;
 
 public class MovementComponent extends AbstractComponent {
 
-    private final int FRAME_DELAY=10;
+    private final int FRAME_DELAY = 10;
 
     private static float globalSpeedMultiplier = 1;
-    private boolean hasMoved=false;
+    private boolean hasMoved = false;
     private Pair<Float, Float> moveBy;
     private Direction direction = Direction.DOWN;
     private int framesInDirection = 0;
@@ -61,8 +61,10 @@ public class MovementComponent extends AbstractComponent {
     public final void moveBy(final Pair<Float, Float> moveBy) {
         this.moveBy = new Pair<>(moveBy.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
                 moveBy.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
-                if(moveBy.equals(new Pair<Float,Float>(0f,0f)))hasMoved=false;
-                else hasMoved=true;
+        if (moveBy.equals(new Pair<Float, Float>(0f, 0f)))
+            hasMoved = false;
+        else
+            hasMoved = true;
     }
 
     /**
@@ -78,10 +80,11 @@ public class MovementComponent extends AbstractComponent {
     public final int getFrameInDirection() {
         return this.framesInDirection;
     }
+
     /*
-    * @return the number of frames spent in one direction
-    * keeping in mind the FRAME_DELAY
-    */
+     * @return the number of frames spent in one direction
+     * keeping in mind the FRAME_DELAY
+     */
     public final int getPassedFrames() {
         return this.passedFrame;
     }
@@ -92,11 +95,11 @@ public class MovementComponent extends AbstractComponent {
     public static void setGlobalSpeedMultiplier(final float speed) {
         globalSpeedMultiplier = speed;
     }
-    
+
     /**
      * @return whether the entity has moved in the last game frame
      */
-    public boolean hasMoved(){
+    public boolean hasMoved() {
         return this.hasMoved;
     }
 }
