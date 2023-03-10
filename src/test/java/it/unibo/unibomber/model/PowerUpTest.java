@@ -17,6 +17,8 @@ class PowerUpTest {
     private static final int BOMB_NUMBER_POWERUP = 1;
     private static final int BOMB_FIRE_BASE = 1;
     private static final int BOMB_FIRE_POWERUP = 1;
+    private static final float SPEED_BASE = 1;
+    private static final float SPEED_POWERUP = 0.40f;
 
     private Entity createPlayerEntity() {
         return new EntityImpl(null, null, Type.PLAYABLE)
@@ -37,6 +39,13 @@ class PowerUpTest {
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.FIREUP);
         assertEquals(BOMB_FIRE_BASE + BOMB_FIRE_POWERUP,
                 player.getComponent(PowerUpHandlerComponent.class).get().getBombFire());
+    }
+
+    @Test
+    void testSpeedUpPowerUp() {
+        Entity player = this.createPlayerEntity();
+        player.addSpeed(PowerUpType.SPEEDUP);
+        assertEquals(SPEED_BASE + SPEED_POWERUP, player.getSpeed());
     }
 
 }
