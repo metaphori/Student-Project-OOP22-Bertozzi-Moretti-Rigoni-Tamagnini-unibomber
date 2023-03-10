@@ -1,7 +1,5 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-import java.util.Optional;
-
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
@@ -16,11 +14,11 @@ import static it.unibo.unibomber.utilities.Constants.Entity.SPEED_CHANGE;
 public class MovementComponent extends AbstractComponent {
 
     private static float globalSpeedMultiplier = SPEED_CHANGE;
-    private boolean hasMoved = false;
-    private Pair<Float, Float> moveBy = new Pair<Float, Float>(0f, 0f);;
+    private boolean hasMoved;
+    private Pair<Float, Float> moveBy = new Pair<>(0f, 0f);
     private Direction direction = Direction.DOWN;
-    private int framesInDirection = 0;
-    private int passedFrame = 0;
+    private int framesInDirection;
+    private int passedFrame;
 
     @Override
     public final void update() {
@@ -34,7 +32,7 @@ public class MovementComponent extends AbstractComponent {
      * in that direction for the animation's sake.
      */
     private void handleDirection() {
-        Direction newDirection = Direction.extractDirecion(moveBy).orElse(direction);
+        final Direction newDirection = Direction.extractDirecion(moveBy).orElse(direction);
         if (this.direction == newDirection) {
             this.framesInDirection++;
         } else {
@@ -50,12 +48,14 @@ public class MovementComponent extends AbstractComponent {
     /**
      * Handles the collisions by calling the relative component.
      */
+    /* TODO
     private void checkCollisions() {
-        Optional<CollisionComponent> collisionComp = this.getEntity().getComponent(CollisionComponent.class);
+        final Optional<CollisionComponent> collisionComp = this.getEntity().getComponent(CollisionComponent.class);
         if (collisionComp.isPresent()) {
             collisionComp.get().checkCollisions();
         }
     }
+    */
 
     /**
      * @param moveBy the coordinates to move by

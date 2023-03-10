@@ -12,9 +12,8 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public final class DestroyComponent extends AbstractComponent {
 
-    private final float droppedPowerUpsPercent = 0.25f;
-    private boolean isDestroyed = false;
-    private int destroyFrames = 0;
+    private boolean isDestroyed;
+    private int destroyFrames;
 
     @Override
     public void update() {
@@ -42,13 +41,13 @@ public final class DestroyComponent extends AbstractComponent {
      * otherwise it will drop all powerups of the entity player/bot
      */
     private void dropPowerUps() {
-        var entity = this.getEntity();
-        var powerUpComponent = entity.getComponent(PowerUpListComponent.class);
+        final var entity = this.getEntity();
+        final var powerUpComponent = entity.getComponent(PowerUpListComponent.class);
         List<PowerUpType> powerUps;
         int droppedPowerUps;
         if (powerUpComponent.isPresent()) {
             powerUps = powerUpComponent.get().getPowerUpList();
-            droppedPowerUps = (int) Math.ceil(powerUps.size() * this.droppedPowerUpsPercent);
+            droppedPowerUps = (int) Math.ceil(powerUps.size() * Constants.Destroy.DROPPED_POWERUP_PERCENT);
             entity.getGame()
                     .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
             dropRemaining(powerUps, droppedPowerUps);
@@ -64,11 +63,11 @@ public final class DestroyComponent extends AbstractComponent {
     private void dropRemaining(final List<PowerUpType> powerUps, final int droppedPowerUps) {
         Pair<Integer, Integer> gameDimensions;
         Pair<Float, Float> newRandomPos;
-        var game = this.getEntity().getGame();
+        final var game = this.getEntity().getGame();
         while (powerUps.size() > droppedPowerUps) {
             powerUps.remove((int) (Math.random() * powerUps.size()));
         }
-        for (var powerUp : powerUps) {
+        for (final var powerUp : powerUps) {
             gameDimensions = game.getDimensions();
             newRandomPos = getRandomPos(gameDimensions);
             game.addEntity(game.getFactory().makePowerUp(newRandomPos, powerUp));
@@ -85,7 +84,7 @@ public final class DestroyComponent extends AbstractComponent {
         final Random rnd = new Random();
         Pair<Float, Float> rndPos;
         do {
-            rndPos = new Pair<Float, Float>((float) rnd.nextInt(gameDimensions.getX()),
+            rndPos = new Pair<>((float) rnd.nextInt(gameDimensions.getX()),
                     (float) rnd.nextInt(gameDimensions.getY()));
         } while (this.getEntity().getGame().getGameField().getField().containsKey(rndPos));
         return rndPos;

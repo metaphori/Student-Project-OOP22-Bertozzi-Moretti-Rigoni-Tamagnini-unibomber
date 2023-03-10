@@ -7,7 +7,7 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
  */
 public class PowerUpComponent extends AbstractComponent {
 
-    private PowerUpType powerUpType;
+    private final PowerUpType powerUpType;
 
     /**
      * This method set the type of powerUp.

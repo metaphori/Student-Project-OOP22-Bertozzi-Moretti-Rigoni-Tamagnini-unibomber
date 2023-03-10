@@ -17,8 +17,8 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class ExplodeComponent extends AbstractComponent {
 
-    private int explodeFrames = 0;
-    private boolean isExploding = false;
+    private int explodeFrames;
+    private boolean isExploding;
 
     @Override
     public final void update() {
@@ -53,13 +53,13 @@ public class ExplodeComponent extends AbstractComponent {
     * @param entitiesList the entities to control
     */
     private void explodeEntities(final List<Entity> entitiesList) {
-        int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
-        var field = this.getEntity().getGame().getGameField().getField();
+        final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
+        final var field = this.getEntity().getGame().getGameField().getField();
         entitiesList.stream()
             .forEach(entity -> {
                 Arrays.stream(Direction.values()).forEach(dir -> {
                     IntStream.rangeClosed(1, bombRange).mapToObj(countPositions -> {
-                        Pair<Float, Float> checkPos = new Pair<>(
+                        final Pair<Float, Float> checkPos = new Pair<>(
                             entity.getPosition().getX() + dir.getX() * countPositions,
                             entity.getPosition().getY() + dir.getY() * countPositions
                         );

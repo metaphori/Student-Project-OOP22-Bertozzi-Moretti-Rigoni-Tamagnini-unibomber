@@ -1,6 +1,5 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingFormatArgumentException;
 import java.util.Optional;
@@ -16,7 +15,7 @@ public class PowerUpListComponent extends AbstractComponent {
     private int bombNumber;
     private int bombPlaced;
     private int bombFire;
-    private List<PowerUpType> powerUpList = new ArrayList<>();
+    private final List<PowerUpType> powerUpList;
 
     /**
      * This method sets all bomber's powerups.
@@ -38,7 +37,7 @@ public class PowerUpListComponent extends AbstractComponent {
      * @param giver
      */
     public PowerUpListComponent(final Entity giver) {
-        Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
+        final Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
         if (giversList.isPresent()) {
             this.bombNumber = giversList.get().getBombNumber();
             this.bombFire = giversList.get().getBombFire();

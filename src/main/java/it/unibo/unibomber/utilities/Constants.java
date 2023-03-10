@@ -86,7 +86,7 @@ public class Constants {
             /**
              * one nano second.
              */
-            public static final double NANO_S = 1000000000.0;
+            public static final double NANO_S = 1_000_000_000.0;
             /**
              * fps setting.
              */
@@ -350,6 +350,11 @@ public class Constants {
          * Destroy duration.
          */
         public static final int DESTROYDURATION = 4;
+
+        /**
+         * Percentage of powerup drop.
+         */
+        public static final float DROPPED_POWERUP_PERCENT = 0.25f;
     }
 
     /**

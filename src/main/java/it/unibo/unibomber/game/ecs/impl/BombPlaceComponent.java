@@ -11,17 +11,17 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class BombPlaceComponent extends AbstractComponent {
 
-    private boolean bombPlaced = false;
+    private boolean bombPlaced;
 
     @Override
     public final void update() {
-        Entity thisEntity = this.getEntity();
+        final Entity thisEntity = this.getEntity();
         if (this.bombPlaced) {
-            Pair<Float, Float> normalizedPosition = new Pair<Float, Float>(
+            final Pair<Float, Float> normalizedPosition = new Pair<>(
                     (float) Math.round(thisEntity.getPosition().getX()),
                     (float) Math.round(thisEntity.getPosition().getY()));
 
-            Optional<Entity> bombSamePlace = thisEntity.getGame().getEntities().stream()
+            final Optional<Entity> bombSamePlace = thisEntity.getGame().getEntities().stream()
                     .filter(e -> e.getType().equals(Type.BOMB))
                     .filter(e -> e.getPosition().equals(normalizedPosition))
                     .findFirst();

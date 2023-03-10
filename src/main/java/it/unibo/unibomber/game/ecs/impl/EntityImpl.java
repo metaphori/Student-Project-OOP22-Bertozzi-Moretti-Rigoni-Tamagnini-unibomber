@@ -19,7 +19,7 @@ public class EntityImpl implements Entity {
 
     private final Type type;
     private final Set<Component> components = new HashSet<>();
-    private Game game;
+    private final Game game;
     private Pair<Float, Float> position;
     private float speed = 1;
 

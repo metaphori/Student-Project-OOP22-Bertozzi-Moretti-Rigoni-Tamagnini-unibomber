@@ -6,7 +6,7 @@ package it.unibo.unibomber.game.ecs.impl;
 public class CollisionComponent extends AbstractComponent {
      // TODO
      // true if it blocks other entities
-     private boolean isSolid;
+     private final boolean isSolid;
 
      @Override
      public void update() {

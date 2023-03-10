@@ -14,10 +14,10 @@ public class InputComponent extends AbstractComponent {
      @Override
      public final void update() {
 
-          Optional<Integer> moveKey = getMoveKey();
+          final Optional<Integer> moveKey = getMoveKey();
           // TODO change to getFunctionalKeys when needed
-          Optional<Integer> spazio = getSpaceKey();
-          Pair<Float, Float> moveBy = calculateMovement(moveKey);
+          final Optional<Integer> spazio = getSpaceKey();
+          final Pair<Float, Float> moveBy = calculateMovement(moveKey);
 
           if (spazio.isPresent()) {
                this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
@@ -30,10 +30,10 @@ public class InputComponent extends AbstractComponent {
       *               updates the movementComponent relative to this player
       */
      private void updateMovement(final Pair<Float, Float> moveBy) {
-          var movementComponent = this.getEntity().getComponent(MovementComponent.class);
+          final var movementComponent = this.getEntity().getComponent(MovementComponent.class);
 
           if (movementComponent.isPresent()) {
-               MovementComponent move = movementComponent.get();
+               final MovementComponent move = movementComponent.get();
                move.moveBy(moveBy);
           }
      }
@@ -43,7 +43,7 @@ public class InputComponent extends AbstractComponent {
       * @return how much the player should move given moveKey
       */
      private Pair<Float, Float> calculateMovement(final Optional<Integer> moveKey) {
-          Integer keyValue = moveKey.isPresent() ? moveKey.get() : Constants.Input.NO_KEYS_VALUE;
+          final Integer keyValue = moveKey.isPresent() ? moveKey.get() : Constants.Input.NO_KEYS_VALUE;
           switch (keyValue) {
                case KeyEvent.VK_W:
                     return new Pair<Float, Float>(0f, Constants.Input.NEGATIVE_MOVE);
@@ -61,7 +61,7 @@ public class InputComponent extends AbstractComponent {
      }
 
      private Optional<Integer> getSpaceKey() {
-          var keyPressed = this.getEntity().getGame().getWorld().getPlay().getKeys();
+          final var keyPressed = this.getEntity().getGame().getWorld().getPlay().getKeys();
 
           return keyPressed.stream()
                     .filter(e -> e == (int) KeyEvent.VK_SPACE)
@@ -72,7 +72,7 @@ public class InputComponent extends AbstractComponent {
       * @return the last key (relative to the 4 movement keys) the player pressed
       */
      private Optional<Integer> getMoveKey() {
-          var keyPressed = this.getEntity().getGame().getWorld().getPlay().getKeys();
+          final var keyPressed = this.getEntity().getGame().getWorld().getPlay().getKeys();
 
           return keyPressed.stream()
                     .filter(e -> e == (int) KeyEvent.VK_W
