@@ -8,6 +8,7 @@ import it.unibo.unibomber.utilities.Pair;
 public class MovementComponent extends AbstractComponent {
 
     private static float globalSpeedMultiplier = 1;
+    private boolean hasMoved=false;
     private Pair<Float, Float> moveBy;
     private Direction direction = Direction.DOWN;
     private int framesInDirection = 0;
@@ -21,11 +22,12 @@ public class MovementComponent extends AbstractComponent {
     public final void update() {
         this.getEntity().addPosition(moveBy);
         handleDirection();
+        System.out.println(hasMoved);
         // checkCollisions();
     }
 
     private void handleDirection() {
-        Direction newDirection = Direction.extractDirecion(moveBy);
+        Direction newDirection = Direction.extractDirecion(moveBy).orElse(direction);
         if (this.direction == newDirection) {
             this.framesInDirection++;
         } else {
@@ -48,6 +50,8 @@ public class MovementComponent extends AbstractComponent {
     public final void moveBy(final Pair<Float, Float> moveBy) {
         this.moveBy = new Pair<>(moveBy.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
                 moveBy.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
+                if(moveBy.equals(new Pair<Float,Float>(0f,0f)))hasMoved=false;
+                else hasMoved=true;
     }
 
     public final Direction getDirection() {
@@ -64,5 +68,8 @@ public class MovementComponent extends AbstractComponent {
 
     public static void setGlobalSpeedMultiplier(final float speed) {
         globalSpeedMultiplier = speed;
+    }
+    public boolean hasMoved(){
+        return this.hasMoved;
     }
 }

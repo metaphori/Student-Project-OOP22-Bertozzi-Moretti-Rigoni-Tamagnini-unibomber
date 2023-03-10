@@ -140,8 +140,9 @@ public final class PlayView implements GameLoop {
                         (int) (Constants.UI.Game.TILES_DEFAULT * Constants.UI.Game.SCALE),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.PLAYABLE) {
-                playerAction = (WALKING);
-                switch (controller.getEntities().get(i).getComponent(MovementComponent.class).get().getDirection()) {
+                changePlayerAction(WALKING);
+                var movementComponent = controller.getEntities().get(i).getComponent(MovementComponent.class).get();
+                switch (movementComponent.getDirection()) {
                     case DOWN:
                         indexDir = 0;
                         break;
@@ -157,9 +158,10 @@ public final class PlayView implements GameLoop {
                     default:
                     case CENTER:
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
-                        playerAction = STANDING;
                         break;
                 }
+                if(!movementComponent.hasMoved())
+                changePlayerAction(STANDING);
                 g.drawImage(
                         (animations[playerAction][(animationIndex % Constants.Player.getSpriteAmount(playerAction))
                                 + indexDir]),

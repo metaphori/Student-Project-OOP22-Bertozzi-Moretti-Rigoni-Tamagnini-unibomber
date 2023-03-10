@@ -1,4 +1,7 @@
 package it.unibo.unibomber.utilities;
+
+import java.util.Optional;
+
 /**
  * Direction enum.
  */
@@ -54,17 +57,17 @@ public enum Direction {
      * @param movement
      * @return direction based on movement.
      */
-    public static Direction extractDirecion(final Pair<Float, Float> movement) {
+    public static Optional<Direction> extractDirecion(final Pair<Float, Float> movement) {
         if (movement.getX() > 0 && movement.getY() == 0) {
-            return RIGHT;
+            return Optional.of(RIGHT);
         } else if (movement.getX() < 0 && movement.getY() == 0) {
-            return LEFT;
+            return Optional.of(LEFT);
         } else if (movement.getX() == 0 && movement.getY() < 0) {
-            return UP;
+            return Optional.of(UP);
         } else if (movement.getX() == 0 && movement.getY() > 0) {
-            return DOWN;
+            return Optional.of(DOWN);
         }
-        return CENTER;
+        return Optional.empty();
     }
 
 }
