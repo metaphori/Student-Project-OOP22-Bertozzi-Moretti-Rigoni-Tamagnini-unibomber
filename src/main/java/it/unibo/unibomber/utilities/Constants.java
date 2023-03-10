@@ -296,4 +296,14 @@ public class Constants {
          */
         public static final int DESTROYDURATION = 4;
     }
+
+    /**
+     * Movements constans.
+     */
+    public static class Movement {
+        /**
+         * Number of frames between one animation and the other.
+         */
+        public static final int FRAME_DELAY = 10;
+    }
 }
