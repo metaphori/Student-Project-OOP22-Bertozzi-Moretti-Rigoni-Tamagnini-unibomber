@@ -2,14 +2,13 @@ package it.unibo.unibomber.model;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
-import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.EntityImpl;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
+import it.unibo.unibomber.game.model.api.EntityFactory;
+import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class PowerUpTest {
 
@@ -19,10 +18,10 @@ class PowerUpTest {
     private static final int BOMB_FIRE_POWERUP = 1;
     private static final float SPEED_BASE = 1;
     private static final float SPEED_POWERUP = 0.40f;
+    private final EntityFactory entityFactory = new EntityFactoryImpl(null);
 
     private Entity createPlayerEntity() {
-        return new EntityImpl(null, null, Type.PLAYABLE)
-                .addComponent(new PowerUpHandlerComponent(BOMB_NUMBER_BASE, BOMB_FIRE_BASE, List.of()));
+        return this.entityFactory.makePlayable(null);
     }
 
     @Test
