@@ -10,6 +10,7 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
 
     /**
      * This method inherit powerUp from the superclass.
+     * 
      * @param bombNumber
      * @param bombFire
      * @param powerUpList
@@ -29,7 +30,7 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
      * @param powerUpType that modify powerup parameter of player
      */
     public void addPowerUp(final PowerUpType powerUpType) {
-        // TODO Add powerUpType to powerUpList
+        this.addPowerUpList(powerUpType);
         if (!powerUpType.isComplex()) {
             switch (powerUpType) {
                 case FIREUP:

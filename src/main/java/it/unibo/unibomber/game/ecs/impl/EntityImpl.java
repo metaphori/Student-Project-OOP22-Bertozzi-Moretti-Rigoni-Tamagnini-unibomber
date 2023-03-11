@@ -83,6 +83,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public final void addSpeed(final PowerUpType powerUpType) {
+        this.getComponent(PowerUpListComponent.class).get().addPowerUpList(powerUpType);
         switch (powerUpType) {
             case SPEEDUP:
                 if (this.speed < 2) {
