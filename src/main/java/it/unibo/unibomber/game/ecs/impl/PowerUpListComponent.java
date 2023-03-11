@@ -16,7 +16,7 @@ public class PowerUpListComponent extends AbstractComponent {
     private int bombNumber;
     private int bombPlaced;
     private int bombFire;
-    private List<PowerUpType> powerUpList;
+    private final List<PowerUpType> powerUpList;
 
     /**
      * This method sets all bomber's powerups.

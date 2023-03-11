@@ -50,7 +50,7 @@ public class EntityFactoryImpl implements EntityFactory {
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false, false))
                 .addComponent(new BombPlaceComponent())
-                .addComponent(new PowerUpHandlerComponent(100, 1, List.of()))
+                .addComponent(new PowerUpHandlerComponent(1, 1, null))
                 .addComponent(new DestroyComponent());
     }
 
