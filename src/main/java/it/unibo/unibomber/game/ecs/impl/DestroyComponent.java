@@ -18,9 +18,11 @@ public final class DestroyComponent extends AbstractComponent {
     private int destroyFrames;
 
     /**
-     * The constructor set to 0 the field destroyFrames.
+     * The constructor set 0 the field destroyFrames
+     * and false the field isDestroyed.
      */
     public DestroyComponent() {
+        this.isDestroyed = false;
         this.destroyFrames = 0;
     }
 

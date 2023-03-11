@@ -39,11 +39,20 @@ public class ExplodeComponent extends AbstractComponent {
                         .filter(e -> e.getType() == Type.BOT || e.getType() == Type.PLAYABLE)
                         .collect(Collectors.toList()));
             } else {
-                this.getEntity().getGame().removeEntity(this.getEntity());
+                this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
                 this.isExploding = false;
             }
         }
+    }
+
+    /**
+     * A method to know if the bomb is exploding.
+     * 
+     * @return true if is exploding, false otherwise
+     */
+    public boolean isExploding() {
+        return this.isExploding;
     }
 
     /**
@@ -55,7 +64,6 @@ public class ExplodeComponent extends AbstractComponent {
                                 && e.getType() != Type.PLAYABLE 
                                 && e.getType() != Type.INDESTRUCTIBLE_WALL)
                         .collect(Collectors.toList()));
-        this.isExploding = true;
     }
 
     /**
@@ -83,5 +91,6 @@ public class ExplodeComponent extends AbstractComponent {
                     });
                 });
             });
-     }
+        this.isExploding = true;
+    }
 }
