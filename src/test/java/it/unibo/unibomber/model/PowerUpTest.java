@@ -27,7 +27,7 @@ class PowerUpTest {
     }
 
     @Test
-    void testBombUpPowerUp() {
+    void testBombNumberPowerUp() {
         Entity player = this.createPlayerEntity();
         assertEquals(BOMB_NUMBER_BASE, player.getComponent(PowerUpHandlerComponent.class).get().getBombNumber());
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.BOMBUP);
