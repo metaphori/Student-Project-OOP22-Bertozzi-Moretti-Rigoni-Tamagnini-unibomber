@@ -23,6 +23,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPATH;
 public final class WorldPanelImpl extends JPanel {
   private final WorldImpl world;
   private final BufferedImage tile;
+
   /**
    * WordPanelImpl constructor.
    * 

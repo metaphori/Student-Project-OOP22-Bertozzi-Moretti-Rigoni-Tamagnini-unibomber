@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
@@ -110,6 +111,7 @@ public final class PlayView implements GameLoop {
     @Override
     public void draw(final Graphics g) {
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
+            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
             if (controller.getEntities().get(i).getType() != Type.PLAYABLE
                     && controller.getEntities().get(i).getType() != Type.POWERUP) {
                 g.drawImage(UploadRes.getSpriteAtlas(SPRITESPATH.get(controller.getEntities().get(i).getType())),
@@ -138,8 +140,8 @@ public final class PlayView implements GameLoop {
                                 .get(i)
                                 .getPosition()
                                 .getY() * TILES_DEFAULT * SCALE),
-                        (int) (TILES_DEFAULT),
-                        (int) (TILES_DEFAULT),
+                        (int) (TILES_SIZE),
+                        (int) (TILES_SIZE),
                         null);
             } else if (controller.getEntities().get(i).getType() == Type.PLAYABLE) {
                 changePlayerAction(WALKING);
@@ -176,8 +178,8 @@ public final class PlayView implements GameLoop {
                                 .get(i)
                                 .getPosition()
                                 .getY() * TILES_DEFAULT * SCALE),
-                        (int) (TILES_DEFAULT * (SCALE + 0.5f)),
-                        (int) (TILES_DEFAULT * (SCALE + 0.5f)),
+                        (int) (TILES_DEFAULT * SCALE),
+                        (int) (TILES_DEFAULT * SCALE),
                         null);
             }
         }

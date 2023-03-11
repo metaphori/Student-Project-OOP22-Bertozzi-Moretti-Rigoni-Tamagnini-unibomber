@@ -48,9 +48,9 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomber(final Pair<Float, Float> position, final Type type) {
         return new EntityImpl(game, position, type)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(false))
+                .addComponent(new CollisionComponent(false, false))
                 .addComponent(new BombPlaceComponent())
-                .addComponent(new PowerUpHandlerComponent(1, 1, List.of()))
+                .addComponent(new PowerUpHandlerComponent(100, 1, List.of()))
                 .addComponent(new DestroyComponent());
     }
 
@@ -71,7 +71,7 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomb(final Entity placer, final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.BOMB)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(true))
+                .addComponent(new CollisionComponent(true, false))
                 .addComponent(new ExplodeComponent())
                 .addComponent(new PowerUpListComponent(placer))
                 .addComponent(new DestroyComponent());

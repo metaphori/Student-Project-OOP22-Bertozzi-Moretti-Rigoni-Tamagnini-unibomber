@@ -7,8 +7,9 @@ import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.view.WorldPanelImpl;
 import it.unibo.unibomber.game.view.WorldWindow;
-import it.unibo.unibomber.utilities.Constants;
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.NANO_S;
+import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.FPS_SET;
+import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.UPS_SET;
 
 /**
  * WordImpl constructor.
@@ -70,11 +71,12 @@ public class WorldImpl implements World, Runnable, GameLoop {
         break;
     }
   }
+
   @SuppressWarnings("PMD")
   @Override
   public final void run() {
-    final double timePerFrame = NANO_S / Constants.UI.GameLoop.FPS_SET;
-    final double timePerUpdate = NANO_S / Constants.UI.GameLoop.UPS_SET;
+    double timePerFrame = NANO_S / FPS_SET;
+    double timePerUpdate = NANO_S / UPS_SET;
 
     long previousTime = System.nanoTime();
 
@@ -84,32 +86,25 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
     double deltaU = 0;
     double deltaF = 0;
-
     while (true) {
-      final long currentTime = System.nanoTime();
+      long currentTime = System.nanoTime();
 
       deltaU += (currentTime - previousTime) / timePerUpdate;
       deltaF += (currentTime - previousTime) / timePerFrame;
       previousTime = currentTime;
 
-      if (deltaU >= 1) {
+      while (deltaU >= 1) {
         update();
         updates++;
         deltaU--;
       }
-
-      if (deltaF >= 1) {
-        unibomberPanel.repaint();
-        frames++;
-        deltaF--;
-      }
-
+      unibomberPanel.repaint();
+      frames++;
       if (System.currentTimeMillis() - lastCheck >= 1000) {
         lastCheck = System.currentTimeMillis();
         System.out.println("FPS: " + frames + " | UPS: " + updates);
         frames = 0;
         updates = 0;
-
       }
     }
   }
