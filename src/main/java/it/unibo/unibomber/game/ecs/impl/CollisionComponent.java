@@ -2,8 +2,6 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import java.awt.geom.Rectangle2D;
 
-import it.unibo.unibomber.game.ecs.api.Component;
-import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
 import java.awt.Color;
@@ -11,37 +9,36 @@ import java.awt.Graphics;
 
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_DEFAULT;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.SCALE;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.G_WIDTH;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.G_HEIGHT;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_WIDTH;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_HEIGHT;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
 
 /**
  * This component manage the collision of entity.
  */
-public class CollisionComponent extends AbstractComponent {
+public final class CollisionComponent extends AbstractComponent {
      // TODO
      // true if it blocks other entities
      private final boolean isSolid;
      private final boolean isCollided;
-     protected Rectangle2D.Float hitbox;
-     protected float x, y;
-     protected int width, height;
+     private Rectangle2D.Float hitbox;
+     private float x, y;
+     private int width, height;
 
      @Override
      public void update() {
           // update hitbox rectangle coord
-          hitbox.x = this.getEntity().getPosition().getX();
-          hitbox.y = this.getEntity().getPosition().getY();
-          isOutofField();
+          hitbox.x = (int) (this.getEntity().getPosition().getX() * TILES_DEFAULT * SCALE);
+          hitbox.y = (int) (this.getEntity().getPosition().getY() * TILES_DEFAULT * SCALE);
+          // isOutofField();
           checkCollisions();
      }
 
-     public void drawHitbox(Graphics g) {
-          // For debugging the hitbox
+     /**
+      *For debugging the hitbox.
+      * @param g
+      */
+     public void drawHitbox(final Graphics g) {
           g.setColor(Color.PINK);
-          g.drawRect((int) (hitbox.x * TILES_DEFAULT * SCALE), (int) (hitbox.y * TILES_DEFAULT * SCALE),
+          g.drawRect((int) hitbox.x, (int) hitbox.y,
                     (int) hitbox.width, (int) hitbox.height);
      }
 
@@ -85,11 +82,18 @@ public class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           for (int i = 0; i < this.getEntity().getGame().getEntities().size(); i++) {
-               if (this.getEntity().getGame().getEntities().get(i).getType() != Type.PLAYABLE) {
-                    final Rectangle2D.Float r = this.getEntity().getGame().getEntities().get(i)
-                              .getComponent(CollisionComponent.class).get().getHitbox();
-                    if (hitbox.intersects(r)) {
-                         System.out.println("TRUE");
+               if (this.isSolid) {
+                    if (this.getEntity().getGame().getEntities().get(i).getType() != this.getEntity().getType()) {
+                         final Rectangle2D.Float r = this.getEntity().getGame().getEntities().get(i)
+                                   .getComponent(CollisionComponent.class).get().getHitbox();
+                         if (hitbox.intersects(r)) {
+                              this.getEntity().getGame().getEntities().get(i).setPosition(
+                                   new Pair<Float, Float>(
+                                        (float) Math.round(
+                                             this.getEntity().getGame().getEntities().get(i).getPosition().getX()), 
+                                        (float) Math.round(
+                                             this.getEntity().getGame().getEntities().get(i).getPosition().getY())));
+                         }
                     }
                }
           }
@@ -98,6 +102,7 @@ public class CollisionComponent extends AbstractComponent {
      /**
       * Check if entity is out of field and if it is push back
       */
+      /*
      private void isOutofField() {
           if (hitbox.x > TILES_WIDTH - 1) {
                this.getEntity().setPosition(
@@ -111,7 +116,7 @@ public class CollisionComponent extends AbstractComponent {
                this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
           }
      }
-
+     */
      private void initHitbox() {
           this.width = (int) TILES_SIZE;
           this.height = this.width;

@@ -52,6 +52,9 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     private void initClasses() {
         game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float, Float>(0f, 1f)));
+        //TODO TEST ENTITA MURO PER COLLISIONE DA ELIMINARE
+        game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new Pair<Float, Float>(3f, 6f)));
+
         keyQueue = new LinkedList<>();
     }
 

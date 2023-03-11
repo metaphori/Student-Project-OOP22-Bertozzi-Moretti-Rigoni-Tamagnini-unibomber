@@ -86,7 +86,8 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final Entity makeIndestructibleWall(final Pair<Float, Float> position) {
-        return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL);
+        return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL)
+                .addComponent(new CollisionComponent(true, false));
     }
 
 }
