@@ -1,6 +1,8 @@
 package it.unibo.unibomber.model;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +12,10 @@ import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
-
+/**
+ * Wall Test.
+ */
 public class WallTest {
-    
     private static final int NUM_POWERUPS_WALL = 1;
     private final EntityFactory entityFactory = new EntityFactoryImpl(null);
 

@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -17,6 +18,9 @@ public class WorldWindow {
     jframe = new JFrame();
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jframe.add(unibomberPanel);
+    ImageIcon icon = new ImageIcon("./src/main/res/icon.png");
+    jframe.setTitle("Unibomber");
+    jframe.setIconImage(icon.getImage());
     jframe.setLocationRelativeTo(null);
     jframe.setResizable(false);
     jframe.pack();

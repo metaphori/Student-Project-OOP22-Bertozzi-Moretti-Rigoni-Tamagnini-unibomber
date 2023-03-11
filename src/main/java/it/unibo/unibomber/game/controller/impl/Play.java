@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -63,7 +61,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         field.updateField();
     }
 
-    private void loadEntities(List<String> map) {
+    private void loadEntities(final List<String> map) {
         /*
          * TODO
          * for (int index = 0; index < 19; index++) {
