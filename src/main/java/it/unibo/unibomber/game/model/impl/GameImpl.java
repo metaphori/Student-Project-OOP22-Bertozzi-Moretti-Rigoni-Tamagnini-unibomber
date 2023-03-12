@@ -25,8 +25,10 @@ public class GameImpl implements Game {
      * GameImpl constructor.
      * @param world
      */
-    public GameImpl(final World world) {
+    public GameImpl(final World world, final int rows, final int columns) {
         this.world = world;
+        this.rows = rows;
+        this.columns = columns;
     }
 
     @Override

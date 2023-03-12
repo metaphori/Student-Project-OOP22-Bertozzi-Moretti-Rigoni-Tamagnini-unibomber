@@ -11,6 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
@@ -34,25 +37,27 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private final Game game;
     private final PlayView view;
     private final Field field;
+    private int rows, collums;
 
     /**
      * This method create the instance of all game parameters.
-     * @param world 
+     * 
+     * @param world
      */
     public Play(final WorldImpl world) {
         super();
         new SpritesMap();
-        game = new GameImpl(world);
+        loadMap();
+        game = new GameImpl(world, rows, collums);
         view = new PlayView(this);
         field = new FieldImpl(game);
         initClasses();
         // TODO load map at settings not in constructor
-        loadMap();
     }
 
     private void initClasses() {
         game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float, Float>(0f, 1f)));
-        //TODO TEST ENTITA MURO PER COLLISIONE DA ELIMINARE
+        // TODO TEST ENTITA MURO PER COLLISIONE DA ELIMINARE
         game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new Pair<Float, Float>(3f, 6f)));
 
         keyQueue = new LinkedList<>();
@@ -65,27 +70,22 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     private void loadEntities(final List<String> map) {
-        /*
-         * TODO
-         * for (int index = 0; index < 19; index++) {
-         * List<String> singleLine = Arrays.asList(map.get(index).split(" "));
-         * for (int j = 0; j < singleLine.size(); j++) {
-         * switch(Integer.parseInt(singleLine.get(j))){
-         * case 6:
-         * game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new
-         * Pair<Float,Float>((float)j, (float)index)));
-         * break;
-         * case 2:
-         * game.addEntity(new EntityFactoryImpl(game).makePowerUp(new
-         * Pair<Float,Float>((float)j, (float)index),PowerUpType.FIREUP));
-         * break;
-         * }
-         * }
-         * }
-         */
+        String myTextFile = "./src/main/res/area1.map";
+        Path myPath = Paths.get(myTextFile);
+        try {
+            String[] strArray = Files.lines(myPath)
+                    .map(s -> s.split(","))
+                    .findFirst()
+                    .get();
+            rows = Integer.parseInt(strArray[0]);
+            collums = Integer.parseInt(strArray[1]);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    private List<String> extractData() { 
+    private List<String> extractData() {
         final List<String> map = new ArrayList<>();
         BufferedReader bf;
         try {
