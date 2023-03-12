@@ -86,7 +86,7 @@ public class ExplodeComponent extends AbstractComponent {
                         if (e.getX() == Type.BOMB) {
                             explodeEntities(List.of(e.getY()));
                         } else {
-                            this.getEntity().getComponent(DestroyComponent.class).get().destroy();
+                            e.getY().getComponent(DestroyComponent.class).get().destroy();
                         }
                     });
                 });
