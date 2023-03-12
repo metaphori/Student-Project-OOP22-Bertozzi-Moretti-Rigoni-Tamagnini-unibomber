@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -65,10 +66,11 @@ public final class DestroyComponent extends AbstractComponent {
         final List<PowerUpType> powerUps;
         int droppedPowerUps;
         if (powerUpComponent.isPresent()) {
-            powerUps = powerUpComponent.get().getPowerUpList();
+            powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
             entity.getGame()
                     .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
+            powerUps.remove(0);
             dropRemaining(powerUps, droppedPowerUps);
         }
     }

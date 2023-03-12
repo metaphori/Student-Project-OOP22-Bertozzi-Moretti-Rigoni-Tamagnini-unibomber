@@ -60,4 +60,23 @@ public class FieldImpl implements Field {
         }
     }
 
+    @Override
+    public Type[][] getEntitiesTypes() {
+        final Pair<Integer, Integer> gameDimensions = this.game.getDimensions();
+        final Type[][] typesMatrix = getInitializedMatrix(gameDimensions.getX(), gameDimensions.getY());
+        for (var pos : this.field.keySet()) {
+            typesMatrix[pos.getX()][pos.getY()] = this.field.get(pos).getX();
+        }
+        return typesMatrix;
+    }
+
+    private Type[][] getInitializedMatrix(final int rows, final int cols) {
+        final Type[][] typesMatrix = new Type[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                typesMatrix[i][j] = null;
+            }
+        }
+        return typesMatrix;
+    }
 }

@@ -22,8 +22,10 @@ class BombTest {
     private static final float PLAYER_STARTING_Y = 3.4f;
     private static final float BOMB_EXCEPTED_X = 6.0f;
     private static final float BOMB_EXCEPTED_Y = 3.0f;
+    private static final int FIELD_ROWS = 15;
+    private static final int FIELD_COLS = 19;
 
-    private final Game game = new GameImpl(null);
+    private final Game game = new GameImpl(null, FIELD_ROWS, FIELD_COLS);
     private final EntityFactory entityFactory = new EntityFactoryImpl(game);
 
     private Entity createPlayerEntity() {
