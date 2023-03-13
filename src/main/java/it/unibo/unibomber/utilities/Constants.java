@@ -5,6 +5,7 @@ import java.util.Map;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import java.awt.image.BufferedImage;
 
 /**
  * Constants class.
@@ -124,26 +125,26 @@ public class Constants {
             /**
              * Map of type and path of sprites.
              */
-            public static final Map<Type, String> SPRITESPATH = new HashMap<>();
+            public static final Map<Type, BufferedImage> SPRITESPATH = new HashMap<>();
             /**
              * Map of powerup type and path of powerup sprites.
              */
-            public static final Map<PowerUpType, String> SPRITESPOWERUPPATH = new HashMap<>();
+            public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
 
             /**
              * SpriteMap constructor.
              */
             public SpritesMap() {
                 // TYPE
-                SPRITESPATH.put(Type.PLAYABLE, "player_sprites.png");
+                SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, null);
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, "grass.png");
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, null);
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, "indestructible_wall.png");
-                SPRITESPATH.put(Type.BOMB, "bomba.png");
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, "fire_up.png");
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("indestructible_wall.png"));
+                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomba.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("fire_up.png"));
 
             }
         }
