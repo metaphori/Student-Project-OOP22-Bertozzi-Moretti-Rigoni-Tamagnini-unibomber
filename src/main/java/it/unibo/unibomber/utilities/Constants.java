@@ -374,6 +374,7 @@ public class Constants {
          */
         public Destroy() {
             destroyFramesPerType.put(Type.POWERUP, 0);
+            destroyFramesPerType.put(Type.BOMB, 0);
         }
 
         /**
