@@ -21,12 +21,15 @@ public class ExplodeComponent extends AbstractComponent {
 
     private int explodeFrames;
     private int expiringFrames;
+    private Entity placer;
 
     /**
      * In the constuctor, set 0 the field explodeFrames
      * and the field expiringFrames.
+     * 
+     * @param placer
      */
-    public ExplodeComponent() {
+    public ExplodeComponent(Entity placer) {
         this.expiringFrames = 0;
         this.explodeFrames = 0;
     }
@@ -50,41 +53,45 @@ public class ExplodeComponent extends AbstractComponent {
         }
     }
 
-    /**
-    * A method to destroy wall or powerups in the bomb range.
-    */
-    private void explode() {
-        explodeEntities(this.getEntity().getGame().getEntities().stream()
-                        .filter(e -> e.getType() != Type.BOT 
-                                && e.getType() != Type.PLAYABLE 
-                                && e.getType() != Type.INDESTRUCTIBLE_WALL)
-                        .collect(Collectors.toList()));
+    public Entity getPlacer() {
+        return this.placer;
     }
 
     /**
-    * General method to control if there are some entities on the bomb range.
-    * @param entitiesList the entities to control
-    */
+     * A method to destroy wall or powerups in the bomb range.
+     */
+    private void explode() {
+        explodeEntities(this.getEntity().getGame().getEntities().stream()
+                .filter(e -> e.getType() != Type.BOT
+                        && e.getType() != Type.PLAYABLE
+                        && e.getType() != Type.INDESTRUCTIBLE_WALL)
+                .collect(Collectors.toList()));
+    }
+
+    /**
+     * General method to control if there are some entities on the bomb range.
+     * 
+     * @param entitiesList the entities to control
+     */
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var field = this.getEntity().getGame().getGameField().getField();
         entitiesList.stream()
-            .forEach(entity -> {
-                Arrays.stream(Direction.values()).forEach(dir -> {
-                    IntStream.rangeClosed(1, bombRange).mapToObj(countPositions -> {
-                        final Pair<Float, Float> checkPos = new Pair<>(
-                            entity.getPosition().getX() + dir.getX() * countPositions,
-                            entity.getPosition().getY() + dir.getY() * countPositions
-                        );
-                        return field.get(checkPos);
-                    }).filter(Objects::nonNull).findFirst().ifPresent(e -> {
-                        if (e.getX() == Type.BOMB) {
-                            explodeEntities(List.of(e.getY()));
-                        } else {
-                            e.getY().getComponent(DestroyComponent.class).get().destroy();
-                        }
+                .forEach(entity -> {
+                    Arrays.stream(Direction.values()).forEach(dir -> {
+                        IntStream.rangeClosed(1, bombRange).mapToObj(countPositions -> {
+                            final Pair<Float, Float> checkPos = new Pair<>(
+                                    entity.getPosition().getX() + dir.getX() * countPositions,
+                                    entity.getPosition().getY() + dir.getY() * countPositions);
+                            return field.get(checkPos);
+                        }).filter(Objects::nonNull).findFirst().ifPresent(e -> {
+                            if (e.getX() == Type.BOMB) {
+                                explodeEntities(List.of(e.getY()));
+                            } else {
+                                e.getY().getComponent(DestroyComponent.class).get().destroy();
+                            }
+                        });
                     });
                 });
-            });
     }
 }
