@@ -9,7 +9,7 @@ import it.unibo.unibomber.utilities.Pair;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
+import static it.unibo.unibomber.utilities.Constants.UI.Game;
 
 /**
  * This component manage the collision of entity.
@@ -26,9 +26,9 @@ public final class CollisionComponent extends AbstractComponent {
      @Override
      public void update() {
           // update hitbox rectangle coord
-          hitbox.x = (int) (this.getEntity().getPosition().getX() * TILES_SIZE);
-          hitbox.y = (int) (this.getEntity().getPosition().getY() * TILES_SIZE);
-          // isOutofField();
+          hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.TILES_SIZE);
+          hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.TILES_SIZE);
+          isOutofField();
           checkCollisions();
      }
 
@@ -52,8 +52,8 @@ public final class CollisionComponent extends AbstractComponent {
      public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
           this.isOverstable = isOverstable;
-          this.x = (int) (x * TILES_SIZE);
-          this.y = (int) (y * TILES_SIZE);
+          this.x = (int) (x * Game.TILES_SIZE);
+          this.y = (int) (y * Game.TILES_SIZE);
           initHitbox();
      }
 
@@ -122,27 +122,24 @@ public final class CollisionComponent extends AbstractComponent {
      /**
       * Check if entity is out of field and if it is push back
       */
-     /*
-      * private void isOutofField() {
-      * if (hitbox.x > TILES_WIDTH - 1) {
-      * this.getEntity().setPosition(
-      * new Pair<Float, Float>((float) TILES_WIDTH - 1,
-      * this.getEntity().getPosition().getY()));
-      * } else if (hitbox.x < 0) {
-      * this.getEntity().setPosition(new Pair<Float, Float>(0f,
-      * this.getEntity().getPosition().getY()));
-      * } else if (hitbox.y > TILES_HEIGHT - 1) {
-      * this.getEntity().setPosition(
-      * new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float)
-      * TILES_HEIGHT - 1));
-      * } else if (hitbox.y < 0) {
-      * this.getEntity().setPosition(new Pair<Float,
-      * Float>(this.getEntity().getPosition().getX(), 0f));
-      * }
-      * }
-      */
+     private void isOutofField() {
+          if (hitbox.x > (Game. G_WIDTH - Game.TILES_SIZE)) {
+               this.getEntity().setPosition(
+                         new Pair<Float, Float>((float) Game.TILES_WIDTH - 1,
+                                   this.getEntity().getPosition().getY()));
+          } else if (hitbox.x < 0) {
+               this.getEntity().setPosition(new Pair<Float, Float>(0f,
+                         this.getEntity().getPosition().getY()));
+          } else if (hitbox.y > (Game.G_HEIGHT - Game.TILES_SIZE)) {
+               this.getEntity().setPosition(
+                         new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float) Game.TILES_HEIGHT - 1));
+          } else if (hitbox.y < 0) {
+               this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
+          }
+     }
+
      private void initHitbox() {
-          this.width = (int) TILES_SIZE;
+          this.width = (int) Game.TILES_SIZE;
           this.height = this.width;
           hitbox = new Rectangle2D.Float(x, y, this.width, this.height);
      }
