@@ -13,10 +13,8 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
+import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.utilities.Constants;
-import it.unibo.unibomber.utilities.UploadRes;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPATH;
-import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.SPRITESPOWERUPPATH;
 import static it.unibo.unibomber.utilities.Constants.Player.STANDING;
 import static it.unibo.unibomber.utilities.Constants.Player.WALKING;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
@@ -33,7 +31,8 @@ public final class PlayView implements GameLoop {
     private final Play controller;
     private Integer animationIndex;
     private BufferedImage[][] animations;
-    private final Map<Type, BufferedImage>sprites;
+    private final Map<Type, BufferedImage> sprites;
+    private final Map<PowerUpType, BufferedImage> powerUpSprites;
     private Integer playerAction = STANDING;
     private Integer indexDir;
 
@@ -42,19 +41,16 @@ public final class PlayView implements GameLoop {
      * @param controller
      */
     public PlayView(final Play controller) {
-        this.sprites=Constants.UI.SpritesMap.SPRITESPATH;
+        new Constants.UI.SpritesMap();
+        this.sprites = Constants.UI.SpritesMap.SPRITESPATH;
+        this.powerUpSprites = Constants.UI.SpritesMap.SPRITESPOWERUPPATH;
         this.controller = controller;
         indexDir = 0;
         loadSprites();
-        /*
-         * animations[0][1] = colorImage(animations[0][1]);
-         * animations[0][2] = colorImage(animations[0][2]);
-         * animations[0][3] = colorImage(animations[0][3]);
-         */
-        
-         for (Integer j = 0; j < animations.length; j++) {
+        for (Integer j = 0; j < animations.length; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
-                animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i*TILES_SIZE, j*TILES_SIZE, TILES_SIZE, TILES_SIZE);
+                animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i * TILES_SIZE, j * TILES_SIZE,
+                        TILES_SIZE, TILES_SIZE);
             }
         }
     }
@@ -117,7 +113,7 @@ public final class PlayView implements GameLoop {
     public void draw(final Graphics g) {
 
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
-//            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
+            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
             drawImage(g, controller.getEntities().get(i));
         }
     }
@@ -131,7 +127,7 @@ public final class PlayView implements GameLoop {
                         .getY() * TILES_DEFAULT * SCALE),
                 (int) (TILES_DEFAULT * SCALE),
                 (int) (TILES_DEFAULT * SCALE),
-                null)   ;
+                null);
     }
 
     private BufferedImage getCorrectImage(Entity entity) {
@@ -160,7 +156,7 @@ public final class PlayView implements GameLoop {
             }
             return animations[playerAction][animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {
-            return null;
+            return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());
         } else
             return sprites.get(entity.getType());
 
