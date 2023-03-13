@@ -22,11 +22,11 @@ public class Constants {
             /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = 140;
+            public static final int TOP_DISTANCE_PLAY = 120;
             /**
              * distance from top of quit button.
              */
-            public static final int TOP_DISTANCE_QUIT = 190;
+            public static final int TOP_DISTANCE_QUIT = TOP_DISTANCE_PLAY + 50;
             /**
              * single button witdh.
              */
@@ -38,11 +38,11 @@ public class Constants {
             /**
              * button width scale.
              */
-            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 0.5f));
+            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 2f));
             /**
              * button height scale.
              */
-            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 0.5f));
+            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 2f));
         }
 
         /**
@@ -52,7 +52,7 @@ public class Constants {
             /**
              * tiles default dimention.
              */
-            public static final int TILES_DEFAULT = 16;
+            public static int TILES_DEFAULT = 16;
             /**
              * scale.
              */
@@ -68,16 +68,25 @@ public class Constants {
             /**
              * tiles dimension scaled.
              */
-            public static final int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
+            public static int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
             /**
              * game width.
              */
-            public static final int G_WIDTH = TILES_SIZE * TILES_WIDTH;
+            public static int G_WIDTH = TILES_SIZE * TILES_WIDTH;
             /**
              * game height.
              */
-            public static final int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
-
+            public static int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+             /**
+             * player default dimension.
+             */
+            public static final int PLAYER_DEFAULT = 48;
+            public static void changeDimension() {
+                TILES_DEFAULT--;
+                TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
+                G_WIDTH = TILES_SIZE * TILES_WIDTH;
+                G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+            }
         }
 
         /**

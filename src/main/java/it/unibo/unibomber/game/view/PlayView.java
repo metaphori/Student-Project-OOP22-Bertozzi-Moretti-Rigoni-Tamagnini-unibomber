@@ -16,9 +16,7 @@ import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
 import static it.unibo.unibomber.utilities.Constants.Player.STANDING;
 import static it.unibo.unibomber.utilities.Constants.Player.WALKING;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_DEFAULT;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.SCALE;
+import static it.unibo.unibomber.utilities.Constants.UI.Game;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.COL_PLAYER_SPRITES;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.ROW_PLAYER_SPRITES;
 
@@ -28,7 +26,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap.ROW_PLAYER_SP
 public final class PlayView implements GameLoop {
 
     private final Play controller;
-    private Integer animationIndex;
+    private Integer animationIndex = 0;
     private BufferedImage[][] animations;
     private final Map<Type, BufferedImage> sprites;
     private final Map<PowerUpType, BufferedImage> powerUpSprites;
@@ -47,8 +45,8 @@ public final class PlayView implements GameLoop {
         loadSprites();
         for (Integer j = 0; j < animations.length; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
-                animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i * TILES_SIZE, j * TILES_SIZE,
-                        TILES_SIZE, TILES_SIZE);
+                animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i * Game.PLAYER_DEFAULT, j * Game.PLAYER_DEFAULT,
+                Game.PLAYER_DEFAULT, Game.PLAYER_DEFAULT);
             }
         }
     }
@@ -120,37 +118,38 @@ public final class PlayView implements GameLoop {
         BufferedImage image = getCorrectImage(entity);
         g.drawImage(image,
                 Math.round(entity.getPosition()
-                        .getX() * TILES_DEFAULT * SCALE),
+                        .getX() * Game.TILES_SIZE),
                 Math.round(entity.getPosition()
-                        .getY() * TILES_DEFAULT * SCALE),
-                (int) (TILES_DEFAULT * SCALE),
-                (int) (TILES_DEFAULT * SCALE),
+                        .getY() * Game.TILES_SIZE),
+                (int) (Game.TILES_SIZE),
+                (int) (Game.TILES_SIZE),
                 null);
     }
 
     private BufferedImage getCorrectImage(Entity entity) {
         if (entity.getType() == Type.PLAYABLE) {
-            changePlayerAction(WALKING);
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
-            switch (movementComponent.getDirection()) {
-                case DOWN:
-                    indexDir = 0;
-                    break;
-                case LEFT:
-                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
-                    break;
-                case RIGHT:
-                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
-                    break;
-                case UP:
-                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
-                    break;
-                case CENTER:
-                    indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
-                    break;
-            }
             if (!movementComponent.hasMoved()) {
                 changePlayerAction(STANDING);
+            } else {
+                changePlayerAction(WALKING);
+                switch (movementComponent.getDirection()) {
+                    case DOWN:
+                        indexDir = 0;
+                        break;
+                    case LEFT:
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
+                        break;
+                    case RIGHT:
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
+                        break;
+                    case UP:
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
+                        break;
+                    case CENTER:
+                        indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
+                        break;
+                }
             }
             return animations[playerAction][animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {

@@ -8,8 +8,6 @@ import it.unibo.unibomber.utilities.Pair;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_DEFAULT;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.SCALE;
 import static it.unibo.unibomber.utilities.Constants.UI.Game.TILES_SIZE;
 
 /**
@@ -27,8 +25,8 @@ public final class CollisionComponent extends AbstractComponent {
      @Override
      public void update() {
           // update hitbox rectangle coord
-          hitbox.x = (int) (this.getEntity().getPosition().getX() * TILES_DEFAULT * SCALE);
-          hitbox.y = (int) (this.getEntity().getPosition().getY() * TILES_DEFAULT * SCALE);
+          hitbox.x = (int) (this.getEntity().getPosition().getX() * TILES_SIZE);
+          hitbox.y = (int) (this.getEntity().getPosition().getY() * TILES_SIZE);
           // isOutofField();
           checkCollisions();
      }
@@ -53,8 +51,8 @@ public final class CollisionComponent extends AbstractComponent {
      public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
           this.isOverstable = isOverstable;
-          this.x = (int) (x * TILES_DEFAULT * SCALE);
-          this.y = (int) (y * TILES_DEFAULT * SCALE);
+          this.x = (int) (x * TILES_SIZE);
+          this.y = (int) (y * TILES_SIZE);
           initHitbox();
      }
 
