@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -50,7 +51,7 @@ public class EntityFactoryImpl implements EntityFactory {
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false, false))
                 .addComponent(new BombPlaceComponent())
-                .addComponent(new PowerUpHandlerComponent(1, 1, null))
+                .addComponent(new PowerUpHandlerComponent(1, 1, new ArrayList<>()))
                 .addComponent(new DestroyComponent());
     }
 
