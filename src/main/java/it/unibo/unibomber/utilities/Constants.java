@@ -152,7 +152,7 @@ public class Constants {
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("destructible_wall.png"));
                 SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("indestructible_wall.png"));
-                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomba.png"));
+                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("fire_down.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("max_fire.png"));
@@ -163,9 +163,37 @@ public class Constants {
                 SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("bomb_kick.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("power_glove.png"));
             }
+
+        }
+        /**
+         * Entity scale settings constans.
+         */
+        public static final class Scale {
+            /**
+             * Map of type and scale of this entity .
+             */
+            public static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+            /**
+             * Scale constructor.
+             */
+            public Scale() {
+                ENTITY_SCALE.put(Type.PLAYABLE, 0.5f);
+                ENTITY_SCALE.put(Type.BOMB, -0.5f);
+                ENTITY_SCALE.put(Type.POWERUP, 0f);
+                ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, 0f);
+                ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, 0f);
+            }
         }
     }
-
+    /**
+     * Bomb animation constans.
+     */
+    public static final class Bomb {
+        /**
+         * EXPLOSION animation.
+         */
+        public static final int EXPLOSION = 3;
+    }
     /**
      * Player animation constans.
      */
@@ -359,12 +387,12 @@ public class Constants {
         /**
          * Explode duration.
          */
-        public static final int EXPLODE_DURATION = 5;
+        public static final int EXPLODE_DURATION = 9;
 
         /**
          * Expiring time before bomb explodes.
          */
-        public static final int EXPIRING_TIME = 50;
+        public static final int EXPIRING_TIME = 90;
     }
 
     /**

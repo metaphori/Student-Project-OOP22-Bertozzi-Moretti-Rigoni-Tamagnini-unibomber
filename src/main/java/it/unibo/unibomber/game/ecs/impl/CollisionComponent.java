@@ -83,27 +83,40 @@ public final class CollisionComponent extends AbstractComponent {
       * This method check if entity collide with other one.
       */
      public void checkCollisions() {
+          // if is a player/bot
           if (this.getEntity().getType() == Type.PLAYABLE) {
+               // I scroll through the entities
                for (int i = 0; i < this.getEntity().getGame().getEntities().size(); i++) {
                     Entity collisionEntity = this.getEntity().getGame().getEntities().get(i);
+                    // if is not a player
                     if (collisionEntity.getType() != this.getEntity().getType()) {
                          final Rectangle2D.Float r = collisionEntity.getComponent(CollisionComponent.class).get()
                                    .getHitbox();
+                         // if intersects the two rectangles
                          if (hitbox.intersects(r)) {
+                              // if is solid and not overstable
                               if (collisionEntity.getComponent(CollisionComponent.class).get().isSolid()
                                         && !collisionEntity.getComponent(CollisionComponent.class).get()
                                                   .isOverstable()) {
-                                   this.getEntity()
-                                             .setPosition(new Pair<Float, Float>(
-                                                       (float) Math.round(this.getEntity().getPosition().getX()),
-                                                       (float) Math.round(this.getEntity().getPosition().getY())));
+                                   //if entity is not place on the player
+                                   if (Math.round(this.getEntity().getPosition().getX()) != Math
+                                             .round(collisionEntity.getPosition().getX())
+                                             || Math.round(this.getEntity().getPosition().getY()) != Math
+                                                       .round(collisionEntity.getPosition().getY())) {
+                                        this.getEntity().setPosition(new Pair<Float, Float>(
+                                                  (float) Math.round(this.getEntity().getPosition().getX()),
+                                                  (float) Math.round(this.getEntity().getPosition().getY())));
+                                   }
+
                               } else {
+                                   // if is a power up
                                    if (collisionEntity.getType() == Type.POWERUP) {
                                         PowerUpHandlerComponent powerUpHandlerComponent = this.getEntity()
                                                   .getComponent(PowerUpHandlerComponent.class).get();
                                         PowerUpType powerUpType = collisionEntity.getComponent(PowerUpComponent.class)
                                                   .get().getPowerUpType();
-                                        if (powerUpType == PowerUpType.SPEEDUP || powerUpType == PowerUpType.SPEEDDOWN) {
+                                        if (powerUpType == PowerUpType.SPEEDUP
+                                                  || powerUpType == PowerUpType.SPEEDDOWN) {
                                              this.getEntity().addSpeed(powerUpType);
                                         } else {
                                              powerUpHandlerComponent.addPowerUp(powerUpType);
@@ -121,7 +134,7 @@ public final class CollisionComponent extends AbstractComponent {
       * Check if entity is out of field and if it is push back
       */
      private void isOutofField() {
-          if (hitbox.x > (Game. G_WIDTH - Game.TILES_SIZE)) {
+          if (hitbox.x > (Game.G_WIDTH - Game.TILES_SIZE)) {
                this.getEntity().setPosition(
                          new Pair<Float, Float>((float) Game.TILES_WIDTH - 1,
                                    this.getEntity().getPosition().getY()));

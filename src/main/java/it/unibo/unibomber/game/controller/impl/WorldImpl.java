@@ -41,6 +41,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private void loadSprites() {
     new Constants.UI.SpritesMap();
     new Constants.Destroy();
+    new Constants.UI.Scale();
   }
 
   private void startGameLoop() {
