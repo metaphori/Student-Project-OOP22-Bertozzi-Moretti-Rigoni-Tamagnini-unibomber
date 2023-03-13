@@ -32,6 +32,7 @@ public class ExplodeComponent extends AbstractComponent {
     public ExplodeComponent(Entity placer) {
         this.expiringFrames = 0;
         this.explodeFrames = 0;
+        this.placer = placer;
     }
 
     @Override
