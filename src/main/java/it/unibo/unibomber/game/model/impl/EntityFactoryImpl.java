@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -51,7 +52,7 @@ public class EntityFactoryImpl implements EntityFactory {
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false, true))
                 .addComponent(new BombPlaceComponent())
-                .addComponent(new PowerUpHandlerComponent(1, 1, null))
+                .addComponent(new PowerUpHandlerComponent(1, 1, new ArrayList<>()))
                 .addComponent(new DestroyComponent());
     }
 
@@ -81,8 +82,9 @@ public class EntityFactoryImpl implements EntityFactory {
     @Override
     public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
-                .addComponent(new DestroyComponent())
-                .addComponent(new PowerUpListComponent(0, 0, List.of(PowerUpType.getRandomPowerUp())));
+                .addComponent(new CollisionComponent(true, false))
+                .addComponent(new PowerUpListComponent(0, 0, List.of(PowerUpType.getRandomPowerUp())))
+                .addComponent(new DestroyComponent());
     }
 
     @Override
