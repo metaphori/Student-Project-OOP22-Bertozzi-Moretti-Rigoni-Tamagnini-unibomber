@@ -3,7 +3,7 @@ package it.unibo.unibomber.model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROYDURATION;
+import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_DURATION;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +52,7 @@ public class WallTest {
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
-        for (int i = 0; i < DESTROYDURATION; i++) {
+        for (int i = 0; i < DESTROY_DURATION; i++) {
             destroyComponent.get().update();
         }
         assertFalse(this.game.getEntities().contains(desWall));
