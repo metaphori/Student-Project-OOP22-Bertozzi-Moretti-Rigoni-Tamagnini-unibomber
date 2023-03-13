@@ -265,8 +265,10 @@ public class Constants {
          * DANCING number of animations.
          */
         public static final int DANCING_ANIMATION = 8;
+
         private Player() {
         }
+
         /**
          * @param playerAction
          * @return the number of animation of that action
@@ -360,15 +362,38 @@ public class Constants {
      * Destroy duration settings constans.
      */
     public static class Destroy {
+
         /**
-         * Destroy duration.
+         * the number of frames the destruction of effective frames the destruction of a
+         * type takes
          */
-        public static final int DESTROY_DURATION = 4;
+        private static final Map<Type, Integer> destroyFramesPerType = new HashMap<>();
+
+        /**
+         * constructor
+         */
+        public Destroy() {
+            destroyFramesPerType.put(Type.POWERUP, 0);
+        }
 
         /**
          * Percentage of powerup drop.
          */
         public static final float DROPPED_POWERUP_PERCENT = 0.25f;
+
+        /**
+         * standard duration of the destrution in frames
+         */
+        public static final int STANDARD_FRAME_DURATION = 4;
+
+        /**
+         * @param type the type of the entity asked
+         * @return the number of actual frames
+         */
+        public static Integer getDestructionFrames(Type type) {
+
+            return destroyFramesPerType.containsKey(type) ? destroyFramesPerType.get(type) : STANDARD_FRAME_DURATION;
+        }
     }
 
     /**
