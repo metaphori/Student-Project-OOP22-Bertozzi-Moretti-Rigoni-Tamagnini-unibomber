@@ -2,6 +2,7 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import java.awt.geom.Rectangle2D;
 
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -102,10 +103,15 @@ public final class CollisionComponent extends AbstractComponent {
                                                        (float) Math.round(
                                                                  this.getEntity()
                                                                            .getPosition().getY())));
-                              }
-                              else {
-                                   System.out.print(this.getEntity().getGame().getEntities().get(i)
-                                             .getComponent(PowerUpComponent.class).get().getPowerUpType());
+                              } else {
+                                   Entity thisEntity = this.getEntity().getGame().getEntities().get(i);
+                                   PowerUpHandlerComponent placer = this.getEntity()
+                                             .getComponent(PowerUpHandlerComponent.class).get();
+                                   if (thisEntity.getType() == Type.POWERUP) {
+                                        thisEntity.getComponent(DestroyComponent.class).get().destroy();
+                                        placer.addPowerUp(thisEntity.getComponent(PowerUpComponent.class).get()
+                                                  .getPowerUpType());
+                                   }
                               }
                          }
                     }
