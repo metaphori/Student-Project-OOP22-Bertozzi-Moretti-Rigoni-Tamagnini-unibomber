@@ -5,13 +5,15 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
+import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 class PowerUpTest {
-
+    private static final float PLAYER_STARTING_X = 0.0f;
+    private static final float PLAYER_STARTING_Y = 0.0f;
     private static final int BOMB_NUMBER_BASE = 1;
     private static final int BOMB_NUMBER_POWERUP = 1;
     private static final int BOMB_NUMBER_MAX = 8;
@@ -23,7 +25,7 @@ class PowerUpTest {
     private final EntityFactory entityFactory = new EntityFactoryImpl(null);
 
     private Entity createPlayerEntity() {
-        return this.entityFactory.makePlayable(null);
+        return this.entityFactory.makePlayable(new Pair<Float, Float>(PLAYER_STARTING_X, PLAYER_STARTING_Y));
     }
 
     @Test
