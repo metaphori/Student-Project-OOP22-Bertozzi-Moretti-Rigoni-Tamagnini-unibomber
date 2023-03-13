@@ -3,14 +3,14 @@ package it.unibo.unibomber.game.controller.impl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.io.FileNotFoundException;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -25,14 +26,11 @@ import it.unibo.unibomber.game.model.impl.FieldImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
-import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 
 /**
  * This class manage playable game.
  */
 public class Play extends StateImpl implements KeyListener, GameLoop {
-    // TODO
-    // private BufferedImage sprite;
     private Deque<Integer> keyQueue;
     private final Game game;
     private final PlayView view;
@@ -46,65 +44,65 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public Play(final WorldImpl world) {
         super();
-        new SpritesMap();
-        loadMap();
+        loadDimension();
         game = new GameImpl(world, rows, collums);
+        extractData();
         view = new PlayView(this);
         field = new FieldImpl(game);
-        initClasses();
+        field.updateField();
+        keyQueue = new LinkedList<>();
         // TODO load map at settings not in constructor
     }
 
-    private void initClasses() {
-        game.addEntity(new EntityFactoryImpl(game).makePlayable(new Pair<Float, Float>(0f, 1f)));
-        // TODO TEST ENTITA MURO PER COLLISIONE DA ELIMINARE
-        game.addEntity(new EntityFactoryImpl(game).makeIndestructibleWall(new Pair<Float, Float>(3f, 6f)));
-
-        keyQueue = new LinkedList<>();
-    }
-
-    private void loadMap() {
-        final List<String> mapData = extractData();
-        loadEntities(mapData);
-        field.updateField();
-    }
-
-    private void loadEntities(final List<String> map) {
+    private void loadDimension() {
         String myTextFile = "./src/main/res/area1.map";
         Path myPath = Paths.get(myTextFile);
         try {
             String[] strArray = Files.lines(myPath)
-                    .map(s -> s.split(","))
+                    .map(s -> s.split(" "))
                     .findFirst()
                     .get();
             rows = Integer.parseInt(strArray[0]);
             collums = Integer.parseInt(strArray[1]);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    private List<String> extractData() {
-        final List<String> map = new ArrayList<>();
-        BufferedReader bf;
+    private void extractData() {
         try {
-            bf = new BufferedReader(new FileReader("./src/main/res/area1.map"));
-            String line;
-            try {
-                line = bf.readLine();
-                while (line != null) {
-                    map.add(line);
-                    line = bf.readLine();
+            FileInputStream fstream = new FileInputStream("./src/main/res/area1.map");
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            Integer row = 0;
+            br.readLine();
+            while ((strLine = br.readLine()) != null) {
+                String[] tokens = strLine.split(" ");
+                for (int i = 0; i < tokens.length; i++) {
+                    switch (tokens[i]) {
+                        case "0":
+                            game.addEntity(new EntityFactoryImpl(game)
+                                    .makePlayable(new Pair<Float, Float>((float) i, (float) row)));
+                            break;
+                        case "2":
+                            game.addEntity(new EntityFactoryImpl(game)
+                                    .makePowerUp(new Pair<Float, Float>((float) i, (float) row), PowerUpType.getRandomPowerUp()));
+                            break;
+                        case "6":
+                            game.addEntity(new EntityFactoryImpl(game)
+                                    .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                bf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                row++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            in.close();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
         }
-        return map;
     }
 
     @Override

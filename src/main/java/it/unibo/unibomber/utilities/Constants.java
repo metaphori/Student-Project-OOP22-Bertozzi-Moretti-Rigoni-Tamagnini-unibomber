@@ -64,7 +64,7 @@ public class Constants {
             /**
              * arena height in tiles.
              */
-            public static final int TILES_HEIGHT = 18;
+            public static final int TILES_HEIGHT = 19;
             /**
              * tiles dimension scaled.
              */
@@ -145,7 +145,14 @@ public class Constants {
                 SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("indestructible_wall.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomba.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("fire_up.png"));
-
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("fire_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("fire_full.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBUP, UploadRes.getSpriteAtlas("bomb_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBDOWN, UploadRes.getSpriteAtlas("bomb_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDUP, UploadRes.getSpriteAtlas("speed_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("speed_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("bomb_kick.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("power_glove.png"));
             }
         }
     }

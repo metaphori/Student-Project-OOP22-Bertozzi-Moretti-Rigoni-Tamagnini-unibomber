@@ -42,6 +42,7 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makePowerUp(final Pair<Float, Float> pos, final PowerUpType powerUpType) {
         return new EntityImpl(game, pos, Type.POWERUP)
                 .addComponent(new PowerUpComponent(powerUpType))
+                .addComponent(new CollisionComponent(true, true))
                 .addComponent(new DestroyComponent());
     }
 
@@ -49,7 +50,7 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomber(final Pair<Float, Float> position, final Type type) {
         return new EntityImpl(game, position, type)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(false, false))
+                .addComponent(new CollisionComponent(false, true))
                 .addComponent(new BombPlaceComponent())
                 .addComponent(new PowerUpHandlerComponent(1, 1, new ArrayList<>()))
                 .addComponent(new DestroyComponent());
@@ -72,7 +73,7 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomb(final Entity placer, final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.BOMB)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(true, false))
+                .addComponent(new CollisionComponent(true, true))
                 .addComponent(new ExplodeComponent())
                 .addComponent(new PowerUpListComponent(placer))
                 .addComponent(new DestroyComponent());
