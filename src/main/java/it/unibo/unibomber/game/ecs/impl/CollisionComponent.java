@@ -3,6 +3,7 @@ package it.unibo.unibomber.game.ecs.impl;
 import java.awt.geom.Rectangle2D;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -84,33 +85,30 @@ public final class CollisionComponent extends AbstractComponent {
      public void checkCollisions() {
           if (this.getEntity().getType() == Type.PLAYABLE) {
                for (int i = 0; i < this.getEntity().getGame().getEntities().size(); i++) {
-                    if (this.getEntity().getGame().getEntities().get(i).getType() != this.getEntity().getType()) {
-
-                         final Rectangle2D.Float r = this.getEntity().getGame().getEntities().get(i)
-                                   .getComponent(CollisionComponent.class).get().getHitbox();
+                    Entity collisionEntity = this.getEntity().getGame().getEntities().get(i);
+                    if (collisionEntity.getType() != this.getEntity().getType()) {
+                         final Rectangle2D.Float r = collisionEntity.getComponent(CollisionComponent.class).get()
+                                   .getHitbox();
                          if (hitbox.intersects(r)) {
-                              if (this.getEntity().getGame().getEntities().get(i)
-                                        .getComponent(CollisionComponent.class)
-                                        .get().isSolid()
-                                        && !this.getEntity().getGame().getEntities().get(i)
-                                                  .getComponent(CollisionComponent.class)
-                                                  .get().isOverstable()) {
-                                   this.getEntity().setPosition(
-                                             new Pair<Float, Float>(
-                                                       (float) Math.round(
-                                                                 this.getEntity()
-                                                                           .getPosition().getX()),
-                                                       (float) Math.round(
-                                                                 this.getEntity()
-                                                                           .getPosition().getY())));
+                              if (collisionEntity.getComponent(CollisionComponent.class).get().isSolid()
+                                        && !collisionEntity.getComponent(CollisionComponent.class).get()
+                                                  .isOverstable()) {
+                                   this.getEntity()
+                                             .setPosition(new Pair<Float, Float>(
+                                                       (float) Math.round(this.getEntity().getPosition().getX()),
+                                                       (float) Math.round(this.getEntity().getPosition().getY())));
                               } else {
-                                   Entity thisEntity = this.getEntity().getGame().getEntities().get(i);
-                                   PowerUpHandlerComponent placer = this.getEntity()
-                                             .getComponent(PowerUpHandlerComponent.class).get();
-                                   if (thisEntity.getType() == Type.POWERUP) {
-                                        thisEntity.getComponent(DestroyComponent.class).get().destroy();
-                                        placer.addPowerUp(thisEntity.getComponent(PowerUpComponent.class).get()
-                                                  .getPowerUpType());
+                                   if (collisionEntity.getType() == Type.POWERUP) {
+                                        PowerUpHandlerComponent powerUpHandlerComponent = this.getEntity()
+                                                  .getComponent(PowerUpHandlerComponent.class).get();
+                                        PowerUpType powerUpType = collisionEntity.getComponent(PowerUpComponent.class)
+                                                  .get().getPowerUpType();
+                                        if (powerUpType == PowerUpType.SPEEDUP || powerUpType == PowerUpType.SPEEDDOWN) {
+                                             this.getEntity().addSpeed(powerUpType);
+                                        } else {
+                                             powerUpHandlerComponent.addPowerUp(powerUpType);
+                                        }
+                                        collisionEntity.getComponent(DestroyComponent.class).get().destroy();
                                    }
                               }
                          }
