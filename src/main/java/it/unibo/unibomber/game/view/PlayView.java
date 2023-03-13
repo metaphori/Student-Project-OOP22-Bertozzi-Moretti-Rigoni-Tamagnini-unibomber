@@ -1,11 +1,14 @@
 package it.unibo.unibomber.game.view;
 
 import java.awt.Graphics;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Play;
+import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
@@ -30,6 +33,7 @@ public final class PlayView implements GameLoop {
     private final Play controller;
     private Integer animationIndex;
     private BufferedImage[][] animations;
+    private final Map<Type, BufferedImage>sprites;
     private Integer playerAction = STANDING;
     private Integer indexDir;
 
@@ -38,6 +42,7 @@ public final class PlayView implements GameLoop {
      * @param controller
      */
     public PlayView(final Play controller) {
+        this.sprites=Constants.UI.SpritesMap.SPRITESPATH;
         this.controller = controller;
         indexDir = 0;
         loadSprites();
@@ -46,16 +51,16 @@ public final class PlayView implements GameLoop {
          * animations[0][2] = colorImage(animations[0][2]);
          * animations[0][3] = colorImage(animations[0][3]);
          */
+        
+         for (Integer j = 0; j < animations.length; j++) {
+            for (Integer i = 0; i < animations[j].length; i++) {
+                animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i*TILES_SIZE, j*TILES_SIZE, TILES_SIZE, TILES_SIZE);
+            }
+        }
     }
 
     private void loadSprites() {
         animations = new BufferedImage[ROW_PLAYER_SPRITES][COL_PLAYER_SPRITES];
-        for (Integer j = 0; j < animations.length; j++) {
-            for (Integer i = 0; i < animations[j].length; i++) {
-                animations[j][i] = UploadRes.getSpriteAtlas(SPRITESPATH.get(Type.PLAYABLE))
-                        .getSubimage(i * TILES_SIZE, j * TILES_SIZE, TILES_SIZE, TILES_SIZE);
-            }
-        }
     }
 
     private void updateAnimationFrame() {
@@ -110,78 +115,54 @@ public final class PlayView implements GameLoop {
      */
     @Override
     public void draw(final Graphics g) {
+
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
-            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
-            if (controller.getEntities().get(i).getType() != Type.PLAYABLE
-                    && controller.getEntities().get(i).getType() != Type.POWERUP) {
-                g.drawImage(UploadRes.getSpriteAtlas(SPRITESPATH.get(controller.getEntities().get(i).getType())),
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getX() * TILES_DEFAULT * SCALE),
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getY() * TILES_DEFAULT * SCALE),
-                        (int) (TILES_SIZE),
-                        (int) (TILES_SIZE),
-                        null);
-            } else if (controller.getEntities().get(i).getType() == Type.POWERUP) {
-                g.drawImage(UploadRes.getSpriteAtlas(SPRITESPOWERUPPATH.get(controller
-                        .getEntities()
-                        .get(i)
-                        .getComponent(PowerUpComponent.class)
-                        .get().getPowerUpType())),
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getX() * TILES_DEFAULT * SCALE),
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getY() * TILES_DEFAULT * SCALE),
-                        (int) (TILES_SIZE),
-                        (int) (TILES_SIZE),
-                        null);
-            } else if (controller.getEntities().get(i).getType() == Type.PLAYABLE) {
-                changePlayerAction(WALKING);
-                final var movementComponent = controller.getEntities().get(i).getComponent(MovementComponent.class).get();
-                switch (movementComponent.getDirection()) {
-                    case DOWN:
-                        indexDir = 0;
-                        break;
-                    case LEFT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
-                        break;
-                    case RIGHT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
-                        break;
-                    case UP:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
-                        break;
-                    case CENTER:
-                        indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
-                        break;
-                    default:
-                        break;
-                }
-                if (!movementComponent.hasMoved()) {
-                    changePlayerAction(STANDING);
-                }
-                g.drawImage(
-                        animations[playerAction][animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir],
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getX() * TILES_DEFAULT * SCALE),
-                        Math.round(controller.getEntities()
-                                .get(i)
-                                .getPosition()
-                                .getY() * TILES_DEFAULT * SCALE),
-                        (int) (TILES_DEFAULT * SCALE),
-                        (int) (TILES_DEFAULT * SCALE),
-                        null);
-            }
+//            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
+            drawImage(g, controller.getEntities().get(i));
         }
+    }
+
+    private void drawImage(Graphics g, Entity entity) {
+        BufferedImage image = getCorrectImage(entity);
+        g.drawImage(image,
+                Math.round(entity.getPosition()
+                        .getX() * TILES_DEFAULT * SCALE),
+                Math.round(entity.getPosition()
+                        .getY() * TILES_DEFAULT * SCALE),
+                (int) (TILES_DEFAULT * SCALE),
+                (int) (TILES_DEFAULT * SCALE),
+                null)   ;
+    }
+
+    private BufferedImage getCorrectImage(Entity entity) {
+        if (entity.getType() == Type.PLAYABLE) {
+            changePlayerAction(WALKING);
+            final var movementComponent = entity.getComponent(MovementComponent.class).get();
+            switch (movementComponent.getDirection()) {
+                case DOWN:
+                    indexDir = 0;
+                    break;
+                case LEFT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
+                    break;
+                case RIGHT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
+                    break;
+                case UP:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
+                    break;
+                case CENTER:
+                    indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
+                    break;
+            }
+            if (!movementComponent.hasMoved()) {
+                changePlayerAction(STANDING);
+            }
+            return animations[playerAction][animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir];
+        } else if (entity.getType() == Type.POWERUP) {
+            return null;
+        } else
+            return sprites.get(entity.getType());
+
     }
 }
