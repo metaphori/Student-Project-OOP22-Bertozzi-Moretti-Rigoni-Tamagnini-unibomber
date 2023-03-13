@@ -89,6 +89,10 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                             game.addEntity(new EntityFactoryImpl(game)
                                     .makePowerUp(new Pair<Float, Float>((float) i, (float) row), PowerUpType.getRandomPowerUp()));
                             break;
+                        case "5":
+                            game.addEntity(new EntityFactoryImpl(game)
+                                    .makeDestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+                            break;
                         case "6":
                             game.addEntity(new EntityFactoryImpl(game)
                                     .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));

@@ -7,6 +7,8 @@ import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.view.WorldPanelImpl;
 import it.unibo.unibomber.game.view.WorldWindow;
+import it.unibo.unibomber.utilities.Constants;
+
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.NANO_S;
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.FPS_SET;
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.UPS_SET;
@@ -33,8 +35,13 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   private void initClasses() {
+    loadSprites();
     menu = new Menu();
     play = new Play(this);
+  }
+  private void loadSprites() {
+    new Constants.UI.SpritesMap();
+    new Constants.Destroy();
   }
 
   private void startGameLoop() {
