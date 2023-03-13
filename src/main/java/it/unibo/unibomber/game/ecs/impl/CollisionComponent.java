@@ -50,11 +50,11 @@ public final class CollisionComponent extends AbstractComponent {
       * @param isSolid
       * @param isCollided
       */
-     public CollisionComponent(final boolean isSolid, final boolean isOverstable) {
+     public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
           this.isOverstable = isOverstable;
-          this.x = 0;
-          this.y = 0;
+          this.x = (int) (x * TILES_DEFAULT * SCALE);
+          this.y = (int) (y * TILES_DEFAULT * SCALE);
           initHitbox();
      }
 
