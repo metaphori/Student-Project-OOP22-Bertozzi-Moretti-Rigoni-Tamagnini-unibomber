@@ -31,7 +31,7 @@ public final class WorldPanelImpl extends JPanel {
    */
   public WorldPanelImpl(final WorldImpl world) {
     this.world = world;
-    this.tile = UploadRes.getSpriteAtlas(SPRITESPATH.get(Type.EMPTY_AREA));
+    this.tile =Constants.UI.SpritesMap.SPRITESPATH.get(Type.EMPTY_AREA) ;
     setSize();
     addKeyListener(new KeyboardInputsImpl(this));
     addMouseListener(new MouseInputsImpl(this));
