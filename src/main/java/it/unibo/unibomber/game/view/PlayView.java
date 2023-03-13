@@ -13,7 +13,6 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
-import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.utilities.Constants;
 import static it.unibo.unibomber.utilities.Constants.Player.STANDING;
 import static it.unibo.unibomber.utilities.Constants.Player.WALKING;
@@ -41,7 +40,6 @@ public final class PlayView implements GameLoop {
      * @param controller
      */
     public PlayView(final Play controller) {
-        new Constants.UI.SpritesMap();
         this.sprites = Constants.UI.SpritesMap.SPRITESPATH;
         this.powerUpSprites = Constants.UI.SpritesMap.SPRITESPOWERUPPATH;
         this.controller = controller;
@@ -80,7 +78,7 @@ public final class PlayView implements GameLoop {
      * @param action
      */
     public void changePlayerAction(final Integer action) {
-        if (action == STANDING) {
+        if (action == STANDING && playerAction != STANDING) {
             final Integer animation = animationIndex % Constants.Player.getSpriteAmount(playerAction) + indexDir;
             final Integer basicDir = (int) (animation / Constants.Player.getSpriteAmount(playerAction));
             indexDir = basicDir * Constants.Player.getSpriteAmount(action);
