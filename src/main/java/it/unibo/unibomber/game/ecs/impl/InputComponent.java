@@ -62,7 +62,6 @@ public class InputComponent extends AbstractComponent {
 
      private Optional<Integer> getSpaceKey() {
           final var keyPressed = this.getEntity().getGame().getWorld().getPlay().getKeys();
-
           return keyPressed.stream()
                     .filter(e -> e == (int) KeyEvent.VK_SPACE)
                     .findFirst();
