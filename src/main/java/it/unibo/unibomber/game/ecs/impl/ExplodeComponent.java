@@ -11,7 +11,8 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
-import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODEDURATION;
+import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODE_DURATION;
+import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
 
 /**
  * This component manage the explosion of the bomb.
@@ -19,46 +20,40 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODEDURATION;
 public class ExplodeComponent extends AbstractComponent {
 
     private int explodeFrames;
-    private boolean isExploding;
+    private int expiringFrames;
 
     /**
      * In the constuctor, set 0 the field explodeFrames
-     * and set false the field isExploding.
+     * and the field expiringFrames.
      */
     public ExplodeComponent() {
+        this.expiringFrames = 0;
         this.explodeFrames = 0;
-        this.isExploding = false;
     }
 
     @Override
     public final void update() {
-        if (this.isExploding) {
+        if (this.expiringFrames == EXPIRING_TIME) {
+            this.explode();
             this.explodeFrames++;
-            if (this.explodeFrames < EXPLODEDURATION) {
+            if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
                         .filter(e -> e.getType() == Type.BOT || e.getType() == Type.PLAYABLE)
                         .collect(Collectors.toList()));
             } else {
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
-                this.isExploding = false;
+                this.expiringFrames = 0;
             }
+        } else {
+            this.expiringFrames++;
         }
-    }
-
-    /**
-     * A method to know if the bomb is exploding.
-     * 
-     * @return true if is exploding, false otherwise
-     */
-    public boolean isExploding() {
-        return this.isExploding;
     }
 
     /**
     * A method to destroy wall or powerups in the bomb range.
     */
-    public void explode() {
+    private void explode() {
         explodeEntities(this.getEntity().getGame().getEntities().stream()
                         .filter(e -> e.getType() != Type.BOT 
                                 && e.getType() != Type.PLAYABLE 
@@ -91,6 +86,5 @@ public class ExplodeComponent extends AbstractComponent {
                     });
                 });
             });
-        this.isExploding = true;
     }
 }

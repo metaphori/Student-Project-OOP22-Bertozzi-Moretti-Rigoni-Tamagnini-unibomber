@@ -341,7 +341,12 @@ public class Constants {
         /**
          * Explode duration.
          */
-        public static final int EXPLODEDURATION = 5;
+        public static final int EXPLODE_DURATION = 5;
+
+        /**
+         * Expiring time before bomb explodes.
+         */
+        public static final int EXPIRING_TIME = 50;
     }
 
     /**
@@ -351,7 +356,7 @@ public class Constants {
         /**
          * Destroy duration.
          */
-        public static final int DESTROYDURATION = 4;
+        public static final int DESTROY_DURATION = 4;
 
         /**
          * Percentage of powerup drop.
