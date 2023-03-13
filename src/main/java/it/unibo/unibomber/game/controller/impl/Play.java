@@ -4,8 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -32,6 +34,7 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class Play extends StateImpl implements KeyListener, GameLoop {
     private Deque<Integer> keyQueue;
+    private Map<Integer, Boolean> firstFrameKey;
     private final Game game;
     private final PlayView view;
     private final Field field;
@@ -51,6 +54,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         field = new FieldImpl(game);
         field.updateField();
         keyQueue = new LinkedList<>();
+        firstFrameKey = new HashMap<>();
         // TODO load map at settings not in constructor
     }
 
@@ -119,6 +123,16 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         }
         field.updateField();
         view.update();
+        updateKeys();
+    }
+
+    /**
+     * if those keys are still here they were not presed on the first frame
+     */
+    private void updateKeys() {
+        for (Integer keyCode : firstFrameKey.keySet())
+            firstFrameKey.put(keyCode, false);
+
     }
 
     @Override
@@ -131,19 +145,22 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         if (keyQueue.contains(e.getKeyCode())) {
             keyQueue.remove(e.getKeyCode());
         }
+        if (firstFrameKey.containsKey(e.getKeyCode())) {
+            firstFrameKey.remove(e.getKeyCode());
+        }
     }
 
     @Override
     public final void keyTyped(final KeyEvent e) {
-        if (!keyQueue.contains(e.getKeyCode())) {
-            keyQueue.addLast(e.getKeyCode());
-        }
     }
 
     @Override
     public final void keyPressed(final KeyEvent e) {
         if (!keyQueue.contains(e.getKeyCode())) {
             keyQueue.addFirst(e.getKeyCode());
+        }
+        if (!firstFrameKey.containsKey(e.getKeyCode())) {
+            firstFrameKey.put(e.getKeyCode(), true);
         }
     }
 
@@ -152,6 +169,10 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public final Deque<Integer> getKeys() {
         return keyQueue;
+    }
+
+    public final Map<Integer, Boolean> getFirstFrameKeys() {
+        return firstFrameKey;
     }
 
     /**
