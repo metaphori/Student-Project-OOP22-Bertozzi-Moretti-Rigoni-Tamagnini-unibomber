@@ -98,11 +98,17 @@ public final class CollisionComponent extends AbstractComponent {
                               if (collisionEntity.getComponent(CollisionComponent.class).get().isSolid()
                                         && !collisionEntity.getComponent(CollisionComponent.class).get()
                                                   .isOverstable()) {
-                                   //if entity is not place on the player
-                                   if (Math.round(this.getEntity().getPosition().getX()) != Math
-                                             .round(collisionEntity.getPosition().getX())
-                                             || Math.round(this.getEntity().getPosition().getY()) != Math
-                                                       .round(collisionEntity.getPosition().getY())) {
+                                   if (Math.round(this.getEntity().getPosition().getX()) == Math
+                                             .round(collisionEntity.getPosition().getX())) {
+                                        this.getEntity().setPosition(new Pair<Float, Float>(
+                                                  this.getEntity().getPosition().getX(),
+                                                  (float) Math.round(this.getEntity().getPosition().getY())));
+                                   } else if (Math.round(this.getEntity().getPosition().getY()) == Math
+                                             .round(collisionEntity.getPosition().getY())) {
+                                        this.getEntity().setPosition(new Pair<Float, Float>(
+                                                  (float) Math.round(this.getEntity().getPosition().getX()),
+                                                  this.getEntity().getPosition().getY()));
+                                   } else {
                                         this.getEntity().setPosition(new Pair<Float, Float>(
                                                   (float) Math.round(this.getEntity().getPosition().getX()),
                                                   (float) Math.round(this.getEntity().getPosition().getY())));
