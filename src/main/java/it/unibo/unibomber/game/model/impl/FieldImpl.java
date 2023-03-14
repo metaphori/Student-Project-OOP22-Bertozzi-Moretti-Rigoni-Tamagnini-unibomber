@@ -48,14 +48,14 @@ public class FieldImpl implements Field {
                 .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {
-            if (entity.getType() == Type.BOMB
-                    && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT
-                            || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
-                row = (int) Math.round(entity.getPosition().getX());
-                col = (int) Math.round(entity.getPosition().getY());
+            if (entity.getType() == Type.BOMB 
+                && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT 
+                    || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
+                row = (int) Math.floor(entity.getPosition().getX());
+                col = (int) Math.floor(entity.getPosition().getY());
             } else {
-                row = Math.round(entity.getPosition().getX());
-                col = Math.round(entity.getPosition().getY());
+                row = (int) Math.ceil(entity.getPosition().getX());
+                col = (int) Math.ceil(entity.getPosition().getY());
             }
             this.field.put(new Pair<Integer, Integer>(row, col),
                     new Pair<Type, Entity>(entity.getType(), entity));

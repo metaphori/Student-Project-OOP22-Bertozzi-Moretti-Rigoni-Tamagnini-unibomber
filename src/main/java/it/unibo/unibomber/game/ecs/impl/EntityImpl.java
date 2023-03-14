@@ -6,10 +6,8 @@ import java.util.Set;
 
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Game;
-import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -82,22 +80,8 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public final void addSpeed(final PowerUpType powerUpType) {
-        this.getComponent(PowerUpListComponent.class).get().addPowerUpList(powerUpType);
-        switch (powerUpType) {
-            case SPEEDUP:
-                if (this.speed < 2) {
-                    this.speed += Constants.Entity.SPEED_CHANGE;
-                }
-                break;
-            case SPEEDDOWN:
-                if (this.speed > 1) {
-                    this.speed -= Constants.Entity.SPEED_CHANGE;
-                }
-                break;
-            default:
-                break;
-        }
+    public void addSPeed(float speedValue) {
+        this.speed += speedValue;
     }
 
     @Override

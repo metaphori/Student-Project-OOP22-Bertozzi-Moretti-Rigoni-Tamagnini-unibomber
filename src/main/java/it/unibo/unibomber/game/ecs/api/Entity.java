@@ -61,7 +61,7 @@ public interface Entity {
     float getSpeed();
 
     /**
-     * @param powerUpType
+     * @param speedValue
      */
-    void addSpeed(PowerUpType powerUpType);
+    void addSPeed(float speedValue);
 }
