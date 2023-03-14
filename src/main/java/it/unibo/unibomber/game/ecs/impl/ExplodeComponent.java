@@ -35,7 +35,9 @@ public class ExplodeComponent extends AbstractComponent {
     @Override
     public final void update() {
         if (this.expiringFrames == EXPIRING_TIME) {
-            explode();
+            if (this.explodeFrames == 0) {
+                explode();
+            }
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()

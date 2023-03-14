@@ -85,6 +85,7 @@ public final class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           Entity entity = this.getEntity();
+          if (entity.getType() == Type.PLAYABLE) {
           entity.getGame().getEntities().stream()
                     .filter(e -> !e.equals(entity))
                     .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
@@ -109,6 +110,7 @@ public final class CollisionComponent extends AbstractComponent {
                               }
                          }
                     });
+          }
      }
 
      /**
