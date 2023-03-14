@@ -66,7 +66,7 @@ class PowerUpTest {
     void testSpeedUpPowerUp() {
         Entity player = this.createPlayerEntity();
         assertEquals(SPEED_BASE, player.getSpeed());
-        player.addSPeed(SPEED_POWERUP);
+        player.addSpeed(SPEED_POWERUP);
         assertEquals(SPEED_BASE + SPEED_POWERUP, player.getSpeed());
     }
 
