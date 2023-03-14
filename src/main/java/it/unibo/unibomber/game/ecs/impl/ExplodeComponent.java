@@ -1,10 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -29,7 +26,7 @@ public class ExplodeComponent extends AbstractComponent {
      * 
      * @param placer
      */
-    public ExplodeComponent(Entity placer) {
+    public ExplodeComponent(final Entity placer) {
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
@@ -55,6 +52,11 @@ public class ExplodeComponent extends AbstractComponent {
         }
     }
 
+    /**
+     * A method that supplies the entity
+     * who placed the bomb.
+     * @return the entity
+     */
     public Entity getPlacer() {
         return this.placer;
     }
@@ -64,9 +66,7 @@ public class ExplodeComponent extends AbstractComponent {
      */
     private void explode() {
         explodeEntities(this.getEntity().getGame().getEntities().stream()
-                .filter(e -> e.getType() != Type.BOT
-                        && e.getType() != Type.PLAYABLE
-                        && e.getType() != Type.INDESTRUCTIBLE_WALL)
+                .filter(e -> e.getType() == Type.BOMB)
                 .collect(Collectors.toList()));
     }
 
@@ -79,45 +79,33 @@ public class ExplodeComponent extends AbstractComponent {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var field = this.getEntity().getGame().getGameField().getField();
         Pair<Integer, Integer> checkPos;
-        /*entitiesList.stream()
-                .forEach(entity -> {
-                    Arrays.stream(Direction.values()).forEach(dir -> {
-                        IntStream.rangeClosed(1, bombRange).mapToObj(countPositions -> {
-                            final Pair<Float, Float> checkPos = new Pair<>(
-                                    entity.getPosition().getX() + dir.getX() * countPositions,
-                                    entity.getPosition().getY() + dir.getY() * countPositions);
-                            return field.get(checkPos);
-                        }).filter(Objects::nonNull).findFirst().ifPresent(e -> {
-                            if (e.getX() == Type.BOMB) {
-                                explodeEntities(List.of(e.getY()));
-                            } else {
-                                e.getY().getComponent(DestroyComponent.class).get().destroy();
-                            }
-                        });
-                    });
-                });*/
+        int countPositions;
         for (var entity : entitiesList) {
-            if (entity.getType() == Type.BOMB) {
-                for (var dir : Direction.values()) {
-                    int countPositions = 1;
-                    while (countPositions <= bombRange) {
-                        checkPos = new Pair<Integer,Integer>(
-                            Math.round(entity.getPosition().getX() + (dir.getX() * countPositions)), 
-                            Math.round(entity.getPosition().getY() + (-(dir.getY()) * countPositions)));
-                        if (field.containsKey(checkPos) && checkPos(entity.getPosition(), checkPos, field.get(checkPos).getY())) {
-                            if (field.get(checkPos).getX() == Type.BOMB) {
-                                explodeEntities(List.of(field.get(checkPos).getY()));
-                            } else {
-                                field.get(checkPos).getY().getComponent(DestroyComponent.class).get().destroy();
-                            }
+            for (var dir : Direction.values()) {
+                countPositions = 1;
+                while (countPositions <= bombRange) {
+                    checkPos = new Pair<>(Math.round(entity.getPosition().getX() + (dir.getX() * countPositions)),
+                        Math.round(entity.getPosition().getY() + (-(dir.getY()) * countPositions)));
+                    if (field.containsKey(checkPos) && checkPos(entity.getPosition(), checkPos, field.get(checkPos).getY())) {
+                        if (field.get(checkPos).getX() == Type.BOMB) {
+                            explodeEntities(List.of(field.get(checkPos).getY()));
+                        } else {
+                            field.get(checkPos).getY().getComponent(DestroyComponent.class).get().destroy();
                         }
-                        countPositions++;
                     }
+                    countPositions++;
                 }
             }
         }
     }
 
+    /**
+     * A method that checks if the entity is destructible by the bomb.
+     * @param pos the bomb position
+     * @param checkPos the entity position
+     * @param entity the entity
+     * @return true if is destructible, false otherwise
+     */
     private boolean checkPos(final Pair<Float, Float> pos, final Pair<Integer, Integer> checkPos, final Entity entity) {
         return (Math.round(pos.getX()) != checkPos.getX()
             || Math.round(pos.getY()) != checkPos.getY())
