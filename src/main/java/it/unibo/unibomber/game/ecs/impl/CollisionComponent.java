@@ -98,37 +98,30 @@ public final class CollisionComponent extends AbstractComponent {
                               if (collisionEntity.getComponent(CollisionComponent.class).get().isSolid()
                                         && !collisionEntity.getComponent(CollisionComponent.class).get()
                                                   .isOverstable()) {
-                                   if (Math.round(this.getEntity().getPosition().getX()) == Math
-                                             .round(collisionEntity.getPosition().getX())) {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  this.getEntity().getPosition().getX(),
-                                                  (float) Math.round(this.getEntity().getPosition().getY())));
-                                   } else if (Math.round(this.getEntity().getPosition().getY()) == Math
-                                             .round(collisionEntity.getPosition().getY())) {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  (float) Math.round(this.getEntity().getPosition().getX()),
-                                                  this.getEntity().getPosition().getY()));
+                                   float x = this.getEntity().getPosition().getX();
+                                   float y = this.getEntity().getPosition().getY();
+                                   float collisionX = collisionEntity.getPosition().getX();
+                                   float collisionY = collisionEntity.getPosition().getY();
+                                   if (Math.round(x) == Math.round(collisionX)) {
+                                        this.getEntity().setPosition(new Pair<>(x, (float) Math.round(y)));
+                                   } else if (Math.round(y) == Math.round(collisionY)) {
+                                        this.getEntity().setPosition(new Pair<>((float) Math.round(x), y));
                                    } else {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  (float) Math.round(this.getEntity().getPosition().getX()),
-                                                  (float) Math.round(this.getEntity().getPosition().getY())));
+                                        this.getEntity().setPosition(
+                                                  new Pair<>((float) Math.round(x), (float) Math.round(y)));
                                    }
-
                               } else {
-                                   // if is a power up
                                    if (collisionEntity.getType() == Type.POWERUP) {
-                                        PowerUpHandlerComponent powerUpHandlerComponent = this.getEntity()
-                                                  .getComponent(PowerUpHandlerComponent.class).get();
-                                        PowerUpType powerUpType = collisionEntity.getComponent(PowerUpComponent.class)
-                                                  .get().getPowerUpType();
-                                        if (powerUpType == PowerUpType.SPEEDUP
-                                                  || powerUpType == PowerUpType.SPEEDDOWN) {
-                                             this.getEntity().addSpeed(powerUpType);
+                                        PowerUpComponent powerUpComponent = collisionEntity.getComponent(PowerUpComponent.class).get();
+                                        PowerUpType powerUpType = powerUpComponent.getPowerUpType();
+                                        if (powerUpType == PowerUpType.SPEEDUP || powerUpType == PowerUpType.SPEEDDOWN) {
+                                            this.getEntity().addSpeed(powerUpType);
                                         } else {
-                                             powerUpHandlerComponent.addPowerUp(powerUpType);
+                                            PowerUpHandlerComponent powerUpHandlerComponent = this.getEntity().getComponent(PowerUpHandlerComponent.class).get();
+                                            powerUpHandlerComponent.addPowerUp(powerUpType);
                                         }
                                         collisionEntity.getComponent(DestroyComponent.class).get().destroy();
-                                   }
+                                    }
                               }
                          }
                     }
