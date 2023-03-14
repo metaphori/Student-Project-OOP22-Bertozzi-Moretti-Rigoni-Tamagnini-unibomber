@@ -38,7 +38,7 @@ public class ExplodeComponent extends AbstractComponent {
     @Override
     public final void update() {
         if (this.expiringFrames == EXPIRING_TIME) {
-            this.explode();
+            explode();
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
@@ -78,7 +78,8 @@ public class ExplodeComponent extends AbstractComponent {
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var field = this.getEntity().getGame().getGameField().getField();
-        entitiesList.stream()
+        Pair<Integer, Integer> checkPos;
+        /*entitiesList.stream()
                 .forEach(entity -> {
                     Arrays.stream(Direction.values()).forEach(dir -> {
                         IntStream.rangeClosed(1, bombRange).mapToObj(countPositions -> {
@@ -94,6 +95,32 @@ public class ExplodeComponent extends AbstractComponent {
                             }
                         });
                     });
-                });
+                });*/
+        for (var entity : entitiesList) {
+            if (entity.getType() == Type.BOMB) {
+                for (var dir : Direction.values()) {
+                    int countPositions = 1;
+                    while (countPositions <= bombRange) {
+                        checkPos = new Pair<Integer,Integer>(
+                            Math.round(entity.getPosition().getX() + (dir.getX() * countPositions)), 
+                            Math.round(entity.getPosition().getY() + (-(dir.getY()) * countPositions)));
+                        if (field.containsKey(checkPos) && checkPos(entity.getPosition(), checkPos, field.get(checkPos).getY())) {
+                            if (field.get(checkPos).getX() == Type.BOMB) {
+                                explodeEntities(List.of(field.get(checkPos).getY()));
+                            } else {
+                                field.get(checkPos).getY().getComponent(DestroyComponent.class).get().destroy();
+                            }
+                        }
+                        countPositions++;
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean checkPos(final Pair<Float, Float> pos, final Pair<Integer, Integer> checkPos, final Entity entity) {
+        return (Math.round(pos.getX()) != checkPos.getX()
+            || Math.round(pos.getY()) != checkPos.getY())
+            && entity.getType() != Type.INDESTRUCTIBLE_WALL;
     }
 }
