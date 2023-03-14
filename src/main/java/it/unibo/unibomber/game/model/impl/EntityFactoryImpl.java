@@ -66,7 +66,8 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final Entity makeBot(final Pair<Float, Float> position, final int difficultyAI) {
-        return makeBomber(position, Type.PLAYABLE)
+        return makeBomber(position, Type.BOT)
+                .addComponent(new MovementComponent())
                 .addComponent(new AIComponent());
     }
 

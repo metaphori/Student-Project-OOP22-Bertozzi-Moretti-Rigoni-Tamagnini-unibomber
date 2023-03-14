@@ -77,10 +77,11 @@ public class Constants {
              * game height.
              */
             public static int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
-             /**
+            /**
              * player default dimension.
              */
             public static final int PLAYER_DEFAULT = 48;
+
             public static void changeDimension() {
                 TILES_DEFAULT--;
                 TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
@@ -132,6 +133,14 @@ public class Constants {
              */
             public static final int ROW_PLAYER_SPRITES = 2;
             /**
+             * max row of bomb sprites animation.
+             */
+            public static final int ROW_BOMB_SPRITES = 1;
+            /**
+             * Map of row of entity animation.
+             */
+            public static final Map<Type, Integer> ANIMATION_ROW = new HashMap<>();
+            /**
              * Map of type and path of sprites.
              */
             public static final Map<Type, BufferedImage> SPRITESPATH = new HashMap<>();
@@ -146,7 +155,7 @@ public class Constants {
             public SpritesMap() {
                 // TYPE
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player_sprites.png"));
-                SPRITESPATH.put(Type.BOT, null);
+                SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
                 SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
@@ -162,9 +171,14 @@ public class Constants {
                 SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("speed_down.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("bomb_kick.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("power_glove.png"));
+                ANIMATION_ROW.put(Type.PLAYABLE, 0);
+                ANIMATION_ROW.put(Type.BOT, 2);
+                ANIMATION_ROW.put(Type.BOMB, 4);
+
             }
 
         }
+
         /**
          * Entity scale settings constans.
          */
@@ -173,11 +187,13 @@ public class Constants {
              * Map of type and scale of this entity .
              */
             public static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+
             /**
              * Scale constructor.
              */
             public Scale() {
                 ENTITY_SCALE.put(Type.PLAYABLE, 0.5f);
+                ENTITY_SCALE.put(Type.BOT, 0.5f);
                 ENTITY_SCALE.put(Type.BOMB, -0.5f);
                 ENTITY_SCALE.put(Type.POWERUP, 0f);
                 ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, 0f);
@@ -185,15 +201,7 @@ public class Constants {
             }
         }
     }
-    /**
-     * Bomb animation constans.
-     */
-    public static final class Bomb {
-        /**
-         * EXPLOSION animation.
-         */
-        public static final int EXPLOSION = 3;
-    }
+
     /**
      * Player animation constans.
      */
@@ -251,6 +259,10 @@ public class Constants {
          */
         public static final int DANCING = 12;
         /**
+         * EXPLOSION animation.
+         */
+        public static final int EXPLOSION = 13;
+        /**
          * STANDING number of animations.
          */
         public static final int STANDING_ANIMATION = 3;
@@ -302,9 +314,18 @@ public class Constants {
          * DANCING number of animations.
          */
         public static final int DANCING_ANIMATION = 8;
-
-        private Player() {
-        }
+        /**
+         * EXPLOSION number of animations.
+         */
+        public static final int EXPLOSION_ANIMATION = 3;
+        /**
+         * EXPLOSION_COUNTER number of animations.
+         */
+        public static final int EXPLOSION_COUNTER = 1;
+        /**
+         * PLAYER_COUNTER number of animations.
+         */
+        public static final int PLAYER_COUNTER = 2;
 
         /**
          * @param playerAction
@@ -336,6 +357,8 @@ public class Constants {
                     return JUMPUP_DOWN_ANIMATION;
                 case DANCING:
                     return DANCING_ANIMATION;
+                case EXPLOSION:
+                    return EXPLOSION_ANIMATION;
                 default:
                     return 1;
             }
