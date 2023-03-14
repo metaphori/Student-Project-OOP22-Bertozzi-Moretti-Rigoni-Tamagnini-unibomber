@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.Optional;
+
 import java.awt.event.KeyEvent;
 
 import it.unibo.unibomber.utilities.Constants;
@@ -15,12 +16,15 @@ public class InputComponent extends AbstractComponent {
      public final void update() {
 
           final Optional<Integer> moveKey = getMoveKey();
-          // TODO change to getFunctionalKeys when needed
-          final Optional<Integer> spazio = getSpaceKey();
+          final Optional<Integer> clickedKey = getClickedKey();
+
           final Pair<Float, Float> moveBy = calculateMovement(moveKey);
 
-          if (spazio.isPresent()) {
+          if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_SPACE) {
                this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
+          } else if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_ESCAPE) {
+               // TODO complete menu window
+               System.out.println("MENU/PAUSE");
           }
           updateMovement(moveBy);
      }
@@ -31,7 +35,6 @@ public class InputComponent extends AbstractComponent {
       */
      private void updateMovement(final Pair<Float, Float> moveBy) {
           final var movementComponent = this.getEntity().getComponent(MovementComponent.class);
-
           if (movementComponent.isPresent()) {
                final MovementComponent move = movementComponent.get();
                move.moveBy(moveBy);
@@ -49,10 +52,8 @@ public class InputComponent extends AbstractComponent {
                     return new Pair<Float, Float>(0f, Constants.Input.NEGATIVE_MOVE);
                case KeyEvent.VK_A:
                     return new Pair<Float, Float>(Constants.Input.NEGATIVE_MOVE, 0f);
-
                case KeyEvent.VK_S:
                     return new Pair<Float, Float>(0f, Constants.Input.POSITIVE_MOVE);
-
                case KeyEvent.VK_D:
                     return new Pair<Float, Float>(Constants.Input.POSITIVE_MOVE, 0f);
                default:
@@ -60,11 +61,10 @@ public class InputComponent extends AbstractComponent {
           }
      }
 
-     private Optional<Integer> getSpaceKey() {
+     private Optional<Integer> getClickedKey() {
           final var keyPressed = this.getEntity().getGame().getWorld().getPlay().getFirstFrameKeys();
           return keyPressed.keySet().stream()
-                    .filter(e -> e == (int) KeyEvent.VK_SPACE)
-                    .filter(e-> keyPressed.get(e).equals(true))
+                    .filter(e -> keyPressed.get(e).equals(true))
                     .findFirst();
      }
 

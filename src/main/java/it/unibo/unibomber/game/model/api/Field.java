@@ -27,5 +27,5 @@ public interface Field {
      * 
      * @return a matrix of types of the entities
      */
-    Type[][] getEntitiesTypes();
+    Type[][] getMatrixTypes();
 }

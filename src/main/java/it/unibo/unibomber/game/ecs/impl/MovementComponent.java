@@ -24,9 +24,7 @@ public class MovementComponent extends AbstractComponent {
     public final void update() {
         this.getEntity().addPosition(moveBy);
         handleDirection();
-        // checkCollisions();
     }
-
     /**
      * Given the direction it updates the number of frames spent
      * in that direction for the animation's sake.
@@ -44,18 +42,6 @@ public class MovementComponent extends AbstractComponent {
             this.framesInDirection = 0;
         }
     }
-
-    /**
-     * Handles the collisions by calling the relative component.
-     */
-    /* TODO
-    private void checkCollisions() {
-        final Optional<CollisionComponent> collisionComp = this.getEntity().getComponent(CollisionComponent.class);
-        if (collisionComp.isPresent()) {
-            collisionComp.get().checkCollisions();
-        }
-    }
-    */
 
     /**
      * @param moveBy the coordinates to move by

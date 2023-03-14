@@ -59,7 +59,8 @@ public class EntityFactoryImpl implements EntityFactory {
     @Override
     public final Entity makePlayable(final Pair<Float, Float> position) {
         return makeBomber(position, Type.PLAYABLE)
-                .addComponent(new InputComponent());
+                .addComponent(new InputComponent())
+                .addComponent(new AIComponent());
 
     }
 
@@ -74,7 +75,7 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomb(final Entity placer, final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.BOMB)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(true, true, Math.round(position.getX()), Math.round(position.getY())))
+                .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY())))
                 .addComponent(new ExplodeComponent(placer))
                 .addComponent(new PowerUpListComponent(placer))
                 .addComponent(new DestroyComponent());
