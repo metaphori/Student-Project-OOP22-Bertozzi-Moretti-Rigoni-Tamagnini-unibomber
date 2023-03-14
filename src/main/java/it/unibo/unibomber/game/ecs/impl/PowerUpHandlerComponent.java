@@ -2,6 +2,7 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.List;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.utilities.Constants;
 
 /**
  * This component manage bombers powerUp.
@@ -54,6 +55,16 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
                 case BOMBDOWN:
                     if (this.getBombNumber() > 1) {
                         this.setBombNumer(getBombNumber() - 1);
+                    }
+                    break;
+                case SPEEDUP:
+                    if (this.getEntity().getSpeed() < 2) {
+                        this.getEntity().addSPeed(Constants.Entity.SPEED_CHANGE);
+                    }
+                    break;
+                case SPEEDDOWN:
+                    if (this.getEntity().getSpeed() > 1) {
+                        this.getEntity().addSPeed(-Constants.Entity.SPEED_CHANGE);
                     }
                     break;
                 default:
