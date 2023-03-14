@@ -63,5 +63,5 @@ public interface Entity {
     /**
      * @param speedValue
      */
-    void addSPeed(float speedValue);
+    void addSpeed(float speedValue);
 }

@@ -48,9 +48,9 @@ public class FieldImpl implements Field {
                 .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {
-            if (entity.getType() == Type.BOMB 
-                && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT 
-                    || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
+            if (entity.getType() == Type.BOMB
+                    && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT
+                            || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
                 row = (int) Math.floor(entity.getPosition().getX());
                 col = (int) Math.floor(entity.getPosition().getY());
             } else {
@@ -63,7 +63,7 @@ public class FieldImpl implements Field {
     }
 
     @Override
-    public Type[][] getMatrixTypes() {
+    public final Type[][] getMatrixTypes() {
         final Pair<Integer, Integer> gameDimensions = this.game.getDimensions();
         final Type[][] typesMatrix = new Type[gameDimensions.getX()][gameDimensions.getY()];
         addEntitiesToMatrix(typesMatrix);
@@ -72,7 +72,7 @@ public class FieldImpl implements Field {
         return typesMatrix;
     }
 
-    private void addBombExplosionToMatrix(Type[][] typesMatrix) {
+    private void addBombExplosionToMatrix(final Type[][] typesMatrix) {
         // TODO only works with basic bombs
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
@@ -81,21 +81,23 @@ public class FieldImpl implements Field {
                             .get();
 
                     for (int i = 0; i < powerupList.getBombFire(); i++) {
-                        for( Direction d : Direction.values()){
-                            addExplosionToMatrix(typesMatrix, d, new Pair<Integer,Integer>(e.getX()+d.getX(), e.getY()+d.getY()));
+                        for (Direction d : Direction.values()) {
+                            addExplosionToMatrix(typesMatrix, d,
+                                    new Pair<Integer, Integer>(e.getX() + d.getX(), e.getY() + d.getY()));
                         }
                     }
                 });
 
     }
 
-    private void addExplosionToMatrix(Type[][] typesMatrix,Direction dir, Pair<Integer, Integer> where){
+    private void addExplosionToMatrix(final Type[][] typesMatrix, final Direction dir, final Pair<Integer, Integer> where) {
         if (typesMatrix[where.getX()][where.getY()] != Type.DESTRUCTIBLE_WALL
-        && typesMatrix[where.getX()][where.getY()] != Type.INDESTRUCTIBLE_WALL)
-    typesMatrix[where.getX()][where.getY()] = Type.EXPLOSION;
+                && typesMatrix[where.getX()][where.getY()] != Type.INDESTRUCTIBLE_WALL) {
+            typesMatrix[where.getX()][where.getY()] = Type.EXPLOSION;
+                }
     }
 
-    private void addEntitiesToMatrix(Type[][] typesMatrix) {
+    private void addEntitiesToMatrix(final Type[][] typesMatrix) {
         for (var pos : this.field.keySet()) {
             typesMatrix[pos.getX()][pos.getY()] = this.field.get(pos).getX();
         }

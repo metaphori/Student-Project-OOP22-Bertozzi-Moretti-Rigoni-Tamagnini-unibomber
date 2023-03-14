@@ -46,9 +46,10 @@ public final class CollisionComponent extends AbstractComponent {
 
      /**
       * This method manage the collision state of entity.
-      * 
       * @param isSolid
-      * @param isCollided
+      * @param isOverstable
+      * @param x
+      * @param y
       */
      public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
@@ -111,7 +112,7 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      /**
-      * Check if entity is out of field and if it is push back
+      * Check if entity is out of field and if it is push back.
       */
      private void isOutofField() {
           if (hitbox.x > (Game.G_WIDTH - Game.TILES_SIZE)) {

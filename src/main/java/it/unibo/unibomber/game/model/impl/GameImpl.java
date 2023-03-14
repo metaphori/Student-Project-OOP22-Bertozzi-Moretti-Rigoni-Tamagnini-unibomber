@@ -21,9 +21,12 @@ public class GameImpl implements Game {
     private final World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 
+
     /**
      * GameImpl constructor.
      * @param world
+     * @param rows
+     * @param columns
      */
     public GameImpl(final World world, final int rows, final int columns) {
         this.world = world;

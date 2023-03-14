@@ -80,7 +80,7 @@ public class EntityImpl implements Entity {
     }
 
     @Override
-    public void addSPeed(float speedValue) {
+    public final void addSpeed(final float speedValue) {
         this.speed += speedValue;
     }
 
