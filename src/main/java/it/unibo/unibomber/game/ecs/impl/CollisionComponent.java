@@ -83,50 +83,33 @@ public final class CollisionComponent extends AbstractComponent {
       * This method check if entity collide with other one.
       */
      public void checkCollisions() {
-          // if is a player/bot
-          if (this.getEntity().getType() == Type.PLAYABLE) {
-               // I scroll through the entities
-               for (int i = 0; i < this.getEntity().getGame().getEntities().size(); i++) {
-                    Entity collisionEntity = this.getEntity().getGame().getEntities().get(i);
-                    // if is not a player
-                    if (collisionEntity.getType() != this.getEntity().getType()) {
-                         final Rectangle2D.Float r = collisionEntity.getComponent(CollisionComponent.class).get()
-                                   .getHitbox();
-                         // if intersects the two rectangles
-                         if (hitbox.intersects(r)) {
-                              // if is solid and not overstable
-                              if (collisionEntity.getComponent(CollisionComponent.class).get().isSolid()
-                                        && !collisionEntity.getComponent(CollisionComponent.class).get()
-                                                  .isOverstable()) {
-                                   float x = this.getEntity().getPosition().getX();
-                                   float y = this.getEntity().getPosition().getY();
-                                   float collisionX = collisionEntity.getPosition().getX();
-                                   float collisionY = collisionEntity.getPosition().getY();
-                                   if (Math.round(x) == Math.round(collisionX)) {
-                                        this.getEntity().setPosition(new Pair<>(x, (float) Math.round(y)));
-                                   } else if (Math.round(y) == Math.round(collisionY)) {
-                                        this.getEntity().setPosition(new Pair<>((float) Math.round(x), y));
-                                   } else {
-                                        this.getEntity().setPosition(
-                                                  new Pair<>((float) Math.round(x), (float) Math.round(y)));
-                                   }
-                              } else {
-                                   if (collisionEntity.getType() == Type.POWERUP) {
-                                        PowerUpComponent powerUpComponent = collisionEntity.getComponent(PowerUpComponent.class).get();
-                                        PowerUpType powerUpType = powerUpComponent.getPowerUpType();
-                                        if (powerUpType == PowerUpType.SPEEDUP || powerUpType == PowerUpType.SPEEDDOWN) {
-                                            this.getEntity().addSpeed(powerUpType);
-                                        } else {
-                                            PowerUpHandlerComponent powerUpHandlerComponent = this.getEntity().getComponent(PowerUpHandlerComponent.class).get();
-                                            powerUpHandlerComponent.addPowerUp(powerUpType);
-                                        }
-                                        collisionEntity.getComponent(DestroyComponent.class).get().destroy();
-                                    }
-                              }
-                         }
+          Entity entity = this.getEntity();
+          entity.getGame().getEntities().stream()
+          .filter(e-> !e.equals(entity))
+              .filter(e-> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
+               .forEach(e-> {
+                    if (e.getType() == Type.POWERUP) {
+                         PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get().getPowerUpType();
+                         PowerUpHandlerComponent powerUpHandlerComponent = entity.getComponent(PowerUpHandlerComponent.class).get();
+                         powerUpHandlerComponent.addPowerUp(powerUpType);
+                         e.getComponent(DestroyComponent.class).get().destroy();
+                     }
+               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
+               if(collision.isSolid() && !collision.isOverstable()){
+                    float x = entity.getPosition().getX();
+                    float y = entity.getPosition().getY();
+                    float collisionX = e.getPosition().getX();
+                    float collisionY = e.getPosition().getY();
+                    if (Math.round(x) == Math.round(collisionX)) {
+                         entity.setPosition(new Pair<>(x, (float) Math.round(y)));
+                    } else if (Math.round(y) == Math.round(collisionY)) {
+                         entity.setPosition(new Pair<>((float) Math.round(x), y));
+                    } else {
+                         entity.setPosition(
+                                   new Pair<>((float) Math.round(x), (float) Math.round(y)));
                     }
                }
-          }
+               });
      }
 
      /**
