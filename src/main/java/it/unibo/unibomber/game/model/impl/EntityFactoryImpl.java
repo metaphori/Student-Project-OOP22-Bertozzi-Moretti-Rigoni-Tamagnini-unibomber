@@ -2,6 +2,7 @@ package it.unibo.unibomber.game.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
@@ -80,9 +81,16 @@ public class EntityFactoryImpl implements EntityFactory {
 
     @Override
     public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
-        return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
+        final Random rnd = new Random();
+        if (rnd.nextInt(1, 3) % 2 == 0) {
+            return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY())))
                 .addComponent(new PowerUpListComponent(0, 0, List.of(PowerUpType.getRandomPowerUp())))
+                .addComponent(new DestroyComponent());
+        }
+        return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
+                .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY())))
+                .addComponent(new PowerUpListComponent(0, 0, List.of()))
                 .addComponent(new DestroyComponent());
     }
 
