@@ -1,5 +1,6 @@
 package it.unibo.unibomber.utilities;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -69,5 +70,13 @@ public enum Direction {
         }
         return Optional.empty();
     }
-
+    public static List<Direction> valuesNoCenter(){
+        return List.of(LEFT,UP,RIGHT,DOWN);
+    }
+    public Direction reverse(){
+        if(this == UP) return DOWN;
+        else if(this == DOWN) return UP;
+        else if(this == RIGHT) return LEFT;
+        else return RIGHT;
+    }
 }
