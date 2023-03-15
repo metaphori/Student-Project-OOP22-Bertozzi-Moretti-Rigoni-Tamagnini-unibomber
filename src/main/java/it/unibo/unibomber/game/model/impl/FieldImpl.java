@@ -10,8 +10,10 @@ import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
+import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * Field is an object that manages the game field frame by frame.
@@ -66,13 +68,22 @@ public class FieldImpl implements Field {
     public final Type[][] getMatrixTypes() {
         final Pair<Integer, Integer> gameDimensions = this.game.getDimensions();
         final Type[][] typesMatrix = new Type[gameDimensions.getX()][gameDimensions.getY()];
+        initializeTypeMatrix(typesMatrix);
         addEntitiesToMatrix(typesMatrix);
-        addBombExplosionToMatrix(typesMatrix);
+        handleBombExplosion(typesMatrix);
 
         return typesMatrix;
     }
 
-    private void addBombExplosionToMatrix(final Type[][] typesMatrix) {
+    private void initializeTypeMatrix(Type[][] typesMatrix) {
+        for (int x = 0; x < typesMatrix.length; x++) {
+            for (int y = 0; y < typesMatrix[0].length; y++) {
+                typesMatrix[x][y] = Type.AIR;
+            }
+        }
+    }
+
+    private void handleBombExplosion(final Type[][] typesMatrix) {
         // TODO only works with basic bombs
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
@@ -82,19 +93,22 @@ public class FieldImpl implements Field {
 
                     for (int i = 0; i < powerupList.getBombFire(); i++) {
                         for (Direction d : Direction.values()) {
-                            addExplosionToMatrix(typesMatrix, d,
-                                    new Pair<Integer, Integer>(e.getX() + d.getX(), e.getY() + d.getY()));
+                            addExplosionToMatrix(typesMatrix,e,i,d);
                         }
                     }
                 });
 
     }
 
-    private void addExplosionToMatrix(final Type[][] typesMatrix, final Direction dir, final Pair<Integer, Integer> where) {
-        if (typesMatrix[where.getX()][where.getY()] != Type.DESTRUCTIBLE_WALL
-                && typesMatrix[where.getX()][where.getY()] != Type.INDESTRUCTIBLE_WALL) {
-            typesMatrix[where.getX()][where.getY()] = Type.EXPLOSION;
-                }
+    private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where,int strength,Direction d) {
+        Pair<Integer, Integer> newDirection = new Pair<Integer,Integer>(where.getX()+d.getX(),where.getY()+d.getY());
+        if(Utilities.isBetween(where.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
+           Utilities.isBetween(where.getY(), 0, Constants.UI.Game.TILES_HEIGHT)){
+            if (typesMatrix[where.getX()][where.getY()] != Type.DESTRUCTIBLE_WALL && 
+                typesMatrix[where.getX()][where.getY()] != Type.INDESTRUCTIBLE_WALL) {
+                typesMatrix[where.getX()][where.getY()] = Type.EXPLOSION;
+            }
+        }
     }
 
     private void addEntitiesToMatrix(final Type[][] typesMatrix) {
