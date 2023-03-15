@@ -46,7 +46,8 @@ public class ExplodeComponent extends AbstractComponent {
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
-                    .filter(e -> e.getType() == Type.BOMB)
+                    .filter(e -> e.getType() == Type.BOMB
+                            && e.getComponent(ExplodeComponent.class).get().isExploding)
                     .collect(Collectors.toList()));
             } else {
                 this.destroyEntities();
@@ -69,6 +70,10 @@ public class ExplodeComponent extends AbstractComponent {
         return this.placer;
     }
 
+    /**
+     * A method to know if the bomb is exploding.
+     * @return true if the bomb is exploding, false otherwise
+     */
     public boolean isExploding() {
         return this.isExploding;
     }
@@ -84,6 +89,7 @@ public class ExplodeComponent extends AbstractComponent {
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
+        this.explodeBomb();
         for (var entity : entitiesList) {
             for (var dir : Direction.values()) {
                 countPositions = 1;
@@ -93,20 +99,17 @@ public class ExplodeComponent extends AbstractComponent {
                     entitySearched = checkContainedInList(checkPos, totalEntities);
                     if (entitySearched.isPresent()) {
                         if (checkPos(entity.getPosition(), checkPos, entitySearched.get())) {
-                            this.explodeBomb();
                             if (entitySearched.get().getType() == Type.BOMB
                                 && !entitySearched.get().getComponent(ExplodeComponent.class).get()
                                 .isExploding()) {
                                     //TODO: resolve error for 2+ bombs in row
                                 explodeEntities(List.of(entitySearched.get()));
-                            } else {
-                                this.entitiesToDestroy.add(entitySearched.get());
                             }
+                            this.entitiesToDestroy.add(entitySearched.get());
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
                                     && !this.isPlayerDied
                                     && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
-                            this.explodeBomb();
                             this.isPlayerDied = true;
                             this.entitiesToDestroy.add(entitySearched.get());
                         }
