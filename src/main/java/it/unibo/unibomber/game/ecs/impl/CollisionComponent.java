@@ -132,26 +132,35 @@ public final class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           Entity entity = this.getEntity();
-          entity.getGame().getEntities().stream()
-               .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
-               .forEach(e -> {
-                    e.getComponent(CollisionComponent.class).get().setCollided(true);
-               });
-          if (entity.getType() == Type.PLAYABLE) {
+          // TODO refactor
+          this.getEntity().getGame().getEntities().stream()
+                    .forEach(e -> {
+                         if (hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox())) {
+                              e.getComponent(CollisionComponent.class).get().setCollided(true);
+                         } else {
+                              e.getComponent(CollisionComponent.class).get().setCollided(false);
+                         }
+                    });
+
+          if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOMB) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))
                          .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
                          .forEach(e -> {
 
                               if (e.getType() == Type.POWERUP) {
-                                   PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
-                                             .getPowerUpType();
-                                   PowerUpHandlerComponent powerUpHandlerComponent = entity
-                                             .getComponent(PowerUpHandlerComponent.class).get();
-                                   powerUpHandlerComponent.addPowerUp(powerUpType);
-                                   e.getComponent(DestroyComponent.class).get().destroy();
+                                   if (entity.getType() != Type.BOMB) {
+                                        PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
+                                                  .getPowerUpType();
+                                        PowerUpHandlerComponent powerUpHandlerComponent = entity
+                                                  .getComponent(PowerUpHandlerComponent.class).get();
+                                        powerUpHandlerComponent.addPowerUp(powerUpType);
+                                        e.getComponent(DestroyComponent.class).get().destroy();
+                                   } else {
+                                        e.getComponent(DestroyComponent.class).get().destroy();
+                                   }
                               }
-                              if (e.getType() == Type.BOMB
+                              if (e.getType() == Type.BOMB && entity.getType() != Type.BOMB
                                         && !e.getComponent(CollisionComponent.class).get().isOverstable()
                                         && entity.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
