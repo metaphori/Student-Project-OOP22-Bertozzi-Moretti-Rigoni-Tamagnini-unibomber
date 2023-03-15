@@ -105,7 +105,8 @@ public class ExplodeComponent extends AbstractComponent {
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
                                     && !this.isPlayerDied
-                                    && entitySearched.get().getPosition().equals(entity.getPosition())){
+                                    && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
+                            this.explodeBomb();
                             this.isPlayerDied = true;
                             this.entitiesToDestroy.add(entitySearched.get());
                         }
@@ -124,7 +125,7 @@ public class ExplodeComponent extends AbstractComponent {
      * @return true if is destructible, false otherwise
      */
     private boolean checkPos(final Pair<Float, Float> pos, final Pair<Float, Float> checkPos, final Entity entity) {
-        return !pos.equals(checkPos)
+        return !this.checkRound(pos, checkPos)
             && entity.getType() != Type.INDESTRUCTIBLE_WALL;
     }
 
@@ -137,7 +138,7 @@ public class ExplodeComponent extends AbstractComponent {
      */
     private Optional<Entity> checkContainedInList(final Pair<Float, Float> pos, final List<Entity> entities) {
         for (var entity : entities) {
-            if (entity.getPosition().equals(pos)) {
+            if (this.checkRound(entity.getPosition(), pos)) {
                 return Optional.of(entity);
             }
         }
@@ -154,7 +155,21 @@ public class ExplodeComponent extends AbstractComponent {
         this.entitiesToDestroy.clear();
     }
 
+    /**
+     * A method to set the explosion of the bomb.
+     */
     private void explodeBomb() {
         this.isExploding = true;
+    }
+
+    /**
+     * A method to check the rounded position.
+     * @param pos the first position
+     * @param checkPos the second position
+     * @return true if the positions are not equal, false otherwise
+     */
+    private boolean checkRound(final Pair<Float, Float> pos, final Pair<Float, Float> checkPos) {
+        return Math.round(pos.getX()) == Math.round(checkPos.getX())
+            && Math.round(pos.getY()) == Math.round(checkPos.getY());
     }
 }

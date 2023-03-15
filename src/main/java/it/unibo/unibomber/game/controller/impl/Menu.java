@@ -5,8 +5,6 @@ import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
 import it.unibo.unibomber.game.view.MenuView;
 import it.unibo.unibomber.utilities.Constants;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,7 +16,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUI
 /**
  * This class manage the game menu.
  */
-public class Menu extends StateImpl implements MouseListener, KeyListener, GameLoop {
+public class Menu extends StateImpl implements MouseListener, GameLoop {
 
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
     private final MenuView view;
@@ -98,17 +96,5 @@ public class Menu extends StateImpl implements MouseListener, KeyListener, GameL
             mb.reset();
         }
 
-    }
-
-    @Override
-    public void keyPressed(final KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(final KeyEvent e) {
-    }
-
-    @Override
-    public void keyTyped(final KeyEvent e) {
     }
 }

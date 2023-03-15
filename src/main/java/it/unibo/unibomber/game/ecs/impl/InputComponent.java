@@ -22,9 +22,6 @@ public class InputComponent extends AbstractComponent {
 
           if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_SPACE) {
                this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
-          } else if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_ESCAPE) {
-               // TODO complete menu window
-               System.out.println("MENU/PAUSE");
           }
           updateMovement(moveBy);
      }

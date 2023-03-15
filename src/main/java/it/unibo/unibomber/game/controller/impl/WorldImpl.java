@@ -20,6 +20,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private final WorldPanelImpl unibomberPanel;
   private Menu menu;
   private Play play;
+  private Pause pause;
   private Thread gThread;
 
   /**
@@ -37,7 +38,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private void initClasses() {
     menu = new Menu();
     play = new Play(this);
+    pause = new Pause();
+
   }
+
   private void loadSprites() {
     new Constants.UI.SpritesMap();
     new Constants.Destroy();
@@ -58,6 +62,9 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case PLAY:
         play.update();
         break;
+      case PAUSE:
+        pause.update();
+        break;
       case QUIT:
       default:
         System.exit(0);
@@ -73,6 +80,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
         break;
       case PLAY:
         play.draw(g);
+        break;
+      case PAUSE:
+        play.draw(g);
+        pause.draw(g);
         break;
       default:
         break;
@@ -121,5 +132,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final Play getPlay() {
     return play;
+  }
+
+  @Override
+  public final Pause getPause() {
+    return pause;
   }
 }
