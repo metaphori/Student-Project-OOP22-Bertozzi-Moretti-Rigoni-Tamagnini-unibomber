@@ -38,5 +38,9 @@ public enum Type {
     /**
      * Explosion Type.
      */
-    EXPLOSION
+    EXPLOSION,
+    /**
+     * Air Type
+     */
+    AIR
 }
