@@ -19,7 +19,7 @@ public final class CollisionComponent extends AbstractComponent {
      // TODO
      // true if it blocks other entities
      private final boolean isSolid;
-     private final boolean isOverstable;
+     private boolean isOverstable;
      private Rectangle2D.Float hitbox;
      private float x, y;
      private int width, height;
@@ -30,6 +30,29 @@ public final class CollisionComponent extends AbstractComponent {
           hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.TILES_SIZE);
           hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.TILES_SIZE);
           isOutofField();
+          Entity player = this.getEntity();
+          if (player.getType() == Type.PLAYABLE) {
+               for (Entity entity : this.getEntity().getGame().getEntities()) {
+                    if (entity.getType() == Type.BOMB) {
+                         // TODO refactor
+                         int Playerx = Math.round(player.getPosition().getX());
+                         int Playery = Math.round(player.getPosition().getY());
+                         int bombx = Math.round(entity.getPosition().getX());
+                         int bomby = Math.round(entity.getPosition().getY());
+                         int playerFloorx = (int) Math.floor(player.getPosition().getX());
+                         int playerFloory = (int) Math.floor(player.getPosition().getY());
+                         int playerCeilx = (int) Math.ceil(player.getPosition().getX());
+                         int playerCeily = (int) Math.ceil(player.getPosition().getY());
+                         if (bombx != Playerx || bomby != Playery) {
+                              if (bombx != playerFloorx || bomby != playerFloory) {
+                                   if (bombx != playerCeilx || bomby != playerCeily) {
+                                        entity.getComponent(CollisionComponent.class).get().setOverstable(false);
+                                   }
+                              }
+                         }
+                    }
+               }
+          }
           checkCollisions();
      }
 
@@ -82,6 +105,13 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      /**
+      * @param isOverstable
+      */
+     public void setOverstable(boolean isOverstable) {
+          this.isOverstable = isOverstable;
+     }
+
+     /**
       * This method check if entity collide with other one.
       */
      public void checkCollisions() {
@@ -100,6 +130,12 @@ public final class CollisionComponent extends AbstractComponent {
                                    powerUpHandlerComponent.addPowerUp(powerUpType);
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
+                              if (e.getType() == Type.BOMB
+                                        && !e.getComponent(CollisionComponent.class).get().isOverstable()
+                                        && entity.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
+                                                  .contains(PowerUpType.KICKBOMB)) {
+                                   e.getComponent(SlidingComponent.class).get().setSliding(true);
+                              }
                               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                               if (collision.isSolid() && !collision.isOverstable()) {
                                    float thisX = Math.round(entity.getPosition().getX());
@@ -113,7 +149,9 @@ public final class CollisionComponent extends AbstractComponent {
                                    } else if (thisX != eX && thisY != eY) {
                                         entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                    }
+
                               }
+
                          });
           }
      }

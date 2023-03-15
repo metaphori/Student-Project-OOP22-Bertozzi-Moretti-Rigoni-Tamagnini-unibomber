@@ -17,6 +17,7 @@ import it.unibo.unibomber.game.ecs.impl.BombPlaceComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
+import it.unibo.unibomber.game.ecs.impl.SlidingComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
@@ -72,7 +73,8 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeBomb(final Entity placer, final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.BOMB)
                 .addComponent(new MovementComponent())
-                .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY())))
+                .addComponent(new SlidingComponent())
+                .addComponent(new CollisionComponent(true, true, Math.round(position.getX()), Math.round(position.getY())))
                 .addComponent(new ExplodeComponent(placer))
                 .addComponent(new PowerUpListComponent(placer))
                 .addComponent(new DestroyComponent());
