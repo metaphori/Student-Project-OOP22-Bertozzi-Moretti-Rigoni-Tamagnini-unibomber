@@ -46,6 +46,7 @@ public final class CollisionComponent extends AbstractComponent {
 
      /**
       * This method manage the collision state of entity.
+      * 
       * @param isSolid
       * @param isOverstable
       * @param x
@@ -86,30 +87,37 @@ public final class CollisionComponent extends AbstractComponent {
      public void checkCollisions() {
           Entity entity = this.getEntity();
           if (entity.getType() == Type.PLAYABLE) {
-          entity.getGame().getEntities().stream()
-                    .filter(e -> !e.equals(entity))
-                    .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
-                    .forEach(e -> {
+               entity.getGame().getEntities().stream()
+                         .filter(e -> !e.equals(entity))
+                         .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
+                         .forEach(e -> {
 
-                         if (e.getType() == Type.POWERUP) {
-                              PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get().getPowerUpType();
-                              PowerUpHandlerComponent powerUpHandlerComponent = entity
-                                        .getComponent(PowerUpHandlerComponent.class).get();
-                              powerUpHandlerComponent.addPowerUp(powerUpType);
-                              e.getComponent(DestroyComponent.class).get().destroy();
-                         }
-                         CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
-                         if (collision.isSolid() && !collision.isOverstable()) {
-                              if (Math.round(this.getEntity().getPosition().getX()) != Math
-                                        .round(e.getPosition().getX())
-                                        || Math.round(this.getEntity().getPosition().getY()) != Math
-                                                  .round(e.getPosition().getY())) {
-                                   this.getEntity().setPosition(new Pair<Float, Float>(
-                                             (float) Math.round(this.getEntity().getPosition().getX()),
-                                             (float) Math.round(this.getEntity().getPosition().getY())));
+                              if (e.getType() == Type.POWERUP) {
+                                   PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
+                                             .getPowerUpType();
+                                   PowerUpHandlerComponent powerUpHandlerComponent = entity
+                                             .getComponent(PowerUpHandlerComponent.class).get();
+                                   powerUpHandlerComponent.addPowerUp(powerUpType);
+                                   e.getComponent(DestroyComponent.class).get().destroy();
                               }
-                         }
-                    });
+                              CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
+                              if (collision.isSolid() && !collision.isOverstable()) {
+                                   this.getEntity().setPosition(getNewPosition(e));
+
+                              }
+                         });
+          }
+     }
+
+     private Pair<Float, Float> getNewPosition(Entity collisionEntity) {
+          if (Math.round(this.getEntity().getPosition().getY()) == Math.round(collisionEntity.getPosition().getY())&& Math.round(this.getEntity().getPosition().getX()) != Math.round(collisionEntity.getPosition().getX())) {
+               return new Pair<Float, Float>((float) Math.round(this.getEntity().getPosition().getX()),this.getEntity().getPosition().getY()+ -this.getEntity().getComponent(MovementComponent.class).get().getDirection().getY());
+          }
+          else if (Math.round(this.getEntity().getPosition().getX()) == Math.round(collisionEntity.getPosition().getX())&& Math.round(this.getEntity().getPosition().getY()) != Math.round(collisionEntity.getPosition().getY())) {
+               return new Pair<Float, Float>(this.getEntity().getPosition().getX()+ this.getEntity().getComponent(MovementComponent.class).get().getDirection().getX(),(float) Math.round(this.getEntity().getPosition().getY()));
+          }
+          else  (Math.round(this.getEntity().getPosition().getX()) != Math.round(collisionEntity.getPosition().getX())&& Math.round(this.getEntity().getPosition().getY()) != Math.round(collisionEntity.getPosition().getY())) {
+               return new Pair<Float, Float>((float) Math.round(this.getEntity().getPosition().getX()),(float) Math.round(this.getEntity().getPosition().getY()));
           }
      }
 
