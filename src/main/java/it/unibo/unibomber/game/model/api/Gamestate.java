@@ -13,6 +13,10 @@ public enum Gamestate {
      */
     MENU,
     /**
+     * Pause.
+     */
+    PAUSE,
+    /**
     * Quit game.
     */
     QUIT;

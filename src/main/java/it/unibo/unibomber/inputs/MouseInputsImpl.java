@@ -35,6 +35,9 @@ public final class MouseInputsImpl implements MouseListener {
     break;
    case PLAY:
     break;
+    case PAUSE:
+    worldPanel.getWorld().getPause().mousePressed(e);
+    break;
    default:
     break;
 
@@ -48,6 +51,9 @@ public final class MouseInputsImpl implements MouseListener {
     worldPanel.getWorld().getMenu().mouseReleased(e);
     break;
    case PLAY:
+    break;
+    case PAUSE:
+    worldPanel.getWorld().getPause().mouseReleased(e);
     break;
    default:
     break;

@@ -21,10 +21,9 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
-import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
-import it.unibo.unibomber.game.model.impl.FieldImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
 import it.unibo.unibomber.utilities.Pair;
@@ -144,11 +143,15 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     @Override
     public final void keyReleased(final KeyEvent e) {
-        if (keyQueue.contains(e.getKeyCode())) {
-            keyQueue.remove(e.getKeyCode());
-        }
-        if (firstFrameKey.containsKey(e.getKeyCode())) {
-            firstFrameKey.remove(e.getKeyCode());
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Gamestate.setGameState(Gamestate.PAUSE);
+        } else {
+            if (keyQueue.contains(e.getKeyCode())) {
+                keyQueue.remove(e.getKeyCode());
+            }
+            if (firstFrameKey.containsKey(e.getKeyCode())) {
+                firstFrameKey.remove(e.getKeyCode());
+            }
         }
     }
 
@@ -158,11 +161,14 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     @Override
     public final void keyPressed(final KeyEvent e) {
-        if (!keyQueue.contains(e.getKeyCode())) {
-            keyQueue.addFirst(e.getKeyCode());
-        }
-        if (!firstFrameKey.containsKey(e.getKeyCode())) {
-            firstFrameKey.put(e.getKeyCode(), true);
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        } else {
+            if (!keyQueue.contains(e.getKeyCode())) {
+                keyQueue.addFirst(e.getKeyCode());
+            }
+            if (!firstFrameKey.containsKey(e.getKeyCode())) {
+                firstFrameKey.put(e.getKeyCode(), true);
+            }
         }
     }
 

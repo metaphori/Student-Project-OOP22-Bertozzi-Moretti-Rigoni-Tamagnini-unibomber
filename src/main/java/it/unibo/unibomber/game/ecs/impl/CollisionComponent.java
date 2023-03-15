@@ -20,6 +20,7 @@ public final class CollisionComponent extends AbstractComponent {
      // true if it blocks other entities
      private final boolean isSolid;
      private final boolean isOverstable;
+     private boolean isCollided;
      private Rectangle2D.Float hitbox;
      private float x, y;
      private int width, height;
@@ -55,6 +56,7 @@ public final class CollisionComponent extends AbstractComponent {
      public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
           this.isOverstable = isOverstable;
+          this.isCollided = false;
           this.x = (int) (x * Game.TILES_SIZE);
           this.y = (int) (y * Game.TILES_SIZE);
           initHitbox();
@@ -75,6 +77,20 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      /**
+      * @return true if is collied.
+      */
+     public boolean isCollided() {
+          return isCollided;
+     }
+
+     /**
+      * @param isCollided
+      */
+     public void setCollided(boolean isCollided) {
+          this.isCollided = isCollided;
+     }
+
+     /**
       * @return true if entity is overstable with other entity.
       */
      public boolean isOverstable() {
@@ -86,6 +102,11 @@ public final class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           Entity entity = this.getEntity();
+          entity.getGame().getEntities().stream()
+               .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
+               .forEach(e -> {
+                    e.getComponent(CollisionComponent.class).get().setCollided(true);
+               });
           if (entity.getType() == Type.PLAYABLE) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))
