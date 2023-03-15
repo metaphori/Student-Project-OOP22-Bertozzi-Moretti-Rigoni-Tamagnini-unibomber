@@ -155,16 +155,18 @@ public final class CollisionComponent extends AbstractComponent {
                                         PowerUpHandlerComponent powerUpHandlerComponent = entity
                                                   .getComponent(PowerUpHandlerComponent.class).get();
                                         powerUpHandlerComponent.addPowerUp(powerUpType);
-                                        e.getComponent(DestroyComponent.class).get().destroy();
-                                   } else {
-                                        e.getComponent(DestroyComponent.class).get().destroy();
                                    }
+                                   e.getComponent(DestroyComponent.class).get().destroy();
                               }
                               if (e.getType() == Type.BOMB && entity.getType() != Type.BOMB
                                         && !e.getComponent(CollisionComponent.class).get().isOverstable()
                                         && entity.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
                                    e.getComponent(SlidingComponent.class).get().setSliding(true);
+                              }
+                              if (e.getType() == Type.BOMB
+                                        && e.getComponent(SlidingComponent.class).get().getSliding()) {
+                                   e.getComponent(SlidingComponent.class).get().setMoving(false);
                               }
                               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                               if (collision.isSolid() && !collision.isOverstable()) {

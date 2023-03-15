@@ -43,8 +43,6 @@ public class SlidingComponent extends AbstractComponent {
             }
             playerMove.moveBy(movement);
             isSliding = false;
-            // TODO change moving status
-            // isMoving = false;
         }
 
     }
@@ -56,6 +54,29 @@ public class SlidingComponent extends AbstractComponent {
      */
     public void setSliding(final boolean isSliding) {
         this.isSliding = isSliding;
+    }
+
+    /**
+     * @return if entity is sliding
+     */
+    public boolean getSliding() {
+        return this.isSliding;
+    }
+
+    /**
+     * Set moving status.
+     * 
+     * @param isMoving
+     */
+    public void setMoving(final boolean isMoving) {
+        this.isMoving = isMoving;
+    }
+
+    /**
+     * @return if entity is moving
+     */
+    public boolean getMoving() {
+        return this.isMoving;
     }
 
 }
