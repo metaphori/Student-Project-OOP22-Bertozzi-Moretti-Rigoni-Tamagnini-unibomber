@@ -102,28 +102,16 @@ public final class CollisionComponent extends AbstractComponent {
                               }
                               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                               if (collision.isSolid() && !collision.isOverstable()) {
-
-                                   if (Math.round(this.getEntity().getPosition().getX()) == Math
-                                             .round(e.getPosition().getX())
-                                             && Math.round(this.getEntity().getPosition().getX()) != Math
-                                                       .round(e.getPosition().getX())) {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  this.getEntity().getPosition().getX(),
-                                                  (float) Math.round(this.getEntity().getPosition().getY())));
-                                   } else if (Math.round(this.getEntity().getPosition().getY()) == Math
-                                             .round(e.getPosition().getY())
-                                             && Math.round(this.getEntity().getPosition().getY()) != Math
-                                                       .round(e.getPosition().getY())) {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  (float) Math.round(this.getEntity().getPosition().getX()),
-                                                  this.getEntity().getPosition().getY()));
-                                   } else if (Math.round(this.getEntity().getPosition().getY()) != Math
-                                             .round(e.getPosition().getY())
-                                             && Math.round(this.getEntity().getPosition().getY()) != Math
-                                                       .round(e.getPosition().getY())) {
-                                        this.getEntity().setPosition(new Pair<Float, Float>(
-                                                  (float) Math.round(this.getEntity().getPosition().getX()),
-                                                  (float) Math.round(this.getEntity().getPosition().getY())));
+                                   float thisX = Math.round(entity.getPosition().getX());
+                                   float thisY = Math.round(entity.getPosition().getY());
+                                   float eX = Math.round(e.getPosition().getX());
+                                   float eY = Math.round(e.getPosition().getY());
+                                   if (thisX == eX && thisY != eY) {
+                                        entity.setPosition(new Pair<Float, Float>(thisX, thisY));
+                                   } else if (thisX != eX && thisY == eY) {
+                                        entity.setPosition(new Pair<Float, Float>(thisX, thisY));
+                                   } else if (thisX != eX && thisY != eY) {
+                                        entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                    }
                               }
                          });
