@@ -33,10 +33,12 @@ public final class DestroyComponent extends AbstractComponent {
         if (this.isDestroyed) {
             this.destroyFrames++;
             if (this.destroyFrames >= getDestructionFrames(this.getEntity().getType())) {
-                if (this.getEntity().getType() != Type.BOMB) {
+                if (this.getEntity().getType() != Type.BOMB 
+                    && this.getEntity().getType() != Type.POWERUP) {
                     dropPowerUps();
+                } else {
+                    this.getEntity().getGame().removeEntity(this.getEntity());
                 }
-                this.getEntity().getGame().removeEntity(this.getEntity());
                 this.isDestroyed = false;
                 this.destroyFrames = 0;
             }
@@ -68,13 +70,16 @@ public final class DestroyComponent extends AbstractComponent {
         final var powerUpComponent = entity.getComponent(PowerUpListComponent.class);
         final List<PowerUpType> powerUps;
         int droppedPowerUps;
+        this.getEntity().getGame().removeEntity(this.getEntity());
         if (powerUpComponent.isPresent()) {
             powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
-            entity.getGame()
-                    .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
-            powerUps.remove(0);
-            dropRemaining(powerUps, droppedPowerUps);
+            if (!powerUps.isEmpty()) {
+                entity.getGame()
+                        .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
+                powerUps.remove(0);
+                dropRemaining(powerUps, droppedPowerUps);
+            }
         }
     }
 

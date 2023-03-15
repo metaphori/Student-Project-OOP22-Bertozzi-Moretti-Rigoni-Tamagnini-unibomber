@@ -1,6 +1,8 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -16,9 +18,12 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
  */
 public class ExplodeComponent extends AbstractComponent {
 
+    private final List<Entity> entitiesToDestroy;
     private int explodeFrames;
     private int expiringFrames;
     private Entity placer;
+    private boolean isPlayerDied;
+    private boolean isExploding;
 
     /**
      * In the constuctor, set 0 the field explodeFrames
@@ -27,23 +32,24 @@ public class ExplodeComponent extends AbstractComponent {
      * @param placer
      */
     public ExplodeComponent(final Entity placer) {
+        this.entitiesToDestroy = new ArrayList<>();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
+        this.isPlayerDied = false;
+        this.isExploding = false;
     }
 
     @Override
     public final void update() {
         if (this.expiringFrames == EXPIRING_TIME) {
-            if (this.explodeFrames == 0) {
-                explode();
-            }
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
-                        .filter(e -> e.getType() == Type.BOT || e.getType() == Type.PLAYABLE)
-                        .collect(Collectors.toList()));
+                    .filter(e -> e.getType() == Type.BOMB)
+                    .collect(Collectors.toList()));
             } else {
+                this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
                 this.expiringFrames = 0;
@@ -63,13 +69,8 @@ public class ExplodeComponent extends AbstractComponent {
         return this.placer;
     }
 
-    /**
-     * A method to destroy wall or powerups in the bomb range.
-     */
-    private void explode() {
-        explodeEntities(this.getEntity().getGame().getEntities().stream()
-                .filter(e -> e.getType() == Type.BOMB)
-                .collect(Collectors.toList()));
+    public boolean isExploding() {
+        return this.isExploding;
     }
 
     /**
@@ -79,20 +80,34 @@ public class ExplodeComponent extends AbstractComponent {
      */
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
-        final var field = this.getEntity().getGame().getGameField().getField();
-        Pair<Integer, Integer> checkPos;
+        final var totalEntities = this.getEntity().getGame().getEntities();
+        Optional<Entity> entitySearched;
+        Pair<Float, Float> checkPos;
         int countPositions;
         for (var entity : entitiesList) {
             for (var dir : Direction.values()) {
                 countPositions = 1;
                 while (countPositions <= bombRange) {
-                    checkPos = new Pair<>(Math.round(entity.getPosition().getX() + (dir.getX() * countPositions)),
-                        Math.round(entity.getPosition().getY() + (-(dir.getY()) * countPositions)));
-                    if (field.containsKey(checkPos) && checkPos(entity.getPosition(), checkPos, field.get(checkPos).getY())) {
-                        if (field.get(checkPos).getX() == Type.BOMB) {
-                            explodeEntities(List.of(field.get(checkPos).getY()));
-                        } else {
-                            field.get(checkPos).getY().getComponent(DestroyComponent.class).get().destroy();
+                    checkPos = new Pair<>(entity.getPosition().getX() + (dir.getX() * countPositions),
+                        entity.getPosition().getY() + (-(dir.getY()) * countPositions));
+                    entitySearched = checkContainedInList(checkPos, totalEntities);
+                    if (entitySearched.isPresent()) {
+                        if (checkPos(entity.getPosition(), checkPos, entitySearched.get())) {
+                            this.explodeBomb();
+                            if (entitySearched.get().getType() == Type.BOMB
+                                && !entitySearched.get().getComponent(ExplodeComponent.class).get()
+                                .isExploding()) {
+                                    //TODO: resolve error for 2+ bombs in row
+                                explodeEntities(List.of(entitySearched.get()));
+                            } else {
+                                this.entitiesToDestroy.add(entitySearched.get());
+                            }
+                        } else if ((entitySearched.get().getType() == Type.PLAYABLE 
+                                    || entitySearched.get().getType() == Type.BOT)
+                                    && !this.isPlayerDied
+                                    && entitySearched.get().getPosition().equals(entity.getPosition())){
+                            this.isPlayerDied = true;
+                            this.entitiesToDestroy.add(entitySearched.get());
                         }
                     }
                     countPositions++;
@@ -108,9 +123,38 @@ public class ExplodeComponent extends AbstractComponent {
      * @param entity the entity
      * @return true if is destructible, false otherwise
      */
-    private boolean checkPos(final Pair<Float, Float> pos, final Pair<Integer, Integer> checkPos, final Entity entity) {
-        return (Math.round(pos.getX()) != checkPos.getX()
-            || Math.round(pos.getY()) != checkPos.getY())
+    private boolean checkPos(final Pair<Float, Float> pos, final Pair<Float, Float> checkPos, final Entity entity) {
+        return !pos.equals(checkPos)
             && entity.getType() != Type.INDESTRUCTIBLE_WALL;
+    }
+
+    /**
+     * A method that checks if the entity is contained in the list.
+     * 
+     * @param pos the position of the entity
+     * @param entities the list of entities
+     * @return the entity if is contained, an empty otherwise.
+     */
+    private Optional<Entity> checkContainedInList(final Pair<Float, Float> pos, final List<Entity> entities) {
+        for (var entity : entities) {
+            if (entity.getPosition().equals(pos)) {
+                return Optional.of(entity);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * A method that destroys the entities exploded
+     * by the bomb.
+     */
+    private void destroyEntities() {
+        this.entitiesToDestroy.stream()
+            .forEach(e -> e.getComponent(DestroyComponent.class).get().destroy());
+        this.entitiesToDestroy.clear();
+    }
+
+    private void explodeBomb() {
+        this.isExploding = true;
     }
 }
