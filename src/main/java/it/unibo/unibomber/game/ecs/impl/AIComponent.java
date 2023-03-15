@@ -1,9 +1,10 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -20,15 +21,20 @@ public final class AIComponent extends AbstractComponent {
      @Override
      public void update() {
           Type[][] matrix = this.getEntity().getGame().getGameField().getMatrixTypes();
-          if (isSafe(matrix)) {
+          if (isSafe(matrix)) {          
+               this.getEntity().getComponent(MovementComponent.class).get()
+               .moveBy(new Pair<Float, Float>(0f,0f));
 
           } else {
-               moveToSafety(matrix);
+               //moveToSafety(matrix);
+               int a =0;
           }
      }
 
      private void moveToSafety(Type[][] matrix) {
           Direction moveTo = getDirectionToSafety(matrix);
+          moveTo = moveTo == Direction.LEFT ? Direction.RIGHT : moveTo == Direction.RIGHT? Direction.LEFT:moveTo;
+          System.out.println(moveTo.toString());
           this.getEntity().getComponent(MovementComponent.class).get()
                     .moveBy(new Pair<Float, Float>(
                               moveTo.getX() * Constants.Input.POSITIVE_MOVE,
@@ -36,25 +42,24 @@ public final class AIComponent extends AbstractComponent {
      }
 
      private Direction getDirectionToSafety(Type[][] matrix) {
-          int currentValue=1;
           int[][] checkedPositions = new int[matrix.length][matrix[0].length];
-          Queue<Pair<Integer, Integer>> checkPositions = new LinkedBlockingQueue<>();
+          Deque<Pair<Integer, Integer>> checkPositions = new LinkedList<>();
           Pair<Integer, Integer> position = new Pair<Integer, Integer>(
                     (int) Math.round(this.getEntity().getPosition().getX()),
                     (int) Math.round(this.getEntity().getPosition().getY()));
 
+          checkedPositions[position.getX()][position.getY()] = 1;
           checkPositions.add(new Pair<Integer, Integer>(position.getX(), position.getY()));
           while (checkPositions.size() > 0) {
                Pair<Integer, Integer> current = checkPositions.poll();
                Type cellType = matrix[current.getX()][current.getY()];
-               checkedPositions[current.getX()][current.getY()] = currentValue++;
                switch (cellType) {
                     case EXPLOSION:
                     case BOMB:
                     case RISING_WALL:
                     case DESTRUCTIBLE_WALL:
                     case INDESTRUCTIBLE_WALL:
-                         checkSides(checkPositions, checkedPositions, current);
+                         checkSides(checkPositions, checkedPositions,matrix, current);
                          break;
 
                     default:
@@ -68,15 +73,16 @@ public final class AIComponent extends AbstractComponent {
      private Direction extractFirstMovement(Pair<Integer, Integer> current,int[][] checkedPositions) {
           int currentValue=checkedPositions[current.getX()][current.getY()];
           List<Direction> path = new ArrayList<>();
-          while(currentValue!=0)
+          while(currentValue!=1)
           {
-               for(Direction d : Direction.values()){              
+               for(Direction d : Direction.valuesNoCenter()){              
                     Pair<Integer,Integer> nextCell = new Pair<Integer,Integer>(current.getX()+d.getX(), current.getY()+d.getY());
                     if(Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
                        Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)){
                          if(checkedPositions[nextCell.getX()][nextCell.getY()] == currentValue-1){
                               path.add(d);
                               currentValue--;
+                              current=nextCell;
                               continue;
                          }
                     }
@@ -85,13 +91,18 @@ public final class AIComponent extends AbstractComponent {
           return path.get(path.size()-1);
      }
 
-     private void checkSides(Queue<Pair<Integer, Integer>> checkPositions, int[][] checkedPositions, Pair<Integer, Integer> current) {
+     private void checkSides(Queue<Pair<Integer, Integer>> checkPositions, int[][] checkedPositions, Type[][]typeMatrix, Pair<Integer, Integer> current) {
           for(Direction d : Direction.values()){
-               Pair<Integer,Integer> nextCell = new Pair<Integer,Integer>(current.getX()+d.getX(), current.getY()+d.getY());
-               if(Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
-                  Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)){
-                    if(checkedPositions[nextCell.getX()][nextCell.getY()] == 0){
-                         checkPositions.add(nextCell);
+               if(d!=Direction.CENTER){
+                    int lastValue=checkedPositions[current.getX()][current.getY()];
+                    Pair<Integer,Integer> nextCell = new Pair<Integer,Integer>(current.getX()+d.getX(), current.getY()+d.getY());
+                    if(Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
+                       Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)){
+                         if(checkedPositions[nextCell.getX()][nextCell.getY()] == 0 &&
+                            (typeMatrix[nextCell.getX()][nextCell.getY()] != Type.INDESTRUCTIBLE_WALL || typeMatrix[nextCell.getX()][nextCell.getY()] == Type.DESTRUCTIBLE_WALL)){
+                              checkPositions.add(nextCell);
+                              checkedPositions[nextCell.getX()][nextCell.getY()] = lastValue+1;
+                         }
                     }
                }
           }
