@@ -391,6 +391,10 @@ public class Constants {
          * Percentage of have complex power up.
          */
         public static final int COMPLEX_PERCENTAGE = 25;
+        /**
+         * powerupSpeed increase.
+         */
+        public static final float SPEED_POWERUP_CHANGE = 0.2f;
     }
 
     /**
@@ -398,9 +402,9 @@ public class Constants {
      */
     public static class Entity {
         /**
-         * Enity speed.
+         * Entity speed.
          */
-        public static final float SPEED_CHANGE = 0.40f;
+        public static final float BASE_SPEED = 1f;
     }
 
     /**
