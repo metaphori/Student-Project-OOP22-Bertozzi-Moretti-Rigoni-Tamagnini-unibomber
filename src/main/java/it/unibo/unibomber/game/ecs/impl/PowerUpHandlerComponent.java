@@ -58,12 +58,12 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
                     }
                     break;
                 case SPEEDUP:
-                    if (this.getEntity().getSpeed() < 2) {
+                    if (this.getEntity().getSpeed() < 0.57) {
                         this.getEntity().addSpeed(Constants.PowerUp.SPEED_POWERUP_CHANGE);
                     }
                     break;
                 case SPEEDDOWN:
-                    if (this.getEntity().getSpeed() > 1) {
+                    if (this.getEntity().getSpeed() > 0.31) {
                         this.getEntity().addSpeed(-Constants.PowerUp.SPEED_POWERUP_CHANGE);
                     }
                     break;

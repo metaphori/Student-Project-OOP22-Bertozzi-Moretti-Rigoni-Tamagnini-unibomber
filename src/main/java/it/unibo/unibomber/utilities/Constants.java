@@ -394,7 +394,7 @@ public class Constants {
         /**
          * powerupSpeed increase.
          */
-        public static final float SPEED_POWERUP_CHANGE = 0.2f;
+        public static final float SPEED_POWERUP_CHANGE = 0.07f;
     }
 
     /**
@@ -404,7 +404,7 @@ public class Constants {
         /**
          * Entity speed.
          */
-        public static final float BASE_SPEED = 0.4f;
+        public static final float BASE_SPEED = 0.3f;
     }
 
     /**
@@ -468,5 +468,10 @@ public class Constants {
          * Number of frames between one animation and the other.
          */
         public static final int FRAME_DELAY = 10;
+
+        /**
+         * Global speed multiplier.
+         */
+        public static final float MULTIPLIER_GLOBAL_SPEED = 1f;
     }
 }
