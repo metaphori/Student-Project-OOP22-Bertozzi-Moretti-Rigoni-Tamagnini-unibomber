@@ -3,7 +3,7 @@ package it.unibo.unibomber.game.ecs.impl;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
-import static it.unibo.unibomber.utilities.Constants.Entity.SPEED_CHANGE;
+import static it.unibo.unibomber.utilities.Constants.Entity.BASE_SPEED;
 /**
  * The class is responsible for handling the movement of the enetity it is
  * attatched to
@@ -13,7 +13,7 @@ import static it.unibo.unibomber.utilities.Constants.Entity.SPEED_CHANGE;
  */
 public class MovementComponent extends AbstractComponent {
 
-    private static float globalSpeedMultiplier = SPEED_CHANGE;
+    private static float globalSpeedMultiplier = BASE_SPEED;
     private boolean hasMoved;
     private Pair<Float, Float> moveBy = new Pair<>(0f, 0f);
     private Direction direction = Direction.DOWN;
