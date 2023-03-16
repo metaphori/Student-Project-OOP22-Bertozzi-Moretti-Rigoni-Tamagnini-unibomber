@@ -19,6 +19,7 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
 public class ExplodeComponent extends AbstractComponent {
 
     private final List<Entity> entitiesToDestroy;
+    private final List<Pair<Integer, Integer>> explonsionsList;
     private int explodeFrames;
     private int expiringFrames;
     private Entity placer;
@@ -26,13 +27,13 @@ public class ExplodeComponent extends AbstractComponent {
     private boolean isExploding;
 
     /**
-     * In the constuctor, set 0 the field explodeFrames
-     * and the field expiringFrames.
+     * Constructor.
      * 
-     * @param placer
+     * @param placer the entity that palced the bomb.
      */
     public ExplodeComponent(final Entity placer) {
         this.entitiesToDestroy = new ArrayList<>();
+        this.explonsionsList = new ArrayList<>();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
@@ -45,13 +46,15 @@ public class ExplodeComponent extends AbstractComponent {
         if (this.expiringFrames == EXPIRING_TIME) {
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
+                this.explonsionsList.clear();
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
-                    .filter(e -> e.getType() == Type.BOMB
-                            && e.getComponent(ExplodeComponent.class).get().isExploding())
-                    .collect(Collectors.toList()));
+                .filter(e -> e.getType() == Type.BOMB
+                && e.getComponent(ExplodeComponent.class).get().isExploding())
+                .collect(Collectors.toList()));
             } else {
                 this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
+                this.explonsionsList.clear();
                 this.explodeFrames = 0;
                 this.expiringFrames = 0;
                 this.placer.getComponent(PowerUpHandlerComponent.class).get().setBombPlaced(-1);
@@ -62,6 +65,15 @@ public class ExplodeComponent extends AbstractComponent {
     }
 
     /**
+     * A method that supplies the explosions
+     * areas of the bomb.
+     * @return a list with explosions areas
+     */
+    public List<Pair<Integer, Integer>> getExplosions() {
+        return this.explonsionsList;
+    }
+    
+    /**
      * A method that supplies the entity
      * who placed the bomb.
      * @return the entity
@@ -69,7 +81,7 @@ public class ExplodeComponent extends AbstractComponent {
     public Entity getPlacer() {
         return this.placer;
     }
-
+    
     /**
      * A method to know if the bomb is exploding.
      * @return true if the bomb is exploding, false otherwise
@@ -92,6 +104,8 @@ public class ExplodeComponent extends AbstractComponent {
         int countPositions;
         this.explodeBomb();
         for (var entity : entitiesList) {
+            this.explonsionsList.add(new Pair<>(Math.round(entity.getPosition().getY()), 
+                                                Math.round(entity.getPosition().getX())));
             for (var dir : Direction.values()) {
                 previousEntity = Optional.empty();
                 countPositions = 1;
@@ -111,6 +125,10 @@ public class ExplodeComponent extends AbstractComponent {
                                 explodeEntities(List.of(entitySearched.get()));
                             }
                             this.entitiesToDestroy.add(entitySearched.get());
+                            if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
+                                this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
+                                                                    Math.round(checkPos.getX())));
+                            }
                         } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
                             previousEntity = entitySearched;
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
@@ -119,9 +137,14 @@ public class ExplodeComponent extends AbstractComponent {
                                     && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
                             this.isPlayerDied = true;
                             this.entitiesToDestroy.add(entitySearched.get());
+                            this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
+                                                                Math.round(checkPos.getX())));
                         }
                     } else if (previousEntity.isPresent()) {
                         countPositions += bombRange;
+                    } else {
+                        this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
+                                                            Math.round(checkPos.getX())));
                     }
                     countPositions++;
                 }
