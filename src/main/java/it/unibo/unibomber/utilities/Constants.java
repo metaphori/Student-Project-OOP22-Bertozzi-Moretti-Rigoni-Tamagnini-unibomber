@@ -408,6 +408,16 @@ public class Constants {
     }
 
     /**
+     * Bomb speed settings constans.
+     */
+    public static class Bomb {
+        /**
+         * Entity speed.
+         */
+        public static final float BASE_SPEED = 0.58f;
+    }
+
+    /**
      * Explode duration settings constans.
      */
     public static class Explode {

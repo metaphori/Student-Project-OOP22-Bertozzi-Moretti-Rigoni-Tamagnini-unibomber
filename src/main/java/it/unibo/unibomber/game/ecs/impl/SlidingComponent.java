@@ -22,29 +22,11 @@ public class SlidingComponent extends AbstractComponent {
                         .getComponent(MovementComponent.class).get().getDirection();
                 isMoving = true;
             }
-            MovementComponent playerMove = this.getEntity().getComponent(MovementComponent.class).get();
-            Pair<Float, Float> movement;
-            switch (dir) {
-                case UP:
-                    movement = new Pair<>(0f, Constants.Input.NEGATIVE_MOVE);
-                    break;
-                case LEFT:
-                    movement = new Pair<>(Constants.Input.NEGATIVE_MOVE, 0f);
-                    break;
-                case DOWN:
-                    movement = new Pair<>(0f, Constants.Input.POSITIVE_MOVE);
-                    break;
-                case RIGHT:
-                    movement = new Pair<>(Constants.Input.POSITIVE_MOVE, 0f);
-                    break;
-                default:
-                    movement = new Pair<>(0f, 0f);
-                    break;
-            }
-            playerMove.moveBy(movement);
+            MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
+            bombMove.moveBy(new Pair<Float, Float>(dir.getX() * Constants.Input.POSITIVE_MOVE,
+                    dir.getY() * -Constants.Input.POSITIVE_MOVE));
             isSliding = false;
         }
-
     }
 
     /**
