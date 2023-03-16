@@ -101,7 +101,7 @@ public class FieldImpl implements Field {
 
     private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where, int strength,
             Direction d, int step) {
-        if (step<strength) {
+        if (step<=strength) {
             Pair<Integer, Integer> newDirection = new Pair<Integer, Integer>(where.getX() + d.getX() * step,
                     where.getY() + d.getY() * step);
             if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
