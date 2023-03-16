@@ -50,7 +50,7 @@ public class ExplodeComponent extends AbstractComponent {
                             && e.getComponent(ExplodeComponent.class).get().isExploding)
                     .collect(Collectors.toList()));
             } else {
-                //this.destroyEntities();
+                this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
                 this.expiringFrames = 0;
