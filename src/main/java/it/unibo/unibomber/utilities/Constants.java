@@ -425,16 +425,16 @@ public class Constants {
 
         /**
          * the number of frames the destruction of effective frames the destruction of a
-         * type takes
+         * type takes.
          */
-        private static final Map<Type, Integer> destroyFramesPerType = new HashMap<>();
+        private static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
 
         /**
-         * constructor
+         * constructor.
          */
         public Destroy() {
-            destroyFramesPerType.put(Type.POWERUP, 0);
-            destroyFramesPerType.put(Type.BOMB, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
         }
 
         /**
@@ -443,7 +443,7 @@ public class Constants {
         public static final float DROPPED_POWERUP_PERCENT = 0.25f;
 
         /**
-         * standard duration of the destrution in frames
+         * standard duration of the destrution in frames.
          */
         public static final int STANDARD_FRAME_DURATION = 4;
 
@@ -451,9 +451,8 @@ public class Constants {
          * @param type the type of the entity asked
          * @return the number of actual frames
          */
-        public static Integer getDestructionFrames(Type type) {
-
-            return destroyFramesPerType.containsKey(type) ? destroyFramesPerType.get(type) : STANDARD_FRAME_DURATION;
+        public static Integer getDestructionFrames(final Type type) {
+            return DESTROY_FRAMES_PER_TYPE.containsKey(type) ? DESTROY_FRAMES_PER_TYPE.get(type) : STANDARD_FRAME_DURATION;
         }
     }
 
