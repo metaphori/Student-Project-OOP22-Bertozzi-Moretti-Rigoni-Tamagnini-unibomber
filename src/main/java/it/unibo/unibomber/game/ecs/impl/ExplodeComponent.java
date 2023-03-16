@@ -19,6 +19,8 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
 public class ExplodeComponent extends AbstractComponent {
 
     private final List<Entity> entitiesToDestroy;
+    private final Type[][] explonsionsMatrix;
+    private final Pair<Integer, Integer> gameDimensions;
     private int explodeFrames;
     private int expiringFrames;
     private Entity placer;
@@ -33,6 +35,9 @@ public class ExplodeComponent extends AbstractComponent {
      */
     public ExplodeComponent(final Entity placer) {
         this.entitiesToDestroy = new ArrayList<>();
+        this.gameDimensions = this.getEntity().getGame().getDimensions();
+        this.explonsionsMatrix = new Type[this.gameDimensions.getX()][this.gameDimensions.getY()];
+        initializeExplosionsMatrix();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
@@ -46,10 +51,11 @@ public class ExplodeComponent extends AbstractComponent {
             this.explodeFrames++;
             if (this.explodeFrames < EXPLODE_DURATION) {
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
-                    .filter(e -> e.getType() == Type.BOMB
-                            && e.getComponent(ExplodeComponent.class).get().isExploding())
-                    .collect(Collectors.toList()));
+                .filter(e -> e.getType() == Type.BOMB
+                && e.getComponent(ExplodeComponent.class).get().isExploding())
+                .collect(Collectors.toList()));
             } else {
+                initializeExplosionsMatrix();
                 this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
@@ -62,6 +68,15 @@ public class ExplodeComponent extends AbstractComponent {
     }
 
     /**
+     * A method that supplies the explosion
+     * area of the bomb.
+     * @return a matrix with explosions areas
+     */
+    public Type[][] getExplosions() {
+        return this.explonsionsMatrix;
+    }
+    
+    /**
      * A method that supplies the entity
      * who placed the bomb.
      * @return the entity
@@ -69,13 +84,24 @@ public class ExplodeComponent extends AbstractComponent {
     public Entity getPlacer() {
         return this.placer;
     }
-
+    
     /**
      * A method to know if the bomb is exploding.
      * @return true if the bomb is exploding, false otherwise
      */
     public boolean isExploding() {
         return this.isExploding;
+    }
+    
+    /**
+     * A method that initialize the filed explosionsMatrix.
+     */
+    private void initializeExplosionsMatrix() {
+        for (int i = 0; i < this.gameDimensions.getX(); i++) {
+            for (int j = 0; j < this.gameDimensions.getY(); j++) {
+                this.explonsionsMatrix[i][j] = Type.AIR;
+            }
+        }
     }
 
     /**
@@ -120,6 +146,8 @@ public class ExplodeComponent extends AbstractComponent {
                             this.isPlayerDied = true;
                             this.entitiesToDestroy.add(entitySearched.get());
                         }
+                        this.explonsionsMatrix[Math.round(checkPos.getX())]
+                                            [Math.round(checkPos.getY())] = Type.EXPLOSION;
                     } else if (previousEntity.isPresent()) {
                         countPositions += bombRange;
                     }
