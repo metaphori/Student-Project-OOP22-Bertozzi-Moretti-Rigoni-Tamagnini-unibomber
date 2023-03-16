@@ -33,26 +33,13 @@ public final class CollisionComponent extends AbstractComponent {
           isOutofField();
           Entity player = this.getEntity();
           if (player.getType() == Type.PLAYABLE) {
-               for (Entity entity : this.getEntity().getGame().getEntities()) {
-                    if (entity.getType() == Type.BOMB) {
-                         // TODO refactor
-                         int Playerx = Math.round(player.getPosition().getX());
-                         int Playery = Math.round(player.getPosition().getY());
-                         int bombx = Math.round(entity.getPosition().getX());
-                         int bomby = Math.round(entity.getPosition().getY());
-                         int playerFloorx = (int) Math.floor(player.getPosition().getX());
-                         int playerFloory = (int) Math.floor(player.getPosition().getY());
-                         int playerCeilx = (int) Math.ceil(player.getPosition().getX());
-                         int playerCeily = (int) Math.ceil(player.getPosition().getY());
-                         if (bombx != Playerx || bomby != Playery) {
-                              if (bombx != playerFloorx || bomby != playerFloory) {
-                                   if (bombx != playerCeilx || bomby != playerCeily) {
-                                        entity.getComponent(CollisionComponent.class).get().setOverstable(false);
-                                   }
-                              }
-                         }
-                    }
-               }
+               this.getEntity().getGame().getEntities().stream()
+                         .filter(entity -> entity.getType() == Type.BOMB)
+                         .filter(entity -> entity.getComponent(CollisionComponent.class).isPresent()
+                                   && entity.getComponent(CollisionComponent.class).get().isOverstable())
+                         .filter(entity -> !player.getComponent(CollisionComponent.class).get().getHitbox()
+                                   .intersects(entity.getComponent(CollisionComponent.class).get().getHitbox()))
+                         .forEach(entity -> entity.getComponent(CollisionComponent.class).get().setOverstable(false));
           }
           checkCollisions();
      }
