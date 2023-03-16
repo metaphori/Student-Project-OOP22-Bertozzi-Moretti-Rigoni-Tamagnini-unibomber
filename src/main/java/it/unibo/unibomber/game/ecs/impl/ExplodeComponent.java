@@ -50,7 +50,7 @@ public class ExplodeComponent extends AbstractComponent {
                             && e.getComponent(ExplodeComponent.class).get().isExploding)
                     .collect(Collectors.toList()));
             } else {
-                //this.destroyEntities();
+                this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explodeFrames = 0;
                 this.expiringFrames = 0;
@@ -102,14 +102,14 @@ public class ExplodeComponent extends AbstractComponent {
                     if (entitySearched.isPresent()
                         && previousEntity.isEmpty()) {
                         if (checkPos(entity.getPosition(), checkPos, entitySearched.get())) {
+                            previousEntity = entitySearched;
                             if (entitySearched.get().getType() == Type.BOMB
                                 && !entitySearched.get().getComponent(ExplodeComponent.class).get()
                                 .isExploding()) {
-                                    //TODO: resolve error for 2+ bombs in row
+                                entitySearched.get().getComponent(ExplodeComponent.class).get().explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
                             }
                             this.entitiesToDestroy.add(entitySearched.get());
-                            previousEntity = entitySearched;
                         } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
                             previousEntity = entitySearched;
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
