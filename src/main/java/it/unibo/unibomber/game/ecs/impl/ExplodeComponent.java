@@ -86,18 +86,21 @@ public class ExplodeComponent extends AbstractComponent {
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var totalEntities = this.getEntity().getGame().getEntities();
+        Optional<Entity> previousEntity;
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
         this.explodeBomb();
         for (var entity : entitiesList) {
             for (var dir : Direction.values()) {
+                previousEntity = Optional.empty();
                 countPositions = 1;
                 while (countPositions <= bombRange) {
                     checkPos = new Pair<>(entity.getPosition().getX() + (dir.getX() * countPositions),
                         entity.getPosition().getY() + (-(dir.getY()) * countPositions));
                     entitySearched = checkContainedInList(checkPos, totalEntities);
-                    if (entitySearched.isPresent()) {
+                    if (entitySearched.isPresent()
+                        && previousEntity.isEmpty()) {
                         if (checkPos(entity.getPosition(), checkPos, entitySearched.get())) {
                             if (entitySearched.get().getType() == Type.BOMB
                                 && !entitySearched.get().getComponent(ExplodeComponent.class).get()
@@ -106,6 +109,9 @@ public class ExplodeComponent extends AbstractComponent {
                                 explodeEntities(List.of(entitySearched.get()));
                             }
                             this.entitiesToDestroy.add(entitySearched.get());
+                            previousEntity = entitySearched;
+                        } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
+                            previousEntity = entitySearched;
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
                                     && !this.isPlayerDied
@@ -113,6 +119,8 @@ public class ExplodeComponent extends AbstractComponent {
                             this.isPlayerDied = true;
                             this.entitiesToDestroy.add(entitySearched.get());
                         }
+                    } else if (previousEntity.isPresent()) {
+                        countPositions += bombRange;
                     }
                     countPositions++;
                 }

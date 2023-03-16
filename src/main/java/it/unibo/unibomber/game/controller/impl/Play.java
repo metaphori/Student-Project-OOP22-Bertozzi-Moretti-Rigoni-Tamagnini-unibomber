@@ -128,11 +128,12 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
-     * if those keys are still here they were not presed on the first frame
+     * If those keys are still here they were not presed on the first frame.
      */
     private void updateKeys() {
-        for (Integer keyCode : firstFrameKey.keySet())
+        for (Integer keyCode : firstFrameKey.keySet()) {
             firstFrameKey.put(keyCode, false);
+        }
 
     }
 
@@ -161,8 +162,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     @Override
     public final void keyPressed(final KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-        } else {
+        if (e.getKeyCode() != KeyEvent.VK_ESCAPE) {
             if (!keyQueue.contains(e.getKeyCode())) {
                 keyQueue.addFirst(e.getKeyCode());
             }
@@ -179,6 +179,9 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         return keyQueue;
     }
 
+    /**
+     * @return first key with status.
+     */
     public final Map<Integer, Boolean> getFirstFrameKeys() {
         return firstFrameKey;
     }
