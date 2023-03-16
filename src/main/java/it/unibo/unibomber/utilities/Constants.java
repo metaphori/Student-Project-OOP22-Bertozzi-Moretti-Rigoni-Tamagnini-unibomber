@@ -192,7 +192,7 @@ public class Constants {
              * Scale constructor.
              */
             public Scale() {
-                ENTITY_SCALE.put(Type.PLAYABLE, 0.5f);
+                ENTITY_SCALE.put(Type.PLAYABLE, 0.2f);
                 ENTITY_SCALE.put(Type.BOT, 0.5f);
                 ENTITY_SCALE.put(Type.BOMB, -0.5f);
                 ENTITY_SCALE.put(Type.POWERUP, 0f);
@@ -404,7 +404,7 @@ public class Constants {
         /**
          * Entity speed.
          */
-        public static final float BASE_SPEED = 1f;
+        public static final float BASE_SPEED = 0.4f;
     }
 
     /**

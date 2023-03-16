@@ -101,24 +101,22 @@ public final class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           Entity entity = this.getEntity();
-          if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOMB) {
+          if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOMB || entity.getType() == Type.BOT) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))
                          .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
                          .forEach(e -> {
-                              if (e.getType() == Type.POWERUP) {
-                                   if (entity.getType() != Type.BOMB) {
-                                        PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
-                                                  .getPowerUpType();
-                                        PowerUpHandlerComponent powerUpHandlerComponent = entity
-                                                  .getComponent(PowerUpHandlerComponent.class).get();
-                                        powerUpHandlerComponent.addPowerUp(powerUpType);
-                                   }
+                              if (e.getType() == Type.POWERUP && entity.getType() != Type.BOMB) {
+                                   PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
+                                             .getPowerUpType();
+                                   PowerUpHandlerComponent powerUpHandlerComponent = entity
+                                             .getComponent(PowerUpHandlerComponent.class).get();
+                                   powerUpHandlerComponent.addPowerUp(powerUpType);
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
-                              if (entity.getType() == Type.BOMB && e.getType() != Type.BOMB
-                                        && !entity.getComponent(CollisionComponent.class).get().isOverstable()
-                                        && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
+                              if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE &&
+                                        !entity.getComponent(CollisionComponent.class).get().isOverstable() &&
+                                        e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
                                    entity.getComponent(SlidingComponent.class).get().setSliding(true);
                               }
@@ -128,16 +126,16 @@ public final class CollisionComponent extends AbstractComponent {
                                    float thisY = Math.round(entity.getPosition().getY());
                                    float eX = Math.round(e.getPosition().getX());
                                    float eY = Math.round(e.getPosition().getY());
-                                   if (!entity.getGame().getGameField().getField()
-                                             .containsKey(new Pair<Integer, Integer>(
-                                                       (Math.round(thisX)
-                                                                 + entity.getComponent(MovementComponent.class)
-                                                                           .get()
-                                                                           .getDirection().getX()),
+                                   boolean isOccupied = entity.getGame().getGameField().getField()
+                                             .entrySet().stream()
+                                             .anyMatch(entry -> entry.getKey().equals(new Pair<Integer, Integer>(
+                                                       (Math.round(thisX) + entity.getComponent(MovementComponent.class)
+                                                                 .get().getDirection().getX()),
                                                        (Math.round(thisY)
-                                                                 + -entity.getComponent(MovementComponent.class)
-                                                                           .get()
-                                                                           .getDirection().getY())))) {
+                                                                 + -entity.getComponent(MovementComponent.class).get()
+                                                                           .getDirection().getY()))));
+
+                                   if (!isOccupied) {
                                         if (thisX != eX && thisY != eY) {
                                              entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                         }
@@ -151,7 +149,6 @@ public final class CollisionComponent extends AbstractComponent {
                                         }
                                    }
                               }
-
                          });
           }
      }
