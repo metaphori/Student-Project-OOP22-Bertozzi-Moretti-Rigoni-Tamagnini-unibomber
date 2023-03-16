@@ -3,6 +3,8 @@ package it.unibo.unibomber.utilities;
 import java.util.List;
 import java.util.Optional;
 
+import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
+
 /**
  * Direction enum.
  */
@@ -59,6 +61,11 @@ public enum Direction {
      * @return direction based on movement.
      */
     public static Optional<Direction> extractDirecion(final Pair<Float, Float> movement) {
+        /*
+         * int x = movement.getX() > 0 ? 1 : movement.getX() < 0 ? -1 : 0
+         * int y = movement.getY() > 0 ? 1 : movement.getY() < 0 ? -1 : 0
+         * return Optiona.of(new Direction(x,y))
+         */
         if (movement.getX() > 0 && movement.getY() == 0) {
             return Optional.of(RIGHT);
         } else if (movement.getX() < 0 && movement.getY() == 0) {
@@ -76,6 +83,24 @@ public enum Direction {
      */
     public static List<Direction> valuesNoCenter() {
         return List.of(LEFT, UP, RIGHT, DOWN);
+    }
+
+    /**
+     * @return the current direction 90° shifted
+     */
+    public Direction getNextClockwise() {
+        switch (this) {
+            case LEFT:
+                return UP;
+            case UP:
+                return RIGHT;
+            case RIGHT:
+                return DOWN;
+            case DOWN:
+                return LEFT;
+            default: 
+                return CENTER;
+        }
     }
 
     /**
