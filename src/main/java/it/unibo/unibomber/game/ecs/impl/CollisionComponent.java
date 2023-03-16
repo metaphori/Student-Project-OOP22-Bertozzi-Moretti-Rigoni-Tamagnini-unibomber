@@ -111,7 +111,9 @@ public final class CollisionComponent extends AbstractComponent {
                                              .getPowerUpType();
                                    PowerUpHandlerComponent powerUpHandlerComponent = entity
                                              .getComponent(PowerUpHandlerComponent.class).get();
-                                   powerUpHandlerComponent.addPowerUp(powerUpType);
+                                   powerUpHandlerComponent.addPowerUp(powerUpType); 
+                              }
+                              if (e.getType() == Type.POWERUP) {
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
                               if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE &&

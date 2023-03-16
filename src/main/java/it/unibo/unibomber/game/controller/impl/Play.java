@@ -35,6 +35,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private Deque<Integer> keyQueue;
     private Map<Integer, Boolean> firstFrameKey;
     private final Game game;
+    private Explosion explosion;
     private final PlayView view;
     private int rows, collums;
 
@@ -52,6 +53,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         game.getGameField().updateField();
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
+        explosion = new Explosion(game);
         // TODO load map at settings not in constructor
     }
 
@@ -124,6 +126,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         }
         game.getGameField().updateField();
         view.update();
+        explosion.update();
         updateKeys();
     }
 
@@ -140,6 +143,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     @Override
     public final void draw(final Graphics g) {
         view.draw(g);
+        explosion.draw(g);
     }
 
     @Override

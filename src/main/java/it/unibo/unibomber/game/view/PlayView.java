@@ -57,9 +57,9 @@ public final class PlayView implements GameLoop {
                         Game.PLAYER_DEFAULT);
             }
         }
-        for (Integer i = 0; i < (Player.PLAYER_COUNTER + Player.EXPLOSION_COUNTER); i++) {
+        for (Integer i = 0; i < SpritesMap.COL_BOMB_SPRITES; i++) {
             animations[((Player.PLAYER_COUNTER * 2) + SpritesMap.ROW_BOMB_SPRITES) - 1][i] = sprites.get(Type.BOMB)
-                    .getSubimage(i * Game.PLAYER_DEFAULT, 0, Game.PLAYER_DEFAULT, Game.PLAYER_DEFAULT);
+                    .getSubimage(i * Game.BOMB_DEFAULT, 0, Game.BOMB_DEFAULT, Game.BOMB_DEFAULT);
         }
     }
 
@@ -143,9 +143,8 @@ public final class PlayView implements GameLoop {
         } else if (entity.getType() == Type.POWERUP) {
             return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());
         } else if (entity.getType() == Type.BOMB) {
-            indexDir = 0;
-            return animations[((Player.PLAYER_COUNTER * 2) + SpritesMap.ROW_BOMB_SPRITES) - 1][getAnimationIndex(entity)
-                    % Constants.Player.getSpriteAmount(Player.EXPLOSION) + indexDir];
+            return animations[Player.PLAYER_COUNTER * 2][getAnimationIndex(entity)
+                    % Constants.Player.getSpriteAmount(Player.EXPLOSION)];
         } else {
             return sprites.get(entity.getType());
         }

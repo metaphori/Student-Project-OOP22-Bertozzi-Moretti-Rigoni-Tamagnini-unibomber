@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.model.api.Field;
@@ -87,6 +88,7 @@ public class FieldImpl implements Field {
         // TODO only works with basic bombs
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
+                .filter(e -> field.get(e).getY().getComponent(ExplodeComponent.class).get().isExploding())
                 .forEach(e -> {
                     PowerUpListComponent powerupList = field.get(e).getY().getComponent(PowerUpListComponent.class)
                             .get();
@@ -101,7 +103,7 @@ public class FieldImpl implements Field {
 
     private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where, int strength,
             Direction d, int step) {
-        if (step<strength) {
+        if (step <= strength) {
             Pair<Integer, Integer> newDirection = new Pair<Integer, Integer>(where.getX() + d.getX() * step,
                     where.getY() + d.getY() * step);
             if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
