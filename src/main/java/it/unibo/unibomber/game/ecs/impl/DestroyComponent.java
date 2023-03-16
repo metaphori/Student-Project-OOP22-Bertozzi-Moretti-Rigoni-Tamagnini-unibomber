@@ -110,11 +110,12 @@ public final class DestroyComponent extends AbstractComponent {
      */
     private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions) {
         final Random rnd = new Random();
-        Pair<Float, Float> rndPos;
+        Pair<Integer, Integer> coord;
         do {
-            rndPos = new Pair<>((float) rnd.nextInt(gameDimensions.getX()),
-                    (float) rnd.nextInt(gameDimensions.getY()));
-        } while (this.getEntity().getGame().getGameField().getField().containsKey(rndPos));
-        return rndPos;
+            coord = new Pair<>(rnd.nextInt(gameDimensions.getX()), 
+                rnd.nextInt(gameDimensions.getY()));
+        } while (this.getEntity().getGame().getGameField().getField().containsKey(coord));
+        return new Pair<>((float) coord.getX(), 
+            (float) coord.getY());
     }
 }

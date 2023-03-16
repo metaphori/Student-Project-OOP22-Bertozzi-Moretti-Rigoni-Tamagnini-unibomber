@@ -81,7 +81,14 @@ public class Constants {
              * player default dimension.
              */
             public static final int PLAYER_DEFAULT = 48;
-
+            /**
+             * bomb default dimension.
+             */
+            public static final int BOMB_DEFAULT = 48;
+            /**
+             * explosion default dimension.
+             */
+            public static final int EXPLOSION_DEFAULT = 48;
             public static void changeDimension() {
                 TILES_DEFAULT--;
                 TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
@@ -136,6 +143,18 @@ public class Constants {
              * max row of bomb sprites animation.
              */
             public static final int ROW_BOMB_SPRITES = 1;
+            /**
+             * max row of bomb sprites animation.
+             */
+            public static final int COL_BOMB_SPRITES = 3;
+             /**
+             * max row of explosion sprites animation.
+             */
+            public static final int ROW_EXPLOSION_SPRITES = 1;
+            /**
+             * max row of explosion sprites animation.
+             */
+            public static final int COL_EXPLOSION_SPRITES = 9;
             /**
              * Map of row of entity animation.
              */

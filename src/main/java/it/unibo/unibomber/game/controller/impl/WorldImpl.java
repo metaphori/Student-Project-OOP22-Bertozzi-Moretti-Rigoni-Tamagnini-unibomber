@@ -39,7 +39,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
     menu = new Menu();
     play = new Play(this);
     pause = new Pause();
-
   }
 
   private void loadSprites() {
