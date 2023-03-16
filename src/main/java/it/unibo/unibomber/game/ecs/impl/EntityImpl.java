@@ -8,6 +8,7 @@ import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -19,7 +20,7 @@ public class EntityImpl implements Entity {
     private final Set<Component> components = new HashSet<>();
     private final Game game;
     private Pair<Float, Float> position;
-    private float speed = 1;
+    private float speed;
 
     /**
      * This method create a new Entity.
@@ -32,6 +33,7 @@ public class EntityImpl implements Entity {
         this.game = game;
         this.position = position;
         this.type = type;
+        speed = Constants.Entity.BASE_SPEED;
     }
 
     @Override

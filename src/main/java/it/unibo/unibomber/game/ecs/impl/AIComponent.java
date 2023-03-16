@@ -5,7 +5,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Constants;
@@ -17,28 +16,29 @@ import it.unibo.unibomber.utilities.Utilities;
  * This component manage the AI of Bots.
  */
 public final class AIComponent extends AbstractComponent {
-
      @Override
      public void update() {
           Type[][] matrix = this.getEntity().getGame().getGameField().getMatrixTypes();
-          if (isSafe(matrix)) {          
+          if (isSafe(matrix)) {     
                this.getEntity().getComponent(MovementComponent.class).get()
                .moveBy(new Pair<Float, Float>(0f,0f));
 
           } else {
-               //moveToSafety(matrix);
-               int a =0;
+               System.out.println(this.getEntity().getPosition().toString());
+               moveToSafety(matrix);
           }
      }
 
      private void moveToSafety(Type[][] matrix) {
           Direction moveTo = getDirectionToSafety(matrix);
-          moveTo = moveTo == Direction.LEFT ? Direction.RIGHT : moveTo == Direction.RIGHT? Direction.LEFT:moveTo;
-          System.out.println(moveTo.toString());
-          this.getEntity().getComponent(MovementComponent.class).get()
-                    .moveBy(new Pair<Float, Float>(
-                              moveTo.getX() * Constants.Input.POSITIVE_MOVE,
-                              moveTo.getY() * Constants.Input.POSITIVE_MOVE));
+          move(moveTo);
+     }
+
+     private void move(Direction moveTo) {
+          MovementComponent movementComponent = this.getEntity().getComponent(MovementComponent.class).get();
+          movementComponent.moveBy(new Pair<Float, Float>(
+               moveTo.getX() * Constants.Input.POSITIVE_MOVE,
+               moveTo.getY() * Constants.Input.POSITIVE_MOVE));
      }
 
      private Direction getDirectionToSafety(Type[][] matrix) {
@@ -88,7 +88,11 @@ public final class AIComponent extends AbstractComponent {
                     }
                }
           }
-          return path.get(path.size()-1);
+          Direction nextMovement = path.get(path.size()-1);
+          //TODO why does it that
+          nextMovement = nextMovement == Direction.LEFT ? Direction.RIGHT : nextMovement == Direction.RIGHT? Direction.LEFT:nextMovement;
+
+          return nextMovement;
      }
 
      private void checkSides(Queue<Pair<Integer, Integer>> checkPositions, int[][] checkedPositions, Type[][]typeMatrix, Pair<Integer, Integer> current) {

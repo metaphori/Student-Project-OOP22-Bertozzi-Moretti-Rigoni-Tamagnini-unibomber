@@ -192,7 +192,7 @@ public class Constants {
              * Scale constructor.
              */
             public Scale() {
-                ENTITY_SCALE.put(Type.PLAYABLE, 0.5f);
+                ENTITY_SCALE.put(Type.PLAYABLE, 0.2f);
                 ENTITY_SCALE.put(Type.BOT, 0.5f);
                 ENTITY_SCALE.put(Type.BOMB, -0.5f);
                 ENTITY_SCALE.put(Type.POWERUP, 0f);
@@ -391,6 +391,10 @@ public class Constants {
          * Percentage of have complex power up.
          */
         public static final int COMPLEX_PERCENTAGE = 25;
+        /**
+         * powerupSpeed increase.
+         */
+        public static final float SPEED_POWERUP_CHANGE = 0.07f;
     }
 
     /**
@@ -398,9 +402,9 @@ public class Constants {
      */
     public static class Entity {
         /**
-         * Enity speed.
+         * Entity speed.
          */
-        public static final float SPEED_CHANGE = 0.40f;
+        public static final float BASE_SPEED = 0.3f;
     }
 
     /**
@@ -464,5 +468,10 @@ public class Constants {
          * Number of frames between one animation and the other.
          */
         public static final int FRAME_DELAY = 10;
+
+        /**
+         * Global speed multiplier.
+         */
+        public static final float MULTIPLIER_GLOBAL_SPEED = 1f;
     }
 }
