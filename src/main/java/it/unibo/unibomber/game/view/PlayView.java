@@ -9,6 +9,7 @@ import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
@@ -50,7 +51,8 @@ public final class PlayView implements GameLoop {
                 animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i * Game.PLAYER_DEFAULT,
                         j * Game.PLAYER_DEFAULT, Game.PLAYER_DEFAULT,
                         Game.PLAYER_DEFAULT);
-                animations[j + SpritesMap.ROW_PLAYER_SPRITES][i] = sprites.get(Type.BOT).getSubimage(i * Game.PLAYER_DEFAULT,
+                animations[j + SpritesMap.ROW_PLAYER_SPRITES][i] = sprites.get(Type.BOT).getSubimage(
+                        i * Game.PLAYER_DEFAULT,
                         j * Game.PLAYER_DEFAULT, Game.PLAYER_DEFAULT,
                         Game.PLAYER_DEFAULT);
             }
@@ -61,7 +63,7 @@ public final class PlayView implements GameLoop {
         }
     }
 
-    private Integer getAnimationIndex(Entity entity) {
+    private Integer getAnimationIndex(final Entity entity) {
         return entity.getComponent(MovementComponent.class)
                 .get()
                 .getPassedFrames();
@@ -75,6 +77,7 @@ public final class PlayView implements GameLoop {
      * change the player action for sprites.
      * 
      * @param action
+     * @param e
      */
     public void changePlayerAction(final Integer action, final Entity e) {
         if (action == Player.STANDING && playerAction != Player.STANDING) {
@@ -90,12 +93,12 @@ public final class PlayView implements GameLoop {
 
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             // TODO TOGLIERE IL PRINT DELLE HITBOX
-            // controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
+            controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
             drawImage(g, controller.getEntities().get(i));
         }
     }
 
-    private void drawImage(Graphics g, Entity entity) {
+    private void drawImage(final Graphics g, final Entity entity) {
         BufferedImage image = getCorrectImage(entity);
         g.drawImage(image,
                 Math.round(entity.getPosition()
@@ -107,7 +110,7 @@ public final class PlayView implements GameLoop {
                 null);
     }
 
-    private BufferedImage getCorrectImage(Entity entity) {
+    private BufferedImage getCorrectImage(final Entity entity) {
         if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOT) {
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
             if (!movementComponent.hasMoved()) {
@@ -130,6 +133,8 @@ public final class PlayView implements GameLoop {
                     case CENTER:
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
                         break;
+                    default:
+                        break;
                 }
             }
             return animations[playerAction + SpritesMap.ANIMATION_ROW.get(entity.getType())][getAnimationIndex(entity)
@@ -141,8 +146,9 @@ public final class PlayView implements GameLoop {
             indexDir = 0;
             return animations[((Player.PLAYER_COUNTER * 2) + SpritesMap.ROW_BOMB_SPRITES) - 1][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(Player.EXPLOSION) + indexDir];
-        } else
+        } else {
             return sprites.get(entity.getType());
+        }
 
     }
 }
