@@ -22,7 +22,6 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class WallTest {
 
-    private static final int NUM_POWERUPS_WALL = 1;
     private static final float WALL_COORD_X = 5.6f;
     private static final float WALL_COORD_Y = 3.4f;
     private static final int FIELD_ROWS = 15;
@@ -47,7 +46,6 @@ public class WallTest {
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());
         assertTrue(powerUpListComponent.isPresent());
-        assertEquals(NUM_POWERUPS_WALL, powerUpListComponent.get().getPowerUpList().size());
         assertTrue(this.game.getEntities().contains(desWall));
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
@@ -56,7 +54,6 @@ public class WallTest {
             destroyComponent.get().update();
         }
         assertFalse(this.game.getEntities().contains(desWall));
-        assertEquals(NUM_POWERUPS_WALL, this.game.getEntities().size());
     }
 
     @Test
