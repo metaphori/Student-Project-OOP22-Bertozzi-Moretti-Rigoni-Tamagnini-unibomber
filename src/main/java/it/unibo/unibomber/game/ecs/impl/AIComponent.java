@@ -18,13 +18,14 @@ import it.unibo.unibomber.utilities.Utilities;
 public final class AIComponent extends AbstractComponent {
      @Override
      public void update() {
-          Type[][] matrix = this.getEntity().getGame().getGameField().getMatrixTypes();
+          Type[][] matrix = this.getEntity().getGame().getGameField().getMatrixTypes();              
+           System.out.println(this.getEntity().getPosition().toString());
+
           if (isSafe(matrix)) {     
                this.getEntity().getComponent(MovementComponent.class).get()
                .moveBy(new Pair<Float, Float>(0f,0f));
 
           } else {
-               System.out.println(this.getEntity().getPosition().toString());
                moveToSafety(matrix);
           }
      }
@@ -54,11 +55,12 @@ public final class AIComponent extends AbstractComponent {
                Pair<Integer, Integer> current = checkPositions.poll();
                Type cellType = matrix[current.getX()][current.getY()];
                switch (cellType) {
-                    case EXPLOSION:
                     case BOMB:
                     case RISING_WALL:
                     case DESTRUCTIBLE_WALL:
                     case INDESTRUCTIBLE_WALL:
+                         continue;
+                    case EXPLOSION:
                          checkSides(checkPositions, checkedPositions,matrix, current);
                          break;
 
@@ -83,16 +85,15 @@ public final class AIComponent extends AbstractComponent {
                               path.add(d);
                               currentValue--;
                               current=nextCell;
-                              continue;
+                              break;
                          }
                     }
                }
           }
           Direction nextMovement = path.get(path.size()-1);
           //TODO why does it that
-          nextMovement = nextMovement == Direction.LEFT ? Direction.RIGHT : nextMovement == Direction.RIGHT? Direction.LEFT:nextMovement;
 
-          return nextMovement;
+          return nextMovement.reverse();
      }
 
      private void checkSides(Queue<Pair<Integer, Integer>> checkPositions, int[][] checkedPositions, Type[][]typeMatrix, Pair<Integer, Integer> current) {
@@ -114,7 +115,7 @@ public final class AIComponent extends AbstractComponent {
 
      private boolean isSafe(Type[][] matrix) {
           Pair<Float, Float> position = this.getEntity().getPosition();
-          Type type = matrix[(int) Math.floor(position.getX())][(int) Math.floor(position.getY())];
+          Type type = matrix[(int) Math.round(position.getX())][(int) Math.round(position.getY())];
           return type == Type.EXPLOSION || type == Type.BOMB ? false : true;
      }
 
