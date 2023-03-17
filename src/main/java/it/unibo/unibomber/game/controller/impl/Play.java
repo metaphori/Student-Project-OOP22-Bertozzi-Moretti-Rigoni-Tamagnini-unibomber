@@ -21,6 +21,8 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
@@ -124,9 +126,16 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                 c.update();
             }
         }
+        game.getEntities().stream()
+                .filter(e -> e.getType() == Type.BOMB)
+                .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
+                .forEach((e) -> {
+                    explosion.setEntityExploding(e);
+
+                });
+
         game.getGameField().updateField();
         view.update();
-        explosion.update();
         updateKeys();
     }
 
