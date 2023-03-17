@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -26,8 +27,9 @@ public class BombPlaceComponent extends AbstractComponent {
                     .filter(e -> e.getPosition().equals(normalizedPosition))
                     .findFirst();
             if (bombSamePlace.isEmpty()) {
-                thisEntity.getGame()
-                        .addEntity(thisEntity.getGame().getFactory().makeBomb(thisEntity, normalizedPosition));
+                var bombCreate = thisEntity.getGame().getFactory().makeBomb(thisEntity, normalizedPosition);
+                bombCreate.addSpeed(Constants.Bomb.BASE_SPEED);
+                thisEntity.getGame().addEntity(bombCreate);
                 thisEntity.getComponent(PowerUpHandlerComponent.class)
                         .get().setBombPlaced(1);
             }

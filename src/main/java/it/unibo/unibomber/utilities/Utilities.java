@@ -3,7 +3,10 @@ package it.unibo.unibomber.utilities;
 /**
  * Some utilities method.
  */
-public class Utilities {
+public final class Utilities {
+    private Utilities() {
+    }
+
     /**
      * Establishes if a value is beetween 2 value.
      * 

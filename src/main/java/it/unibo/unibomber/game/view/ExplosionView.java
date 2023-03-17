@@ -5,16 +5,22 @@ import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Explosion;
-import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants.UI.Game;
 
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
-
-public class ExplosionView implements GameLoop {
+/**
+ * Explosion View class.
+ */
+public final class ExplosionView implements GameLoop {
     private Explosion controller;
     private BufferedImage[][] animations;
 
+    /**
+     * Explosion view constructor.
+     * @param controller
+     */
     public ExplosionView(final Explosion controller) {
         loadSprites();
         this.controller = controller;
@@ -36,8 +42,20 @@ public class ExplosionView implements GameLoop {
     }
 
     @Override
-    public void draw(Graphics g) {
-
+    public void draw(final Graphics g) {
+        if (!controller.getExplosionList().isEmpty()) {
+            for (Pair<Integer, Integer> p1 : controller.getExplosionList().get()) {
+                g.drawImage(getCorrectImage(), 
+                Math.round(p1.getY() * Game.TILES_SIZE),
+                Math.round(p1.getX() * Game.TILES_SIZE),
+                (int) (Game.TILES_DEFAULT * Game.SCALE),
+                (int) (Game.TILES_DEFAULT * Game.SCALE),
+                null);
+            }
+        }
+    }
+    private BufferedImage getCorrectImage() {
+        return animations[0][0];
     }
 
 }
