@@ -3,8 +3,6 @@ package it.unibo.unibomber.utilities;
 import java.util.List;
 import java.util.Optional;
 
-import edu.umd.cs.findbugs.annotations.DefaultAnnotation;
-
 /**
  * Direction enum.
  */
