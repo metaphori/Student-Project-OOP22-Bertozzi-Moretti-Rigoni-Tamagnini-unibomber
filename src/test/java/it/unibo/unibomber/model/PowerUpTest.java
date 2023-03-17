@@ -20,8 +20,8 @@ class PowerUpTest {
     private static final int BOMB_FIRE_BASE = 1;
     private static final int BOMB_FIRE_POWERUP = 1;
     private static final int BOMB_FIRE_MAX = 8;
-    private static final float SPEED_BASE = 1;
-    private static final float SPEED_POWERUP = 0.40f;
+    private static final float SPEED_BASE = 0.3f;
+    private static final float SPEED_POWERUP = 0.07f;
     private final EntityFactory entityFactory = new EntityFactoryImpl(null);
 
     private Entity createPlayerEntity() {
