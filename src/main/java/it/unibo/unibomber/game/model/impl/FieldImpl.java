@@ -76,7 +76,7 @@ public class FieldImpl implements Field {
         return typesMatrix;
     }
 
-    private void initializeTypeMatrix(Type[][] typesMatrix) {
+    private void initializeTypeMatrix(final Type[][] typesMatrix) {
         for (int x = 0; x < typesMatrix.length; x++) {
             for (int y = 0; y < typesMatrix[0].length; y++) {
                 typesMatrix[x][y] = Type.AIR;
@@ -94,27 +94,28 @@ public class FieldImpl implements Field {
                             .get();
 
                     for (Direction d : Direction.values()) {
-                        if (d != Direction.CENTER)
-                            addExplosionToMatrix(typesMatrix, e, powerupList.getBombFire(), d ,1);
+                        if (d != Direction.CENTER) {
+                            addExplosionToMatrix(typesMatrix, e, powerupList.getBombFire(), d, 1);
+                        }
                     }
                 });
 
     }
 
-    private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where, int strength,
-            Direction d, int step) {
+    private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where,
+            final int strength, final Direction d, final int step) {
         if (step <= strength) {
             Pair<Integer, Integer> newDirection = new Pair<Integer, Integer>(where.getX() + d.getX() * step,
                     where.getY() + d.getY() * step);
-            if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
-                    Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
+            if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH)
+                    && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
                 if (typesMatrix[newDirection.getX()][newDirection.getY()] == Type.AIR) {
-                    if (typesMatrix[newDirection.getX()][newDirection.getY()] != Type.DESTRUCTIBLE_WALL &&
-                            typesMatrix[newDirection.getX()][newDirection.getY()] != Type.INDESTRUCTIBLE_WALL) {
+                    if (typesMatrix[newDirection.getX()][newDirection.getY()] != Type.DESTRUCTIBLE_WALL
+                            && typesMatrix[newDirection.getX()][newDirection.getY()] != Type.INDESTRUCTIBLE_WALL) {
                         typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
                     }
 
-                    addExplosionToMatrix(typesMatrix, where, strength, d,step+1);
+                    addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
                 }
             }
         }

@@ -92,7 +92,7 @@ public final class CollisionComponent extends AbstractComponent {
      /**
       * @param isOverstable
       */
-     public void setOverstable(boolean isOverstable) {
+     public void setOverstable(final boolean isOverstable) {
           this.isOverstable = isOverstable;
      }
 
@@ -111,14 +111,14 @@ public final class CollisionComponent extends AbstractComponent {
                                              .getPowerUpType();
                                    PowerUpHandlerComponent powerUpHandlerComponent = entity
                                              .getComponent(PowerUpHandlerComponent.class).get();
-                                   powerUpHandlerComponent.addPowerUp(powerUpType); 
+                                   powerUpHandlerComponent.addPowerUp(powerUpType);
                               }
                               if (e.getType() == Type.POWERUP) {
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
-                              if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE &&
-                                        !entity.getComponent(CollisionComponent.class).get().isOverstable() &&
-                                        e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
+                              if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE
+                                        && !entity.getComponent(CollisionComponent.class).get().isOverstable()
+                                        && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
                                    entity.getComponent(SlidingComponent.class).get().setSliding(true);
                               }

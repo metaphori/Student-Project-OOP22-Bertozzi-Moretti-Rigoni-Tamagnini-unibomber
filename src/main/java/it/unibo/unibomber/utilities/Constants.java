@@ -89,6 +89,7 @@ public class Constants {
              * explosion default dimension.
              */
             public static final int EXPLOSION_DEFAULT = 48;
+
             public static void changeDimension() {
                 TILES_DEFAULT--;
                 TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
@@ -147,7 +148,7 @@ public class Constants {
              * max row of bomb sprites animation.
              */
             public static final int COL_BOMB_SPRITES = 3;
-             /**
+            /**
              * max row of explosion sprites animation.
              */
             public static final int ROW_EXPLOSION_SPRITES = 1;
@@ -424,6 +425,16 @@ public class Constants {
          * Entity speed.
          */
         public static final float BASE_SPEED = 0.3f;
+
+        /**
+         * Entity max speed.
+         */
+        public static final float MAX_SPEED = 0.57f;
+
+        /**
+         * Entity min speed.
+         */
+        public static final float MIN_SPEED = 0.31f;
     }
 
     /**
@@ -485,7 +496,8 @@ public class Constants {
          * @return the number of actual frames
          */
         public static Integer getDestructionFrames(final Type type) {
-            return DESTROY_FRAMES_PER_TYPE.containsKey(type) ? DESTROY_FRAMES_PER_TYPE.get(type) : STANDARD_FRAME_DURATION;
+            return DESTROY_FRAMES_PER_TYPE.containsKey(type) ? DESTROY_FRAMES_PER_TYPE.get(type)
+                    : STANDARD_FRAME_DURATION;
         }
     }
 
