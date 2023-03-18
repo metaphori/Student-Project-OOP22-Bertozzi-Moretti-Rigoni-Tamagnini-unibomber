@@ -89,15 +89,15 @@ public enum Direction {
          * return Optiona.of(new Direction(x,y))
          */
         if (dir1.getX() > dir2.getX() && dir1.getY() == dir2.getY()) {
-            return Optional.of(RIGHT);
-        } else if (dir1.getX() < dir2.getX() && dir1.getY() == dir2.getY()) {
-            return Optional.of(LEFT);
-        } else if (dir1.getX() == dir2.getX() && dir1.getY() < dir2.getY()) {
             return Optional.of(UP);
-        } else if (dir1.getX() == dir2.getX() && dir1.getY() > dir2.getY()) {
+        } else if (dir1.getX() < dir2.getX() && dir1.getY() == dir2.getY()) {
             return Optional.of(DOWN);
+        } else if (dir1.getX() == dir2.getX() && dir1.getY() < dir2.getY()) {
+            return Optional.of(RIGHT);
+        } else if (dir1.getX() == dir2.getX() && dir1.getY() > dir2.getY()) {
+            return Optional.of(LEFT);
         }
-        return Optional.empty();
+        return Optional.of(CENTER);
     }
 
     /**
@@ -106,7 +106,16 @@ public enum Direction {
     public static List<Direction> valuesNoCenter() {
         return List.of(LEFT, UP, RIGHT, DOWN);
     }
-
+    /**
+     * @param x1
+     * @param x2
+     * @return distance from two points.
+     */
+    public static int getDistance(final Pair<Integer, Integer> x1,
+    final Pair<Integer, Integer> x2) {
+        return (int) Math.sqrt((x1.getX() - x2.getX()) * (x1.getX() - x2.getX())
+        + (x1.getY() - x2.getY()) * (x1.getY() - x2.getY()));
+    }
     /**
      * @return the current direction 90° shifted
      */

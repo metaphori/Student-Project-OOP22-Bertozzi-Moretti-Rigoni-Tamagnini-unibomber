@@ -7,6 +7,7 @@ import java.util.Optional;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
+import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.view.ExplosionView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.game.model.api.Game;
@@ -17,12 +18,13 @@ public final class Explosion implements GameLoop {
     private ExplosionView view;
     private final Game game;
     private Optional<Entity> explode;
-
+    private int power;
     /**
      * Constructor.
      * @param game
      */
     public Explosion(final Game game) {
+        this.power = 1;
         this.game = game;
         view = new ExplosionView(this);
         explode = Optional.empty();
@@ -34,6 +36,7 @@ public final class Explosion implements GameLoop {
      */
     public void setEntityExploding(final Entity entity) {
         this.explode = Optional.of(entity);
+        power = explode.get().getComponent(PowerUpListComponent.class).get().getBombFire();
     }
 
     @Override
@@ -52,7 +55,9 @@ public final class Explosion implements GameLoop {
         }
         return Optional.empty();
     }
-
+    public int getBombPower() {
+        return power;
+    }
     @Override
     public void draw(final Graphics g) {
         view.draw(g);
