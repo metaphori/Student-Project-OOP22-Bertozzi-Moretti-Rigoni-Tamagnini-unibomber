@@ -1,8 +1,10 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -18,7 +20,7 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
  */
 public class ExplodeComponent extends AbstractComponent {
 
-    private final List<Entity> entitiesToDestroy;
+    private final Set<Entity> entitiesToDestroy;
     private final List<Pair<Integer, Integer>> explonsionsList;
     private int explodeFrames;
     private int expiringFrames;
@@ -32,7 +34,7 @@ public class ExplodeComponent extends AbstractComponent {
      * @param placer the entity that palced the bomb.
      */
     public ExplodeComponent(final Entity placer) {
-        this.entitiesToDestroy = new ArrayList<>();
+        this.entitiesToDestroy = new HashSet<>();
         this.explonsionsList = new ArrayList<>();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
