@@ -72,7 +72,7 @@ public class ExplodeComponent extends AbstractComponent {
     public List<Pair<Integer, Integer>> getExplosions() {
         return this.explonsionsList;
     }
-    
+
     /**
      * A method that supplies the entity
      * who placed the bomb.
@@ -81,7 +81,7 @@ public class ExplodeComponent extends AbstractComponent {
     public Entity getPlacer() {
         return this.placer;
     }
-    
+
     /**
      * A method to know if the bomb is exploding.
      * @return true if the bomb is exploding, false otherwise
@@ -142,7 +142,7 @@ public class ExplodeComponent extends AbstractComponent {
                         }
                     } else if (previousEntity.isPresent()) {
                         countPositions += bombRange;
-                    } else {
+                    } else if (checkBounds(checkPos)) {
                         this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
                                                             Math.round(checkPos.getX())));
                     }
@@ -206,5 +206,16 @@ public class ExplodeComponent extends AbstractComponent {
     private boolean checkRound(final Pair<Float, Float> pos, final Pair<Float, Float> checkPos) {
         return Math.round(pos.getX()) == Math.round(checkPos.getX())
             && Math.round(pos.getY()) == Math.round(checkPos.getY());
+    }
+
+    /**
+     * A method that checks the position of the entity.
+     * @param pos the position of the entity
+     * @return true if is in the field, false otherwise
+     */
+    private boolean checkBounds(final Pair<Float, Float> pos) {
+        return Math.round(pos.getX()) >= 0 && Math.round(pos.getY()) >= 0
+            && Math.round(pos.getX()) < this.getEntity().getGame().getDimensions().getX() 
+            && Math.round(pos.getY()) < this.getEntity().getGame().getDimensions().getY();
     }
 }
