@@ -12,6 +12,7 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
  */
 public class PowerUpListComponent extends AbstractComponent {
 
+    private Entity placer;
     private int bombNumber;
     private int bombPlaced;
     private int bombFire;
@@ -38,6 +39,7 @@ public class PowerUpListComponent extends AbstractComponent {
      */
     public PowerUpListComponent(final Entity giver) {
         final Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
+        this.placer = giver;
         if (giversList.isPresent()) {
             this.bombNumber = giversList.get().getBombNumber();
             this.bombFire = giversList.get().getBombFire();
@@ -50,6 +52,13 @@ public class PowerUpListComponent extends AbstractComponent {
     @Override
     public void update() {
 
+    }
+
+    /**
+     * @return bomb placer
+     */
+    public Entity getPlacer() {
+        return placer;
     }
 
     /**

@@ -17,8 +17,7 @@ public class SlidingComponent extends AbstractComponent {
     public final void update() {
         if (isSliding) {
             if (!isMoving) {
-                // TODO change handling placer in bomb
-                dir = this.getEntity().getComponent(ExplodeComponent.class).get().getPlacer()
+                dir = this.getEntity().getComponent(PowerUpListComponent.class).get().getPlacer()
                         .getComponent(MovementComponent.class).get().getDirection();
                 isMoving = true;
             }
