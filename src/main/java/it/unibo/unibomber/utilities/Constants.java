@@ -86,6 +86,10 @@ public class Constants {
              */
             public static final int BOMB_DEFAULT = 48;
             /**
+             * wall default dimension.
+             */
+            public static final int WALL_DEFAULT = 48;
+            /**
              * explosion default dimension.
              */
             public static final int EXPLOSION_DEFAULT = 48;
@@ -96,6 +100,10 @@ public class Constants {
                 G_WIDTH = TILES_SIZE * TILES_WIDTH;
                 G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
             }
+            /**
+             * OPACITY default value.
+             */
+            public static int OPACITY = 125;
         }
 
         /**
@@ -157,6 +165,14 @@ public class Constants {
              */
             public static final int COL_EXPLOSION_SPRITES = 9;
             /**
+             * max row of wall sprites animation.
+             */
+            public static final int ROW_WALL_SPRITES = 1;
+            /**
+             * max row of wall sprites animation.
+             */
+            public static final int COL_WALL_SPRITES = 7;
+            /**
              * Map of row of entity animation.
              */
             public static final Map<Type, Integer> ANIMATION_ROW = new HashMap<>();
@@ -179,7 +195,7 @@ public class Constants {
                 SPRITESPATH.put(Type.POWERUP, null);
                 SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/destructible_wall.png"));
+                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
                 SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
@@ -194,7 +210,7 @@ public class Constants {
                 ANIMATION_ROW.put(Type.PLAYABLE, 0);
                 ANIMATION_ROW.put(Type.BOT, 2);
                 ANIMATION_ROW.put(Type.BOMB, 4);
-
+                ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, 5);
             }
 
         }
@@ -282,6 +298,10 @@ public class Constants {
          * EXPLOSION animation.
          */
         public static final int EXPLOSION = 13;
+         /**
+         * WALL animation.
+         */
+        public static final int WALL = 14;
         /**
          * STANDING number of animations.
          */
@@ -339,6 +359,10 @@ public class Constants {
          */
         public static final int EXPLOSION_ANIMATION = 3;
         /**
+         * WALL number of animations.
+         */
+        public static final int WALL_ANIMATION = 6;
+        /**
          * EXPLOSION_COUNTER number of animations.
          */
         public static final int EXPLOSION_COUNTER = 1;
@@ -379,6 +403,8 @@ public class Constants {
                     return DANCING_ANIMATION;
                 case EXPLOSION:
                     return EXPLOSION_ANIMATION;
+                case WALL:
+                    return WALL_ANIMATION;
                 default:
                     return 1;
             }
@@ -479,7 +505,7 @@ public class Constants {
         public Destroy() {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 30);
         }
 
         /**

@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
+import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
@@ -17,6 +18,7 @@ import it.unibo.unibomber.utilities.Constants;
 import static it.unibo.unibomber.utilities.Constants.Player;
 import static it.unibo.unibomber.utilities.Constants.UI.Game;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
+import static it.unibo.unibomber.utilities.Constants.Movement.FRAME_DELAY;
 
 /**
  * Draw playing view statement.
@@ -46,7 +48,7 @@ public final class PlayView implements GameLoop {
 
     private void loadSprites() {
         animations = new BufferedImage[(SpritesMap.ROW_PLAYER_SPRITES * 2)
-                + SpritesMap.ROW_BOMB_SPRITES][SpritesMap.COL_PLAYER_SPRITES];
+                + SpritesMap.ROW_BOMB_SPRITES + SpritesMap.ROW_WALL_SPRITES][SpritesMap.COL_PLAYER_SPRITES];
         for (Integer j = 0; j < Player.PLAYER_COUNTER; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
                 animations[j][i] = sprites.get(Type.PLAYABLE).getSubimage(i * Game.PLAYER_DEFAULT,
@@ -59,8 +61,12 @@ public final class PlayView implements GameLoop {
             }
         }
         for (Integer i = 0; i < SpritesMap.COL_BOMB_SPRITES; i++) {
-            animations[((Player.PLAYER_COUNTER * 2) + SpritesMap.ROW_BOMB_SPRITES) - 1][i] = sprites.get(Type.BOMB)
+            animations[SpritesMap.ANIMATION_ROW.get(Type.BOMB)][i] = sprites.get(Type.BOMB)
                     .getSubimage(i * Game.BOMB_DEFAULT, 0, Game.BOMB_DEFAULT, Game.BOMB_DEFAULT);
+        }
+        for (Integer i = 0; i < SpritesMap.COL_WALL_SPRITES; i++) {
+            animations[SpritesMap.ANIMATION_ROW.get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
+                    .getSubimage(i * Game.WALL_DEFAULT, 0, Game.WALL_DEFAULT, Game.WALL_DEFAULT);
         }
     }
 
@@ -95,10 +101,10 @@ public final class PlayView implements GameLoop {
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             // TODO TOGLIERE IL PRINT DELLE HITBOX
             controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
-            if(controller.getEntities().get(i).getType() == Type.BOMB && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()){
+            if (controller.getEntities().get(i).getType() == Type.BOMB
+                    && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()) {
                 controller.getExplosionController().draw(g);
-            }
-            else {
+            } else {
                 drawImage(g, controller.getEntities().get(i));
             }
         }
@@ -119,7 +125,9 @@ public final class PlayView implements GameLoop {
     private BufferedImage getCorrectImage(final Entity entity) {
         if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOT) {
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
-            if (!movementComponent.hasMoved()) {
+            if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
+                changePlayerAction(Player.DEFEAT, entity);
+            } else if (!movementComponent.hasMoved()) {
                 changePlayerAction(Player.STANDING, entity);
             } else {
                 changePlayerAction(Player.WALKING, entity);
@@ -151,6 +159,14 @@ public final class PlayView implements GameLoop {
         } else if (entity.getType() == Type.BOMB) {
             return animations[Player.PLAYER_COUNTER * 2][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(Player.EXPLOSION)];
+        } else if (entity.getType() == Type.DESTRUCTIBLE_WALL) {
+            if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
+                return animations[SpritesMap.ANIMATION_ROW.get(
+                        Type.DESTRUCTIBLE_WALL)][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
+                                / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.WALL)];
+            } else {
+                return animations[SpritesMap.ANIMATION_ROW.get(Type.DESTRUCTIBLE_WALL)][0];
+            }
         } else {
             return sprites.get(entity.getType());
         }

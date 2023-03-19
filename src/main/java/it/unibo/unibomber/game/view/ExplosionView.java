@@ -19,6 +19,9 @@ public final class ExplosionView implements GameLoop {
     private Explosion controller;
     private BufferedImage[][] animations;
     private int frame;
+    private int distance;
+    private int indexDirection;
+
     /**
      * Explosion view constructor.
      * 
@@ -26,6 +29,7 @@ public final class ExplosionView implements GameLoop {
      */
     public ExplosionView(final Explosion controller) {
         loadSprites();
+        indexDirection = 8;
         this.controller = controller;
     }
 
@@ -62,22 +66,36 @@ public final class ExplosionView implements GameLoop {
         }
     }
 
-    private BufferedImage getCorrectImage(int distance, Direction dir) {
-        distance = distance != controller.getBombPower() ? 1 : 0;
-        switch (dir) {
-            case CENTER:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][8];
-            case DOWN:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][6 + distance];
-            case UP:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][2 + distance];
-            case RIGHT:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][4 + distance];
-            case LEFT:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][0 + distance];
-            default:
-                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][8];
+    private BufferedImage getCorrectImage(final int distance, final Direction dir) {
+        this.distance = distance != controller.getBombPower() ? 1 : 0;
+        getDirectionIndex(dir);
+        if (dir == Direction.CENTER) {
+            return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection];
+        } else {
+            return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection + distance];
         }
     }
 
+    private void getDirectionIndex(final Direction dir) {
+        switch (dir) {
+            case CENTER:
+                indexDirection = 8;
+                break;
+            case DOWN:
+                indexDirection = 6;
+                break;
+            case UP:
+                indexDirection = 2;
+                break;
+            case RIGHT:
+                indexDirection = 4;
+                break;
+            case LEFT:
+                indexDirection = 0;
+                break;
+            default:
+                indexDirection = 8;
+                break;
+        }
+    }
 }
