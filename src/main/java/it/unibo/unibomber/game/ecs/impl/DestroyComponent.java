@@ -57,13 +57,15 @@ public final class DestroyComponent extends AbstractComponent {
     public boolean isDestroyed() {
         return this.isDestroyed;
     }
-/**
+
+    /**
      * A method to know the desctrution frames.
      * @return timer of destruction frame.
      */
     public int getDestroyFrames() {
         return this.destroyFrames;
     }
+
     /**
      * A method to drop the powerups.
      * It will drop a single powerup if the destroyed entity was a wall,
@@ -79,9 +81,11 @@ public final class DestroyComponent extends AbstractComponent {
             powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
             if (!powerUps.isEmpty()) {
-                entity.getGame()
-                        .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
-                powerUps.remove(0);
+                if (entity.getType() != Type.PLAYABLE && entity.getType() != Type.BOT) {
+                    entity.getGame()
+                            .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
+                    powerUps.remove(0);
+                }
                 dropRemaining(powerUps, droppedPowerUps);
             }
         }
