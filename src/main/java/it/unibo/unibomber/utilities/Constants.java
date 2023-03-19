@@ -459,7 +459,7 @@ public class Constants {
         /**
          * Expiring time before bomb explodes.
          */
-        public static final int EXPIRING_TIME = 90;
+        public static final int EXPIRING_TIME = EXPLODE_DURATION * Movement.FRAME_DELAY;
     }
 
     /**
@@ -478,8 +478,8 @@ public class Constants {
          */
         public Destroy() {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 90);
-            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 90);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 0);
         }
 
         /**
@@ -490,7 +490,7 @@ public class Constants {
         /**
          * standard duration of the destrution in frames.
          */
-        public static final int STANDARD_FRAME_DURATION = 4;
+        public static final int STANDARD_FRAME_DURATION = 0;
 
         /**
          * @param type the type of the entity asked

@@ -18,7 +18,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 public final class ExplosionView implements GameLoop {
     private Explosion controller;
     private BufferedImage[][] animations;
-
+    private int frame;
     /**
      * Explosion view constructor.
      * 
@@ -46,9 +46,10 @@ public final class ExplosionView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
+        frame++;
         if (!controller.getExplosionList().isEmpty()) {
-            Pair<Integer, Integer> center = controller.getExplosionList().get().get(0);
-            for (Pair<Integer, Integer> p1 : controller.getExplosionList().get()) {
+            Pair<Integer, Integer> center = controller.getExplosionList().get(0);
+            for (Pair<Integer, Integer> p1 : controller.getExplosionList()) {
                 g.drawImage(
                         getCorrectImage(Direction.getDistance(p1, center),
                                 Direction.extractDirecionBetweenTwo(center, p1).get()),
@@ -65,17 +66,17 @@ public final class ExplosionView implements GameLoop {
         distance = distance != controller.getBombPower() ? 1 : 0;
         switch (dir) {
             case CENTER:
-                return animations[0][8];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][8];
             case DOWN:
-                return animations[0][6 + distance];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][6 + distance];
             case UP:
-                return animations[0][2 + distance];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][2 + distance];
             case RIGHT:
-                return animations[0][4 + distance];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][4 + distance];
             case LEFT:
-                return animations[0][0 + distance];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][0 + distance];
             default:
-                return animations[0][8];
+                return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][8];
         }
     }
 

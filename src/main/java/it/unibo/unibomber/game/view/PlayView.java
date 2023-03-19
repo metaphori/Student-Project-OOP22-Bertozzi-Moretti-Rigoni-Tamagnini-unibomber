@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
+import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
@@ -94,7 +95,12 @@ public final class PlayView implements GameLoop {
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             // TODO TOGLIERE IL PRINT DELLE HITBOX
             controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
-            drawImage(g, controller.getEntities().get(i));
+            if(controller.getEntities().get(i).getType() == Type.BOMB && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()){
+                controller.getExplosionController().draw(g);
+            }
+            else {
+                drawImage(g, controller.getEntities().get(i));
+            }
         }
     }
 

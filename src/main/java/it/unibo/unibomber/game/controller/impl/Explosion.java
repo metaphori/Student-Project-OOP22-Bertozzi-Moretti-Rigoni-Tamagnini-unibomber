@@ -1,16 +1,19 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.view.ExplosionView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.game.model.api.Game;
+
 /**
  * Explosion controller.
  */
@@ -19,8 +22,11 @@ public final class Explosion implements GameLoop {
     private final Game game;
     private Optional<Entity> explode;
     private int power;
+    private int frame;
+
     /**
      * Constructor.
+     * 
      * @param game
      */
     public Explosion(final Game game) {
@@ -32,6 +38,7 @@ public final class Explosion implements GameLoop {
 
     /**
      * Set entity that is exploding.
+     * 
      * @param entity
      */
     public void setEntityExploding(final Entity entity) {
@@ -41,23 +48,29 @@ public final class Explosion implements GameLoop {
 
     @Override
     public void update() {
+        if (explode.isPresent()) {
+            frame = this.explode.get().getComponent(DestroyComponent.class).get().getDestroyFrames();
+        }
     }
 
     /**
      * @return list of coordinate of explosion.
      */
-    public Optional<List<Pair<Integer, Integer>>> getExplosionList() {
+    public List<Pair<Integer, Integer>> getExplosionList() {
         if (explode.isPresent()) {
-            if (!explode.get().getComponent(ExplodeComponent.class).get().getExplosions().isEmpty()) {
-                return Optional.of(explode.get().getComponent(ExplodeComponent.class).get().getExplosions());
-            }
-            return Optional.empty();
+            return new ArrayList<>(explode.get().getComponent(ExplodeComponent.class).get().getExplosions());
         }
-        return Optional.empty();
+        return List.of();
     }
+
     public int getBombPower() {
         return power;
     }
+
+    public int getBombFrame() {
+        return frame;
+    }
+
     @Override
     public void draw(final Graphics g) {
         view.draw(g);
