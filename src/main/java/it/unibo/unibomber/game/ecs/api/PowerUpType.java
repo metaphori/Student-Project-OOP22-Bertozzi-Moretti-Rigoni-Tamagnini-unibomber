@@ -79,4 +79,21 @@ public enum PowerUpType {
                         list -> list.get(rnd.nextInt(list.size()))));
     }
 
+    /**
+     * @return if powerUp is positive or not
+     */
+    public boolean isPositive() {
+        switch (this) {
+            case BOMBUP:
+            case FIREUP:
+            case FIREFULL:
+            case SPEEDUP:
+            case KICKBOMB:
+            case THROWBOMB:
+                return true;
+            default:
+                return false;
+        }
+    }
+
 }
