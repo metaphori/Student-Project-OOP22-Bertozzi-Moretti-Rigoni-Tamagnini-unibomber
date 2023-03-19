@@ -151,7 +151,7 @@ public class Constants {
             /**
              * max row of explosion sprites animation.
              */
-            public static final int ROW_EXPLOSION_SPRITES = 1;
+            public static final int ROW_EXPLOSION_SPRITES = 4;
             /**
              * max row of explosion sprites animation.
              */
@@ -478,7 +478,8 @@ public class Constants {
          */
         public Destroy() {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 90);
+            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 90);
         }
 
         /**
