@@ -123,15 +123,15 @@ public class Constants {
             /**
              * MENU_BUTTONS sprites path.
              */
-            public static final String MENU_BUTTONS = "button_atlas.png";
+            public static final String MENU_BUTTONS = "menu/button_atlas.png";
             /**
              * MENU_BACKGROUND sprites path.
              */
-            public static final String MENU_BACKGROUND = "menu_background.png";
+            public static final String MENU_BACKGROUND = "menu/menu_background.png";
             /**
              * SHADOW sprites path.
              */
-            public static final String SHADOW = "shadow.png";
+            public static final String SHADOW = "player/shadow.png";
             /**
              * max col of player sprites animation.
              */
@@ -174,23 +174,23 @@ public class Constants {
              */
             public SpritesMap() {
                 // TYPE
-                SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player_sprites.png"));
-                SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("bot_sprites.png"));
+                SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
+                SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("grass.png"));
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("destructible_wall.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("indestructible_wall.png"));
-                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("fire_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("fire_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("max_fire.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.BOMBUP, UploadRes.getSpriteAtlas("bomb_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.BOMBDOWN, UploadRes.getSpriteAtlas("bomb_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDUP, UploadRes.getSpriteAtlas("speed_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("speed_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("bomb_kick.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("power_glove.png"));
+                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/destructible_wall.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
+                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("powerUp/max_fire.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBUP, UploadRes.getSpriteAtlas("powerUp/bomb_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBDOWN, UploadRes.getSpriteAtlas("powerUp/bomb_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDUP, UploadRes.getSpriteAtlas("powerUp/speed_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("powerUp/speed_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("powerUp/bomb_kick.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("powerUp/power_glove.png"));
                 ANIMATION_ROW.put(Type.PLAYABLE, 0);
                 ANIMATION_ROW.put(Type.BOT, 2);
                 ANIMATION_ROW.put(Type.BOMB, 4);

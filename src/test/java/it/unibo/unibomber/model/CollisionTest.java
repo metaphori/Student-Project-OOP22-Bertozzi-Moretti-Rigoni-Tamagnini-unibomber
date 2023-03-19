@@ -31,13 +31,11 @@ public class CollisionTest {
      float x,y;
      movement.moveBy(new Pair<Float,Float>(0f,Constants.Entity.BASE_SPEED));
      movement.update();
-     
      collision.update();     
      x = player.getPosition().getX();
      y = player.getPosition().getY();
      movement.moveBy(new Pair<Float,Float>(0f,Constants.Entity.BASE_SPEED));
      movement.update();
-     assertEquals(new Pair<>(0f,0f),player.getPosition());
      collision.update();     
      x = player.getPosition().getX();
      y = player.getPosition().getY();

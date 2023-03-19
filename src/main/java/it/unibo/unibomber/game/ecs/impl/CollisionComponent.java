@@ -138,11 +138,11 @@ public final class CollisionComponent extends AbstractComponent {
                                                                            .getDirection().getY()))));
 
                                    if (!isOccupied) {
-                                        if (thisX != eX && thisY != eY) {
+                                        if (thisX != eX || thisY != eY) {
                                              entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                         }
                                    } else {
-                                        if (thisX == eX && thisY != eY) {
+                                        if (thisX == eX || thisY != eY) {
                                              entity.setPosition(
                                                        new Pair<Float, Float>(entity.getPosition().getX(), thisY));
                                         } else if (thisX != eX && thisY == eY) {
