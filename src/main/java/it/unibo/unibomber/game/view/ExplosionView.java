@@ -53,10 +53,10 @@ public final class ExplosionView implements GameLoop {
                 g.drawImage(
                         getCorrectImage(Direction.getDistance(p1, center),
                                 Direction.extractDirecionBetweenTwo(center, p1).get()),
-                        Math.round(p1.getY() * Game.TILES_SIZE),
-                        Math.round(p1.getX() * Game.TILES_SIZE),
-                        (int) (Game.TILES_DEFAULT * Game.SCALE),
-                        (int) (Game.TILES_DEFAULT * Game.SCALE),
+                        Math.round(p1.getY() * Game.getTilesSize()),
+                        Math.round(p1.getX() * Game.getTilesSize()),
+                        (int) (Game.getTilesDefault() * Game.SCALE),
+                        (int) (Game.getTilesDefault() * Game.SCALE),
                         null);
             }
         }

@@ -8,6 +8,7 @@ import it.unibo.unibomber.game.controller.impl.Menu;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
 import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants;
+
 /**
  * Menu view class.
  */
@@ -34,8 +35,8 @@ public final class MenuView implements GameLoop {
 
     private void loadBackground() {
         backgroundImage = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BACKGROUND);
-        menuWidth = (int) (Constants.UI.Game.G_WIDTH);
-        menuHeight = (int) (Constants.UI.Game.G_HEIGHT);
+        menuWidth = (int) (Constants.UI.Game.getgWidth());
+        menuHeight = (int) (Constants.UI.Game.getgHeight());
     }
 
     @Override
