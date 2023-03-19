@@ -1,10 +1,8 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -20,12 +18,10 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
  */
 public class ExplodeComponent extends AbstractComponent {
 
-    private final Set<Entity> entitiesToDestroy;
     private final List<Pair<Integer, Integer>> explonsionsList;
     private int explodeFrames;
     private int expiringFrames;
     private Entity placer;
-    private boolean isPlayerDied;
     private boolean isExploding;
 
     /**
@@ -34,12 +30,10 @@ public class ExplodeComponent extends AbstractComponent {
      * @param placer the entity that palced the bomb.
      */
     public ExplodeComponent(final Entity placer) {
-        this.entitiesToDestroy = new HashSet<>();
         this.explonsionsList = new ArrayList<>();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
-        this.isPlayerDied = false;
         this.isExploding = false;
     }
 
@@ -55,7 +49,6 @@ public class ExplodeComponent extends AbstractComponent {
                 .collect(Collectors.toList()));
             } else {
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
-                this.destroyEntities();
                 this.explonsionsList.clear();
                 this.placer.getComponent(PowerUpHandlerComponent.class).get().setBombPlaced(-1);
             }
@@ -113,8 +106,7 @@ public class ExplodeComponent extends AbstractComponent {
                     checkPos = new Pair<>(entity.getPosition().getX() + (dir.getX() * countPositions),
                         entity.getPosition().getY() + (-(dir.getY()) * countPositions));
                     entitySearched = checkContainedInList(checkPos, totalEntities);
-                    if (entitySearched.isPresent()
-                        && previousEntity.isEmpty()) {
+                    if (entitySearched.isPresent() && previousEntity.isEmpty()) {
                         if (checkPos(entity.getPosition(), checkPos, entitySearched.get())) {
                             previousEntity = entitySearched;
                             if (entitySearched.get().getType() == Type.BOMB
@@ -124,7 +116,8 @@ public class ExplodeComponent extends AbstractComponent {
                                     .explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
                             }
-                            this.entitiesToDestroy.add(entitySearched.get());
+                            entitySearched.get().getComponent(DestroyComponent.class).get()
+                                .destroy();
                             if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
                                 this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
                                                                     Math.round(checkPos.getX())));
@@ -133,10 +126,9 @@ public class ExplodeComponent extends AbstractComponent {
                             previousEntity = entitySearched;
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
-                                    && !this.isPlayerDied
                                     && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
-                            this.isPlayerDied = true;
-                            this.entitiesToDestroy.add(entitySearched.get());
+                            entitySearched.get().getComponent(DestroyComponent.class).get()
+                                .destroy();
                             this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
                                                                 Math.round(checkPos.getX())));
                         }
@@ -178,16 +170,6 @@ public class ExplodeComponent extends AbstractComponent {
             }
         }
         return Optional.empty();
-    }
-
-    /**
-     * A method that destroys the entities exploded
-     * by the bomb.
-     */
-    private void destroyEntities() {
-        this.entitiesToDestroy.stream()
-            .forEach(e -> e.getComponent(DestroyComponent.class).get().destroy());
-        this.entitiesToDestroy.clear();
     }
 
     /**
