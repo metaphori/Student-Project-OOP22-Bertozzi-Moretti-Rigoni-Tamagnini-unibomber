@@ -214,7 +214,7 @@ public class Constants {
             /**
              * max row of player sprites animation.
              */
-            public static final int ROW_PLAYER_SPRITES = 2;
+            public static final int ROW_PLAYER_SPRITES = 3;
             /**
              * max row of bomb sprites animation.
              */
@@ -252,9 +252,9 @@ public class Constants {
              */
             public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
             private static final int ANIMATION_ROW_PLAYABLE = 0;
-            private static final int ANIMATION_ROW_BOT = 2;
-            private static final int ANIMATION_ROW_BOMB = 4;
-            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 5;
+            private static final int ANIMATION_ROW_BOT = 3;
+            private static final int ANIMATION_ROW_BOMB = 6;
+            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 7;
 
             /**
              * SpriteMap constructor.
@@ -330,7 +330,7 @@ public class Constants {
         /**
          * POWER_GLOVE animation.
          */
-        public static final int POWER_GLOVE = 2;
+        public static final int POWER_GLOVE = 8;
         /**
          * THROWING animation.
          */
@@ -354,7 +354,7 @@ public class Constants {
         /**
          * DEFEAT animation.
          */
-        public static final int DEFEAT = 8;
+        public static final int DEFEAT = 2;
         /**
          * IDLE animation.
          */
@@ -446,7 +446,7 @@ public class Constants {
         /**
          * PLAYER_COUNTER number of animations.
          */
-        public static final int PLAYER_COUNTER = 2;
+        public static final int PLAYER_COUNTER = 3;
 
         /**
          * @param playerAction
@@ -563,6 +563,10 @@ public class Constants {
          * Expiring time before bomb explodes.
          */
         public static final int EXPIRING_TIME = EXPLODE_DURATION * Movement.FRAME_DELAY;
+        /**
+         * Default position of explosion animation index.
+         */
+        public static final int DEFAULT_EXPLOSION_ANIMATION_INDEX = 1;
     }
 
     /**
@@ -578,6 +582,8 @@ public class Constants {
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
+        private static final int DESTROY_FRAMES_PLAYER = 70;
+
 
         /**
          * constructor.
@@ -586,6 +592,9 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, DESTROY_FRAMES_POWERUP);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, DESTROY_FRAMES_BOMB);
             DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
+            DESTROY_FRAMES_PER_TYPE.put(Type.PLAYABLE, DESTROY_FRAMES_PLAYER);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
+
         }
 
         /**

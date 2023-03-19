@@ -11,6 +11,7 @@ import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants.UI.Game;
 
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
+import static it.unibo.unibomber.utilities.Constants.Explode.DEFAULT_EXPLOSION_ANIMATION_INDEX;
 
 /**
  * Explosion View class.
@@ -19,7 +20,6 @@ public final class ExplosionView implements GameLoop {
     private Explosion controller;
     private BufferedImage[][] animations;
     private int frame;
-    private int distance;
     private int indexDirection;
 
     /**
@@ -67,34 +67,31 @@ public final class ExplosionView implements GameLoop {
     }
 
     private BufferedImage getCorrectImage(final int distance, final Direction dir) {
-        this.distance = distance != controller.getBombPower() ? 1 : 0;
+        int d = distance != controller.getBombPower() ? 1 : 0;
         getDirectionIndex(dir);
         if (dir == Direction.CENTER) {
             return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection];
         } else {
-            return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection + distance];
+            return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection + d];
         }
     }
 
     private void getDirectionIndex(final Direction dir) {
         switch (dir) {
-            case CENTER:
-                indexDirection = 8;
-                break;
             case DOWN:
-                indexDirection = 6;
+                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 6;
                 break;
             case UP:
-                indexDirection = 2;
+                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 2;
                 break;
             case RIGHT:
-                indexDirection = 4;
+                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 4;
                 break;
             case LEFT:
-                indexDirection = 0;
+                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 0;
                 break;
             default:
-                indexDirection = 8;
+                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 8;
                 break;
         }
     }

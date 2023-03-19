@@ -127,6 +127,9 @@ public final class PlayView implements GameLoop {
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 changePlayerAction(Player.DEFEAT, entity);
+                return animations[playerAction + SpritesMap.ANIMATION_ROW
+                        .get(entity.getType())][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
+                                / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.DEFEAT)];
             } else if (!movementComponent.hasMoved()) {
                 changePlayerAction(Player.STANDING, entity);
             } else {
@@ -152,8 +155,7 @@ public final class PlayView implements GameLoop {
                 }
             }
             return animations[playerAction + SpritesMap.ANIMATION_ROW.get(entity.getType())][getAnimationIndex(entity)
-                    % Constants.Player.getSpriteAmount(playerAction)
-                    + indexDir];
+                    % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {
             return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());
         } else if (entity.getType() == Type.BOMB) {
