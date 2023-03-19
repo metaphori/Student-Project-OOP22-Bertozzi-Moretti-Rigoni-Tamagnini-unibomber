@@ -39,8 +39,6 @@ public final class DestroyComponent extends AbstractComponent {
                 } else {
                     this.getEntity().getGame().removeEntity(this.getEntity());
                 }
-                this.isDestroyed = false;
-                this.destroyFrames = 0;
             }
         }
     }

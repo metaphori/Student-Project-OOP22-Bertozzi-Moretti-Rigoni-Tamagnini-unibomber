@@ -54,11 +54,9 @@ public class ExplodeComponent extends AbstractComponent {
                 && e.getComponent(ExplodeComponent.class).get().isExploding())
                 .collect(Collectors.toList()));
             } else {
-                this.destroyEntities();
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
+                this.destroyEntities();
                 this.explonsionsList.clear();
-                this.explodeFrames = 0;
-                this.expiringFrames = 0;
                 this.placer.getComponent(PowerUpHandlerComponent.class).get().setBombPlaced(-1);
             }
         } else {
@@ -72,7 +70,7 @@ public class ExplodeComponent extends AbstractComponent {
      * @return a list with explosions areas
      */
     public List<Pair<Integer, Integer>> getExplosions() {
-        return this.explonsionsList;
+        return new ArrayList<>(this.explonsionsList);
     }
 
     /**
