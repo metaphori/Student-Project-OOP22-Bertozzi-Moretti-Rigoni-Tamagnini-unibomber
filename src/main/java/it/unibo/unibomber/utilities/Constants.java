@@ -94,9 +94,9 @@ public class Constants {
              */
             public static final int EXPLOSION_DEFAULT = 48;
             /**
-             * OPACITY default value.
+             * opacity default value.
              */
-            public static int OPACITY = 125;
+            private static final int OPACITY = 125;
 
             /**
              * Change window size.
@@ -162,6 +162,13 @@ public class Constants {
              */
             public static void setgWidth(final int gWidth) {
                 Game.gWidth = gWidth;
+            }
+
+            /**
+             * @return opacity
+             */
+            public static int getOpacity() {
+                return OPACITY;
             }
 
         }
@@ -244,6 +251,10 @@ public class Constants {
              * Map of powerup type and path of powerup sprites.
              */
             public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
+            private static final int ANIMATION_ROW_PLAYABLE = 0;
+            private static final int ANIMATION_ROW_BOT = 2;
+            private static final int ANIMATION_ROW_BOMB = 4;
+            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 5;
 
             /**
              * SpriteMap constructor.
@@ -267,10 +278,10 @@ public class Constants {
                 SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("powerUp/speed_down.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("powerUp/bomb_kick.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("powerUp/power_glove.png"));
-                ANIMATION_ROW.put(Type.PLAYABLE, 0);
-                ANIMATION_ROW.put(Type.BOT, 2);
-                ANIMATION_ROW.put(Type.BOMB, 4);
-                ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, 5);
+                ANIMATION_ROW.put(Type.PLAYABLE, ANIMATION_ROW_PLAYABLE);
+                ANIMATION_ROW.put(Type.BOT, ANIMATION_ROW_BOT);
+                ANIMATION_ROW.put(Type.BOMB, ANIMATION_ROW_BOMB);
+                ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, ANIMATION_ROW_DESTRUCTIBLE_WALL);
             }
 
         }
@@ -564,14 +575,17 @@ public class Constants {
          * type takes.
          */
         private static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
+        private static final int DESTROY_FRAMES_POWERUP = 0;
+        private static final int DESTROY_FRAMES_BOMB = 0;
+        private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
 
         /**
          * constructor.
          */
         public Destroy() {
-            DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, 30);
+            DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, DESTROY_FRAMES_POWERUP);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, DESTROY_FRAMES_BOMB);
+            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
         }
 
         /**

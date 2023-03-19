@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.utilities.Constants;
-import static it.unibo.unibomber.utilities.Constants.UI.Game.OPACITY;
 
 /**
  * Draw game pause view statement.
@@ -21,7 +20,7 @@ public class PauseView implements GameLoop {
     @Override
     public final void draw(final Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(0, 0, 0, OPACITY));
+        g2.setColor(new Color(0, 0, 0, Constants.UI.Game.getOpacity()));
         g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
     }
 
