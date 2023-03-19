@@ -1,8 +1,10 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -19,7 +21,7 @@ import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
 public class ExplodeComponent extends AbstractComponent {
 
     private final List<Pair<Integer, Integer>> explonsionsList;
-    private final List<Pair<Integer, Integer>> positionsNotToExplode;
+    private final Set<Pair<Integer, Integer>> positionsNotToExplode;
     private int explodeFrames;
     private int expiringFrames;
     private Entity placer;
@@ -32,7 +34,7 @@ public class ExplodeComponent extends AbstractComponent {
      */
     public ExplodeComponent(final Entity placer) {
         this.explonsionsList = new ArrayList<>();
-        this.positionsNotToExplode = new ArrayList<>();
+        this.positionsNotToExplode = new HashSet<>();
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.placer = placer;
@@ -123,15 +125,20 @@ public class ExplodeComponent extends AbstractComponent {
                                 && entitySearched.get().getType() != Type.BOT) {
                                 this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()), 
                                                                     Math.round(checkPos.getY())));
+                                countPositions += bombRange;
                             }
                             if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
                                 this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
                                                                     Math.round(checkPos.getX())));
+                                if (entitySearched.get().getType() != Type.PLAYABLE 
+                                    && entitySearched.get().getType() != Type.BOT) {
+                                    countPositions += bombRange;
+                                }
                             }
-                            countPositions += bombRange;
                         } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
                             this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()), 
                                                                     Math.round(checkPos.getY())));
+                            countPositions += bombRange;
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
                                     && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
