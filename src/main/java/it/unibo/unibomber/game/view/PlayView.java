@@ -114,11 +114,11 @@ public final class PlayView implements GameLoop {
         BufferedImage image = getCorrectImage(entity);
         g.drawImage(image,
                 Math.round(entity.getPosition()
-                        .getX() * Game.TILES_SIZE),
+                        .getX() * Game.getTilesSize()),
                 Math.round(entity.getPosition()
-                        .getY() * Game.TILES_SIZE),
-                (int) (Game.TILES_DEFAULT * (Game.SCALE + scale.get(entity.getType()))),
-                (int) (Game.TILES_DEFAULT * (Game.SCALE + scale.get(entity.getType()))),
+                        .getY() * Game.getTilesSize()),
+                (int) (Game.getTilesDefault() * (Game.SCALE + scale.get(entity.getType()))),
+                (int) (Game.getTilesDefault() * (Game.SCALE + scale.get(entity.getType()))),
                 null);
     }
 

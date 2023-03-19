@@ -25,8 +25,8 @@ public final class CollisionComponent extends AbstractComponent {
      @Override
      public void update() {
           // update hitbox rectangle coord
-          hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.TILES_SIZE);
-          hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.TILES_SIZE);
+          hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.getTilesSize());
+          hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.getTilesSize());
           isOutofField();
           Entity player = this.getEntity();
           if (player.getType() == Type.PLAYABLE) {
@@ -63,8 +63,8 @@ public final class CollisionComponent extends AbstractComponent {
      public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
           this.isSolid = isSolid;
           this.isOverstable = isOverstable;
-          this.x = (int) (x * Game.TILES_SIZE);
-          this.y = (int) (y * Game.TILES_SIZE);
+          this.x = (int) (x * Game.getTilesSize());
+          this.y = (int) (y * Game.getTilesSize());
           initHitbox();
      }
 
@@ -159,14 +159,14 @@ public final class CollisionComponent extends AbstractComponent {
       * Check if entity is out of field and if it is push back.
       */
      private void isOutofField() {
-          if (hitbox.x > (Game.G_WIDTH - Game.TILES_SIZE)) {
+          if (hitbox.x > (Game.getgWidth() - Game.getTilesSize())) {
                this.getEntity().setPosition(
                          new Pair<Float, Float>((float) Game.TILES_WIDTH - 1,
                                    this.getEntity().getPosition().getY()));
           } else if (hitbox.x < 0) {
                this.getEntity().setPosition(new Pair<Float, Float>(0f,
                          this.getEntity().getPosition().getY()));
-          } else if (hitbox.y > (Game.G_HEIGHT - Game.TILES_SIZE)) {
+          } else if (hitbox.y > (Game.getgHeight() - Game.getTilesSize())) {
                this.getEntity().setPosition(
                          new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float) Game.TILES_HEIGHT - 1));
           } else if (hitbox.y < 0) {
@@ -175,7 +175,7 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      private void initHitbox() {
-          this.width = (int) Game.TILES_SIZE;
+          this.width = (int) Game.getTilesSize();
           this.height = this.width;
           hitbox = new Rectangle2D.Float(x, y, this.width, this.height);
      }

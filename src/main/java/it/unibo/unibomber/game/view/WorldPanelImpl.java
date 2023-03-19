@@ -40,22 +40,22 @@ public final class WorldPanelImpl extends JPanel {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = screenSize.getWidth();
     double height = screenSize.getHeight();
-    while (width < Game.G_WIDTH || (height - BAR_HEIFHT) < Game.G_HEIGHT) {
+    while (width < Game.getgWidth() || (height - BAR_HEIFHT) < Game.getgHeight()) {
       Game.changeDimension();
     }
     Game.changeDimension();
-    setPreferredSize(new Dimension(Game.G_WIDTH, Game.G_HEIGHT));
+    setPreferredSize(new Dimension(Game.getgWidth(), Game.getgHeight()));
   }
 
   @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
     final Graphics2D g2d = (Graphics2D) g.create();
-    for (int y = 0; y < Game.G_HEIGHT; y += Game.TILES_SIZE) {
-      for (int x = 0; x < Game.G_WIDTH; x += Game.TILES_SIZE) {
+    for (int y = 0; y < Game.getgHeight(); y += Game.getTilesSize()) {
+      for (int x = 0; x < Game.getgWidth(); x += Game.getTilesSize()) {
         g2d.drawImage(tile, x, y,
-            (int) (Game.TILES_SIZE),
-            (int) (Game.TILES_SIZE),
+            (int) (Game.getTilesSize()),
+            (int) (Game.getTilesSize()),
             this);
       }
     }

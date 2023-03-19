@@ -52,7 +52,7 @@ public class Constants {
             /**
              * tiles default dimention.
              */
-            public static int TILES_DEFAULT = 16;
+            private static int tilesDefault = 16;
             /**
              * scale.
              */
@@ -68,15 +68,15 @@ public class Constants {
             /**
              * tiles dimension scaled.
              */
-            public static int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
+            private static int tilesSize = (int) (tilesDefault * SCALE);
             /**
              * game width.
              */
-            public static int G_WIDTH = TILES_SIZE * TILES_WIDTH;
+            private static int gWidth = tilesSize * TILES_WIDTH;
             /**
              * game height.
              */
-            public static int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+            private static int gHeight = tilesSize * TILES_HEIGHT;
             /**
              * player default dimension.
              */
@@ -93,17 +93,77 @@ public class Constants {
              * explosion default dimension.
              */
             public static final int EXPLOSION_DEFAULT = 48;
-
-            public static void changeDimension() {
-                TILES_DEFAULT--;
-                TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
-                G_WIDTH = TILES_SIZE * TILES_WIDTH;
-                G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
-            }
             /**
              * OPACITY default value.
              */
             public static int OPACITY = 125;
+
+            /**
+             * Change window size.
+             */
+            public static void changeDimension() {
+                tilesDefault--;
+                tilesSize = (int) (tilesDefault * SCALE);
+                gWidth = tilesSize * TILES_WIDTH;
+                gHeight = tilesSize * TILES_HEIGHT;
+            }
+
+            /**
+             * @return default dimention.
+             */
+            public static int getTilesDefault() {
+                return tilesDefault;
+            }
+
+            /**
+             * @param tilesDefault set default dimention.
+             */
+            public static void setTilesDefault(final int tilesDefault) {
+                Game.tilesDefault = tilesDefault;
+            }
+
+            /**
+             * @return dimension scaled.
+             */
+            public static int getTilesSize() {
+                return tilesSize;
+            }
+
+            /**
+             * @param tilesSize set dimension scaled.
+             */
+            public static void setTilesSize(final int tilesSize) {
+                Game.tilesSize = tilesSize;
+            }
+
+            /**
+             * @return get Height
+             */
+            public static int getgHeight() {
+                return gHeight;
+            }
+
+            /**
+             * @param gHeight set Height
+             */
+            public static void setgHeight(final int gHeight) {
+                Game.gHeight = gHeight;
+            }
+
+            /**
+             * @return width
+             */
+            public static int getgWidth() {
+                return gWidth;
+            }
+
+            /**
+             * @param gWidth set Width
+             */
+            public static void setgWidth(final int gWidth) {
+                Game.gWidth = gWidth;
+            }
+
         }
 
         /**
@@ -223,17 +283,23 @@ public class Constants {
              * Map of type and scale of this entity .
              */
             public static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+            private static final float PLAYABLE_SCALE = 0.2f;
+            private static final float BOT_SCALE = 0.5f;
+            private static final float BOMB_SCALE = -0.5f;
+            private static final float POWERUP_SCALE = 0f;
+            private static final float DESTRUCTIBLE_WALL_SCALE = 0f;
+            private static final float INDESTRUCTIBLE_WALL_SCALE = 0f;
 
             /**
              * Scale constructor.
              */
             public Scale() {
-                ENTITY_SCALE.put(Type.PLAYABLE, 0.2f);
-                ENTITY_SCALE.put(Type.BOT, 0.5f);
-                ENTITY_SCALE.put(Type.BOMB, -0.5f);
-                ENTITY_SCALE.put(Type.POWERUP, 0f);
-                ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, 0f);
-                ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, 0f);
+                ENTITY_SCALE.put(Type.PLAYABLE, PLAYABLE_SCALE);
+                ENTITY_SCALE.put(Type.BOT, BOT_SCALE);
+                ENTITY_SCALE.put(Type.BOMB, BOMB_SCALE);
+                ENTITY_SCALE.put(Type.POWERUP, POWERUP_SCALE);
+                ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, DESTRUCTIBLE_WALL_SCALE);
+                ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, INDESTRUCTIBLE_WALL_SCALE);
             }
         }
     }
@@ -298,7 +364,7 @@ public class Constants {
          * EXPLOSION animation.
          */
         public static final int EXPLOSION = 13;
-         /**
+        /**
          * WALL animation.
          */
         public static final int WALL = 14;
