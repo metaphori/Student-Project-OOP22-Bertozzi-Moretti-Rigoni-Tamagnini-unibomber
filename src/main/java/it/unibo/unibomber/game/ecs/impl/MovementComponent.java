@@ -5,6 +5,7 @@ import java.util.Optional;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
+
 /**
  * The class is responsible for handling the movement of the enetity it is
  * attatched to
@@ -24,11 +25,12 @@ public class MovementComponent extends AbstractComponent {
     @Override
     public final void update() {
         Optional<DestroyComponent> destroy = this.getEntity().getComponent(DestroyComponent.class);
-        if(!destroy.isPresent() || !destroy.get().isDestroyed()){
+        if (!destroy.isPresent() || !destroy.get().isDestroyed()) {
             this.getEntity().addPosition(moveBy);
             handleDirection();
         }
     }
+
     /**
      * Given the direction it updates the number of frames spent
      * in that direction for the animation's sake.
