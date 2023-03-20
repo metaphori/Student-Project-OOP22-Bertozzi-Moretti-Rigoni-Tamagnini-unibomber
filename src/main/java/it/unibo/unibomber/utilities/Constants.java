@@ -22,7 +22,7 @@ public class Constants {
             /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = 120;
+            public static final int TOP_DISTANCE_PLAY = 40 * (int) Game.SCALE;
             /**
              * distance from top of quit button.
              */
@@ -38,11 +38,11 @@ public class Constants {
             /**
              * button width scale.
              */
-            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 2f));
+            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 1f));
             /**
              * button height scale.
              */
-            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 2f));
+            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 1f));
         }
 
         /**

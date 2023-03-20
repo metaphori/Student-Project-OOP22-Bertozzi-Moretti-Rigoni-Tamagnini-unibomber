@@ -68,4 +68,7 @@ public final class Explosion implements GameLoop {
     public void draw(final Graphics g) {
         view.draw(g);
     }
+    public Entity gEntity() {
+        return explode.get();
+    }
 }

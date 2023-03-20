@@ -25,6 +25,8 @@ public class WorldWindow {
     jframe.setResizable(false);
     jframe.pack();
     jframe.setVisible(true);
+    jframe.setFocusable(true);
+    jframe.requestFocus();
     jframe.setLocationRelativeTo(null);
   }
 }
