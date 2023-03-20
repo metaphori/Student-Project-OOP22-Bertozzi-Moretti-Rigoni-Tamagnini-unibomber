@@ -38,8 +38,6 @@ public final class AIComponent extends AbstractComponent {
           checkPath(typesMatrix);
           move(this.followingPath.get(0));
           updatePath(oldPosition, entity.getPosition());
-          System.out.println(oldPosition);
-          System.out.println(entity.getPosition());
           oldPosition = entity.getPosition();
      }
 
@@ -56,7 +54,7 @@ public final class AIComponent extends AbstractComponent {
      }
      private List<Direction> getNextPath(Type[][] typesMatrix) {
           if (isSafe(typesMatrix)) {
-               var towardsPowerup =getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
+               var towardsPowerup = getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
                if (!towardsPowerup.contains(Direction.CENTER)) {
                     return towardsPowerup;
                }

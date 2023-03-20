@@ -52,7 +52,6 @@ public final class ExplosionView implements GameLoop {
     public void draw(final Graphics g) {
         frame++;
         if (!controller.getExplosionList().isEmpty()) {
-            System.out.println(controller.gEntity().getPosition());
             Pair<Integer, Integer> center = controller.getExplosionList().get(0);
             for (Pair<Integer, Integer> p1 : controller.getExplosionList()) {
                 g.drawImage(
