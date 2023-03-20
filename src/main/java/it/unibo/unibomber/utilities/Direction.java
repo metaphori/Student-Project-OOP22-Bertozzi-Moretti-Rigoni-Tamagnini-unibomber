@@ -14,7 +14,7 @@ public enum Direction {
     /**
      * up direction.
      */
-    UP(0, 1),
+    UP(0, -1),
     /**
      * left direction.
      */
@@ -22,7 +22,7 @@ public enum Direction {
     /**
      * down direction.
      */
-    DOWN(0, -1),
+    DOWN(0, 1),
     /**
      * right direction.
      */
@@ -69,9 +69,9 @@ public enum Direction {
         } else if (movement.getX() < 0 && movement.getY() == 0) {
             return Optional.of(LEFT);
         } else if (movement.getX() == 0 && movement.getY() < 0) {
-            return Optional.of(UP);
-        } else if (movement.getX() == 0 && movement.getY() > 0) {
             return Optional.of(DOWN);
+        } else if (movement.getX() == 0 && movement.getY() > 0) {
+            return Optional.of(UP);
         }
         return Optional.empty();
     }
@@ -104,7 +104,7 @@ public enum Direction {
      * @return list of all directions
      */
     public static List<Direction> valuesNoCenter() {
-        return List.of(LEFT, UP, RIGHT, DOWN);
+        return List.of(LEFT, DOWN, RIGHT, UP);
     }
     /**
      * @param x1
