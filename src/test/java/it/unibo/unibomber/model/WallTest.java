@@ -15,6 +15,7 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -42,6 +43,7 @@ public class WallTest {
         var desWall = this.createDestructibleWall();
         var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
         var destroyComponent = desWall.getComponent(DestroyComponent.class);
+        new Constants.Destroy();
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());

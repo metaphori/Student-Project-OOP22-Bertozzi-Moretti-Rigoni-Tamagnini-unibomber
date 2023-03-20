@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODE_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
-import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
+import static it.unibo.unibomber.utilities.Constants.Destroy.getDestructionFrames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,7 @@ class BombTest {
         var indesWall = this.createIndesWallEntity();
         final List<Entity> entities = new ArrayList<>(List.of(
                                     player, bomb, powerup, desWall, indesWall));
+        new Constants.Destroy();
         this.game.addEntity(player);
         this.game.addEntity(bomb);
         this.game.addEntity(powerup);
@@ -109,7 +111,7 @@ class BombTest {
         }
         for (int i = 0; i < entities.size(); i++) {
             if (entities.get(i).getComponent(DestroyComponent.class).isPresent()) {
-                for (int j = 0; j < STANDARD_FRAME_DURATION; j++) {
+                for (int j = 0; j <= getDestructionFrames(entities.get(i).getType()); j++) {
                     entities.get(i).getComponent(DestroyComponent.class)
                         .get().update();
                 }
