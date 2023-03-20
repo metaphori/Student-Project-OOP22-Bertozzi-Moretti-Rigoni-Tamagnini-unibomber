@@ -19,6 +19,7 @@ import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.ecs.impl.SlidingComponent;
+import it.unibo.unibomber.game.ecs.impl.ThrowComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Pair;
@@ -67,7 +68,7 @@ public class EntityFactoryImpl implements EntityFactory {
     @Override
     public final Entity makeBot(final Pair<Float, Float> position, final int difficultyAI) {
         return makeBomber(position, Type.BOT)
-                .addComponent(new AIComponent());
+               .addComponent(new AIComponent());
     }
 
     @Override
@@ -75,6 +76,7 @@ public class EntityFactoryImpl implements EntityFactory {
         return new EntityImpl(game, position, Type.BOMB)
                 .addComponent(new MovementComponent())
                 .addComponent(new SlidingComponent())
+                .addComponent(new ThrowComponent())
                 .addComponent(new CollisionComponent(true, true, Math.round(position.getX()), Math.round(position.getY())))
                 .addComponent(new ExplodeComponent(placer))
                 .addComponent(new PowerUpListComponent(placer))
