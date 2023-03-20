@@ -60,7 +60,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     private void loadDimension() {
-        String myTextFile = "./src/main/res/area1.map";
+        String myTextFile = "./src/main/res/maps/arena1.map";
         Path myPath = Paths.get(myTextFile);
         try {
             String[] strArray = Files.lines(myPath)
@@ -76,7 +76,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     private void extractData() {
         try {
-            FileInputStream fstream = new FileInputStream("./src/main/res/area1.map");
+            FileInputStream fstream = new FileInputStream("./src/main/res/maps/arena1.map");
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
