@@ -37,7 +37,7 @@ public class InputComponent extends AbstractComponent {
                          && fieldMap.containsKey(playerPos)
                          && fieldMap.get(playerPos).getX() == Type.BOMB) {
                     Entity bombEntity = fieldMap.get(playerPos).getY();
-                    bombEntity.getComponent(CollisionComponent.class).get().setOverstable(true);
+                    bombEntity.getComponent(CollisionComponent.class).get().setOver(true);
                     bombEntity.getComponent(ThrowComponent.class).get().throwBomb(true, playerPos,
                               player.getComponent(MovementComponent.class).get().getDirection());
                }
