@@ -1,5 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.Optional;
+
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
@@ -21,8 +23,11 @@ public class MovementComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        this.getEntity().addPosition(moveBy);
-        handleDirection();
+        Optional<DestroyComponent> destroy = this.getEntity().getComponent(DestroyComponent.class);
+        if(!destroy.isPresent() || !destroy.get().isDestroyed()){
+            this.getEntity().addPosition(moveBy);
+            handleDirection();
+        }
     }
     /**
      * Given the direction it updates the number of frames spent
