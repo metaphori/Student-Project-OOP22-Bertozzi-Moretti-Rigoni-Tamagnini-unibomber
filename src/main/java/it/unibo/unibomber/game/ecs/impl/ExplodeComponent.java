@@ -51,7 +51,8 @@ public class ExplodeComponent extends AbstractComponent {
                 .filter(e -> e.getType() == Type.BOMB
                 && e.getComponent(ExplodeComponent.class).get().isExploding())
                 .collect(Collectors.toList()));
-            } else {
+            } else if (!this.getEntity().getComponent(DestroyComponent.class)
+                        .get().isDestroyed()) {
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explonsionsList.clear();
                 this.placer.getComponent(PowerUpHandlerComponent.class).get().setBombPlaced(-1);
