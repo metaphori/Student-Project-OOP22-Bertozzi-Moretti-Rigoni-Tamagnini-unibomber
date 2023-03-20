@@ -55,7 +55,7 @@ public class ExplodeComponent extends AbstractComponent {
                         .get().isDestroyed()) {
                 this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                 this.explonsionsList.clear();
-                this.placer.getComponent(PowerUpHandlerComponent.class).get().setBombPlaced(-1);
+                this.placer.getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
             }
         } else {
             this.expiringFrames++;

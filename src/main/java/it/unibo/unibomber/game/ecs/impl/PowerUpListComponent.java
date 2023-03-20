@@ -89,7 +89,7 @@ public class PowerUpListComponent extends AbstractComponent {
      * 
      * @param bombPlaced
      */
-    public void setBombPlaced(final int bombPlaced) {
+    public void addBombPlaced(final int bombPlaced) {
         this.bombPlaced += bombPlaced;
     }
 
