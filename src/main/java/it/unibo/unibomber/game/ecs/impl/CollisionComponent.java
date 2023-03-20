@@ -116,14 +116,19 @@ public final class CollisionComponent extends AbstractComponent {
                               if (e.getType() == Type.POWERUP) {
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
-                              if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE
+                              if (entity.getType() == Type.BOMB
+                                        && (e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
                                         && !entity.getComponent(CollisionComponent.class).get().isOverstable()
                                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
-                                   entity.getComponent(SlidingComponent.class).get().setSliding(true);
+                                   entity.getComponent(SlidingComponent.class).get().setSliding(true,
+                                             e.getComponent(MovementComponent.class).get().getDirection());
                               }
                               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                               if (collision.isSolid() && !collision.isOverstable()) {
+                                   if (entity.getType() == Type.BOMB) {
+                                        entity.getComponent(SlidingComponent.class).get().setSliding(false, null);
+                                   }
                                    float thisX = Math.round(entity.getPosition().getX());
                                    float thisY = Math.round(entity.getPosition().getY());
                                    float eX = Math.round(e.getPosition().getX());
@@ -142,7 +147,7 @@ public final class CollisionComponent extends AbstractComponent {
                                              entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                         }
                                    } else {
-                                        if (thisX == eX || thisY != eY) {
+                                        if (thisX == eX && thisY != eY) {
                                              entity.setPosition(
                                                        new Pair<Float, Float>(entity.getPosition().getX(), thisY));
                                         } else if (thisX != eX && thisY == eY) {
@@ -150,6 +155,7 @@ public final class CollisionComponent extends AbstractComponent {
                                                        new Pair<Float, Float>(thisX, entity.getPosition().getY()));
                                         }
                                    }
+
                               }
                          });
           }
