@@ -22,7 +22,7 @@ public class Constants {
             /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = 120;
+            public static final int TOP_DISTANCE_PLAY = 40 * (int) Game.SCALE;
             /**
              * distance from top of quit button.
              */
@@ -38,11 +38,11 @@ public class Constants {
             /**
              * button width scale.
              */
-            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 2f));
+            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 1f));
             /**
              * button height scale.
              */
-            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 2f));
+            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 1f));
         }
 
         /**
@@ -52,7 +52,7 @@ public class Constants {
             /**
              * tiles default dimention.
              */
-            public static int TILES_DEFAULT = 16;
+            private static int tilesDefault = 16;
             /**
              * scale.
              */
@@ -68,15 +68,15 @@ public class Constants {
             /**
              * tiles dimension scaled.
              */
-            public static int TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
+            private static int tilesSize = (int) (tilesDefault * SCALE);
             /**
              * game width.
              */
-            public static int G_WIDTH = TILES_SIZE * TILES_WIDTH;
+            private static int gWidth = tilesSize * TILES_WIDTH;
             /**
              * game height.
              */
-            public static int G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+            private static int gHeight = tilesSize * TILES_HEIGHT;
             /**
              * player default dimension.
              */
@@ -86,16 +86,91 @@ public class Constants {
              */
             public static final int BOMB_DEFAULT = 48;
             /**
+             * wall default dimension.
+             */
+            public static final int WALL_DEFAULT = 48;
+            /**
              * explosion default dimension.
              */
             public static final int EXPLOSION_DEFAULT = 48;
+            /**
+             * opacity default value.
+             */
+            private static final int OPACITY = 125;
 
+            /**
+             * Change window size.
+             */
             public static void changeDimension() {
-                TILES_DEFAULT--;
-                TILES_SIZE = (int) (TILES_DEFAULT * SCALE);
-                G_WIDTH = TILES_SIZE * TILES_WIDTH;
-                G_HEIGHT = TILES_SIZE * TILES_HEIGHT;
+                tilesDefault--;
+                tilesSize = (int) (tilesDefault * SCALE);
+                gWidth = tilesSize * TILES_WIDTH;
+                gHeight = tilesSize * TILES_HEIGHT;
             }
+
+            /**
+             * @return default dimention.
+             */
+            public static int getTilesDefault() {
+                return tilesDefault;
+            }
+
+            /**
+             * @param tilesDefault set default dimention.
+             */
+            public static void setTilesDefault(final int tilesDefault) {
+                Game.tilesDefault = tilesDefault;
+            }
+
+            /**
+             * @return dimension scaled.
+             */
+            public static int getTilesSize() {
+                return tilesSize;
+            }
+
+            /**
+             * @param tilesSize set dimension scaled.
+             */
+            public static void setTilesSize(final int tilesSize) {
+                Game.tilesSize = tilesSize;
+            }
+
+            /**
+             * @return get Height
+             */
+            public static int getgHeight() {
+                return gHeight;
+            }
+
+            /**
+             * @param gHeight set Height
+             */
+            public static void setgHeight(final int gHeight) {
+                Game.gHeight = gHeight;
+            }
+
+            /**
+             * @return width
+             */
+            public static int getgWidth() {
+                return gWidth;
+            }
+
+            /**
+             * @param gWidth set Width
+             */
+            public static void setgWidth(final int gWidth) {
+                Game.gWidth = gWidth;
+            }
+
+            /**
+             * @return opacity
+             */
+            public static int getOpacity() {
+                return OPACITY;
+            }
+
         }
 
         /**
@@ -123,15 +198,15 @@ public class Constants {
             /**
              * MENU_BUTTONS sprites path.
              */
-            public static final String MENU_BUTTONS = "button_atlas.png";
+            public static final String MENU_BUTTONS = "menu/button_atlas.png";
             /**
              * MENU_BACKGROUND sprites path.
              */
-            public static final String MENU_BACKGROUND = "menu_background.png";
+            public static final String MENU_BACKGROUND = "menu/menu_background.png";
             /**
              * SHADOW sprites path.
              */
-            public static final String SHADOW = "shadow.png";
+            public static final String SHADOW = "player/shadow.png";
             /**
              * max col of player sprites animation.
              */
@@ -139,7 +214,7 @@ public class Constants {
             /**
              * max row of player sprites animation.
              */
-            public static final int ROW_PLAYER_SPRITES = 2;
+            public static final int ROW_PLAYER_SPRITES = 3;
             /**
              * max row of bomb sprites animation.
              */
@@ -151,11 +226,19 @@ public class Constants {
             /**
              * max row of explosion sprites animation.
              */
-            public static final int ROW_EXPLOSION_SPRITES = 1;
+            public static final int ROW_EXPLOSION_SPRITES = 4;
             /**
              * max row of explosion sprites animation.
              */
             public static final int COL_EXPLOSION_SPRITES = 9;
+            /**
+             * max row of wall sprites animation.
+             */
+            public static final int ROW_WALL_SPRITES = 1;
+            /**
+             * max row of wall sprites animation.
+             */
+            public static final int COL_WALL_SPRITES = 7;
             /**
              * Map of row of entity animation.
              */
@@ -168,33 +251,37 @@ public class Constants {
              * Map of powerup type and path of powerup sprites.
              */
             public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
+            private static final int ANIMATION_ROW_PLAYABLE = 0;
+            private static final int ANIMATION_ROW_BOT = 3;
+            private static final int ANIMATION_ROW_BOMB = 6;
+            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 7;
 
             /**
              * SpriteMap constructor.
              */
             public SpritesMap() {
                 // TYPE
-                SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player_sprites.png"));
-                SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("bot_sprites.png"));
+                SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
+                SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("grass.png"));
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("destructible_wall.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("indestructible_wall.png"));
-                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("fire_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("fire_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("max_fire.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.BOMBUP, UploadRes.getSpriteAtlas("bomb_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.BOMBDOWN, UploadRes.getSpriteAtlas("bomb_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDUP, UploadRes.getSpriteAtlas("speed_up.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("speed_down.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("bomb_kick.png"));
-                SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("power_glove.png"));
-                ANIMATION_ROW.put(Type.PLAYABLE, 0);
-                ANIMATION_ROW.put(Type.BOT, 2);
-                ANIMATION_ROW.put(Type.BOMB, 4);
-
+                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
+                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("powerUp/max_fire.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBUP, UploadRes.getSpriteAtlas("powerUp/bomb_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.BOMBDOWN, UploadRes.getSpriteAtlas("powerUp/bomb_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDUP, UploadRes.getSpriteAtlas("powerUp/speed_up.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.SPEEDDOWN, UploadRes.getSpriteAtlas("powerUp/speed_down.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.KICKBOMB, UploadRes.getSpriteAtlas("powerUp/bomb_kick.png"));
+                SPRITESPOWERUPPATH.put(PowerUpType.THROWBOMB, UploadRes.getSpriteAtlas("powerUp/power_glove.png"));
+                ANIMATION_ROW.put(Type.PLAYABLE, ANIMATION_ROW_PLAYABLE);
+                ANIMATION_ROW.put(Type.BOT, ANIMATION_ROW_BOT);
+                ANIMATION_ROW.put(Type.BOMB, ANIMATION_ROW_BOMB);
+                ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, ANIMATION_ROW_DESTRUCTIBLE_WALL);
             }
 
         }
@@ -207,17 +294,23 @@ public class Constants {
              * Map of type and scale of this entity .
              */
             public static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+            private static final float PLAYABLE_SCALE = 0.2f;
+            private static final float BOT_SCALE = 0.5f;
+            private static final float BOMB_SCALE = -0.5f;
+            private static final float POWERUP_SCALE = 0f;
+            private static final float DESTRUCTIBLE_WALL_SCALE = 0f;
+            private static final float INDESTRUCTIBLE_WALL_SCALE = 0f;
 
             /**
              * Scale constructor.
              */
             public Scale() {
-                ENTITY_SCALE.put(Type.PLAYABLE, 0.2f);
-                ENTITY_SCALE.put(Type.BOT, 0.5f);
-                ENTITY_SCALE.put(Type.BOMB, -0.5f);
-                ENTITY_SCALE.put(Type.POWERUP, 0f);
-                ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, 0f);
-                ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, 0f);
+                ENTITY_SCALE.put(Type.PLAYABLE, PLAYABLE_SCALE);
+                ENTITY_SCALE.put(Type.BOT, BOT_SCALE);
+                ENTITY_SCALE.put(Type.BOMB, BOMB_SCALE);
+                ENTITY_SCALE.put(Type.POWERUP, POWERUP_SCALE);
+                ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, DESTRUCTIBLE_WALL_SCALE);
+                ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, INDESTRUCTIBLE_WALL_SCALE);
             }
         }
     }
@@ -237,7 +330,7 @@ public class Constants {
         /**
          * POWER_GLOVE animation.
          */
-        public static final int POWER_GLOVE = 2;
+        public static final int POWER_GLOVE = 8;
         /**
          * THROWING animation.
          */
@@ -261,7 +354,7 @@ public class Constants {
         /**
          * DEFEAT animation.
          */
-        public static final int DEFEAT = 8;
+        public static final int DEFEAT = 2;
         /**
          * IDLE animation.
          */
@@ -282,6 +375,10 @@ public class Constants {
          * EXPLOSION animation.
          */
         public static final int EXPLOSION = 13;
+        /**
+         * WALL animation.
+         */
+        public static final int WALL = 14;
         /**
          * STANDING number of animations.
          */
@@ -339,13 +436,17 @@ public class Constants {
          */
         public static final int EXPLOSION_ANIMATION = 3;
         /**
+         * WALL number of animations.
+         */
+        public static final int WALL_ANIMATION = 6;
+        /**
          * EXPLOSION_COUNTER number of animations.
          */
         public static final int EXPLOSION_COUNTER = 1;
         /**
          * PLAYER_COUNTER number of animations.
          */
-        public static final int PLAYER_COUNTER = 2;
+        public static final int PLAYER_COUNTER = 3;
 
         /**
          * @param playerAction
@@ -379,6 +480,8 @@ public class Constants {
                     return DANCING_ANIMATION;
                 case EXPLOSION:
                     return EXPLOSION_ANIMATION;
+                case WALL:
+                    return WALL_ANIMATION;
                 default:
                     return 1;
             }
@@ -459,7 +562,11 @@ public class Constants {
         /**
          * Expiring time before bomb explodes.
          */
-        public static final int EXPIRING_TIME = 90;
+        public static final int EXPIRING_TIME = EXPLODE_DURATION * Movement.FRAME_DELAY;
+        /**
+         * Default position of explosion animation index.
+         */
+        public static final int DEFAULT_EXPLOSION_ANIMATION_INDEX = 1;
     }
 
     /**
@@ -472,13 +579,22 @@ public class Constants {
          * type takes.
          */
         private static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
+        private static final int DESTROY_FRAMES_POWERUP = 0;
+        private static final int DESTROY_FRAMES_BOMB = 0;
+        private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
+        private static final int DESTROY_FRAMES_PLAYER = 70;
+
 
         /**
          * constructor.
          */
         public Destroy() {
-            DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, 0);
-            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, 0);
+            DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, DESTROY_FRAMES_POWERUP);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, DESTROY_FRAMES_BOMB);
+            DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
+            DESTROY_FRAMES_PER_TYPE.put(Type.PLAYABLE, DESTROY_FRAMES_PLAYER);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
+
         }
 
         /**
@@ -489,7 +605,7 @@ public class Constants {
         /**
          * standard duration of the destrution in frames.
          */
-        public static final int STANDARD_FRAME_DURATION = 4;
+        public static final int STANDARD_FRAME_DURATION = 0;
 
         /**
          * @param type the type of the entity asked

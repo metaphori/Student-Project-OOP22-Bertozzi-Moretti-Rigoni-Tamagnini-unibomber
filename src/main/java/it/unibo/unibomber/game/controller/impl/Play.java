@@ -131,9 +131,8 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                 .forEach((e) -> {
                     explosion.setEntityExploding(e);
-
                 });
-
+                explosion.update();
         game.getGameField().updateField();
         view.update();
         updateKeys();
@@ -152,7 +151,6 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     @Override
     public final void draw(final Graphics g) {
         view.draw(g);
-        explosion.draw(g);
     }
 
     @Override
@@ -204,5 +202,12 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public final List<Entity> getEntities() {
         return game.getEntities();
+    }
+
+    /**
+     * @return explosion controller.
+     */
+    public Explosion getExplosionController() {
+        return explosion;
     }
 }

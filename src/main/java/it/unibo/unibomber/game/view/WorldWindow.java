@@ -18,13 +18,15 @@ public class WorldWindow {
     jframe = new JFrame();
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jframe.add(unibomberPanel);
-    ImageIcon icon = new ImageIcon("./src/main/res/icon.png");
+    ImageIcon icon = new ImageIcon("./src/main/res/menu/icon.png");
     jframe.setTitle("Unibomber");
     jframe.setIconImage(icon.getImage());
     jframe.setLocationRelativeTo(null);
     jframe.setResizable(false);
     jframe.pack();
     jframe.setVisible(true);
+    jframe.setFocusable(true);
+    jframe.requestFocus();
     jframe.setLocationRelativeTo(null);
   }
 }
