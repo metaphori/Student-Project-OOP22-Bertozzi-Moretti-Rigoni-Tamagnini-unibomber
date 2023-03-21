@@ -9,9 +9,9 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class ThrowComponent extends AbstractComponent {
     private boolean isThrowing;
+    private Direction playerDir;
     private Pair<Integer, Integer> startingPos;
     private Pair<Float, Float> finalPos;
-    private Direction playerDir;
 
     @Override
     public final void update() {
@@ -22,14 +22,12 @@ public class ThrowComponent extends AbstractComponent {
             if (Math.round(bombPosition.getX()) != (float) (finalPos.getX())
                     || Math.round(bombPosition.getY()) != (float) (finalPos.getY())) {
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
-                        playerDir.getY() * -Constants.Input.POSITIVE_MOVE));
-                // TODO movement bug
+                        playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
             } else {
+                bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
                 this.getEntity().setPosition(finalPos);
                 this.isThrowing = false;
             }
-        } else {
-            bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
         }
     }
 
@@ -48,14 +46,24 @@ public class ThrowComponent extends AbstractComponent {
         this.finalPos = calculateFinalPosition();
     }
 
+    public final boolean getThrowing(){
+        return this.isThrowing;
+    }
+
     /**
      * This method calculate where bomb will be throwed.
      * 
      * @return final position
      */
     private Pair<Float, Float> calculateFinalPosition() {
-        return new Pair<Float, Float>((float) startingPos.getX() + (playerDir.getX() * 4),
+        Pair<Float, Float> finalPosition = new Pair<>((float) startingPos.getX() + (playerDir.getX() * 4),
                 (float) startingPos.getY() + (-playerDir.getY() * 4));
+        
+        while (this.getEntity().getGame().getGameField().getField().containsKey(finalPosition)) {
+            finalPosition = new Pair<>(finalPosition.getX() + (playerDir.getX() * 2), finalPosition.getY() + (playerDir.getY() * 2));
+        }
+        
+        return finalPosition;
     }
 
 }

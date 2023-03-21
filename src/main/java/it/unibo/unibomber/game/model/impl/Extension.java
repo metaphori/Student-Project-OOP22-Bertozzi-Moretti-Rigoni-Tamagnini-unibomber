@@ -27,6 +27,10 @@ public class Extension {
                 }
                 CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()) {
+                    // TODO check
+                    if(!entity.getComponent(ThrowComponent.class).get().getThrowing()){
+                        
+                    
                     float thisX = Math.round(entity.getPosition().getX());
                     float thisY = Math.round(entity.getPosition().getY());
                     float eX = Math.round(e.getPosition().getX());
@@ -52,6 +56,7 @@ public class Extension {
                                     new Pair<Float, Float>(thisX, entity.getPosition().getY()));
                         }
                     }
+                }
                 }
             };
 
