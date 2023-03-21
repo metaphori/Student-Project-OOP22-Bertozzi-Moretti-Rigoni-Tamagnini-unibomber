@@ -5,18 +5,17 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.api.MenuButton;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
 /**
  * Menu Button settings implementation class.
  */
-public class MenuButtonImpl implements MenuButton, GameLoop {
+public class OptionButtonImpl implements MenuButton, GameLoop {
  private int index;
  private final int x, y, rowIndex;
  private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
- private final Gamestate gameState;
+ private final String type;
  private BufferedImage[] bufferImages;
  private boolean mouseOver, mousePressed;
  private final Rectangle bounds;
@@ -27,11 +26,11 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
   * @param rowIndex
   * @param gameState
   */
- public MenuButtonImpl(final int x, final int y, final int rowIndex, final Gamestate gameState) {
+ public OptionButtonImpl(final int x, final int y, final int rowIndex, final String type) {
   this.x = x;
   this.y = y;
   this.rowIndex = rowIndex;
-  this.gameState = gameState;
+  this.type = type;
   loadbufferImages();
   bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH, Constants.UI.Buttons.B_HEIGHT);
  }
@@ -81,10 +80,9 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
   return bounds;
  }
 
- public final void applyGamestate() {
-  Gamestate.setGameState(gameState);
+ public String getType() {
+  return type;
  }
-
  @Override
  public final void reset() {
   mouseOver = false;

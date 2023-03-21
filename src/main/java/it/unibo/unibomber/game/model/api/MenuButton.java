@@ -29,12 +29,7 @@ public interface MenuButton {
      * @return Rectangle of bounds.
      */
     Rectangle getBounds();
-
-    /**
-     * set game state.
-     */
-    void applyGamestate();
-
+    
     /**
      * reset.
      */
