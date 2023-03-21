@@ -27,11 +27,11 @@ public final class AIComponent extends AbstractComponent {
      public void update() {
           Entity entity = this.getEntity();
           Type[][] typesMatrix = entity.getGame().getGameField().getMatrixTypes();
-          //TODO
-          if(typesMatrix[Math.round(entity.getPosition().getX())][
-          Math.round(entity.getPosition().getY())] == Type.BOMB)
-          typesMatrix[Math.round(entity.getPosition().getX())][
-          Math.round(entity.getPosition().getY())] = Type.EXPLOSION;
+          // TODO
+          if (typesMatrix[Math.round(entity.getPosition().getX())][Math
+                    .round(entity.getPosition().getY())] == Type.BOMB)
+               typesMatrix[Math.round(entity.getPosition().getX())][Math
+                         .round(entity.getPosition().getY())] = Type.EXPLOSION;
           // TODO
           if (oldPosition == null)
                oldPosition = this.getEntity().getPosition();
@@ -45,42 +45,46 @@ public final class AIComponent extends AbstractComponent {
           if (this.followingPath.isEmpty()) {
                this.followingPath = getNextPath(typesMatrix);
                Collections.reverse(followingPath);
-                this.followingPath = this.followingPath.stream()
-                           .limit(3)
-                           .collect(Collectors.toList());
+               this.followingPath = this.followingPath.stream()
+                         .limit(3)
+                         .collect(Collectors.toList());
           }
-          if(this.followingPath.size()==0)
+          if (this.followingPath.size() == 0)
                this.followingPath = new ArrayList<>(List.of(Direction.CENTER));
      }
+
      private List<Direction> getNextPath(Type[][] typesMatrix) {
           if (isSafe(typesMatrix)) {
                var towardsPowerup = getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
                if (!towardsPowerup.contains(Direction.CENTER)) {
                     return towardsPowerup;
-               }
-               else{
-                    if(typeLeftExist(Type.DESTRUCTIBLE_WALL)){
-                         if(nextTo(Type.DESTRUCTIBLE_WALL,typesMatrix, this.getEntity().getPosition()))
-                         {
-                              PowerUpListComponent powerups = this.getEntity().getComponent(PowerUpListComponent.class).get();
-                              if(powerups.getBombNumber()-powerups.getBombPlaced()>0 && nextTo(Type.AIR,typesMatrix,this.getEntity().getPosition())){
-                                   BombPlaceComponent placeBomb = this.getEntity().getComponent(BombPlaceComponent.class).get();
+               } else {
+                    if (typeLeftExist(Type.DESTRUCTIBLE_WALL)) {
+                         if (nextTo(Type.DESTRUCTIBLE_WALL, typesMatrix, this.getEntity().getPosition())) {
+                              PowerUpListComponent powerups = this.getEntity().getComponent(PowerUpListComponent.class)
+                                        .get();
+                              if (powerups.getBombNumber() - powerups.getBombPlaced() > 0
+                                        && nextTo(Type.AIR, typesMatrix, this.getEntity().getPosition())) {
+                                   BombPlaceComponent placeBomb = this.getEntity()
+                                             .getComponent(BombPlaceComponent.class).get();
                                    placeBomb.placeBomb();
                               }
                               return new ArrayList<>(List.of(Direction.CENTER));
-                         }
-                         else{
-                              //TODO
+                         } else {
+                              // TODO
                               var r = getDirectionsTowards(List.of(Type.DESTRUCTIBLE_WALL), true, typesMatrix);
-                              if(r.size()>0)r.remove(0);
+                              if (r.size() > 0)
+                                   r.remove(0);
                               return r;
                          }
-                    }
-                    else{
-                         if(((int)(Math.random()*100)) % 100 == 0){
-                              PowerUpListComponent powerups = this.getEntity().getComponent(PowerUpListComponent.class).get();
-                              if(powerups.getBombNumber()-powerups.getBombPlaced()>0 && nextTo(Type.AIR,typesMatrix,this.getEntity().getPosition())){
-                                   BombPlaceComponent placeBomb = this.getEntity().getComponent(BombPlaceComponent.class).get();
+                    } else {
+                         if (((int) (Math.random() * 100)) % 100 == 0) {
+                              PowerUpListComponent powerups = this.getEntity().getComponent(PowerUpListComponent.class)
+                                        .get();
+                              if (powerups.getBombNumber() - powerups.getBombPlaced() > 0
+                                        && nextTo(Type.AIR, typesMatrix, this.getEntity().getPosition())) {
+                                   BombPlaceComponent placeBomb = this.getEntity()
+                                             .getComponent(BombPlaceComponent.class).get();
                                    placeBomb.placeBomb();
                               }
                          }
@@ -92,13 +96,13 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
-     private boolean nextTo(Type searchedType, Type[][] typesMatrix, Pair<Float,Float> position) {
-          for(Direction d : Direction.valuesNoCenter()){
-               int nextX = Math.round(position.getX()+d.getX());
-               int nextY = Math.round(position.getY()+d.getY());
-               if(Utilities.isBetween(nextX, 0, Constants.UI.Game.TILES_WIDTH) &&
-                  Utilities.isBetween(nextY, 0, Constants.UI.Game.TILES_HEIGHT)){
-                    if(typesMatrix[nextX][nextY] == searchedType){
+     private boolean nextTo(Type searchedType, Type[][] typesMatrix, Pair<Float, Float> position) {
+          for (Direction d : Direction.valuesNoCenter()) {
+               int nextX = Math.round(position.getX() + d.getX());
+               int nextY = Math.round(position.getY() + d.getY());
+               if (Utilities.isBetween(nextX, 0, Constants.UI.Game.TILES_WIDTH) &&
+                         Utilities.isBetween(nextY, 0, Constants.UI.Game.TILES_HEIGHT)) {
+                    if (typesMatrix[nextX][nextY] == searchedType) {
                          return true;
                     }
                }
@@ -106,8 +110,9 @@ public final class AIComponent extends AbstractComponent {
           return false;
      }
 
-     private List<Direction> getDirectionsTowards(List<Type> types, boolean goTowards,Type[][] matrix) {
-          List<Type> toAvoid = new ArrayList<>(List.of(Type.RISING_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL, Type.INDESTRUCTIBLE_WALL,Type.EXPLOSION));
+     private List<Direction> getDirectionsTowards(List<Type> types, boolean goTowards, Type[][] matrix) {
+          List<Type> toAvoid = new ArrayList<>(List.of(Type.RISING_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL,
+                    Type.INDESTRUCTIBLE_WALL, Type.EXPLOSION));
           toAvoid.removeAll(types);
           int[][] checkedPositions = new int[matrix.length][matrix[0].length];
           Deque<Pair<Integer, Integer>> unsafePositions = new LinkedList<>();
@@ -142,7 +147,7 @@ public final class AIComponent extends AbstractComponent {
                     if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
                               Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
                          if (checkedPositions[nextCell.getX()][nextCell.getY()] == 0 &&
-                             !toAvoid.contains(typeMatrix[nextCell.getX()][nextCell.getY()])) {
+                                   !toAvoid.contains(typeMatrix[nextCell.getX()][nextCell.getY()])) {
                               checkPositions.add(nextCell);
                               checkedPositions[nextCell.getX()][nextCell.getY()] = lastValue + 1;
                          }
@@ -171,7 +176,7 @@ public final class AIComponent extends AbstractComponent {
           }
           for (int i = 0; i < path.size(); i++) {
                path.set(i, path.get(i).reverse());
-          }               
+          }
           return path;
      }
 
@@ -195,8 +200,8 @@ public final class AIComponent extends AbstractComponent {
 
      private void updatePath(Pair<Float, Float> oldPosition, Pair<Float, Float> newPosition) {
           if (Math.round(oldPosition.getX()) != Math.round(newPosition.getX()) ||
-              Math.round(oldPosition.getY()) != Math.round(newPosition.getY()) ||
-              this.followingPath.get(0) == Direction.CENTER) {
+                    Math.round(oldPosition.getY()) != Math.round(newPosition.getY()) ||
+                    this.followingPath.get(0) == Direction.CENTER) {
                this.followingPath.remove(0);
           }
      }
