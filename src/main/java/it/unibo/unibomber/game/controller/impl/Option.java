@@ -1,46 +1,42 @@
 package it.unibo.unibomber.game.controller.impl;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.model.api.Gamestate;
-import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
-import it.unibo.unibomber.game.view.MenuView;
-import it.unibo.unibomber.utilities.Constants;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_PLAY;
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUIT;
+import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
+import it.unibo.unibomber.game.view.OptionView;
+import it.unibo.unibomber.utilities.Constants;
 
 /**
- * This class manage the game menu.
+ * Option class.
  */
-public class Menu extends StateImpl implements MouseListener, GameLoop {
+public class Option extends StateImpl implements MouseListener, GameLoop {
 
+    private final OptionView view;
     private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
-    private final MenuView view;
 
     /**
-     * This method manage the view of game menu.
+     * This method manage the view of game option.
      */
-    public Menu() {
+    public Option() {
         super();
-        view = new MenuView(this);
+        view = new OptionView(this);
         loadButtons();
     }
 
     private void loadButtons() {
         buttons[0] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) (TOP_DISTANCE_PLAY * Constants.UI.Game.SCALE), 0,
-                Gamestate.OPTION);
+                (int) (50 * Constants.UI.Game.SCALE), 0,
+                Gamestate.PLAY);
         buttons[1] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) (TOP_DISTANCE_QUIT * Constants.UI.Game.SCALE), 1,
+                (int) (90 * Constants.UI.Game.SCALE), 1,
                 Gamestate.QUIT);
-
     }
-
-    /**
+   /**
      * @return button menu pressed
      */
     public final MenuButtonImpl[] getButtons() {
@@ -97,4 +93,5 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
         }
 
     }
+
 }

@@ -11,62 +11,68 @@ import it.unibo.unibomber.game.view.WorldPanelImpl;
  */
 public final class MouseInputsImpl implements MouseListener {
 
- private final WorldPanelImpl worldPanel;
+  private final WorldPanelImpl worldPanel;
 
- /**
-  * MouseInputsImpl constructor.
-  * 
-  * @param worldPanel
-  */
- public MouseInputsImpl(final WorldPanelImpl worldPanel) {
-  this.worldPanel = worldPanel;
- }
+  /**
+   * MouseInputsImpl constructor.
+   * 
+   * @param worldPanel
+   */
+  public MouseInputsImpl(final WorldPanelImpl worldPanel) {
+    this.worldPanel = worldPanel;
+  }
 
- @Override
- public void mouseClicked(final MouseEvent e) {
-
- }
-
- @Override
- public void mousePressed(final MouseEvent e) {
-  switch (Gamestate.getGamestate()) {
-   case MENU:
-    worldPanel.getWorld().getMenu().mousePressed(e);
-    break;
-   case PLAY:
-    break;
-    case PAUSE:
-    worldPanel.getWorld().getPause().mousePressed(e);
-    break;
-   default:
-    break;
+  @Override
+  public void mouseClicked(final MouseEvent e) {
 
   }
- }
 
- @Override
- public void mouseReleased(final MouseEvent e) {
-  switch (Gamestate.getGamestate()) {
-   case MENU:
-    worldPanel.getWorld().getMenu().mouseReleased(e);
-    break;
-   case PLAY:
-    break;
-    case PAUSE:
-    worldPanel.getWorld().getPause().mouseReleased(e);
-    break;
-   default:
-    break;
+  @Override
+  public void mousePressed(final MouseEvent e) {
+    switch (Gamestate.getGamestate()) {
+      case MENU:
+        worldPanel.getWorld().getMenu().mousePressed(e);
+        break;
+      case OPTION:
+        worldPanel.getWorld().getOption().mousePressed(e);
+        break;
+      case PLAY:
+        break;
+      case PAUSE:
+        worldPanel.getWorld().getPause().mousePressed(e);
+        break;
+      default:
+        break;
 
+    }
   }
- }
 
- @Override
- public void mouseEntered(final MouseEvent e) {
- }
+  @Override
+  public void mouseReleased(final MouseEvent e) {
+    switch (Gamestate.getGamestate()) {
+      case MENU:
+        worldPanel.getWorld().getMenu().mouseReleased(e);
+        break;
+      case OPTION:
+        worldPanel.getWorld().getOption().mouseReleased(e);
+        break;
+      case PLAY:
+        break;
+      case PAUSE:
+        worldPanel.getWorld().getPause().mouseReleased(e);
+        break;
+      default:
+        break;
 
- @Override
- public void mouseExited(final MouseEvent e) {
- }
+    }
+  }
+
+  @Override
+  public void mouseEntered(final MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(final MouseEvent e) {
+  }
 
 }

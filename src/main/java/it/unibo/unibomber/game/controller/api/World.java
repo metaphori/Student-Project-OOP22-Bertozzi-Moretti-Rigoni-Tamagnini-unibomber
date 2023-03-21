@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.controller.api;
 
 import it.unibo.unibomber.game.controller.impl.Menu;
+import it.unibo.unibomber.game.controller.impl.Option;
 import it.unibo.unibomber.game.controller.impl.Pause;
 import it.unibo.unibomber.game.controller.impl.Play;
 
@@ -22,4 +23,8 @@ public interface World {
      * @return pause.
      */
     Pause getPause();
+    /**
+     * @return option.
+     */
+    Option getOption();
 }

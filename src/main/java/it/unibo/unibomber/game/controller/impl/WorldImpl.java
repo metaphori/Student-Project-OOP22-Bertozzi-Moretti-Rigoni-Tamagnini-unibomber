@@ -2,6 +2,8 @@ package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
 
+import org.checkerframework.checker.nullness.Opt;
+
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.model.api.Gamestate;
@@ -19,6 +21,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
   private final WorldPanelImpl unibomberPanel;
   private Menu menu;
+  private Option option;
   private Play play;
   private Pause pause;
   private Thread gThread;
@@ -39,6 +42,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
     menu = new Menu();
     play = new Play(this);
     pause = new Pause();
+    option = new Option();
   }
 
   private void loadSprites() {
@@ -58,6 +62,9 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case MENU:
         menu.update();
         break;
+        case OPTION:
+        option.update();
+        break;
       case PLAY:
         play.update();
         break;
@@ -76,6 +83,9 @@ public class WorldImpl implements World, Runnable, GameLoop {
     switch (Gamestate.getGamestate()) {
       case MENU:
         menu.draw(g);
+        break;
+        case OPTION:
+        option.draw(g);
         break;
       case PLAY:
         play.draw(g);
@@ -136,5 +146,9 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final Pause getPause() {
     return pause;
+  }
+  @Override
+  public final Option getOption() {
+    return option;
   }
 }

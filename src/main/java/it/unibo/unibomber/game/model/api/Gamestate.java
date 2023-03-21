@@ -13,6 +13,10 @@ public enum Gamestate {
      */
     MENU,
     /**
+     * Option.
+     */
+    OPTION,
+    /**
      * Pause.
      */
     PAUSE,
