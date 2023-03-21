@@ -22,11 +22,11 @@ public class Constants {
             /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = 40 * (int) Game.SCALE;
+            public static final int TOP_DISTANCE_PLAY = (60 * (int) (Game.SCALE))*2;
             /**
              * distance from top of quit button.
              */
-            public static final int TOP_DISTANCE_QUIT = TOP_DISTANCE_PLAY + 50;
+            public static final int TOP_DISTANCE_QUIT = TOP_DISTANCE_PLAY + 100;
             /**
              * single button witdh.
              */
@@ -56,7 +56,7 @@ public class Constants {
             /**
              * scale.
              */
-            public static final float SCALE = 3f;
+            public static float SCALE = 3f;
             /**
              * arena width in tiles.
              */
@@ -103,6 +103,8 @@ public class Constants {
              */
             public static void changeDimension() {
                 tilesDefault--;
+                SCALE--;
+                if(SCALE < 2 )SCALE = 2f;
                 tilesSize = (int) (tilesDefault * SCALE);
                 gWidth = tilesSize * TILES_WIDTH;
                 gHeight = tilesSize * TILES_HEIGHT;

@@ -32,10 +32,10 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
 
     private void loadButtons() {
         buttons[0] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) (TOP_DISTANCE_PLAY * Constants.UI.Game.SCALE), 0,
+                (int) TOP_DISTANCE_PLAY, 0,
                 Gamestate.OPTION);
         buttons[1] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) (TOP_DISTANCE_QUIT * Constants.UI.Game.SCALE), 1,
+                (int) TOP_DISTANCE_QUIT, 1,
                 Gamestate.QUIT);
 
     }
