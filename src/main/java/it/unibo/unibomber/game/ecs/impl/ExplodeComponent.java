@@ -45,6 +45,7 @@ public class ExplodeComponent extends AbstractComponent {
     public final void update() {
         if (this.expiringFrames == EXPIRING_TIME) {
             this.explodeFrames++;
+            this.explodeBomb();
             if (this.explodeFrames < EXPLODE_DURATION) {
                 this.explonsionsList.clear();
                 explodeEntities(this.getEntity().getGame().getEntities().stream()
@@ -99,7 +100,6 @@ public class ExplodeComponent extends AbstractComponent {
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
-        this.explodeBomb();
         for (var entity : entitiesList) {
             this.explonsionsList.add(new Pair<>(Math.round(entity.getPosition().getY()), 
                                                 Math.round(entity.getPosition().getX())));
@@ -119,21 +119,25 @@ public class ExplodeComponent extends AbstractComponent {
                                 entitySearched.get().getComponent(ExplodeComponent.class).get()
                                     .explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
-                            }
-                            entitySearched.get().getComponent(DestroyComponent.class).get()
-                                .destroy();
-                            if (entitySearched.get().getType() != Type.PLAYABLE 
-                                && entitySearched.get().getType() != Type.BOT) {
-                                this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()), 
-                                                                    Math.round(checkPos.getY())));
                                 countPositions += bombRange;
-                            }
-                            if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
-                                this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
-                                                                    Math.round(checkPos.getX())));
+                            } else if (entitySearched.get().getType() != Type.BOMB) {
+                                entitySearched.get().getComponent(DestroyComponent.class).get()
+                                    .destroy();
                                 if (entitySearched.get().getType() != Type.PLAYABLE 
-                                    && entitySearched.get().getType() != Type.BOT) {
+                                    && entitySearched.get().getType() != Type.BOT
+                                    && entitySearched.get().getType() != Type.BOMB) {
+                                    this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()), 
+                                                                        Math.round(checkPos.getY())));
                                     countPositions += bombRange;
+                                }
+                                if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
+                                    this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
+                                                                        Math.round(checkPos.getX())));
+                                    if (entitySearched.get().getType() != Type.PLAYABLE 
+                                        && entitySearched.get().getType() != Type.BOT
+                                        && entitySearched.get().getType() != Type.BOMB) {
+                                        countPositions += bombRange;
+                                    }
                                 }
                             }
                         } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
