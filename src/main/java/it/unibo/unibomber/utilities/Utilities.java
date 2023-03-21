@@ -18,4 +18,14 @@ public final class Utilities {
     public static boolean isBetween(final int value, final int min, final int max) {
         return (value >= min && value < max);
     }
+
+    /**
+     * This method convert Integer pair to Float pair.
+     * 
+     * @param integerPair
+     * @return Float pair
+     */
+    public static Pair<Float, Float> getFloatPair(final Pair<Integer, Integer> integerPair) {
+        return new Pair<Float, Float>((float) integerPair.getX(), (float) integerPair.getY());
+    }
 }

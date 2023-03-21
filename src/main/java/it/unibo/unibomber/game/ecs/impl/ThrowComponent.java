@@ -1,8 +1,13 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.Map;
+
+import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
+import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * This component throw entities.
@@ -11,11 +16,10 @@ public class ThrowComponent extends AbstractComponent {
     private boolean isThrowing;
     private Direction playerDir;
     private Pair<Integer, Integer> startingPos;
-    private Pair<Float, Float> finalPos;
+    private Pair<Integer, Integer> finalPos;
 
     @Override
     public final void update() {
-        // TODO make controll if is wall or other bomb
         MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
         Pair<Float, Float> bombPosition = this.getEntity().getPosition();
         if (isThrowing) {
@@ -25,7 +29,7 @@ public class ThrowComponent extends AbstractComponent {
                         playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
             } else {
                 bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
-                this.getEntity().setPosition(finalPos);
+                this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
                 this.isThrowing = false;
             }
         }
@@ -46,7 +50,10 @@ public class ThrowComponent extends AbstractComponent {
         this.finalPos = calculateFinalPosition();
     }
 
-    public final boolean getThrowing(){
+    /**
+     * @return bomb throwing status
+     */
+    public final boolean getThrowing() {
         return this.isThrowing;
     }
 
@@ -55,14 +62,15 @@ public class ThrowComponent extends AbstractComponent {
      * 
      * @return final position
      */
-    private Pair<Float, Float> calculateFinalPosition() {
-        Pair<Float, Float> finalPosition = new Pair<>((float) startingPos.getX() + (playerDir.getX() * 4),
-                (float) startingPos.getY() + (-playerDir.getY() * 4));
-        
-        while (this.getEntity().getGame().getGameField().getField().containsKey(finalPosition)) {
-            finalPosition = new Pair<>(finalPosition.getX() + (playerDir.getX() * 2), finalPosition.getY() + (playerDir.getY() * 2));
+    private Pair<Integer, Integer> calculateFinalPosition() {
+        Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
+        Pair<Integer, Integer> finalPosition = new Pair<>(startingPos.getX() + (playerDir.getX() * 4),
+                startingPos.getY() + (-playerDir.getY() * 4));
+        while (fieldMap.containsKey(finalPosition) && (fieldMap.get(finalPosition).getX() == Type.INDESTRUCTIBLE_WALL
+                || fieldMap.get(finalPosition).getX() == Type.DESTRUCTIBLE_WALL)) {
+            finalPosition = new Pair<>(finalPosition.getX() + (playerDir.getX() * 2),
+                    finalPosition.getY() + (-playerDir.getY() * 2));
         }
-        
         return finalPosition;
     }
 
