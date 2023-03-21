@@ -16,40 +16,40 @@ import it.unibo.unibomber.utilities.Pair;
 public class Extension {
     public class Bomber {
         public class Collision {
-            static BiConsumer<Entity, Entity> collide = (e, c) -> {
-                if (c.getType() == Type.POWERUP) {
-                    PowerUpType powerUpType = c.getComponent(PowerUpComponent.class).get()
+            static BiConsumer<Entity, Entity> collide = (entity, e) -> {
+                if (e.getType() == Type.POWERUP) {
+                    PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
                             .getPowerUpType();
-                    PowerUpHandlerComponent powerUpHandlerComponent = e
+                    PowerUpHandlerComponent powerUpHandlerComponent = entity
                             .getComponent(PowerUpHandlerComponent.class).get();
                     powerUpHandlerComponent.addPowerUp(powerUpType);
-                    c.getComponent(DestroyComponent.class).get().destroy();
+                    e.getComponent(DestroyComponent.class).get().destroy();
                 }
-                CollisionComponent collision = c.getComponent(CollisionComponent.class).get();
+                CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()) {
-                    float thisX = Math.round(e.getPosition().getX());
-                    float thisY = Math.round(e.getPosition().getY());
-                    float eX = Math.round(c.getPosition().getX());
-                    float eY = Math.round(c.getPosition().getY());
-                    boolean isOccupied = e.getGame().getGameField().getField()
+                    float thisX = Math.round(entity.getPosition().getX());
+                    float thisY = Math.round(entity.getPosition().getY());
+                    float eX = Math.round(e.getPosition().getX());
+                    float eY = Math.round(e.getPosition().getY());
+                    boolean isOccupied = entity.getGame().getGameField().getField()
                             .entrySet().stream()
                             .anyMatch(entry -> entry.getKey().equals(new Pair<Integer, Integer>(
-                                    (Math.round(thisX) + e.getComponent(MovementComponent.class)
+                                    (Math.round(thisX) + entity.getComponent(MovementComponent.class)
                                             .get().getDirection().getX()),
                                     (Math.round(thisY)
-                                            + -e.getComponent(MovementComponent.class).get()
+                                            + -entity.getComponent(MovementComponent.class).get()
                                                     .getDirection().getY()))));
                     if (!isOccupied) {
                         if (thisX != eX || thisY != eY) {
-                            e.setPosition(new Pair<Float, Float>(thisX, thisY));
+                            entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                         }
                     } else {
                         if (thisX == eX && thisY != eY) {
-                            e.setPosition(
-                                    new Pair<Float, Float>(e.getPosition().getX(), thisY));
+                            entity.setPosition(
+                                    new Pair<Float, Float>(entity.getPosition().getX(), thisY));
                         } else if (thisX != eX && thisY == eY) {
-                            e.setPosition(
-                                    new Pair<Float, Float>(thisX, e.getPosition().getY()));
+                            entity.setPosition(
+                                    new Pair<Float, Float>(thisX, entity.getPosition().getY()));
                         }
                     }
                 }
@@ -63,20 +63,45 @@ public class Extension {
 
     public class Bomb {
         public class Collision {
-            static BiConsumer<Entity, Entity> collide = (e, c) -> {
-                CollisionComponent collision = c.getComponent(CollisionComponent.class).get();
-                if (c.getType() == Type.POWERUP) {
-                    c.getComponent(DestroyComponent.class).get().destroy();
+            static BiConsumer<Entity, Entity> collide = (entity, e) -> {
+                if (e.getType() == Type.POWERUP) {
+                    e.getComponent(DestroyComponent.class).get().destroy();
                 }
-                if ((c.getType() == Type.PLAYABLE || c.getType() == Type.BOT)
-                        && !e.getComponent(CollisionComponent.class).get().isOver()
-                        && c.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
+                if ((e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
+                        && !entity.getComponent(CollisionComponent.class).get().isOver()
+                        && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                 .contains(PowerUpType.KICKBOMB)) {
-                    e.getComponent(SlidingComponent.class).get().setSliding(true,
-                            c.getComponent(MovementComponent.class).get().getDirection());
+                    entity.getComponent(SlidingComponent.class).get().setSliding(true,
+                            e.getComponent(MovementComponent.class).get().getDirection());
                 }
+                CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()) {
-                        e.getComponent(SlidingComponent.class).get().setSliding(false, null);
+                    entity.getComponent(SlidingComponent.class).get().setSliding(false, null);
+                    float thisX = Math.round(entity.getPosition().getX());
+                    float thisY = Math.round(entity.getPosition().getY());
+                    float eX = Math.round(e.getPosition().getX());
+                    float eY = Math.round(e.getPosition().getY());
+                    boolean isOccupied = entity.getGame().getGameField().getField()
+                            .entrySet().stream()
+                            .anyMatch(entry -> entry.getKey().equals(new Pair<Integer, Integer>(
+                                    (Math.round(thisX) + entity.getComponent(MovementComponent.class)
+                                            .get().getDirection().getX()),
+                                    (Math.round(thisY)
+                                            + -entity.getComponent(MovementComponent.class).get()
+                                                    .getDirection().getY()))));
+                    if (!isOccupied) {
+                        if (thisX != eX || thisY != eY) {
+                            entity.setPosition(new Pair<Float, Float>(thisX, thisY));
+                        }
+                    } else {
+                        if (thisX == eX && thisY != eY) {
+                            entity.setPosition(
+                                    new Pair<Float, Float>(entity.getPosition().getX(), thisY));
+                        } else if (thisX != eX && thisY == eY) {
+                            entity.setPosition(
+                                    new Pair<Float, Float>(thisX, entity.getPosition().getY()));
+                        }
+                    }
                 }
             };
 

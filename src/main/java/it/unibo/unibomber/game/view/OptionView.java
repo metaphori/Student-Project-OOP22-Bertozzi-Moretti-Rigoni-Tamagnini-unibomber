@@ -18,7 +18,7 @@ import it.unibo.unibomber.utilities.Constants.UI.Game;
  */
 public class OptionView implements GameLoop {
     private final Option controller;
-    private BufferedImage delete, deleteAll;
+    private BufferedImage delete, deleteAll, map;
     private int menuWidth, menuHeight;
 
     /**
@@ -30,6 +30,7 @@ public class OptionView implements GameLoop {
     }
 
     private void loadBackground() {
+        map = UploadRes.getSpriteAtlas("menu/map.png");
         delete = UploadRes.getSpriteAtlas("menu/delete.png");
         deleteAll = UploadRes.getSpriteAtlas("menu/delete_all.png");
         menuWidth = 50;
@@ -46,8 +47,14 @@ public class OptionView implements GameLoop {
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        //background
         g2.setColor(new Color(255, 255, 156));
         g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
+        //map
+        g.drawImage(map, Constants.UI.Game.getgWidth() / 4, 10, 250, 250, null);
+        g.drawImage(UploadRes.getSpriteAtlas("menu/left.png"), Constants.UI.Game.getgWidth() / 4 -50, (map.getHeight()/2)-20, 50, 50, null);
+        g.drawImage(UploadRes.getSpriteAtlas("menu/right.png"), Constants.UI.Game.getgWidth() / 4 + map.getWidth() - 50,(map.getHeight()/2)-20, 50, 50, null);
+        //rect power up
         g2.setColor(new Color(214, 214, 214));
         g2.fillRoundRect(20, Constants.UI.Game.getgHeight() - 80, Constants.UI.Game.getgWidth() - 200, 50, 20, 20);
         g.drawImage(UploadRes.getSpriteAtlas("menu/player.png"), 20, Constants.UI.Game.getgHeight() / 2, null);
