@@ -1,14 +1,11 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Queue;
-import java.util.regex.MatchResult;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -41,8 +38,6 @@ public final class AIComponent extends AbstractComponent {
           checkPath(typesMatrix);
           move(this.followingPath.get(0));
           updatePath(oldPosition, entity.getPosition());
-          System.out.println(oldPosition);
-          System.out.println(entity.getPosition());
           oldPosition = entity.getPosition();
      }
 
@@ -59,8 +54,9 @@ public final class AIComponent extends AbstractComponent {
      }
      private List<Direction> getNextPath(Type[][] typesMatrix) {
           if (isSafe(typesMatrix)) {
-               if (typeLeftExist(Type.POWERUP)) {
-                    return getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
+               var towardsPowerup = getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
+               if (!towardsPowerup.contains(Direction.CENTER)) {
+                    return towardsPowerup;
                }
                else{
                     if(typeLeftExist(Type.DESTRUCTIBLE_WALL)){

@@ -78,10 +78,10 @@ public final class ExplosionView implements GameLoop {
 
     private void getDirectionIndex(final Direction dir) {
         switch (dir) {
-            case DOWN:
+            case UP:
                 indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 6;
                 break;
-            case UP:
+            case DOWN:
                 indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 2;
                 break;
             case RIGHT:

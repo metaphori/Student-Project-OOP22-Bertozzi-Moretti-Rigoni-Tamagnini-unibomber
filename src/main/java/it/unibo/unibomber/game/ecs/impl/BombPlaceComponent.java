@@ -31,7 +31,7 @@ public class BombPlaceComponent extends AbstractComponent {
                 bombCreate.addSpeed(Constants.Bomb.BASE_SPEED);
                 thisEntity.getGame().addEntity(bombCreate);
                 thisEntity.getComponent(PowerUpHandlerComponent.class)
-                        .get().setBombPlaced(1);
+                        .get().addBombPlaced(1);
             }
             this.bombPlaced = false;
         }

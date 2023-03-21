@@ -88,7 +88,6 @@ public class FieldImpl implements Field {
         // TODO only works with basic bombs
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
-                .filter(e -> field.get(e).getY().getComponent(ExplodeComponent.class).get().isExploding())
                 .forEach(e -> {
                     PowerUpListComponent powerupList = field.get(e).getY().getComponent(PowerUpListComponent.class)
                             .get();

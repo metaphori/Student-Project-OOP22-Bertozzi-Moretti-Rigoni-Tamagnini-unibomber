@@ -16,6 +16,6 @@ public final class Utilities {
      * @return beetween status
      */
     public static boolean isBetween(final int value, final int min, final int max) {
-        return (value > min && value < max);
+        return (value >= min && value < max);
     }
 }

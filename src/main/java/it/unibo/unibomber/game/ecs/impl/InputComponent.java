@@ -1,9 +1,13 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import java.util.Map;
 import java.util.Optional;
 
 import java.awt.event.KeyEvent;
 
+import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -17,11 +21,26 @@ public class InputComponent extends AbstractComponent {
 
           final Optional<Integer> moveKey = getMoveKey();
           final Optional<Integer> clickedKey = getClickedKey();
-
           final Pair<Float, Float> moveBy = calculateMovement(moveKey);
-
+          final Entity player = this.getEntity();
           if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_SPACE) {
-               this.getEntity().getComponent(BombPlaceComponent.class).get().placeBomb();
+               player.getComponent(BombPlaceComponent.class).get().placeBomb();
+          }
+          if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_E) {
+               final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = player.getGame().getGameField()
+                         .getField();
+               final Pair<Integer, Integer> playerPos = new Pair<>(
+                         (int) Math.round(player.getPosition().getX()),
+                         (int) Math.round(player.getPosition().getY()));
+               if (player.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
+                         .contains(PowerUpType.THROWBOMB)
+                         && fieldMap.containsKey(playerPos)
+                         && fieldMap.get(playerPos).getX() == Type.BOMB) {
+                    Entity bombEntity = fieldMap.get(playerPos).getY();
+                    bombEntity.getComponent(CollisionComponent.class).get().setOver(true);
+                    bombEntity.getComponent(ThrowComponent.class).get().throwBomb(true, playerPos,
+                              player.getComponent(MovementComponent.class).get().getDirection());
+               }
           }
           updateMovement(moveBy);
      }

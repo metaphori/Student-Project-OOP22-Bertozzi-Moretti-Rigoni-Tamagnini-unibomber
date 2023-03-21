@@ -17,7 +17,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.Game;
  */
 public final class CollisionComponent extends AbstractComponent {
      private final boolean isSolid;
-     private boolean isOverstable;
+     private boolean isOver;
      private Rectangle2D.Float hitbox;
      private float x, y;
      private int width, height;
@@ -33,10 +33,10 @@ public final class CollisionComponent extends AbstractComponent {
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
                          .filter(entity -> entity.getComponent(CollisionComponent.class).isPresent()
-                                   && entity.getComponent(CollisionComponent.class).get().isOverstable())
+                                   && entity.getComponent(CollisionComponent.class).get().isOver())
                          .filter(entity -> !player.getComponent(CollisionComponent.class).get().getHitbox()
                                    .intersects(entity.getComponent(CollisionComponent.class).get().getHitbox()))
-                         .forEach(entity -> entity.getComponent(CollisionComponent.class).get().setOverstable(false));
+                         .forEach(entity -> entity.getComponent(CollisionComponent.class).get().setOver(false));
           }
           checkCollisions();
      }
@@ -56,13 +56,13 @@ public final class CollisionComponent extends AbstractComponent {
       * This method manage the collision state of entity.
       * 
       * @param isSolid
-      * @param isOverstable
+      * @param isOver
       * @param x
       * @param y
       */
-     public CollisionComponent(final boolean isSolid, final boolean isOverstable, final int x, final int y) {
+     public CollisionComponent(final boolean isSolid, final boolean isOver, final int x, final int y) {
           this.isSolid = isSolid;
-          this.isOverstable = isOverstable;
+          this.isOver = isOver;
           this.x = (int) (x * Game.getTilesSize());
           this.y = (int) (y * Game.getTilesSize());
           initHitbox();
@@ -83,17 +83,17 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      /**
-      * @return true if entity is overstable with other entity.
+      * @return true if entity is over with other entity.
       */
-     public boolean isOverstable() {
-          return isOverstable;
+     public boolean isOver() {
+          return isOver;
      }
 
      /**
-      * @param isOverstable
+      * @param isOver
       */
-     public void setOverstable(final boolean isOverstable) {
-          this.isOverstable = isOverstable;
+     public void setOver(final boolean isOver) {
+          this.isOver = isOver;
      }
 
      /**
@@ -116,14 +116,19 @@ public final class CollisionComponent extends AbstractComponent {
                               if (e.getType() == Type.POWERUP) {
                                    e.getComponent(DestroyComponent.class).get().destroy();
                               }
-                              if (entity.getType() == Type.BOMB && e.getType() == Type.PLAYABLE
-                                        && !entity.getComponent(CollisionComponent.class).get().isOverstable()
+                              if (entity.getType() == Type.BOMB
+                                        && (e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
+                                        && !entity.getComponent(CollisionComponent.class).get().isOver()
                                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                                   .contains(PowerUpType.KICKBOMB)) {
-                                   entity.getComponent(SlidingComponent.class).get().setSliding(true);
+                                   entity.getComponent(SlidingComponent.class).get().setSliding(true,
+                                             e.getComponent(MovementComponent.class).get().getDirection());
                               }
                               CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
-                              if (collision.isSolid() && !collision.isOverstable()) {
+                              if (collision.isSolid() && !collision.isOver()) {
+                                   if (entity.getType() == Type.BOMB) {
+                                        entity.getComponent(SlidingComponent.class).get().setSliding(false, null);
+                                   }
                                    float thisX = Math.round(entity.getPosition().getX());
                                    float thisY = Math.round(entity.getPosition().getY());
                                    float eX = Math.round(e.getPosition().getX());
@@ -142,7 +147,7 @@ public final class CollisionComponent extends AbstractComponent {
                                              entity.setPosition(new Pair<Float, Float>(thisX, thisY));
                                         }
                                    } else {
-                                        if (thisX == eX || thisY != eY) {
+                                        if (thisX == eX && thisY != eY) {
                                              entity.setPosition(
                                                        new Pair<Float, Float>(entity.getPosition().getX(), thisY));
                                         } else if (thisX != eX && thisY == eY) {
@@ -150,6 +155,7 @@ public final class CollisionComponent extends AbstractComponent {
                                                        new Pair<Float, Float>(thisX, entity.getPosition().getY()));
                                         }
                                    }
+
                               }
                          });
           }
