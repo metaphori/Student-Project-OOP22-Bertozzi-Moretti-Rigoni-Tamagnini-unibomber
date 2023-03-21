@@ -11,27 +11,23 @@ import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.view.ExplosionView;
 import it.unibo.unibomber.utilities.Pair;
-import it.unibo.unibomber.game.model.api.Game;
 
 /**
  * Explosion controller.
  */
 public final class Explosion implements GameLoop {
     private ExplosionView view;
-    private final Game game;
-    private Optional<Entity> explode;
-    private int power;
+    private List<Optional<Entity>> explode;
+    private List<Integer> power;
 
     /**
      * Constructor.
-     * 
      * @param game
      */
-    public Explosion(final Game game) {
-        this.power = 1;
-        this.game = game;
+    public Explosion() {
+        this.power = new ArrayList<>();
         view = new ExplosionView(this);
-        explode = Optional.empty();
+        explode = new ArrayList<>();
     }
 
     /**
@@ -40,8 +36,8 @@ public final class Explosion implements GameLoop {
      * @param entity
      */
     public void setEntityExploding(final Entity entity) {
-        this.explode = Optional.of(entity);
-        power = explode.get().getComponent(PowerUpListComponent.class).get().getBombFire();
+        this.explode.add(Optional.of(entity));
+        this.power.add(entity.getComponent(PowerUpListComponent.class).get().getBombFire());
     }
 
     @Override
@@ -51,9 +47,15 @@ public final class Explosion implements GameLoop {
     /**
      * @return list of coordinate of explosion.
      */
-    public List<Pair<Integer, Integer>> getExplosionList() {
-        if (explode.isPresent()) {
-            return new ArrayList<>(explode.get().getComponent(ExplodeComponent.class).get().getExplosions());
+    public List<List<Pair<Integer, Integer>>> getExplosionList() {
+        List<List<Pair<Integer, Integer>>> l = new ArrayList<>();
+        if (explode.size() > 0) {
+            for (int i = 0; i < explode.size(); i++) {
+                if (explode.get(i).isPresent()) {
+                    l.add(explode.get(i).get().getComponent(ExplodeComponent.class).get().getExplosions());
+                }
+            }
+            return new ArrayList<>(l);
         }
         return List.of();
     }
@@ -61,14 +63,16 @@ public final class Explosion implements GameLoop {
     /**
      * @return power of the bomb
      */
-    public int getBombPower() {
-        return power;
+    public int getBombPower(int id) {
+        return power.get(id);
     }
+
     @Override
     public void draw(final Graphics g) {
         view.draw(g);
     }
-    public Entity gEntity() {
-        return explode.get();
+
+    public Entity gEntity(int id) {
+        return explode.get(id).get();
     }
 }

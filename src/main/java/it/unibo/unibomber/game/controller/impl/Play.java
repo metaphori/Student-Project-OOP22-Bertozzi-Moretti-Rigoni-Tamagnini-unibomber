@@ -55,7 +55,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         game.getGameField().updateField();
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
-        explosion = new Explosion(game);
+        explosion = new Explosion();
         // TODO load map at settings not in constructor
     }
 

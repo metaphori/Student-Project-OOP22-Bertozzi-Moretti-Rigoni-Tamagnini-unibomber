@@ -2,6 +2,7 @@ package it.unibo.unibomber.game.view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Explosion;
@@ -50,24 +51,27 @@ public final class ExplosionView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
+        List<List<Pair<Integer, Integer>>> explosions = controller.getExplosionList();
         frame++;
-        if (!controller.getExplosionList().isEmpty()) {
-            Pair<Integer, Integer> center = controller.getExplosionList().get(0);
-            for (Pair<Integer, Integer> p1 : controller.getExplosionList()) {
-                g.drawImage(
-                        getCorrectImage(Direction.getDistance(p1, center),
-                                Direction.extractDirecionBetweenTwo(center, p1).get()),
-                        Math.round(p1.getY() * Game.getTilesSize()),
-                        Math.round(p1.getX() * Game.getTilesSize()),
-                        (int) (Game.getTilesDefault() * Game.SCALE),
-                        (int) (Game.getTilesDefault() * Game.SCALE),
-                        null);
+        for (int i = 0; i < explosions.size(); i++) {
+            if (!explosions.get(i).isEmpty()) {
+                Pair<Integer, Integer> center = explosions.get(i).get(0);
+                for (Pair<Integer, Integer> p1 : explosions.get(i)) {
+                    g.drawImage(
+                            getCorrectImage(Direction.getDistance(p1, center),
+                                    Direction.extractDirecionBetweenTwo(center, p1).get(), i),
+                            Math.round(p1.getY() * Game.getTilesSize()),
+                            Math.round(p1.getX() * Game.getTilesSize()),
+                            (int) (Game.getTilesDefault() * Game.SCALE),
+                            (int) (Game.getTilesDefault() * Game.SCALE),
+                            null);
+                }
             }
         }
     }
 
-    private BufferedImage getCorrectImage(final int distance, final Direction dir) {
-        int d = distance != controller.getBombPower() ? 1 : 0;
+    private BufferedImage getCorrectImage(final int distance, final Direction dir, final int id) {
+        int d = distance != controller.getBombPower(id) ? 1 : 0;
         getDirectionIndex(dir);
         if (dir == Direction.CENTER) {
             return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection];
