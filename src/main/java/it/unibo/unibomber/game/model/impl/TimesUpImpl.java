@@ -55,12 +55,7 @@ public class TimesUpImpl implements TimesUp {
                raisedWalls[newPosition.getX()][newPosition.getY()] = true;
                if(this.game.getGameField().getField().containsKey(newPosition)){
                     Entity existingEntity = this.game.getGameField().getField().get(newPosition).getY();
-                    if(existingEntity.getType() == Type.PLAYABLE||existingEntity.getType() == Type.BOT)
-                         {
-                              existingEntity.getComponent(DestroyComponent.class).get().destroy();
-                         }
-                    else
-                         this.game.getEntities().remove(existingEntity);
+                    this.game.getEntities().remove(existingEntity);
                }
                this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
                currentPosition=newPosition;

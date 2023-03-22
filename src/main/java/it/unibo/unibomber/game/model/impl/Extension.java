@@ -38,6 +38,9 @@ public class Extension {
                     powerUpHandlerComponent.addPowerUp(powerUpType);
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
+                if(entity.getType().equals(Type.RISING_WALL)){
+                    entity.getComponent(DestroyComponent.class).get().destroy();
+                }
                 CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()) {
                     float thisX = Math.round(entity.getPosition().getX());
