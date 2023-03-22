@@ -20,8 +20,8 @@ import it.unibo.unibomber.utilities.Utilities;
  */
 public final class AIComponent extends AbstractComponent {
 
-     List<Direction> followingPath = new ArrayList<>();
-     Pair<Float, Float> oldPosition;
+     private List<Direction> followingPath = new ArrayList<>();
+     private Pair<Float, Float> oldPosition;
 
      @Override
      public void update() {
@@ -29,19 +29,26 @@ public final class AIComponent extends AbstractComponent {
           Type[][] typesMatrix = entity.getGame().getGameField().getMatrixTypes();
           // TODO
           if (typesMatrix[Math.round(entity.getPosition().getX())][Math
-                    .round(entity.getPosition().getY())] == Type.BOMB)
+                    .round(entity.getPosition().getY())] == Type.BOMB) {
                typesMatrix[Math.round(entity.getPosition().getX())][Math
                          .round(entity.getPosition().getY())] = Type.EXPLOSION;
+          }
           // TODO
-          if (oldPosition == null)
+          if (oldPosition == null) {
                oldPosition = this.getEntity().getPosition();
+
+          }
           checkPath(typesMatrix);
           move(this.followingPath.get(0));
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
      }
 
-     private void checkPath(Type[][] typesMatrix) {
+     /**
+      * @param typesMatrix matrix of game types
+      *                    makes sure the path the AI is following is not empty
+      */
+     private void checkPath(final Type[][] typesMatrix) {
           if (this.followingPath.isEmpty()) {
                this.followingPath = getNextPath(typesMatrix);
                Collections.reverse(followingPath);
@@ -49,11 +56,17 @@ public final class AIComponent extends AbstractComponent {
                          .limit(3)
                          .collect(Collectors.toList());
           }
-          if (this.followingPath.size() == 0)
+          if (this.followingPath.size() == 0) {
                this.followingPath = new ArrayList<>(List.of(Direction.CENTER));
+
+          }
      }
 
-     private List<Direction> getNextPath(Type[][] typesMatrix) {
+     /**
+      * @param typesMatrix matrix of game types
+      * @return a List of directions toward the most advantageous position
+      */
+     private List<Direction> getNextPath(final Type[][] typesMatrix) {
           if (isSafe(typesMatrix)) {
                var towardsPowerup = getDirectionsTowards(List.of(Type.POWERUP), true, typesMatrix);
                if (!towardsPowerup.contains(Direction.CENTER)) {
@@ -73,8 +86,9 @@ public final class AIComponent extends AbstractComponent {
                          } else {
                               // TODO
                               var r = getDirectionsTowards(List.of(Type.DESTRUCTIBLE_WALL), true, typesMatrix);
-                              if (r.size() > 0)
+                              if (r.size() > 0) {
                                    r.remove(0);
+                              }
                               return r;
                          }
                     } else {
@@ -96,12 +110,18 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
-     private boolean nextTo(Type searchedType, Type[][] typesMatrix, Pair<Float, Float> position) {
+     /**
+      * @param searchedType the type I want to know info about
+      * @param typesMatrix  matrix of game types
+      * @param position     the position of the AI entity
+      * @return whether the entity is next to the searched type
+      */
+     private boolean nextTo(final Type searchedType, final Type[][] typesMatrix, final Pair<Float, Float> position) {
           for (Direction d : Direction.valuesNoCenter()) {
                int nextX = Math.round(position.getX() + d.getX());
                int nextY = Math.round(position.getY() + d.getY());
-               if (Utilities.isBetween(nextX, 0, Constants.UI.Game.TILES_WIDTH) &&
-                         Utilities.isBetween(nextY, 0, Constants.UI.Game.TILES_HEIGHT)) {
+               if (Utilities.isBetween(nextX, 0, Constants.UI.Game.TILES_WIDTH)
+                         && Utilities.isBetween(nextY, 0, Constants.UI.Game.TILES_HEIGHT)) {
                     if (typesMatrix[nextX][nextY] == searchedType) {
                          return true;
                     }
@@ -110,11 +130,18 @@ public final class AIComponent extends AbstractComponent {
           return false;
      }
 
-     private List<Direction> getDirectionsTowards(List<Type> types, boolean goTowards, Type[][] matrix) {
+     /**
+      * @param types       the list of types to go towards/away from
+      * @param goTowards   whether to go towards or away from types
+      * @param typesMatrix matrix of game types
+      * @return the closest (safe) path towards types
+      */
+     private List<Direction> getDirectionsTowards(final List<Type> types, final boolean goTowards,
+               final Type[][] typesMatrix) {
           List<Type> toAvoid = new ArrayList<>(List.of(Type.RISING_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL,
                     Type.INDESTRUCTIBLE_WALL, Type.EXPLOSION));
           toAvoid.removeAll(types);
-          int[][] checkedPositions = new int[matrix.length][matrix[0].length];
+          int[][] checkedPositions = new int[typesMatrix.length][typesMatrix[0].length];
           Deque<Pair<Integer, Integer>> unsafePositions = new LinkedList<>();
           Pair<Float, Float> startingPosition = this.getEntity().getPosition();
           checkedPositions[Math.round(startingPosition.getX())][Math.round(startingPosition.getY())] = 1;
@@ -124,11 +151,12 @@ public final class AIComponent extends AbstractComponent {
 
           while (unsafePositions.size() > 0) {
                Pair<Integer, Integer> current = unsafePositions.poll();
-               Type cellType = matrix[current.getX()][current.getY()];
-               if (toAvoid.contains(cellType))
+               Type cellType = typesMatrix[current.getX()][current.getY()];
+               if (toAvoid.contains(cellType)) {
                     continue;
+               }
                if (types.contains(cellType) ^ goTowards) {
-                    checkSides(unsafePositions, checkedPositions, matrix, current, toAvoid);
+                    checkSides(unsafePositions, checkedPositions, typesMatrix, current, toAvoid);
                } else {
                     return extractPath(current, checkedPositions);
                }
@@ -137,17 +165,24 @@ public final class AIComponent extends AbstractComponent {
           return new ArrayList<>(List.of(Direction.CENTER));
      }
 
-     private void checkSides(Queue<Pair<Integer, Integer>> checkPositions, int[][] checkedPositions,
-               Type[][] typeMatrix, Pair<Integer, Integer> current, List<Type> toAvoid) {
+     /**
+      * @param checkPositions   the queue to add positions to check
+      * @param checkedPositions the matrix which tracks already checked positions
+      * @param typesMatrix      matrix of game types
+      * @param current          the current position being checked
+      * @param toAvoid          the types where an entity cannot go towards
+      */
+     private void checkSides(final Queue<Pair<Integer, Integer>> checkPositions, final int[][] checkedPositions,
+               final Type[][] typesMatrix, final Pair<Integer, Integer> current, final List<Type> toAvoid) {
           for (Direction d : Direction.values()) {
                if (d != Direction.CENTER) {
                     int lastValue = checkedPositions[current.getX()][current.getY()];
                     Pair<Integer, Integer> nextCell = new Pair<Integer, Integer>(current.getX() + d.getX(),
                               current.getY() + d.getY());
-                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
-                              Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
-                         if (checkedPositions[nextCell.getX()][nextCell.getY()] == 0 &&
-                                   !toAvoid.contains(typeMatrix[nextCell.getX()][nextCell.getY()])) {
+                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH)
+                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
+                         if (checkedPositions[nextCell.getX()][nextCell.getY()] == 0
+                                   && !toAvoid.contains(typesMatrix[nextCell.getX()][nextCell.getY()])) {
                               checkPositions.add(nextCell);
                               checkedPositions[nextCell.getX()][nextCell.getY()] = lastValue + 1;
                          }
@@ -156,15 +191,21 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
-     private List<Direction> extractPath(Pair<Integer, Integer> current, int[][] checkedPositions) {
+     /**
+      * @param finalPosition    the final position reached
+      * @param checkedPositions the matrix of ordered checked positions
+      * @return a list of directions toward the reached type
+      */
+     private List<Direction> extractPath(final Pair<Integer, Integer> finalPosition, final int[][] checkedPositions) {
+          Pair<Integer, Integer> current = finalPosition;
           int currentValue = checkedPositions[current.getX()][current.getY()];
           List<Direction> path = new ArrayList<>();
           while (currentValue != 1) {
                for (Direction d : Direction.valuesNoCenter()) {
                     Pair<Integer, Integer> nextCell = new Pair<Integer, Integer>(current.getX() + d.getX(),
                               current.getY() + d.getY());
-                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH) &&
-                              Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
+                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH)
+                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
                          if (checkedPositions[nextCell.getX()][nextCell.getY()] == currentValue - 1) {
                               path.add(d);
                               currentValue--;
@@ -180,28 +221,46 @@ public final class AIComponent extends AbstractComponent {
           return path;
      }
 
-     private boolean isSafe(Type[][] matrix) {
+     /**
+      * @param typesMatrix matrix of game types
+      * @return whether a cell is safe
+      */
+     private boolean isSafe(final Type[][] typesMatrix) {
           Pair<Float, Float> position = this.getEntity().getPosition();
-          Type type = matrix[(int) Math.round(position.getX())][(int) Math.round(position.getY())];
-          return type == Type.EXPLOSION || type == Type.BOMB ? false : true;
+          Type type = typesMatrix[Math.round(position.getX())][Math.round(position.getY())];
+          return type != Type.EXPLOSION && type != Type.BOMB;
      }
 
-     private boolean typeLeftExist(Type type) {
+     /**
+      * @param type the type searched for
+      * @return whether or not a type exists in the current game
+      */
+     private boolean typeLeftExist(final Type type) {
           return (this.getEntity().getGame().getEntities().stream().filter(e -> e.getType().equals(type))
                     .count() > 0);
      }
 
-     private void move(Direction moveTo) {
+     /**
+      * @param moveTo the direction to move towards
+      */
+     private void move(final Direction moveTo) {
           MovementComponent movementComponent = this.getEntity().getComponent(MovementComponent.class).get();
           movementComponent.moveBy(new Pair<Float, Float>(
                     moveTo.getX() * Constants.Input.POSITIVE_MOVE,
                     moveTo.getY() * Constants.Input.POSITIVE_MOVE));
      }
 
-     private void updatePath(Pair<Float, Float> oldPosition, Pair<Float, Float> newPosition) {
-          if (Math.round(oldPosition.getX()) != Math.round(newPosition.getX()) ||
-                    Math.round(oldPosition.getY()) != Math.round(newPosition.getY()) ||
-                    this.followingPath.get(0) == Direction.CENTER) {
+     /**
+      * @param oldPosition the position the entity had last frame
+      * @param newPosition the position the entity has now
+      *                    this method checks whether or not the next integer has
+      *                    been reached, if so it follows the next
+      *                    direction
+      */
+     private void updatePath(final Pair<Float, Float> oldPosition, final Pair<Float, Float> newPosition) {
+          if (Math.round(oldPosition.getX()) != Math.round(newPosition.getX())
+                    || Math.round(oldPosition.getY()) != Math.round(newPosition.getY())
+                    || this.followingPath.get(0) == Direction.CENTER) {
                this.followingPath.remove(0);
           }
      }
