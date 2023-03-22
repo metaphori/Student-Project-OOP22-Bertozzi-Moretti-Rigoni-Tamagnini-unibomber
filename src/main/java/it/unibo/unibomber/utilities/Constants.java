@@ -108,6 +108,10 @@ public class Constants {
          */
         public static class Game {
             /**
+             * bar height.
+             */
+            public static final int BAR_HEIGHT = 40;
+            /**
              * tiles default dimention.
              */
             private static int tilesDefault = 16;
@@ -115,7 +119,6 @@ public class Constants {
              * scale.
              */
             public static final float SCALE = 3f;
-
             /**
              * arena width in tiles.
              */
@@ -319,7 +322,6 @@ public class Constants {
              * SpriteMap constructor.
              */
             public SpritesMap() {
-                // TYPE
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);

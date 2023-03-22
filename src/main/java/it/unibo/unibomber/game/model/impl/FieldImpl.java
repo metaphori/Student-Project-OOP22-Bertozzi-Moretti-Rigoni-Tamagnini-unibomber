@@ -45,13 +45,13 @@ public class FieldImpl implements Field {
         int row;
         int col;
         final var fieldentities = this.game.getEntities().stream()
-                                            .filter(e -> e.getType() != Type.BOT
-                                                    && e.getType() != Type.PLAYABLE)
-                                            .collect(Collectors.toList());
+                .filter(e -> e.getType() != Type.BOT
+                        && e.getType() != Type.PLAYABLE)
+                .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {
             if (entity.getType() != Type.BOMB
-                || !entity.getComponent(ThrowComponent.class).get().getThrowing()) {
+                    || !entity.getComponent(ThrowComponent.class).get().getThrowing()) {
                 row = Math.round(entity.getPosition().getX());
                 col = Math.round(entity.getPosition().getY());
                 this.field.put(new Pair<Integer, Integer>(row, col),
@@ -80,7 +80,6 @@ public class FieldImpl implements Field {
     }
 
     private void handleBombExplosion(final Type[][] typesMatrix) {
-        // TODO only works with basic bombs
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
                 .forEach(e -> {

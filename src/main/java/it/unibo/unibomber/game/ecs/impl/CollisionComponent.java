@@ -25,7 +25,6 @@ public final class CollisionComponent extends AbstractComponent {
 
      @Override
      public void update() {
-          // update hitbox rectangle coord
           hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.getTilesSize());
           hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.getTilesSize());
           isOutofField();
