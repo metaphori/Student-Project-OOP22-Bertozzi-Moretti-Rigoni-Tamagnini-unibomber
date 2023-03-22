@@ -16,6 +16,7 @@ public class GameImpl implements Game {
     private final List<Entity> entities = new ArrayList<>();
     private final List<Integer> keysPressedQueue = new ArrayList<>();
     private final Field gameField = new FieldImpl(this);
+    private final TimesUpImpl timesUp = new TimesUpImpl(this);
     private int columns;
     private int rows;
     private final World world;
@@ -32,6 +33,7 @@ public class GameImpl implements Game {
         this.world = world;
         this.rows = rows;
         this.columns = columns;
+        this.timesUp.start();
     }
 
     @Override
@@ -82,6 +84,10 @@ public class GameImpl implements Game {
     @Override
     public final EntityFactoryImpl getFactory() {
         return entityFactory;
+    }
+    @Override
+    public final void updateTimesUp(){
+        this.timesUp.update();
     }
 
 }

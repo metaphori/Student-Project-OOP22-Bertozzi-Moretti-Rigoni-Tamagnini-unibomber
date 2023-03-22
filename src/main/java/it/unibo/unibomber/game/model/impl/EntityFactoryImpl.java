@@ -55,7 +55,7 @@ public class EntityFactoryImpl implements EntityFactory {
                 .addComponent(new MovementComponent())
                 .addComponent(new CollisionComponent(false, true, Math.round(position.getX()), Math.round(position.getY()),Extension.Bomber.Collision.getCollide()))
                 .addComponent(new BombPlaceComponent())
-                .addComponent(new PowerUpHandlerComponent(1, 1, new ArrayList<>()))
+                .addComponent(new PowerUpHandlerComponent(2, 100, new ArrayList<>()))
                 .addComponent(new DestroyComponent());
     }
 
@@ -102,6 +102,12 @@ public class EntityFactoryImpl implements EntityFactory {
     public final Entity makeIndestructibleWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL)
                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY()),null));
+    }
+
+    @Override
+    public final Entity makeRaisingWall(final Pair<Float, Float> position) {
+        return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL)
+        .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY()),null));
     }
 
 }

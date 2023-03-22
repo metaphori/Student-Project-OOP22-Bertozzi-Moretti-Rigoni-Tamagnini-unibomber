@@ -62,4 +62,6 @@ public interface Game {
      * @return the entity factory associated to the game
      */
     EntityFactory getFactory();
+
+    void updateTimesUp();
 }
