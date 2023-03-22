@@ -12,7 +12,7 @@ import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants.UI.Game;
 
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
-import static it.unibo.unibomber.utilities.Constants.Explode.DEFAULT_EXPLOSION_ANIMATION_INDEX;
+import static it.unibo.unibomber.utilities.Constants.Explode;
 
 /**
  * Explosion View class.
@@ -62,8 +62,8 @@ public final class ExplosionView implements GameLoop {
                                     Direction.extractDirecionBetweenTwo(center, p1).get(), i),
                             Math.round(p1.getY() * Game.getTilesSize()),
                             Math.round(p1.getX() * Game.getTilesSize()),
-                            (int) (Game.getTilesDefault() * Game.SCALE),
-                            (int) (Game.getTilesDefault() * Game.SCALE),
+                            (int) (Game.getTilesDefault() * Game.getScale()),
+                            (int) (Game.getTilesDefault() * Game.getScale()),
                             null);
                 }
             }
@@ -83,19 +83,19 @@ public final class ExplosionView implements GameLoop {
     private void getDirectionIndex(final Direction dir) {
         switch (dir) {
             case UP:
-                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 6;
+                indexDirection = Explode.UP_EXPLOSION_ANIMATION_INDEX;
                 break;
             case DOWN:
-                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 2;
+                indexDirection = Explode.DOWN_EXPLOSION_ANIMATION_INDEX;
                 break;
             case RIGHT:
-                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 4;
+                indexDirection = Explode.RIGHT_EXPLOSION_ANIMATION_INDEX;
                 break;
             case LEFT:
-                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 0;
+                indexDirection = Explode.LEFT_EXPLOSION_ANIMATION_INDEX;
                 break;
             default:
-                indexDirection = DEFAULT_EXPLOSION_ANIMATION_INDEX * 8;
+                indexDirection = Explode.CENTER_EXPLOSION_ANIMATION_INDEX;
                 break;
         }
     }

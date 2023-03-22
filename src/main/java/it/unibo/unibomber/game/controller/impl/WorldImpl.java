@@ -2,8 +2,6 @@ package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
 
-import org.checkerframework.checker.nullness.Opt;
-
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.model.api.Gamestate;

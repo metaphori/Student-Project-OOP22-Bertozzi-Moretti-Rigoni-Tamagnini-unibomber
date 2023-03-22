@@ -14,10 +14,22 @@ import it.unibo.unibomber.game.ecs.impl.SlidingComponent;
 import it.unibo.unibomber.game.ecs.impl.ThrowComponent;
 import it.unibo.unibomber.utilities.Pair;
 
+/**
+ * Extension class for BiConsumer function for collision.
+ */
 public class Extension {
+    /**
+     * Bomber Collision.
+     */
     public class Bomber {
-        public class Collision {
-            static BiConsumer<Entity, Entity> collide = (entity, e) -> {
+        /**
+         * Collison class.
+         */
+        public static class Collision {
+            /**
+             * Collide BiConsumer for Bomber.
+             */
+            private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
                 if (e.getType() == Type.POWERUP) {
                     PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
                             .getPowerUpType();
@@ -56,15 +68,27 @@ public class Extension {
                 }
             };
 
+            /**
+             * @return collision of bomber.
+             */
             public static BiConsumer<Entity, Entity> getCollide() {
                 return collide;
             }
         }
     }
 
+    /**
+     * Bomb Collision.
+     */
     public class Bomb {
-        public class Collision {
-            static BiConsumer<Entity, Entity> collide = (entity, e) -> {
+        /**
+         * Collison class.
+         */
+        public static class Collision {
+            /**
+             * Collide BiConsumer for Bomb.
+             */
+            private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
                 if (e.getType() == Type.POWERUP) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
@@ -108,6 +132,9 @@ public class Extension {
                 }
             };
 
+            /**
+             * @return collision of bomb.
+             */
             public static BiConsumer<Entity, Entity> getCollide() {
                 return collide;
             }
