@@ -43,23 +43,25 @@ public class ExplodeComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        if (this.expiringFrames == EXPIRING_TIME) {
-            this.explodeFrames++;
-            this.explodeBomb();
-            if (this.explodeFrames < EXPLODE_DURATION) {
-                this.explonsionsList.clear();
-                explodeEntities(this.getEntity().getGame().getEntities().stream()
-                .filter(e -> e.getType() == Type.BOMB
-                && e.getComponent(ExplodeComponent.class).get().isExploding())
-                .collect(Collectors.toList()));
-            } else if (!this.getEntity().getComponent(DestroyComponent.class)
-                        .get().isDestroyed()) {
-                this.getEntity().getComponent(DestroyComponent.class).get().destroy();
-                this.explonsionsList.clear();
-                this.placer.getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
+        if (!this.getEntity().getComponent(ThrowComponent.class).get().getThrowing()) {
+            if (this.expiringFrames == EXPIRING_TIME) {
+                this.explodeFrames++;
+                this.explodeBomb();
+                if (this.explodeFrames < EXPLODE_DURATION) {
+                    this.explonsionsList.clear();
+                    explodeEntities(this.getEntity().getGame().getEntities().stream()
+                    .filter(e -> e.getType() == Type.BOMB
+                    && e.getComponent(ExplodeComponent.class).get().isExploding())
+                    .collect(Collectors.toList()));
+                } else if (!this.getEntity().getComponent(DestroyComponent.class)
+                            .get().isDestroyed()) {
+                    this.getEntity().getComponent(DestroyComponent.class).get().destroy();
+                    this.explonsionsList.clear();
+                    this.placer.getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
+                }
+            } else {
+                this.expiringFrames++;
             }
-        } else {
-            this.expiringFrames++;
         }
     }
 
