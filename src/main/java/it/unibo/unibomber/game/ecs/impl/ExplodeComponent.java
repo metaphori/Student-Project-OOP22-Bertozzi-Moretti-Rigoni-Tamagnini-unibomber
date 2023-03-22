@@ -22,9 +22,9 @@ public class ExplodeComponent extends AbstractComponent {
 
     private final List<Pair<Integer, Integer>> explonsionsList;
     private final Set<Pair<Integer, Integer>> positionsNotToExplode;
+    private final Entity placer;
     private int explodeFrames;
     private int expiringFrames;
-    private Entity placer;
     private boolean isExploding;
 
     /**
@@ -51,10 +51,9 @@ public class ExplodeComponent extends AbstractComponent {
                     this.explonsionsList.clear();
                     explodeEntities(this.getEntity().getGame().getEntities().stream()
                     .filter(e -> e.getType() == Type.BOMB
-                    && e.getComponent(ExplodeComponent.class).get().isExploding())
+                            && e.getComponent(ExplodeComponent.class).get().isExploding())
                     .collect(Collectors.toList()));
-                } else if (!this.getEntity().getComponent(DestroyComponent.class)
-                            .get().isDestroyed()) {
+                } else if (!this.getEntity().getComponent(DestroyComponent.class).get().isDestroyed()) {
                     this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                     this.explonsionsList.clear();
                     this.placer.getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
@@ -102,10 +101,10 @@ public class ExplodeComponent extends AbstractComponent {
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
-        for (var entity : entitiesList) {
+        for (final var entity : entitiesList) {
             this.explonsionsList.add(new Pair<>(Math.round(entity.getPosition().getY()), 
                                                 Math.round(entity.getPosition().getX())));
-            for (var dir : Direction.values()) {
+            for (final var dir : Direction.values()) {
                 countPositions = 1;
                 while (countPositions <= bombRange) {
                     checkPos = new Pair<>(entity.getPosition().getX() + (dir.getX() * countPositions),
@@ -187,7 +186,7 @@ public class ExplodeComponent extends AbstractComponent {
      * @return the entity if is contained, an empty otherwise.
      */
     private Optional<Entity> checkContainedInList(final Pair<Float, Float> pos, final List<Entity> entities) {
-        for (var entity : entities) {
+        for (final var entity : entities) {
             if (this.checkRound(entity.getPosition(), pos)) {
                 return Optional.of(entity);
             }
