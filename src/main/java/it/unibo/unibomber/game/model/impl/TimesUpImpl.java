@@ -4,8 +4,6 @@ import java.awt.Graphics;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.TimesUp;
 import it.unibo.unibomber.utilities.Constants;
@@ -19,6 +17,7 @@ import it.unibo.unibomber.utilities.Utilities;
 public final class TimesUpImpl implements TimesUp, GameLoop {
      private Game game;
      private boolean isStarted;
+     private boolean isDone;
      private int normalizedFrames;
      private Pair<Integer, Integer> currentPosition;
      private boolean[][] raisedWalls;
@@ -32,6 +31,7 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
      public TimesUpImpl(final Game game) {
           normalizedFrames = 0;
           isStarted = false;
+          isDone = false;
           currentDirection = Direction.RIGHT;
           currentPosition = new Pair<>(-1, 0);
           this.game = game;
@@ -50,7 +50,7 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
      @Override
      public void update() {
           normalizedFrames = (normalizedFrames + 1) % 3;
-          if (isStarted && normalizedFrames == 0) {
+          if (isStarted && !isDone && normalizedFrames == 0) {
                Pair<Integer, Integer> newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                          currentDirection.getY() + currentPosition.getY());
                if (!Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Game.TILES_WIDTH)
@@ -59,16 +59,14 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
                     currentDirection = currentDirection.getNextClockwise();
                     newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                               currentDirection.getY() + currentPosition.getY());
-
+                    if (this.raisedWalls[newPosition.getX()][newPosition.getY()]) {
+                         this.isDone = true;
+                    }
                }
                raisedWalls[newPosition.getX()][newPosition.getY()] = true;
                if (this.game.getGameField().getField().containsKey(newPosition)) {
                     Entity existingEntity = this.game.getGameField().getField().get(newPosition).getY();
-                    if (existingEntity.getType() == Type.PLAYABLE || existingEntity.getType() == Type.BOT) {
-                         existingEntity.getComponent(DestroyComponent.class).get().destroy();
-                    } else {
-                         this.game.getEntities().remove(existingEntity);
-                    }
+                    this.game.getEntities().remove(existingEntity);
                }
                this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
                currentPosition = newPosition;
