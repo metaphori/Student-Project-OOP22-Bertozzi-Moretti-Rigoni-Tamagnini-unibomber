@@ -22,7 +22,7 @@ public class Constants {
             /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = (60 * (int) (Game.SCALE))*2;
+            public static final int TOP_DISTANCE_PLAY = (60 * (int) (Game.scale)) * 2;
             /**
              * distance from top of quit button.
              */
@@ -38,11 +38,11 @@ public class Constants {
             /**
              * button width scale.
              */
-            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.SCALE - 1f));
+            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.scale - 1f));
             /**
              * button height scale.
              */
-            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.SCALE - 1f));
+            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.scale - 1f));
         }
 
         /**
@@ -56,7 +56,15 @@ public class Constants {
             /**
              * scale.
              */
-            public static float SCALE = 3f;
+            private static float scale = 3f;
+
+            /**
+             * @return scale
+             */
+            public static float getScale() {
+                return scale;
+            }
+
             /**
              * arena width in tiles.
              */
@@ -68,7 +76,7 @@ public class Constants {
             /**
              * tiles dimension scaled.
              */
-            private static int tilesSize = (int) (tilesDefault * SCALE);
+            private static int tilesSize = (int) (tilesDefault * scale);
             /**
              * game width.
              */
@@ -103,9 +111,7 @@ public class Constants {
              */
             public static void changeDimension() {
                 tilesDefault--;
-                SCALE--;
-                if(SCALE < 2 )SCALE = 2f;
-                tilesSize = (int) (tilesDefault * SCALE);
+                tilesSize = (int) (tilesDefault * scale);
                 gWidth = tilesSize * TILES_WIDTH;
                 gHeight = tilesSize * TILES_HEIGHT;
             }
@@ -566,9 +572,25 @@ public class Constants {
          */
         public static final int EXPIRING_TIME = EXPLODE_DURATION * Movement.FRAME_DELAY;
         /**
-         * Default position of explosion animation index.
+         * Center position of explosion animation index.
          */
-        public static final int DEFAULT_EXPLOSION_ANIMATION_INDEX = 1;
+        public static final int CENTER_EXPLOSION_ANIMATION_INDEX = 8;
+        /**
+         * Down position of explosion animation index.
+         */
+        public static final int DOWN_EXPLOSION_ANIMATION_INDEX = 2;
+        /**
+         * Up position of explosion animation index.
+         */
+        public static final int UP_EXPLOSION_ANIMATION_INDEX = 6;
+        /**
+         * Left position of explosion animation index.
+         */
+        public static final int LEFT_EXPLOSION_ANIMATION_INDEX = 0;
+        /**
+         * Right position of explosion animation index.
+         */
+        public static final int RIGHT_EXPLOSION_ANIMATION_INDEX = 4;
     }
 
     /**
@@ -585,7 +607,6 @@ public class Constants {
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
         private static final int DESTROY_FRAMES_PLAYER = 70;
-
 
         /**
          * constructor.

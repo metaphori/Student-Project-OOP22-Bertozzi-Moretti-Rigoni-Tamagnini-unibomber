@@ -22,6 +22,7 @@ public final class CollisionComponent extends AbstractComponent {
      private float x, y;
      private int width, height;
      private BiConsumer<Entity, Entity> biConsumer;
+
      @Override
      public void update() {
           // update hitbox rectangle coord
@@ -59,8 +60,10 @@ public final class CollisionComponent extends AbstractComponent {
       * @param isOver
       * @param x
       * @param y
+      * @param biConsumer
       */
-     public CollisionComponent(final boolean isSolid, final boolean isOver, final int x, final int y, final BiConsumer<Entity, Entity>biConsumer) {
+     public CollisionComponent(final boolean isSolid, final boolean isOver, final int x, final int y,
+               final BiConsumer<Entity, Entity> biConsumer) {
           this.isSolid = isSolid;
           this.isOver = isOver;
           this.x = (int) (x * Game.getTilesSize());

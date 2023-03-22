@@ -19,7 +19,7 @@ import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
- * This class tests the entity wall
+ * This class tests the entity wall.
  */
 public class WallTest {
 
@@ -31,11 +31,11 @@ public class WallTest {
     private final EntityFactory entityFactory = new EntityFactoryImpl(this.game);
 
     private Entity createDestructibleWall() {
-        return this.entityFactory.makeDestructibleWall(new Pair<Float,Float>(WALL_COORD_X, WALL_COORD_Y));
+        return this.entityFactory.makeDestructibleWall(new Pair<Float, Float>(WALL_COORD_X, WALL_COORD_Y));
     }
 
     private Entity createIndestructibleWall() {
-        return this.entityFactory.makeIndestructibleWall(new Pair<Float,Float>(WALL_COORD_X, WALL_COORD_Y));
+        return this.entityFactory.makeIndestructibleWall(new Pair<Float, Float>(WALL_COORD_X, WALL_COORD_Y));
     }
 
     @Test

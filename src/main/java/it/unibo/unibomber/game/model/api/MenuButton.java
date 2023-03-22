@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.model.api;
 
 import java.awt.Rectangle;
+
 /**
  * Menu Button interface.
  */
@@ -29,7 +30,7 @@ public interface MenuButton {
      * @return Rectangle of bounds.
      */
     Rectangle getBounds();
-    
+
     /**
      * reset.
      */

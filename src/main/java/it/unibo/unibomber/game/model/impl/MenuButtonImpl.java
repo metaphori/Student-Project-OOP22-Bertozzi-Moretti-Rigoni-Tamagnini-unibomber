@@ -13,7 +13,6 @@ import it.unibo.unibomber.utilities.UploadRes;
  * Menu Button settings implementation class.
  */
 public class MenuButtonImpl implements MenuButton, GameLoop {
- private int index;
  private final int x, y, rowIndex;
  private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
  private final Gamestate gameState;
@@ -48,7 +47,7 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
 
  @Override
  public final void draw(final Graphics g) {
-  g.drawImage(bufferImages[index], x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH,
+  g.drawImage(bufferImages[rowIndex], x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH,
     Constants.UI.Buttons.B_HEIGHT, null);
  }
 
@@ -81,7 +80,10 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
   return bounds;
  }
 
- public final void applyGamestate() {
+ /**
+ * apply gamestate based on button press.
+ */
+public final void applyGamestate() {
   Gamestate.setGameState(gameState);
  }
 

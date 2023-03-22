@@ -3,6 +3,7 @@ package it.unibo.unibomber.game.controller.api;
 import java.awt.event.MouseEvent;
 
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
+import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 /**
  * State class.
  */
@@ -13,4 +14,10 @@ public interface State {
      * @return true if mouse is in the button.
      */
     boolean isMouseIn(MouseEvent e, MenuButtonImpl mb);
+    /**
+     * @param e
+     * @param mb
+     * @return true if mouse is in the button.
+     */
+    boolean isMouseIn(MouseEvent e, OptionButtonImpl mb);
 }

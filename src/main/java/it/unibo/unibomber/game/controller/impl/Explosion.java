@@ -22,7 +22,6 @@ public final class Explosion implements GameLoop {
 
     /**
      * Constructor.
-     * @param game
      */
     public Explosion() {
         this.power = new ArrayList<>();
@@ -63,8 +62,9 @@ public final class Explosion implements GameLoop {
 
     /**
      * @return power of the bomb
+     * @param id
      */
-    public int getBombPower(int id) {
+    public int getBombPower(final int id) {
         return power.get(id);
     }
 
@@ -73,11 +73,18 @@ public final class Explosion implements GameLoop {
         view.draw(g);
     }
 
-    public Entity gEntity(int id) {
+    /**
+     * @param id
+     * @return entity of that id.
+     */
+    public Entity gEntity(final int id) {
         return explode.get(id).get();
     }
 
-    public void removeEntity(int id){
+    /**
+     * @param id
+     */
+    public void removeEntity(final int id) {
         explode.remove(id);
     }
 }
