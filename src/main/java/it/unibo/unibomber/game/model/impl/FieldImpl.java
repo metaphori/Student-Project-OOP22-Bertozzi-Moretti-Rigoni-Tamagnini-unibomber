@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
@@ -45,20 +44,13 @@ public class FieldImpl implements Field {
         int row;
         int col;
         final var fieldentities = this.game.getEntities().stream()
-                .filter(e -> e.getType() != Type.BOT
-                        && e.getType() != Type.PLAYABLE)
-                .collect(Collectors.toList());
+                                            .filter(e -> e.getType() != Type.BOT
+                                                    && e.getType() != Type.PLAYABLE)
+                                            .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {
-            if (entity.getType() == Type.BOMB
-                    && (entity.getComponent(MovementComponent.class).get().getDirection() == Direction.LEFT
-                            || entity.getComponent(MovementComponent.class).get().getDirection() == Direction.UP)) {
-                row = (int) Math.floor(entity.getPosition().getX());
-                col = (int) Math.floor(entity.getPosition().getY());
-            } else {
-                row = (int) Math.ceil(entity.getPosition().getX());
-                col = (int) Math.ceil(entity.getPosition().getY());
-            }
+            row = Math.round(entity.getPosition().getX());
+            col = Math.round(entity.getPosition().getY());
             this.field.put(new Pair<Integer, Integer>(row, col),
                     new Pair<Type, Entity>(entity.getType(), entity));
         }
