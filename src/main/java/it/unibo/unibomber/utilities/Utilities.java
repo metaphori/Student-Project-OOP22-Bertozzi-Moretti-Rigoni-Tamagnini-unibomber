@@ -28,4 +28,14 @@ public final class Utilities {
     public static Pair<Float, Float> getFloatPair(final Pair<Integer, Integer> integerPair) {
         return new Pair<Float, Float>((float) integerPair.getX(), (float) integerPair.getY());
     }
+
+    /**
+     * This method convert a float pair to a rounded integer pair.
+     * 
+     * @param floatPair
+     * @return rounded pair
+     */
+    public static Pair<Integer,Integer> getRoundedPair(final Pair<Float,Float> floatPair) {
+        return new Pair<Integer,Integer>(Math.round(floatPair.getX()), Math.round(floatPair.getY()));
+    }
 }
