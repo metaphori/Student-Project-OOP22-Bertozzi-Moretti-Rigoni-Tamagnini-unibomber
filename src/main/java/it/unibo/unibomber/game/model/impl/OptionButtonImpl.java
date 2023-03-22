@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.api.MenuButton;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;
@@ -14,7 +15,7 @@ import it.unibo.unibomber.utilities.UploadRes;
  */
 public class OptionButtonImpl implements MenuButton, GameLoop {
   private final int x, y, width, height, rowIndex;
-  private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
+  private final int xButtonPosition = Constants.UI.Buttons.getBWidht() / 2;
   private final String type;
   private BufferedImage[] bufferImages;
   private boolean mouseOver, mousePressed;
@@ -36,7 +37,7 @@ public class OptionButtonImpl implements MenuButton, GameLoop {
     this.rowIndex = rowIndex;
     this.type = type;
     loadbufferImages();
-    bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH, Constants.UI.Buttons.B_HEIGHT);
+    bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(), Constants.UI.Buttons.getBHeight());
   }
 
   private void loadbufferImages() {
@@ -83,10 +84,12 @@ public class OptionButtonImpl implements MenuButton, GameLoop {
   }
 
   /**
-   * @return type of istruction.
+   * setup game based on settings.
    */
-  public String getType() {
-    return type;
+  public void setupGame() {
+    if (type == "ok") {
+      Gamestate.setGameState(Gamestate.PLAY);
+    }
   }
 
   @Override

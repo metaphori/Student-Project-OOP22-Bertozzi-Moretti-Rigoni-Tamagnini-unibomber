@@ -62,8 +62,8 @@ public final class ExplosionView implements GameLoop {
                                     Direction.extractDirecionBetweenTwo(center, p1).get(), i),
                             Math.round(p1.getY() * Game.getTilesSize()),
                             Math.round(p1.getX() * Game.getTilesSize()),
-                            (int) (Game.getTilesDefault() * Game.getScale()),
-                            (int) (Game.getTilesDefault() * Game.getScale()),
+                            (int) (Game.getTilesDefault() * Game.SCALE),
+                            (int) (Game.getTilesDefault() * Game.SCALE),
                             null);
                 }
             }

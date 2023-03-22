@@ -1,13 +1,13 @@
 package it.unibo.unibomber.game.view;
 
-//import java.awt.Color;
+import java.awt.Color;
 import java.awt.Graphics;
-//import java.awt.Graphics2D;
+import java.awt.Graphics2D;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Option;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
-//import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Constants;
 
 /**
  * Option view class.
@@ -35,7 +35,7 @@ public final class OptionView implements GameLoop {
 
         @Override
         public void draw(final Graphics g) {
-                /*Graphics2D g2 = (Graphics2D) g;
+                Graphics2D g2 = (Graphics2D) g;
                 // background
                 g2.setColor(new Color(255, 255, 156));
                 g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
@@ -45,6 +45,6 @@ public final class OptionView implements GameLoop {
                                 20);
                 for (final OptionButtonImpl mb : controller.getButtons()) {
                         mb.draw(g);
-                }*/
+                }
         }
 }

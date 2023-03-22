@@ -113,7 +113,7 @@ public class EntityFactoryImpl implements EntityFactory {
     @Override
     public final Entity makeRaisingWall(final Pair<Float, Float> position) {
         return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL)
-        .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY()),null));
+        .addComponent(new CollisionComponent(true, false, Math.round(position.getX()), Math.round(position.getY()), null));
     }
 
 }

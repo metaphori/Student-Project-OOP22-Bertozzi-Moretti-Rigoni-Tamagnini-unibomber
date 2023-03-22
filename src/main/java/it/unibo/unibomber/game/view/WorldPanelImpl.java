@@ -13,6 +13,7 @@ import it.unibo.unibomber.game.controller.impl.WorldImpl;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
 import static it.unibo.unibomber.utilities.Constants.UI.Game;
+import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
 
 /**
  * WordPanel implement class.
@@ -20,8 +21,8 @@ import static it.unibo.unibomber.utilities.Constants.UI.Game;
 public final class WorldPanelImpl extends JPanel {
   private final WorldImpl world;
   private final BufferedImage tile;
-  //TODO Add in constants
-  private static final int BAR_HEIFHT = 40;
+  // TODO Add in constants
+  private static final int BAR_HEIGHT = 40;
 
   /**
    * WordPanelImpl constructor.
@@ -40,10 +41,13 @@ public final class WorldPanelImpl extends JPanel {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = screenSize.getWidth();
     double height = screenSize.getHeight();
-    while (width < Game.getgWidth() || (height - BAR_HEIFHT) < Game.getgHeight()) {
+    while (width < Game.getgWidth() || (height - BAR_HEIGHT) < Game.getgHeight()) {
       Game.changeDimension();
     }
     Game.changeDimension();
+    while ((Buttons.getTopDistanceQuit() + Buttons.getBHeight()) > (Game.getgHeight())) {
+      Buttons.setScaleButton(1);
+    }
     setPreferredSize(new Dimension(Game.getgWidth(), Game.getgHeight()));
   }
 

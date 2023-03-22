@@ -61,5 +61,5 @@ public interface EntityFactory {
      * @param position the initial position
      * @return an instance of a wall which is raising not much unlike our lord and savior
      */
-    Entity makeRaisingWall(final Pair<Float, Float> position) ;
+    Entity makeRaisingWall(Pair<Float, Float> position);
 }

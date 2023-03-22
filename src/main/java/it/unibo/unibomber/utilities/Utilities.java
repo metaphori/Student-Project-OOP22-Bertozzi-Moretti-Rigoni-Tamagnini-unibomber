@@ -35,7 +35,7 @@ public final class Utilities {
      * @param floatPair
      * @return rounded pair
      */
-    public static Pair<Integer,Integer> getRoundedPair(final Pair<Float,Float> floatPair) {
-        return new Pair<Integer,Integer>(Math.round(floatPair.getX()), Math.round(floatPair.getY()));
+    public static Pair<Integer, Integer> getRoundedPair(final Pair<Float, Float> floatPair) {
+        return new Pair<Integer, Integer>(Math.round(floatPair.getX()), Math.round(floatPair.getY()));
     }
 }

@@ -11,7 +11,6 @@ public class WorldWindow {
 
   /**
    * Set default window settings.
-   * 
    * @param unibomberPanel
    */
   public WorldWindow(final WorldPanelImpl unibomberPanel) {

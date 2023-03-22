@@ -20,13 +20,57 @@ public class Constants {
          */
         public static class Buttons {
             /**
+             * Scale Button size.
+             */
+            private static float scaleButton = 3f;
+
+            /**
+             * @return scale of button.
+             */
+            public static float getScaleButton() {
+                return scaleButton;
+            }
+
+            /**
+             * set scale button.
+             * 
+             * @param dec index of decrement.
+             */
+            public static void setScaleButton(final float dec) {
+                scaleButton -= dec;
+                bWidht = (int) (WIDTH_DEFAULT * (getScaleButton() - 1f));
+                bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
+                topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
+                topDistanceQuit = topDistancePlay + 100;
+            }
+            /**
+             * default distance from top for button start.
+             */
+            private static final int DEFAULT_TOP_DISTANCE = 60;
+            /**
              * distance from top of play button.
              */
-            public static final int TOP_DISTANCE_PLAY = (60 * (int) (Game.scale)) * 2;
+            private static int topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
+
+            /**
+             * @return top distance play button.
+             */
+            public static int getTopDistancePlay() {
+                return topDistancePlay;
+            }
+
             /**
              * distance from top of quit button.
              */
-            public static final int TOP_DISTANCE_QUIT = TOP_DISTANCE_PLAY + 100;
+            private static int topDistanceQuit = topDistancePlay + 100;
+
+            /**
+             * @return top distace quit button.
+             */
+            public static int getTopDistanceQuit() {
+                return topDistanceQuit;
+            }
+
             /**
              * single button witdh.
              */
@@ -38,11 +82,25 @@ public class Constants {
             /**
              * button width scale.
              */
-            public static final int B_WIDTH = (int) (WIDTH_DEFAULT * (Game.scale - 1f));
+            private static int bWidht = (int) (WIDTH_DEFAULT * (getScaleButton() - 1f));
             /**
              * button height scale.
              */
-            public static final int B_HEIGHT = (int) (HEIGHT_DEFAULT * (Game.scale - 1f));
+            private static int bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
+
+            /**
+             * @return button width.
+             */
+            public static int getBWidht() {
+                return bWidht;
+            }
+
+            /**
+             * @return button height.
+             */
+            public static int getBHeight() {
+                return bHeight;
+            }
         }
 
         /**
@@ -56,14 +114,7 @@ public class Constants {
             /**
              * scale.
              */
-            private static float scale = 3f;
-
-            /**
-             * @return scale
-             */
-            public static float getScale() {
-                return scale;
-            }
+            public static final float SCALE = 3f;
 
             /**
              * arena width in tiles.
@@ -76,7 +127,7 @@ public class Constants {
             /**
              * tiles dimension scaled.
              */
-            private static int tilesSize = (int) (tilesDefault * scale);
+            private static int tilesSize = (int) (tilesDefault * SCALE);
             /**
              * game width.
              */
@@ -111,7 +162,7 @@ public class Constants {
              */
             public static void changeDimension() {
                 tilesDefault--;
-                tilesSize = (int) (tilesDefault * scale);
+                tilesSize = (int) (tilesDefault * SCALE);
                 gWidth = tilesSize * TILES_WIDTH;
                 gHeight = tilesSize * TILES_HEIGHT;
             }

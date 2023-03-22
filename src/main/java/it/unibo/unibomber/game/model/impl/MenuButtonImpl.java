@@ -14,7 +14,7 @@ import it.unibo.unibomber.utilities.UploadRes;
  */
 public class MenuButtonImpl implements MenuButton, GameLoop {
  private final int x, y, rowIndex;
- private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
+ private final int xButtonPosition = Constants.UI.Buttons.getBWidht() / 2;
  private final Gamestate gameState;
  private BufferedImage[] bufferImages;
  private boolean mouseOver, mousePressed;
@@ -32,7 +32,7 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
   this.rowIndex = rowIndex;
   this.gameState = gameState;
   loadbufferImages();
-  bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH, Constants.UI.Buttons.B_HEIGHT);
+  bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(), Constants.UI.Buttons.getBHeight());
  }
 
  private void loadbufferImages() {
@@ -47,8 +47,8 @@ public class MenuButtonImpl implements MenuButton, GameLoop {
 
  @Override
  public final void draw(final Graphics g) {
-  g.drawImage(bufferImages[rowIndex], x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH,
-    Constants.UI.Buttons.B_HEIGHT, null);
+  g.drawImage(bufferImages[rowIndex], x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(),
+    Constants.UI.Buttons.getBHeight(), null);
  }
 
  @Override

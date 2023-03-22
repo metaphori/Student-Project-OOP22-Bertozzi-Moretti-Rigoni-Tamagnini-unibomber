@@ -117,8 +117,8 @@ public final class PlayView implements GameLoop {
                         .getX() * Game.getTilesSize()),
                 Math.round(entity.getPosition()
                         .getY() * Game.getTilesSize()),
-                (int) (Game.getTilesDefault() * (Game.getScale() + scale.get(entity.getType()))),
-                (int) (Game.getTilesDefault() * (Game.getScale() + scale.get(entity.getType()))),
+                (int) (Game.getTilesDefault() * (Game.SCALE + scale.get(entity.getType()))),
+                (int) (Game.getTilesDefault() * (Game.SCALE + scale.get(entity.getType()))),
                 null);
     }
 

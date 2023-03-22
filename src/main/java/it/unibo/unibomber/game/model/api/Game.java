@@ -63,5 +63,8 @@ public interface Game {
      */
     EntityFactory getFactory();
 
+    /**
+     *  Update Times Up.
+     */
     void updateTimesUp();
 }
