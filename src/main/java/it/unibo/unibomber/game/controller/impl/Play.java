@@ -121,6 +121,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     @Override
     public final void update() {
+        this.game.updateTimesUp();
         for (int i = 0; i < game.getEntities().size(); i++) {
             for (final Component c : game.getEntities().get(i).getComponents()) {
                 c.update();

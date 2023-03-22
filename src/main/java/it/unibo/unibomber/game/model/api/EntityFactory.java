@@ -56,4 +56,10 @@ public interface EntityFactory {
      * @return an instance of a wall which cannot be destroyed
      */
     Entity makeIndestructibleWall(Pair<Float, Float> position);
+
+    /**
+     * @param position the initial position
+     * @return an instance of a wall which is raising not much unlike our lord and savior
+     */
+    Entity makeRaisingWall(final Pair<Float, Float> position) ;
 }
