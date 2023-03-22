@@ -15,6 +15,7 @@ import it.unibo.unibomber.utilities.Utilities;
 public class TimesUpImpl implements TimesUp {
      private Game game;
      private boolean isStarted;
+     private boolean isDone;
      private int normalizedFrames;
      private Pair<Integer, Integer> currentPosition;
      private boolean[][] raisedWalls;
@@ -23,6 +24,7 @@ public class TimesUpImpl implements TimesUp {
      public TimesUpImpl(Game game) {
           normalizedFrames=0;
           isStarted = false;
+          isDone=false;
           currentDirection = Direction.RIGHT;
           currentPosition = new Pair<>(-1, 0);
           this.game = game;
@@ -37,7 +39,7 @@ public class TimesUpImpl implements TimesUp {
 
      public void update() {
           normalizedFrames = (normalizedFrames+1)%3;
-          if (isStarted && normalizedFrames == 0) {
+          if (isStarted && !isDone && normalizedFrames == 0) {
                Pair<Integer, Integer> newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                          currentDirection.getY() + currentPosition.getY());
                if (!Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Game.TILES_WIDTH)
@@ -46,7 +48,9 @@ public class TimesUpImpl implements TimesUp {
                     currentDirection = currentDirection.getNextClockwise();
                     newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                               currentDirection.getY() + currentPosition.getY());
-
+                    if(this.raisedWalls[newPosition.getX()][newPosition.getY()] ==true){
+                         this.isDone=true;
+                    }
                }
                raisedWalls[newPosition.getX()][newPosition.getY()] = true;
                if(this.game.getGameField().getField().containsKey(newPosition)){
