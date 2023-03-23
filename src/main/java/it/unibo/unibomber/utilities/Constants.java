@@ -5,6 +5,8 @@ import java.util.Map;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
@@ -51,6 +53,21 @@ public class Constants {
              * button height scale.
              */
             private static int bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
+            /**
+             * default size of option button.
+             */
+            public static final int DEFAULT_OPTION_BUTTON_SIZE = 20;
+            /**
+             * size of option button.
+             */
+            private static int optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
+            
+            /**
+             * @return settings option size.
+             */
+            public static int getOptionButtonSize() {
+                return optionButtonSize;
+            }
 
             /**
              * @return top distance play button.
@@ -77,6 +94,7 @@ public class Constants {
                 bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
                 topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
                 topDistanceQuit = topDistancePlay + 100;
+                optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
             }
 
             /**
@@ -99,6 +117,24 @@ public class Constants {
             public static int getBHeight() {
                 return bHeight;
             }
+        }
+
+        /**
+         * Option button constans.
+         */
+        public static class OptionButton {
+            /**
+             * Option background color.
+             */
+            public static final Color OPTION_BACKGROUND = new Color(255, 255, 156);
+            /**
+             * Selection map dimension.
+             */
+            public static final int MAP_DIMENSION = 250;
+            /**
+             * Increment of with on height of ok button.
+             */
+            public static final int WIDTH_OK_INCREMENT = 10;
         }
 
         /**
@@ -323,10 +359,10 @@ public class Constants {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass2.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall2.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
@@ -657,6 +693,7 @@ public class Constants {
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
+        private static final int DESTROY_FRAMES_RISING_WALL = 5;
         private static final int DESTROY_FRAMES_PLAYER = 70;
         /**
          * Percentage of powerup drop.
@@ -676,6 +713,7 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
             DESTROY_FRAMES_PER_TYPE.put(Type.PLAYABLE, DESTROY_FRAMES_PLAYER);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
+            DESTROY_FRAMES_PER_TYPE.put(Type.RISING_WALL, DESTROY_FRAMES_RISING_WALL);
 
         }
 
