@@ -21,8 +21,6 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
 public final class WorldPanelImpl extends JPanel {
   private final WorldImpl world;
   private final BufferedImage tile;
-  // TODO Add in constants
-  private static final int BAR_HEIGHT = 40;
 
   /**
    * WordPanelImpl constructor.
@@ -41,7 +39,7 @@ public final class WorldPanelImpl extends JPanel {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = screenSize.getWidth();
     double height = screenSize.getHeight();
-    while (width < Game.getgWidth() || (height - BAR_HEIGHT) < Game.getgHeight()) {
+    while (width < Game.getgWidth() || (height - Constants.UI.Game.BAR_HEIGHT) < Game.getgHeight()) {
       Game.changeDimension();
     }
     Game.changeDimension();

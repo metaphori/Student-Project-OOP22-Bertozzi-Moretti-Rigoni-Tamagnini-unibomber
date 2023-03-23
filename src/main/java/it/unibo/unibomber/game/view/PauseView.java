@@ -14,7 +14,6 @@ public class PauseView implements GameLoop {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
     }
 
     @Override

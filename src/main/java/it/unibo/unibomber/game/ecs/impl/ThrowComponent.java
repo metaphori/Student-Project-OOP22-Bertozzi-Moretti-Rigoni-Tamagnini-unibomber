@@ -28,9 +28,14 @@ public class ThrowComponent extends AbstractComponent {
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
                         playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
             } else {
-                bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
-                this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
-                this.isThrowing = false;
+                if (checkFinalPosition()) {
+                    bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
+                    this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
+                    this.isThrowing = false;
+                } else {
+                    finalPos = new Pair<>(finalPos.getX() + (playerDir.getX() * 1),
+                            finalPos.getY() + (-playerDir.getY() * 1));
+                }
             }
         }
     }
@@ -47,7 +52,7 @@ public class ThrowComponent extends AbstractComponent {
         this.isThrowing = isThrowing;
         this.startingPos = startingPos;
         this.playerDir = playerDir;
-        this.finalPos = calculateFinalPosition();
+        this.finalPos = calculateStandardPosition();
     }
 
     /**
@@ -60,18 +65,26 @@ public class ThrowComponent extends AbstractComponent {
     /**
      * This method calculate where bomb will be throwed.
      * 
-     * @return final position
+     * @return standard position
      */
-    private Pair<Integer, Integer> calculateFinalPosition() {
+    private Pair<Integer, Integer> calculateStandardPosition() {
+        return new Pair<>(startingPos.getX() + (playerDir.getX() * 3), startingPos.getY() + (-playerDir.getY() * 3));
+    }
+
+    /**
+     * This method check if bomb can be stopped.
+     * 
+     * @return final position status
+     */
+    private boolean checkFinalPosition() {
         Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
-        Pair<Integer, Integer> finalPosition = new Pair<>(startingPos.getX() + (playerDir.getX() * 4),
-                startingPos.getY() + (-playerDir.getY() * 4));
-        while (fieldMap.containsKey(finalPosition) && (fieldMap.get(finalPosition).getX() == Type.INDESTRUCTIBLE_WALL
-                || fieldMap.get(finalPosition).getX() == Type.DESTRUCTIBLE_WALL)) {
-            finalPosition = new Pair<>(finalPosition.getX() + (playerDir.getX() * 2),
-                    finalPosition.getY() + (-playerDir.getY() * 2));
-        }
-        return finalPosition;
+        return fieldMap.entrySet().stream()
+                .filter(e -> e.getKey().equals(finalPos))
+                .map(Map.Entry::getValue)
+                .noneMatch(value -> value.getX() == Type.INDESTRUCTIBLE_WALL
+                        || value.getX() == Type.DESTRUCTIBLE_WALL
+                        || value.getX() == Type.BOMB);
+
     }
 
 }

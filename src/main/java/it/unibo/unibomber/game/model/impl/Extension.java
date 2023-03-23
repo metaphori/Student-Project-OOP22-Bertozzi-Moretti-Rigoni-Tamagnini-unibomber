@@ -92,7 +92,7 @@ public class Extension {
              * Collide BiConsumer for Bomb.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP) {
+                if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().getThrowing()) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
                 if ((e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
