@@ -41,7 +41,6 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param w
    * @param h
    * @param type
-   * @param game
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {

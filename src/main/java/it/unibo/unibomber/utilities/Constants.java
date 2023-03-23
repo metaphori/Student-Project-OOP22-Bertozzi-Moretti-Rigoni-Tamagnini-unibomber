@@ -262,7 +262,7 @@ public class Constants {
             }
 
             /**
-             * Set Current dimension based on map
+             * Set Current dimension based on map.
              */
             public static void setDimensionOnMap() {
                 gWidth = tilesSize * tilesWidth;
