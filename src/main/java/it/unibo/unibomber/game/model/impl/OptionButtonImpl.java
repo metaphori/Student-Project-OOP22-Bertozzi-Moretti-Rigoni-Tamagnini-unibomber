@@ -43,8 +43,8 @@ public class OptionButtonImpl implements MenuButton, GameLoop {
   private void loadbufferImages() {
     bufferImages = new BufferedImage[4];
     bufferImages[0] = UploadRes.getSpriteAtlas("menu/left.png");
-    bufferImages[1] = UploadRes.getSpriteAtlas("menu/right.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/map.png");
+    bufferImages[1] = UploadRes.getSpriteAtlas("menu/map.png");
+    bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
     bufferImages[3] = UploadRes.getSpriteAtlas("menu/ok.png");
 
   }

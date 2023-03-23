@@ -42,11 +42,22 @@ public class Constants {
                 bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
                 topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
                 topDistanceQuit = topDistancePlay + 100;
+                defaultOptionButtonSize = 10 * (int) getScaleButton();
             }
             /**
              * default distance from top for button start.
              */
-            private static final int DEFAULT_TOP_DISTANCE = 60;
+            public static final int DEFAULT_TOP_DISTANCE = 60;  
+            /**
+             * default size of option button.
+             */
+            private static int defaultOptionButtonSize = 20 * (int) getScaleButton();
+            /**
+             * @return default size of option button.
+             */
+            public static int getDefaultOptionButtonSize() {
+                return defaultOptionButtonSize;
+            }
             /**
              * distance from top of play button.
              */
@@ -323,10 +334,10 @@ public class Constants {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass2.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall2.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
