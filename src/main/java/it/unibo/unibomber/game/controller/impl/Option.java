@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.OptionView;
 import it.unibo.unibomber.utilities.Constants.UI.Game;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
+import static it.unibo.unibomber.utilities.Constants.UI.OptionButton;
 
 /**
  * Option class.
@@ -29,18 +30,20 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void loadButtons() {
-        buttons[0] = new OptionButtonImpl(Game.getgWidth() / 4 - Buttons.getDefaultOptionButtonSize(),
-                (Buttons.DEFAULT_TOP_DISTANCE + 125), 0,
-                Buttons.getDefaultOptionButtonSize(), Buttons.getDefaultOptionButtonSize(), "left");
-        buttons[1] = new OptionButtonImpl((Game.getgWidth() / 2) - 125, Buttons.DEFAULT_TOP_DISTANCE, 1,
-                250, 250, "map");
+        buttons[0] = new OptionButtonImpl(Game.getgWidth() / 4 - Buttons.getOptionButtonSize(),
+                (Buttons.DEFAULT_TOP_DISTANCE + (OptionButton.MAP_DIMENSION / 2)), 0,
+                Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "left");
+        buttons[1] = new OptionButtonImpl((Game.getgWidth() / 2) - (OptionButton.MAP_DIMENSION / 2),
+                Buttons.DEFAULT_TOP_DISTANCE, 1,
+                OptionButton.MAP_DIMENSION, OptionButton.MAP_DIMENSION, "map");
         buttons[2] = new OptionButtonImpl(Game.getgWidth() - (Game.getgWidth() / 4),
-                (Buttons.DEFAULT_TOP_DISTANCE + 125), 2,
-                Buttons.getDefaultOptionButtonSize(), Buttons.getDefaultOptionButtonSize(), "right");
+                (Buttons.DEFAULT_TOP_DISTANCE + (OptionButton.MAP_DIMENSION / 2)), 2,
+                Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "right");
         buttons[3] = new OptionButtonImpl(
-                Game.getgWidth() - (Buttons.getDefaultOptionButtonSize() + 20),
-                Game.getgHeight() - (Buttons.getDefaultOptionButtonSize() + 10),
-                3, Buttons.getDefaultOptionButtonSize() + 10, Buttons.getDefaultOptionButtonSize(), "ok");
+                Game.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_OK_INCREMENT * 2)),
+                Game.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT),
+                3, (Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT),
+                Buttons.getOptionButtonSize(), "ok");
     }
 
     /**

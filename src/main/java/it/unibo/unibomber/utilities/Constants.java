@@ -5,6 +5,8 @@ import java.util.Map;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
@@ -42,22 +44,29 @@ public class Constants {
                 bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
                 topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
                 topDistanceQuit = topDistancePlay + 100;
-                defaultOptionButtonSize = 10 * (int) getScaleButton();
+                optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
             }
+
             /**
              * default distance from top for button start.
              */
-            public static final int DEFAULT_TOP_DISTANCE = 60;  
+            public static final int DEFAULT_TOP_DISTANCE = 60;
             /**
              * default size of option button.
              */
-            private static int defaultOptionButtonSize = 20 * (int) getScaleButton();
+            public static final int DEFAULT_OPTION_BUTTON_SIZE = 20;
+            /**
+             * size of option button.
+             */
+            private static int optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
+
             /**
              * @return default size of option button.
              */
-            public static int getDefaultOptionButtonSize() {
-                return defaultOptionButtonSize;
+            public static int getOptionButtonSize() {
+                return optionButtonSize;
             }
+
             /**
              * distance from top of play button.
              */
@@ -112,6 +121,24 @@ public class Constants {
             public static int getBHeight() {
                 return bHeight;
             }
+        }
+
+        /**
+         * Option button constans.
+         */
+        public static class OptionButton {
+            /**
+             * Option background color.
+             */
+            public static final Color OPTION_BACKGROUND = new Color(255, 255, 156);
+            /**
+             * Selection map dimension.
+             */
+            public static final int MAP_DIMENSION = 250;
+            /**
+             * Increment of with on height of ok button.
+             */
+            public static final int WIDTH_OK_INCREMENT = 10;
         }
 
         /**
@@ -670,6 +697,7 @@ public class Constants {
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
+        private static final int DESTROY_FRAMES_RISING_WALL = 5;
         private static final int DESTROY_FRAMES_PLAYER = 70;
 
         /**
@@ -681,6 +709,7 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
             DESTROY_FRAMES_PER_TYPE.put(Type.PLAYABLE, DESTROY_FRAMES_PLAYER);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
+            DESTROY_FRAMES_PER_TYPE.put(Type.RISING_WALL, DESTROY_FRAMES_RISING_WALL);
 
         }
 
