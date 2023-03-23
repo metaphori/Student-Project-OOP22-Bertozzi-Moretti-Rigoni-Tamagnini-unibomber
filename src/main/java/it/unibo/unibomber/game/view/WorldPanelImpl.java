@@ -12,7 +12,7 @@ import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.game.controller.impl.WorldImpl;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
-import static it.unibo.unibomber.utilities.Constants.UI.Game;
+import static it.unibo.unibomber.utilities.Constants.UI.Screen;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
 
 /**
@@ -30,8 +30,8 @@ public final class WorldPanelImpl extends JPanel {
    */
   public WorldPanelImpl(final WorldImpl world) {
     this.world = world;
-    this.tile = Constants.UI.SpritesMap.SPRITESPATH.get(Type.EMPTY_AREA);
     setSize();
+    this.tile = Constants.UI.SpritesMap.SPRITESPATH.get(Type.EMPTY_AREA);
     addKeyListener(new KeyboardInputsImpl(this));
     addMouseListener(new MouseInputsImpl(this));
   }
@@ -40,29 +40,30 @@ public final class WorldPanelImpl extends JPanel {
     final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double width = screenSize.getWidth();
     final double height = screenSize.getHeight();
-    while (width < Game.getgWidth() || (height - Constants.UI.Game.BAR_HEIGHT) < Game.getgHeight()) {
-      Game.changeDimension();
+    while (width < Screen.getgWidth() || (height - Constants.UI.Screen.BAR_HEIGHT) < Screen.getgHeight()) {
+      Screen.changeDimension();
     }
-    Game.changeDimension();
-    while ((Buttons.getTopDistanceQuit() + Buttons.getBHeight()) > (Game.getgHeight())) {
+    Screen.changeDimension();
+    while ((Buttons.getTopDistanceQuit() + Buttons.getBHeight()) > (Screen.getgHeight())) {
       Buttons.setScaleButton(1);
     }
-    setPreferredSize(new Dimension(Game.getgWidth(), Game.getgHeight()));
+    setPreferredSize(new Dimension(Screen.getgWidth(), Screen.getgHeight()));
   }
 
   @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
     final Graphics2D g2d = (Graphics2D) g.create();
-    for (int y = 0; y < Game.getgHeight(); y += Game.getTilesSize()) {
-      for (int x = 0; x < Game.getgWidth(); x += Game.getTilesSize()) {
+    for (int y = 0; y < Screen.getgHeight(); y += Screen.getTilesSize()) {
+      for (int x = 0; x < Screen.getgWidth(); x += Screen.getTilesSize()) {
         g2d.drawImage(tile, x, y,
-            (int) (Game.getTilesSize()),
-            (int) (Game.getTilesSize()),
+            (int) (Screen.getTilesSize()),
+            (int) (Screen.getTilesSize()),
             this);
       }
     }
     g2d.dispose();
+    setPreferredSize(new Dimension(Screen.getgWidth(), Screen.getgHeight()));
     world.draw(g);
   }
 

@@ -38,7 +38,7 @@ public final class OptionView implements GameLoop {
                 final Graphics2D g2 = (Graphics2D) g;
                 // background
                 g2.setColor(OPTION_BACKGROUND);
-                g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
+                g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
                 for (final OptionButtonImpl mb : controller.getOptionButtons()) {
                         mb.draw(g);
                 }

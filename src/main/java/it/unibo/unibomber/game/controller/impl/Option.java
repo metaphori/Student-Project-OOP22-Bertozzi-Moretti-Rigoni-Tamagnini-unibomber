@@ -8,9 +8,10 @@ import java.util.Arrays;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.OptionView;
-import it.unibo.unibomber.utilities.Constants.UI.Game;
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import static it.unibo.unibomber.utilities.Constants.UI.OptionButton;
+import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 
 /**
  * Option class.
@@ -19,29 +20,31 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
     private OptionButtonImpl[] optionButtons = new OptionButtonImpl[4];
+    private WorldImpl world;
 
     /**
      * This method manage the view of game option.
      */
-    public Option() {
+    public Option(final WorldImpl world) {
         super();
+        this.world = world;
         view = new OptionView(this);
         loadButtons();
     }
 
     private void loadButtons() {
-        optionButtons[0] = new OptionButtonImpl(Game.getgWidth() / 4 - Buttons.getOptionButtonSize(),
-                Buttons.DEFAULT_TOP_DISTANCE + OptionButton.MAP_DIMENSION / 2, 0,
+        optionButtons[0] = new OptionButtonImpl(this, Screen.getgWidth() / 4 - Buttons.getOptionButtonSize(),
+                Buttons.getDefaultTopDistance() + MapOption.getMapDimension() / 2, 0,
                 Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "left");
-        optionButtons[1] = new OptionButtonImpl(Game.getgWidth() / 2 - OptionButton.MAP_DIMENSION / 2,
-                Buttons.DEFAULT_TOP_DISTANCE, 1,
-                OptionButton.MAP_DIMENSION, OptionButton.MAP_DIMENSION, "map");
-        optionButtons[2] = new OptionButtonImpl(Game.getgWidth() - (Game.getgWidth() / 4),
-                Buttons.DEFAULT_TOP_DISTANCE + OptionButton.MAP_DIMENSION / 2, 2,
+        optionButtons[1] = new OptionButtonImpl(this, Screen.getgWidth() / 2 - MapOption.getMapDimension() / 2,
+                Buttons.getDefaultTopDistance(), 1,
+                MapOption.getMapDimension(), MapOption.getMapDimension(), "map");
+        optionButtons[2] = new OptionButtonImpl(this, Screen.getgWidth() - (Screen.getgWidth() / 4),
+                Buttons.getDefaultTopDistance() + MapOption.getMapDimension() / 2, 2,
                 Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "right");
-        optionButtons[3] = new OptionButtonImpl(
-                Game.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_OK_INCREMENT * 2)),
-                Game.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT),
+        optionButtons[3] = new OptionButtonImpl(this,
+                Screen.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_OK_INCREMENT * 2)),
+                Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT),
                 3, Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT,
                 Buttons.getOptionButtonSize(), "ok");
     }
@@ -104,4 +107,10 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     }
 
+    /**
+     * @return world.
+     */
+    public WorldImpl getWorld() {
+        return world;
+    }
 }

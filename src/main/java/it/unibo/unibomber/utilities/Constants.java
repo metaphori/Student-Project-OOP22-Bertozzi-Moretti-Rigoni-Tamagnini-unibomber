@@ -1,6 +1,8 @@
 package it.unibo.unibomber.utilities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
@@ -22,17 +24,21 @@ public class Constants {
          */
         public static final class Buttons {
             /**
+             * default size of option button.
+             */
+            public static final int DEFAULT_OPTION_BUTTON_SIZE = 20;
+            /**
              * Scale Button size.
              */
             private static float scaleButton = 3f;
             /**
              * default distance from top for button start.
              */
-            public static final int DEFAULT_TOP_DISTANCE = 60;
+            private static int defaultTopDistance = DEFAULT_OPTION_BUTTON_SIZE * (int) scaleButton;
             /**
              * distance from top of play button.
              */
-            private static int topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
+            private static int topDistancePlay = (defaultTopDistance * (int) (getScaleButton())) * 2;
             /**
              * distance from top of quit button.
              */
@@ -54,13 +60,16 @@ public class Constants {
              */
             private static int bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
             /**
-             * default size of option button.
-             */
-            public static final int DEFAULT_OPTION_BUTTON_SIZE = 20;
-            /**
              * size of option button.
              */
             private static int optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
+
+            /**
+             * @return default distance from top for button start
+             */
+            public static int getDefaultTopDistance() {
+                return defaultTopDistance;
+            }
 
             /**
              * @return settings option size.
@@ -92,9 +101,11 @@ public class Constants {
                 scaleButton -= dec;
                 bWidht = (int) (WIDTH_DEFAULT * (getScaleButton() - 1f));
                 bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
-                topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
+                topDistancePlay = (defaultTopDistance * (int) (getScaleButton())) * 2;
                 topDistanceQuit = topDistancePlay + 100;
                 optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
+                defaultTopDistance = DEFAULT_OPTION_BUTTON_SIZE * (int) scaleButton;
+                MapOption.mapDimension = MapOption.DEFAULT_MAP_SELECTION_SIZE * (int) scaleButton;
             }
 
             /**
@@ -129,25 +140,62 @@ public class Constants {
         /**
          * Option button constans.
          */
-        public static class OptionButton {
+        public static final class OptionButton {
             /**
              * Option background color.
              */
             public static final Color OPTION_BACKGROUND = new Color(255, 255, 156);
-            /**
-             * Selection map dimension.
-             */
-            public static final int MAP_DIMENSION = 250;
+
             /**
              * Increment of with on height of ok button.
              */
             public static final int WIDTH_OK_INCREMENT = 10;
+
+        }
+
+        public static final class MapOption {
+
+            /**
+             * default size of map selection.
+             */
+            public static final int DEFAULT_MAP_SELECTION_SIZE = 80;
+            /**
+             * Selection map dimension.
+             */
+            private static int mapDimension = DEFAULT_MAP_SELECTION_SIZE * (int) Buttons.scaleButton;
+
+            /**
+             * @return map dimension.
+             */
+            public static int getMapDimension() {
+                return mapDimension;
+            }
+
+            /**
+             * List of chosing map.
+             */
+            public static final List<BufferedImage> MAP_CHOSE_LIST = new ArrayList<>();
+            /**
+             * List of map file.
+             */
+            public static final List<String> MAP_LIST = new ArrayList<>();
+
+            /**
+             * Constructor.
+             */
+            public MapOption() {
+                MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
+                MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
+
+                MAP_LIST.add("./src/main/res/maps/map0/arena.map");
+                MAP_LIST.add("./src/main/res/maps/map1/arena.map");
+            }
         }
 
         /**
          * Game settings constans.
          */
-        public static final class Game {
+        public static final class Screen {
             /**
              * bar height.
              */
@@ -163,11 +211,13 @@ public class Constants {
             /**
              * arena width in tiles.
              */
-            public static final int TILES_WIDTH = 15;
+            private static int tilesWidth = 15;
+
             /**
              * arena height in tiles.
              */
-            public static final int TILES_HEIGHT = 19;
+            private static int tilesHeight = 19;
+
             /**
              * tiles dimension scaled.
              */
@@ -175,11 +225,11 @@ public class Constants {
             /**
              * game width.
              */
-            private static int gWidth = tilesSize * TILES_WIDTH;
+            private static int gWidth = tilesSize * tilesWidth;
             /**
              * game height.
              */
-            private static int gHeight = tilesSize * TILES_HEIGHT;
+            private static int gHeight = tilesSize * tilesHeight;
             /**
              * player default dimension.
              */
@@ -207,8 +257,16 @@ public class Constants {
             public static void changeDimension() {
                 tilesDefault--;
                 tilesSize = (int) (tilesDefault * SCALE);
-                gWidth = tilesSize * TILES_WIDTH;
-                gHeight = tilesSize * TILES_HEIGHT;
+                gWidth = tilesSize * tilesWidth;
+                gHeight = tilesSize * tilesHeight;
+            }
+
+            /**
+             * Set Current dimension based on map
+             */
+            public static void setDimensionOnMap() {
+                gWidth = tilesSize * tilesWidth;
+                gHeight = tilesSize * tilesHeight;
             }
 
             /**
@@ -222,7 +280,7 @@ public class Constants {
              * @param tilesDefault set default dimention.
              */
             public static void setTilesDefault(final int tilesDefault) {
-                Game.tilesDefault = tilesDefault;
+                Screen.tilesDefault = tilesDefault;
             }
 
             /**
@@ -236,7 +294,7 @@ public class Constants {
              * @param tilesSize set dimension scaled.
              */
             public static void setTilesSize(final int tilesSize) {
-                Game.tilesSize = tilesSize;
+                Screen.tilesSize = tilesSize;
             }
 
             /**
@@ -250,7 +308,7 @@ public class Constants {
              * @param gHeight set Height
              */
             public static void setgHeight(final int gHeight) {
-                Game.gHeight = gHeight;
+                Screen.gHeight = gHeight;
             }
 
             /**
@@ -264,7 +322,7 @@ public class Constants {
              * @param gWidth set Width
              */
             public static void setgWidth(final int gWidth) {
-                Game.gWidth = gWidth;
+                Screen.gWidth = gWidth;
             }
 
             /**
@@ -275,9 +333,37 @@ public class Constants {
             }
 
             /**
+             * @return tilesHeight
+             */
+            public static int getTilesHeight() {
+                return tilesHeight;
+            }
+
+            /**
+             * @param tilesHeight
+             */
+            public static void setTilesHeight(int tilesHeight) {
+                Screen.tilesHeight = tilesHeight;
+            }
+
+            /**
+             * @return tilesWidth
+             */
+            public static int getTilesWidth() {
+                return tilesWidth;
+            }
+
+            /**
+             * @param tilesWidth
+             */
+            public static void setTilesWidth(int tilesWidth) {
+                Screen.tilesWidth = tilesWidth;
+            }
+
+            /**
              * Constructor.
              */
-            private Game() {
+            private Screen() {
 
             }
         }
@@ -347,7 +433,7 @@ public class Constants {
             /**
              * max row of wall sprites animation.
              */
-            public static final int COL_WALL_SPRITES = 7;
+            public static final int COL_WALL_SPRITES = 4;
             /**
              * Map of row of entity animation.
              */
@@ -374,8 +460,9 @@ public class Constants {
                 SPRITESPATH.put(Type.POWERUP, null);
                 SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
+                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map1/destructible_wall.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL,
+                        UploadRes.getSpriteAtlas("wall/map1/indestructible_wall.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
@@ -546,7 +633,7 @@ public class Constants {
         /**
          * WALL number of animations.
          */
-        public static final int WALL_ANIMATION = 6;
+        public static final int WALL_ANIMATION = 3;
         /**
          * EXPLOSION_COUNTER number of animations.
          */
@@ -712,7 +799,7 @@ public class Constants {
         public static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
-        private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
+        private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 15;
         private static final int DESTROY_FRAMES_RISING_WALL = 5;
         private static final int DESTROY_FRAMES_PLAYER = 70;
         /**

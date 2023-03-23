@@ -100,8 +100,8 @@ public class FieldImpl implements Field {
         if (step <= strength) {
             final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
                     where.getY() + d.getY() * step);
-            if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH)
-                    && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Game.TILES_HEIGHT)
+            if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Screen.getTilesWidth())
+                    && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
                     && typesMatrix[newDirection.getX()][newDirection.getY()] == Type.AIR) {
                 /*if (typesMatrix[newDirection.getX()][newDirection.getY()] != Type.DESTRUCTIBLE_WALL
                         && typesMatrix[newDirection.getX()][newDirection.getY()] != Type.INDESTRUCTIBLE_WALL) {

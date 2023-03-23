@@ -122,8 +122,8 @@ public final class AIComponent extends AbstractComponent {
           for (final Direction d : Direction.valuesNoCenter()) {
                final int nextX = Math.round(position.getX() + d.getX());
                final int nextY = Math.round(position.getY() + d.getY());
-               if (Utilities.isBetween(nextX, 0, Constants.UI.Game.TILES_WIDTH)
-                         && Utilities.isBetween(nextY, 0, Constants.UI.Game.TILES_HEIGHT)
+               if (Utilities.isBetween(nextX, 0, Constants.UI.Screen.getTilesWidth())
+                         && Utilities.isBetween(nextY, 0, Constants.UI.Screen.getTilesHeight())
                          && typesMatrix[nextX][nextY] == searchedType) {
                     return true;
                }
@@ -180,8 +180,8 @@ public final class AIComponent extends AbstractComponent {
                     final int lastValue = checkedPositions[current.getX()][current.getY()];
                     final Pair<Integer, Integer> nextCell = new Pair<>(current.getX() + d.getX(),
                               current.getY() + d.getY());
-                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH)
-                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)
+                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Screen.getTilesWidth())
+                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Screen.getTilesHeight())
                               && checkedPositions[nextCell.getX()][nextCell.getY()] == 0
                               && !toAvoid.contains(typesMatrix[nextCell.getX()][nextCell.getY()])) {
                          checkPositions.add(nextCell);
@@ -204,8 +204,8 @@ public final class AIComponent extends AbstractComponent {
                for (final Direction d : Direction.valuesNoCenter()) {
                     final Pair<Integer, Integer> nextCell = new Pair<>(current.getX() + d.getX(),
                               current.getY() + d.getY());
-                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Game.TILES_WIDTH)
-                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Game.TILES_HEIGHT)
+                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Screen.getTilesWidth())
+                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Screen.getTilesHeight())
                               && checkedPositions[nextCell.getX()][nextCell.getY()] == currentValue - 1) {
                          path.add(d);
                          currentValue--;

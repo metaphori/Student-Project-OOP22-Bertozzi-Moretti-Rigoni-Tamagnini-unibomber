@@ -44,7 +44,7 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
       */
      @Override
      public void start() {
-          raisedWalls = new boolean[Constants.UI.Game.TILES_WIDTH][Constants.UI.Game.TILES_HEIGHT];
+          raisedWalls = new boolean[Constants.UI.Screen.getTilesWidth()][Constants.UI.Screen.getTilesHeight()];
           isStarted = true;
      }
 
@@ -54,8 +54,8 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
           if (isStarted && !isDone && normalizedFrames == 0) {
                Pair<Integer, Integer> newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                          currentDirection.getY() + currentPosition.getY());
-               if (!Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Game.TILES_WIDTH)
-                         || !Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Game.TILES_HEIGHT)
+               if (!Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Screen.getTilesWidth())
+                         || !Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())
                          || this.raisedWalls[newPosition.getX()][newPosition.getY()]) {
                     currentDirection = currentDirection.getNextClockwise();
                     newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),

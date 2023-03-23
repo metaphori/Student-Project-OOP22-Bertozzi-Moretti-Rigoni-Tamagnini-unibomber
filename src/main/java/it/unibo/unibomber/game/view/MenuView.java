@@ -35,8 +35,8 @@ public final class MenuView implements GameLoop {
 
     private void loadBackground() {
         backgroundImage = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BACKGROUND);
-        menuWidth = (int) (Constants.UI.Game.getgWidth());
-        menuHeight = (int) (Constants.UI.Game.getgHeight());
+        menuWidth = (int) (Constants.UI.Screen.getgWidth());
+        menuHeight = (int) (Constants.UI.Screen.getgHeight());
     }
 
     @Override

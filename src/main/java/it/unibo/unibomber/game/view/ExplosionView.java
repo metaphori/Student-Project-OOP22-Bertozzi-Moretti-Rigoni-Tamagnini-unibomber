@@ -9,7 +9,7 @@ import it.unibo.unibomber.game.controller.impl.Explosion;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
-import it.unibo.unibomber.utilities.Constants.UI.Game;
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
 
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 import static it.unibo.unibomber.utilities.Constants.Explode;
@@ -39,8 +39,8 @@ public final class ExplosionView implements GameLoop {
         for (Integer j = 0; j < SpritesMap.ROW_EXPLOSION_SPRITES; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
                 animations[j][i] = UploadRes.getSpriteAtlas("bomb/explosion.png").getSubimage(
-                        i * Game.EXPLOSION_DEFAULT, j * Game.EXPLOSION_DEFAULT,
-                        Game.EXPLOSION_DEFAULT, Game.EXPLOSION_DEFAULT);
+                        i * Screen.EXPLOSION_DEFAULT, j * Screen.EXPLOSION_DEFAULT,
+                        Screen.EXPLOSION_DEFAULT, Screen.EXPLOSION_DEFAULT);
             }
         }
     }
@@ -60,10 +60,10 @@ public final class ExplosionView implements GameLoop {
                     g.drawImage(
                             getCorrectImage(Direction.getDistance(p1, center),
                                     Direction.extractDirecionBetweenTwo(center, p1).get(), i),
-                            Math.round(p1.getY() * Game.getTilesSize()),
-                            Math.round(p1.getX() * Game.getTilesSize()),
-                            (int) (Game.getTilesDefault() * Game.SCALE),
-                            (int) (Game.getTilesDefault() * Game.SCALE),
+                            Math.round(p1.getY() * Screen.getTilesSize()),
+                            Math.round(p1.getX() * Screen.getTilesSize()),
+                            (int) (Screen.getTilesDefault() * Screen.SCALE),
+                            (int) (Screen.getTilesDefault() * Screen.SCALE),
                             null);
                 }
             }

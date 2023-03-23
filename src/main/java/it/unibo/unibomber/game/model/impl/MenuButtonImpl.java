@@ -32,14 +32,15 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
     final BufferedImage temp = UploadRes.getSpriteAtlas(Constants.UI.SpritesMap.MENU_BUTTONS);
     for (int i = 0; i < bufferImages.length; i++) {
       bufferImages[i] = temp.getSubimage(i * Constants.UI.Buttons.WIDTH_DEFAULT,
-          rowIndex * Constants.UI.Buttons.HEIGHT_DEFAULT, Constants.UI.Buttons.WIDTH_DEFAULT,
+          this.getRowIndex() * Constants.UI.Buttons.HEIGHT_DEFAULT, Constants.UI.Buttons.WIDTH_DEFAULT,
           Constants.UI.Buttons.HEIGHT_DEFAULT);
     }
   }
 
   @Override
   public final void draw(final Graphics g) {
-    g.drawImage(bufferImages[rowIndex], x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(),
+    g.drawImage(bufferImages[this.getRowIndex()], this.getX() - Constants.UI.Buttons.getBWidht() / 2, this.getY(),
+        Constants.UI.Buttons.getBWidht(),
         Constants.UI.Buttons.getBHeight(), null);
   }
 
