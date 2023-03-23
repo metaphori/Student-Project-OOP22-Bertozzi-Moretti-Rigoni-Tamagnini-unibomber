@@ -16,12 +16,21 @@ import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Utilities;
 
 /**
- * This component manage the AI of Bots.
+ * This component manage the AI of Bots, meaning movement,
+ * placing bombs and interacting with the world.
  */
 public final class AIComponent extends AbstractComponent {
 
      private List<Direction> followingPath = new ArrayList<>();
      private Pair<Float, Float> oldPosition;
+     private boolean isGettingCloser;
+
+     /**
+      * isGettingCloser is used to get the bot to more closely get to the next cell
+      */
+     public AIComponent() {
+          isGettingCloser = false;
+     }
 
      @Override
      public void update() {
@@ -258,10 +267,38 @@ public final class AIComponent extends AbstractComponent {
       *                    direction
       */
      private void updatePath(final Pair<Float, Float> oldPosition, final Pair<Float, Float> newPosition) {
-          if (Math.round(oldPosition.getX()) != Math.round(newPosition.getX())
+          if (isGettingCloser || Math.round(oldPosition.getX()) != Math.round(newPosition.getX())
                     || Math.round(oldPosition.getY()) != Math.round(newPosition.getY())
                     || this.followingPath.get(0) == Direction.CENTER) {
-               this.followingPath.remove(0);
+               if (!canMoveFurther(newPosition)) {
+                    this.followingPath.remove(0);
+                    isGettingCloser = false;
+               }
           }
+     }
+
+     /**
+      * @param newPosition the position of the bot
+      * @return whether or not the bot can move further to better allign with the
+      *         cell
+      *         without jepardizing it's safety
+      */
+     private boolean canMoveFurther(final Pair<Float, Float> newPosition) {
+          isGettingCloser = true;
+          float currentDifferenceX = Math.abs(newPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
+          float currentDifferenceY = Math.abs(newPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
+          Pair<Float, Float> tryPosition = new Pair<>(newPosition.getX() + followingPath.get(0).getX()
+                    * this.getEntity().getSpeed() * Constants.Movement.MULTIPLIER_GLOBAL_SPEED,
+                    newPosition.getY() + followingPath.get(0).getY() * this.getEntity().getSpeed()
+                              * Constants.Movement.MULTIPLIER_GLOBAL_SPEED);
+          float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
+          float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
+
+          boolean isCloser = Math.abs(currentDifferenceX) > Math.abs(nextDifferenceX)
+                    || Math.abs(currentDifferenceY) > Math.abs(nextDifferenceY);
+          boolean isOver = Math.round(tryPosition.getX()) != Math.round(newPosition.getX())
+                    || Math.round(tryPosition.getY()) != Math.round(newPosition.getY());
+
+          return (isCloser && !isOver);
      }
 }
