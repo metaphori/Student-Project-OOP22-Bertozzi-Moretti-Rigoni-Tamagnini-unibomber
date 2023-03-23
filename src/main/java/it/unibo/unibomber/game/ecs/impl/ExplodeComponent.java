@@ -43,7 +43,7 @@ public class ExplodeComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        if (!this.getEntity().getComponent(ThrowComponent.class).get().getThrowing()) {
+        if (!this.getEntity().getComponent(ThrowComponent.class).get().isThrowing()) {
             if (this.expiringFrames == EXPIRING_TIME) {
                 this.explodeFrames++;
                 this.explodeBomb();

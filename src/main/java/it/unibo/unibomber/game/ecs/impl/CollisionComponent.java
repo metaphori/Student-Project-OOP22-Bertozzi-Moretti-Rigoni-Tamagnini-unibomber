@@ -21,14 +21,14 @@ public final class CollisionComponent extends AbstractComponent {
      private Rectangle2D.Float hitbox;
      private float x, y;
      private int width, height;
-     private BiConsumer<Entity, Entity> biConsumer;
+     private final BiConsumer<Entity, Entity> biConsumer;
 
      @Override
      public void update() {
           hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.getTilesSize());
           hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.getTilesSize());
           isOutofField();
-          Entity player = this.getEntity();
+          final Entity player = this.getEntity();
           if (player.getType() == Type.PLAYABLE) {
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
@@ -103,7 +103,7 @@ public final class CollisionComponent extends AbstractComponent {
       * This method check if entity collide with other one.
       */
      public void checkCollisions() {
-          Entity entity = this.getEntity();
+          final Entity entity = this.getEntity();
           if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOMB || entity.getType() == Type.BOT) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))

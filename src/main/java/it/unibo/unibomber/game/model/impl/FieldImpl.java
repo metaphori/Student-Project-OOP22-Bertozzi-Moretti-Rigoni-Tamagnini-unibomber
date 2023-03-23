@@ -51,7 +51,7 @@ public class FieldImpl implements Field {
         this.field.clear();
         for (final var entity : fieldentities) {
             if (entity.getType() != Type.BOMB
-                    || !entity.getComponent(ThrowComponent.class).get().getThrowing()) {
+                    || !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
                 row = Math.round(entity.getPosition().getX());
                 col = Math.round(entity.getPosition().getY());
                 this.field.put(new Pair<Integer, Integer>(row, col),

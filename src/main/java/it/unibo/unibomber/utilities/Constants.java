@@ -23,6 +23,41 @@ public class Constants {
              * Scale Button size.
              */
             private static float scaleButton = 3f;
+            /**
+             * default distance from top for button start.
+             */
+            private static final int DEFAULT_TOP_DISTANCE = 60;
+            /**
+             * distance from top of play button.
+             */
+            private static int topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
+            /**
+             * distance from top of quit button.
+             */
+            private static int topDistanceQuit = topDistancePlay + 100;
+            /**
+             * single button witdh.
+             */
+            public static final int WIDTH_DEFAULT = 140;
+            /**
+             * single button height.
+             */
+            public static final int HEIGHT_DEFAULT = 40;
+            /**
+             * button width scale.
+             */
+            private static int bWidht = (int) (WIDTH_DEFAULT * (getScaleButton() - 1f));
+            /**
+             * button height scale.
+             */
+            private static int bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
+
+            /**
+             * @return top distance play button.
+             */
+            public static int getTopDistancePlay() {
+                return topDistancePlay;
+            }
 
             /**
              * @return scale of button.
@@ -43,26 +78,6 @@ public class Constants {
                 topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
                 topDistanceQuit = topDistancePlay + 100;
             }
-            /**
-             * default distance from top for button start.
-             */
-            private static final int DEFAULT_TOP_DISTANCE = 60;
-            /**
-             * distance from top of play button.
-             */
-            private static int topDistancePlay = (DEFAULT_TOP_DISTANCE * (int) (getScaleButton())) * 2;
-
-            /**
-             * @return top distance play button.
-             */
-            public static int getTopDistancePlay() {
-                return topDistancePlay;
-            }
-
-            /**
-             * distance from top of quit button.
-             */
-            private static int topDistanceQuit = topDistancePlay + 100;
 
             /**
              * @return top distace quit button.
@@ -70,23 +85,6 @@ public class Constants {
             public static int getTopDistanceQuit() {
                 return topDistanceQuit;
             }
-
-            /**
-             * single button witdh.
-             */
-            public static final int WIDTH_DEFAULT = 140;
-            /**
-             * single button height.
-             */
-            public static final int HEIGHT_DEFAULT = 40;
-            /**
-             * button width scale.
-             */
-            private static int bWidht = (int) (WIDTH_DEFAULT * (getScaleButton() - 1f));
-            /**
-             * button height scale.
-             */
-            private static int bHeight = (int) (HEIGHT_DEFAULT * (getScaleButton() - 1f));
 
             /**
              * @return button width.
@@ -660,6 +658,14 @@ public class Constants {
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
         private static final int DESTROY_FRAMES_PLAYER = 70;
+        /**
+         * Percentage of powerup drop.
+         */
+        public static final float DROPPED_POWERUP_PERCENT = 0.25f;
+        /**
+         * standard duration of the destrution in frames.
+         */
+        public static final int STANDARD_FRAME_DURATION = 0;
 
         /**
          * constructor.
@@ -672,16 +678,6 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
 
         }
-
-        /**
-         * Percentage of powerup drop.
-         */
-        public static final float DROPPED_POWERUP_PERCENT = 0.25f;
-
-        /**
-         * standard duration of the destrution in frames.
-         */
-        public static final int STANDARD_FRAME_DURATION = 0;
 
         /**
          * @param type the type of the entity asked

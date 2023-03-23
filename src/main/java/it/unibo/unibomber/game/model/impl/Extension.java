@@ -92,7 +92,7 @@ public class Extension {
              * Collide BiConsumer for Bomb.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().getThrowing()) {
+                if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
                 if ((e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
@@ -104,7 +104,7 @@ public class Extension {
                 }
                 CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()) {
-                    if (!entity.getComponent(ThrowComponent.class).get().getThrowing()) {
+                    if (!entity.getComponent(ThrowComponent.class).get().isThrowing()) {
                         entity.getComponent(SlidingComponent.class).get().setSliding(false, null);
                         float thisX = Math.round(entity.getPosition().getX());
                         float thisY = Math.round(entity.getPosition().getY());

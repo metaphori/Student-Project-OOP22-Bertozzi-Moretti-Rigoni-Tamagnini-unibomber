@@ -14,7 +14,7 @@ public class SlidingComponent extends AbstractComponent {
     @Override
     public final void update() {
         if (isSliding) {
-            MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
+            final MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
             bombMove.moveBy(new Pair<Float, Float>(direction.getX() * Constants.Input.POSITIVE_MOVE,
                     direction.getY() * Constants.Input.NEGATIVE_MOVE));
         }
@@ -38,7 +38,7 @@ public class SlidingComponent extends AbstractComponent {
     /**
      * @return if entity is sliding
      */
-    public boolean getSliding() {
+    public boolean isSliding() {
         return this.isSliding;
     }
 

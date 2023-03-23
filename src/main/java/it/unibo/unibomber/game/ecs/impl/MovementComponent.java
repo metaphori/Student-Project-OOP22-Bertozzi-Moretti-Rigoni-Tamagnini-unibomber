@@ -24,7 +24,7 @@ public class MovementComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        Optional<DestroyComponent> destroy = this.getEntity().getComponent(DestroyComponent.class);
+        final Optional<DestroyComponent> destroy = this.getEntity().getComponent(DestroyComponent.class);
         if (!destroy.isPresent() || !destroy.get().isDestroyed()) {
             this.getEntity().addPosition(moveBy);
             handleDirection();

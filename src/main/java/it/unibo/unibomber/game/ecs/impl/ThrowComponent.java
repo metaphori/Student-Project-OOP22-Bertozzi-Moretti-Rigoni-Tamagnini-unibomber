@@ -20,8 +20,8 @@ public class ThrowComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
-        Pair<Float, Float> bombPosition = this.getEntity().getPosition();
+        final MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
+        final Pair<Float, Float> bombPosition = this.getEntity().getPosition();
         if (isThrowing) {
             if (Math.round(bombPosition.getX()) != (float) (finalPos.getX())
                     || Math.round(bombPosition.getY()) != (float) (finalPos.getY())) {
@@ -58,7 +58,7 @@ public class ThrowComponent extends AbstractComponent {
     /**
      * @return bomb throwing status
      */
-    public final boolean getThrowing() {
+    public final boolean isThrowing() {
         return this.isThrowing;
     }
 
@@ -77,7 +77,7 @@ public class ThrowComponent extends AbstractComponent {
      * @return final position status
      */
     private boolean checkFinalPosition() {
-        Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
+        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
         return fieldMap.entrySet().stream()
                 .filter(e -> e.getKey().equals(finalPos))
                 .map(Map.Entry::getValue)
