@@ -17,8 +17,8 @@ public class GameImpl implements Game {
     private final List<Integer> keysPressedQueue = new ArrayList<>();
     private final Field gameField = new FieldImpl(this);
     //private final TimesUpImpl timesUp = new TimesUpImpl(this);
-    private int columns;
-    private int rows;
+    private final int columns;
+    private final int rows;
     private final World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
 

@@ -47,7 +47,7 @@ public final class PlayView implements GameLoop {
     }
 
     private void loadSprites() {
-        animations = new BufferedImage[(SpritesMap.ROW_PLAYER_SPRITES * 2)
+        animations = new BufferedImage[SpritesMap.ROW_PLAYER_SPRITES * 2
                 + SpritesMap.ROW_BOMB_SPRITES + SpritesMap.ROW_WALL_SPRITES][SpritesMap.COL_PLAYER_SPRITES];
         for (Integer j = 0; j < Player.PLAYER_COUNTER; j++) {
             for (Integer i = 0; i < animations[j].length; i++) {
@@ -111,7 +111,7 @@ public final class PlayView implements GameLoop {
     }
 
     private void drawImage(final Graphics g, final Entity entity) {
-        BufferedImage image = getCorrectImage(entity);
+        final BufferedImage image = getCorrectImage(entity);
         g.drawImage(image,
                 Math.round(entity.getPosition()
                         .getX() * Game.getTilesSize()),

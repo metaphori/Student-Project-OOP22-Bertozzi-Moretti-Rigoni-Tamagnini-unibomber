@@ -19,8 +19,9 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
  * WordPanel implement class.
  */
 public final class WorldPanelImpl extends JPanel {
-  private final WorldImpl world;
-  private final BufferedImage tile;
+  private static final long serialVersionUID = -8854543282432946255L;
+  private final transient WorldImpl world;
+  private final transient BufferedImage tile;
 
   /**
    * WordPanelImpl constructor.
@@ -36,9 +37,9 @@ public final class WorldPanelImpl extends JPanel {
   }
 
   private void setSize() {
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = screenSize.getWidth();
-    double height = screenSize.getHeight();
+    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final double width = screenSize.getWidth();
+    final double height = screenSize.getHeight();
     while (width < Game.getgWidth() || (height - Constants.UI.Game.BAR_HEIGHT) < Game.getgHeight()) {
       Game.changeDimension();
     }

@@ -18,7 +18,7 @@ import static it.unibo.unibomber.utilities.Constants.Explode;
  * Explosion View class.
  */
 public final class ExplosionView implements GameLoop {
-    private Explosion controller;
+    private final Explosion controller;
     private BufferedImage[][] animations;
     private int frame;
     private int indexDirection;
@@ -51,12 +51,12 @@ public final class ExplosionView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
-        List<List<Pair<Integer, Integer>>> explosions = controller.getExplosionList();
+        final List<List<Pair<Integer, Integer>>> explosions = controller.getExplosionList();
         frame++;
         for (int i = 0; i < explosions.size(); i++) {
             if (!explosions.get(i).isEmpty()) {
-                Pair<Integer, Integer> center = explosions.get(i).get(0);
-                for (Pair<Integer, Integer> p1 : explosions.get(i)) {
+                final Pair<Integer, Integer> center = explosions.get(i).get(0);
+                for (final Pair<Integer, Integer> p1 : explosions.get(i)) {
                     g.drawImage(
                             getCorrectImage(Direction.getDistance(p1, center),
                                     Direction.extractDirecionBetweenTwo(center, p1).get(), i),
@@ -71,8 +71,8 @@ public final class ExplosionView implements GameLoop {
     }
 
     private BufferedImage getCorrectImage(final int distance, final Direction dir, final int id) {
-        int d = distance != controller.getBombPower(id) ? 1 : 0;
-        getDirectionIndex(dir);
+        final int d = distance != controller.getBombPower(id) ? 1 : 0;
+        setDirectionIndex(dir);
         if (dir == Direction.CENTER) {
             return animations[frame % SpritesMap.ROW_EXPLOSION_SPRITES][indexDirection];
         } else {
@@ -80,7 +80,7 @@ public final class ExplosionView implements GameLoop {
         }
     }
 
-    private void getDirectionIndex(final Direction dir) {
+    private void setDirectionIndex(final Direction dir) {
         switch (dir) {
             case UP:
                 indexDirection = Explode.UP_EXPLOSION_ANIMATION_INDEX;

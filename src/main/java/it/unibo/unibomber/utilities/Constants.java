@@ -20,7 +20,7 @@ public class Constants {
         /**
          * Button settings constans.
          */
-        public static class Buttons {
+        public static final class Buttons {
             /**
              * Scale Button size.
              */
@@ -117,6 +117,13 @@ public class Constants {
             public static int getBHeight() {
                 return bHeight;
             }
+
+            /**
+             * Constructor.
+             */
+            private Buttons() {
+
+            }
         }
 
         /**
@@ -140,7 +147,7 @@ public class Constants {
         /**
          * Game settings constans.
          */
-        public static class Game {
+        public static final class Game {
             /**
              * bar height.
              */
@@ -267,6 +274,12 @@ public class Constants {
                 return OPACITY;
             }
 
+            /**
+             * Constructor.
+             */
+            private Game() {
+
+            }
         }
 
         /**
@@ -359,10 +372,10 @@ public class Constants {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass2.png"));
+                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/wall_explosion.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall2.png"));
+                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/indestructible_wall.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
@@ -581,6 +594,13 @@ public class Constants {
                     return 1;
             }
         }
+
+        /**
+         * Constructor.
+         */
+        private Player() {
+
+        }
     }
 
     /**
@@ -683,13 +703,13 @@ public class Constants {
     /**
      * Destroy duration settings constans.
      */
-    public static class Destroy {
+    public static final class Destroy {
 
         /**
          * the number of frames the destruction of effective frames the destruction of a
          * type takes.
          */
-        private static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
+        public static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 30;
@@ -715,15 +735,6 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
             DESTROY_FRAMES_PER_TYPE.put(Type.RISING_WALL, DESTROY_FRAMES_RISING_WALL);
 
-        }
-
-        /**
-         * @param type the type of the entity asked
-         * @return the number of actual frames
-         */
-        public static Integer getDestructionFrames(final Type type) {
-            return DESTROY_FRAMES_PER_TYPE.containsKey(type) ? DESTROY_FRAMES_PER_TYPE.get(type)
-                    : STANDARD_FRAME_DURATION;
         }
     }
 

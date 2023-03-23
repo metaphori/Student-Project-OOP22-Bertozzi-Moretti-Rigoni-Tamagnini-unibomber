@@ -28,18 +28,18 @@ public final class OptionView implements GameLoop {
 
         @Override
         public void update() {
-                for (final OptionButtonImpl mb : controller.getButtons()) {
+                for (final OptionButtonImpl mb : controller.getOptionButtons()) {
                         mb.update();
                 }
         }
 
         @Override
         public void draw(final Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
+                final Graphics2D g2 = (Graphics2D) g;
                 // background
                 g2.setColor(OPTION_BACKGROUND);
                 g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
-                for (final OptionButtonImpl mb : controller.getButtons()) {
+                for (final OptionButtonImpl mb : controller.getOptionButtons()) {
                         mb.draw(g);
                 }
         }

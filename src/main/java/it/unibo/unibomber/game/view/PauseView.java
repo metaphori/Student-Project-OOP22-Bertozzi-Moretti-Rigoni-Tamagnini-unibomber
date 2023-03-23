@@ -18,7 +18,7 @@ public class PauseView implements GameLoop {
 
     @Override
     public final void draw(final Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+        final Graphics2D g2 = (Graphics2D) g;
         g2.setColor(new Color(0, 0, 0, Constants.UI.Game.getOpacity()));
         g2.fillRect(0, 0, Constants.UI.Game.getgWidth(), Constants.UI.Game.getgHeight());
     }

@@ -87,7 +87,7 @@ public class OptionButtonImpl implements MenuButton, GameLoop {
    * setup game based on settings.
    */
   public void setupGame() {
-    if (type == "ok") {
+    if ("ok".equals(type)) {
       Gamestate.setGameState(Gamestate.PLAY);
     }
   }

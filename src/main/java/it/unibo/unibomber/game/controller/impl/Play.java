@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+import static java.util.logging.Level.SEVERE;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -34,12 +36,13 @@ import it.unibo.unibomber.utilities.Pair;
  * This class manage playable game.
  */
 public class Play extends StateImpl implements KeyListener, GameLoop {
-    private Deque<Integer> keyQueue;
-    private Map<Integer, Boolean> firstFrameKey;
+    private final Deque<Integer> keyQueue;
+    private final Map<Integer, Boolean> firstFrameKey;
     private final Game game;
-    private Explosion explosion;
+    private final Explosion explosion;
     private final PlayView view;
     private int rows, collums;
+    private final Logger logger = Logger.getLogger(Play.class.getName());
 
     /**
      * This method create the instance of all game parameters.
@@ -60,30 +63,31 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     private void loadDimension() {
-        String myTextFile = "./src/main/res/maps/arena1.map";
-        Path myPath = Paths.get(myTextFile);
+        final String myTextFile = "./src/main/res/maps/arena1.map";
+        final Path myPath = Paths.get(myTextFile);
         try {
-            String[] strArray = Files.lines(myPath)
+            final String[] strArray = Files.lines(myPath)
                     .map(s -> s.split(" "))
                     .findFirst()
                     .get();
             rows = Integer.parseInt(strArray[0]);
             collums = Integer.parseInt(strArray[1]);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(SEVERE, e.getMessage());
         }
     }
 
     private void extractData() {
         try {
-            FileInputStream fstream = new FileInputStream("./src/main/res/maps/arena1.map");
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            final FileInputStream fstream = new FileInputStream("./src/main/res/maps/arena1.map");
+            final DataInputStream in = new DataInputStream(fstream);
+            final BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             Integer row = 0;
             br.readLine();
-            while ((strLine = br.readLine()) != null) {
-                String[] tokens = strLine.split(" ");
+            strLine = br.readLine();
+            while (strLine != null) {
+                final String[] tokens = strLine.split(" ");
                 for (int i = 0; i < tokens.length; i++) {
                     switch (tokens[i]) {
                         case "0":
@@ -112,16 +116,17 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                     }
                 }
                 row++;
+                strLine = br.readLine();
             }
             in.close();
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
+        } catch (IOException e) {
+            logger.log(SEVERE, e.getMessage());
         }
     }
 
     @Override
     public final void update() {
-        //this.game.updateTimesUp();
+        // this.game.updateTimesUp();
         for (int i = 0; i < game.getEntities().size(); i++) {
             for (final Component c : game.getEntities().get(i).getComponents()) {
                 c.update();
@@ -133,7 +138,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                 .forEach((e) -> {
                     explosion.setEntityExploding(e);
                 });
-                explosion.update();
+        explosion.update();
         game.getGameField().updateField();
         view.update();
         updateKeys();
@@ -143,7 +148,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      * If those keys are still here they were not presed on the first frame.
      */
     private void updateKeys() {
-        for (Integer keyCode : firstFrameKey.keySet()) {
+        for (final Integer keyCode : firstFrameKey.keySet()) {
             firstFrameKey.put(keyCode, false);
         }
 

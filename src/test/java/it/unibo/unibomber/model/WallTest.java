@@ -3,7 +3,6 @@ package it.unibo.unibomber.model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static it.unibo.unibomber.utilities.Constants.Destroy.getDestructionFrames;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +14,12 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
-import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
  * This class tests the entity wall.
  */
-public class WallTest {
+class WallTest {
 
     private static final float WALL_COORD_X = 5.6f;
     private static final float WALL_COORD_Y = 3.4f;
@@ -40,10 +38,9 @@ public class WallTest {
 
     @Test
     void testDestructibleWall() {
-        var desWall = this.createDestructibleWall();
-        var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
-        var destroyComponent = desWall.getComponent(DestroyComponent.class);
-        new Constants.Destroy();
+        final var desWall = this.createDestructibleWall();
+        final var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
+        final var destroyComponent = desWall.getComponent(DestroyComponent.class);
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());
@@ -52,15 +49,13 @@ public class WallTest {
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
-        for (int i = 0; i < getDestructionFrames(desWall.getType()); i++) {
-            destroyComponent.get().update();
-        }
+        destroyComponent.get().update();
         assertFalse(this.game.getEntities().contains(desWall));
     }
 
     @Test
     void testIndestructibleWall() {
-        var indesWall = this.createIndestructibleWall();
+        final var indesWall = this.createIndestructibleWall();
         this.game.addEntity(indesWall);
         assertEquals(Type.INDESTRUCTIBLE_WALL, indesWall.getType());
         assertFalse(indesWall.getComponent(DestroyComponent.class).isPresent());

@@ -22,7 +22,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private Option option;
   private Play play;
   private Pause pause;
-  private Thread gThread;
 
   /**
    * WorldImpl constructor.
@@ -50,7 +49,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   private void startGameLoop() {
-    gThread = new Thread(this);
+    final Thread gThread = new Thread(this);
     gThread.start();
   }
 

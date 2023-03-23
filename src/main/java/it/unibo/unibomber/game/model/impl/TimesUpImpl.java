@@ -15,7 +15,7 @@ import it.unibo.unibomber.utilities.Utilities;
  * TimesUpImpl class.
  */
 public final class TimesUpImpl implements TimesUp, GameLoop {
-     private Game game;
+     private final Game game;
      private boolean isStarted;
      private boolean isDone;
      private int normalizedFrames;
@@ -42,6 +42,7 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
      /**
       * start.
       */
+     @Override
      public void start() {
           raisedWalls = new boolean[Constants.UI.Game.TILES_WIDTH][Constants.UI.Game.TILES_HEIGHT];
           isStarted = true;
@@ -65,7 +66,7 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
                }
                raisedWalls[newPosition.getX()][newPosition.getY()] = true;
                if (this.game.getGameField().getField().containsKey(newPosition)) {
-                    Entity existingEntity = this.game.getGameField().getField().get(newPosition).getY();
+                    final Entity existingEntity = this.game.getGameField().getField().get(newPosition).getY();
                     this.game.getEntities().remove(existingEntity);
                }
                this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));

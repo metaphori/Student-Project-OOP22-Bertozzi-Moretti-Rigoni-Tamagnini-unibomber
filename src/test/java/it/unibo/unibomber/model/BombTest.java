@@ -10,7 +10,6 @@ import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
-import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODE_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
-import static it.unibo.unibomber.utilities.Constants.Destroy.getDestructionFrames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-class BombTest {
+final class BombTest {
 
     private static final float PLAYER_STARTING_X = 5.6f;
     private static final float PLAYER_STARTING_Y = 3.4f;
@@ -59,8 +57,8 @@ class BombTest {
     }
 
     private Entity createPowerupEntity() {
-        return this.entityFactory.makePowerUp(new Pair<>(POWERUP_EXCEPTED_X, POWERUP_EXCEPTED_Y), 
-                                            PowerUpType.SPEEDUP);
+        return this.entityFactory.makePowerUp(new Pair<>(POWERUP_EXCEPTED_X, POWERUP_EXCEPTED_Y),
+                PowerUpType.SPEEDUP);
     }
 
     private Entity createDesWallEntity() {
@@ -73,11 +71,11 @@ class BombTest {
 
     @Test
     void testBombPlace() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         game.addEntity(player);
         player.getComponent(BombPlaceComponent.class).get().placeBomb();
         player.getComponent(BombPlaceComponent.class).get().update();
-        Optional<Entity> bombEntity = game.getEntities().stream()
+        final Optional<Entity> bombEntity = game.getEntities().stream()
                 .filter(entity -> entity.getType() == Type.BOMB)
                 .findFirst();
         assertTrue(bombEntity.isPresent());
@@ -86,14 +84,13 @@ class BombTest {
 
     @Test
     void testBombExplosion() {
-        var player = this.createPlayerForBomb();
-        var bomb = this.createBombEntitiy(player);
-        var powerup = this.createPowerupEntity();
-        var desWall = this.createDesWallEntity();
-        var indesWall = this.createIndesWallEntity();
+        final var player = this.createPlayerForBomb();
+        final var bomb = this.createBombEntitiy(player);
+        final var powerup = this.createPowerupEntity();
+        final var desWall = this.createDesWallEntity();
+        final var indesWall = this.createIndesWallEntity();
         final List<Entity> entities = new ArrayList<>(List.of(
-                                    player, bomb, powerup, desWall, indesWall));
-        new Constants.Destroy();
+                player, bomb, powerup, desWall, indesWall));
         this.game.addEntity(player);
         this.game.addEntity(bomb);
         this.game.addEntity(powerup);
@@ -109,12 +106,10 @@ class BombTest {
         for (int i = 0; i < (EXPIRING_TIME + EXPLODE_DURATION); i++) {
             bomb.getComponent(ExplodeComponent.class).get().update();
         }
-        for (int i = 0; i < entities.size(); i++) {
-            if (entities.get(i).getComponent(DestroyComponent.class).isPresent()) {
-                for (int j = 0; j <= getDestructionFrames(entities.get(i).getType()); j++) {
-                    entities.get(i).getComponent(DestroyComponent.class)
-                        .get().update();
-                }
+        for (final Entity e : entities) {
+            if (e.getComponent(DestroyComponent.class).isPresent()) {
+                    e.getComponent(DestroyComponent.class)
+                            .get().update();
             }
         }
         assertFalse(this.game.getEntities().contains(player));

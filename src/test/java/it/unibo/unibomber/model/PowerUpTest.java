@@ -30,7 +30,7 @@ class PowerUpTest {
 
     @Test
     void testBombNumberPowerUp() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         assertEquals(BOMB_NUMBER_BASE, player.getComponent(PowerUpHandlerComponent.class).get().getBombNumber());
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.BOMBUP);
         assertEquals(BOMB_NUMBER_BASE + BOMB_NUMBER_POWERUP,
@@ -46,7 +46,7 @@ class PowerUpTest {
 
     @Test
     void testBombFirePowerUp() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         assertEquals(BOMB_FIRE_BASE, player.getComponent(PowerUpHandlerComponent.class).get().getBombFire());
         player.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(PowerUpType.FIREUP);
         assertEquals(BOMB_FIRE_BASE + BOMB_FIRE_POWERUP,
@@ -64,7 +64,7 @@ class PowerUpTest {
 
     @Test
     void testSpeedUpPowerUp() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         assertEquals(SPEED_BASE, player.getSpeed());
         player.addSpeed(SPEED_POWERUP);
         assertEquals(SPEED_BASE + SPEED_POWERUP, player.getSpeed());

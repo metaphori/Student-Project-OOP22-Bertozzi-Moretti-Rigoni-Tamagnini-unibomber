@@ -8,7 +8,7 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
-import static it.unibo.unibomber.utilities.Constants.Destroy.getDestructionFrames;
+import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
 import static it.unibo.unibomber.utilities.Constants.Destroy.DROPPED_POWERUP_PERCENT;
 
 /**
@@ -32,7 +32,7 @@ public final class DestroyComponent extends AbstractComponent {
     public void update() {
         if (this.isDestroyed) {
             this.destroyFrames++;
-            if (this.destroyFrames >= getDestructionFrames(this.getEntity().getType())) {
+            if (this.destroyFrames >= DESTROY_FRAMES_PER_TYPE.get(this.getEntity().getType())) {
                 if (this.getEntity().getType() != Type.BOMB 
                     && this.getEntity().getType() != Type.POWERUP) {
                     dropPowerUps();
