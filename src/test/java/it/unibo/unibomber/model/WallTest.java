@@ -21,7 +21,7 @@ import it.unibo.unibomber.utilities.Pair;
 /**
  * This class tests the entity wall.
  */
-public class WallTest {
+class WallTest {
 
     private static final float WALL_COORD_X = 5.6f;
     private static final float WALL_COORD_Y = 3.4f;
@@ -40,9 +40,9 @@ public class WallTest {
 
     @Test
     void testDestructibleWall() {
-        var desWall = this.createDestructibleWall();
-        var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
-        var destroyComponent = desWall.getComponent(DestroyComponent.class);
+        final var desWall = this.createDestructibleWall();
+        final var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
+        final var destroyComponent = desWall.getComponent(DestroyComponent.class);
         new Constants.Destroy();
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
@@ -60,7 +60,7 @@ public class WallTest {
 
     @Test
     void testIndestructibleWall() {
-        var indesWall = this.createIndestructibleWall();
+        final var indesWall = this.createIndestructibleWall();
         this.game.addEntity(indesWall);
         assertEquals(Type.INDESTRUCTIBLE_WALL, indesWall.getType());
         assertFalse(indesWall.getComponent(DestroyComponent.class).isPresent());
