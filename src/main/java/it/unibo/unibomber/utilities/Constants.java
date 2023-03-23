@@ -28,7 +28,7 @@ public class Constants {
             /**
              * default distance from top for button start.
              */
-            private static final int DEFAULT_TOP_DISTANCE = 60;
+            public static final int DEFAULT_TOP_DISTANCE = 60;
             /**
              * distance from top of play button.
              */
@@ -61,7 +61,7 @@ public class Constants {
              * size of option button.
              */
             private static int optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
-            
+
             /**
              * @return settings option size.
              */
