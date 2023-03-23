@@ -83,10 +83,10 @@ public class FieldImpl implements Field {
         field.keySet().stream()
                 .filter(e -> field.get(e).getX().equals(Type.BOMB))
                 .forEach(e -> {
-                    PowerUpListComponent powerupList = field.get(e).getY().getComponent(PowerUpListComponent.class)
+                    final PowerUpListComponent powerupList = field.get(e).getY().getComponent(PowerUpListComponent.class)
                             .get();
 
-                    for (Direction d : Direction.values()) {
+                    for (final Direction d : Direction.values()) {
                         if (d != Direction.CENTER) {
                             addExplosionToMatrix(typesMatrix, e, powerupList.getBombFire(), d, 1);
                         }
@@ -98,24 +98,22 @@ public class FieldImpl implements Field {
     private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where,
             final int strength, final Direction d, final int step) {
         if (step <= strength) {
-            Pair<Integer, Integer> newDirection = new Pair<Integer, Integer>(where.getX() + d.getX() * step,
+            final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
                     where.getY() + d.getY() * step);
             if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Game.TILES_WIDTH)
-                    && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Game.TILES_HEIGHT)) {
-                if (typesMatrix[newDirection.getX()][newDirection.getY()] == Type.AIR) {
-                    if (typesMatrix[newDirection.getX()][newDirection.getY()] != Type.DESTRUCTIBLE_WALL
-                            && typesMatrix[newDirection.getX()][newDirection.getY()] != Type.INDESTRUCTIBLE_WALL) {
-                        typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
-                    }
-
-                    addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
-                }
+                    && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Game.TILES_HEIGHT)
+                    && typesMatrix[newDirection.getX()][newDirection.getY()] == Type.AIR) {
+                /*if (typesMatrix[newDirection.getX()][newDirection.getY()] != Type.DESTRUCTIBLE_WALL
+                        && typesMatrix[newDirection.getX()][newDirection.getY()] != Type.INDESTRUCTIBLE_WALL) {
+                        }*/
+                typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
+                addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
             }
         }
     }
 
     private void addEntitiesToMatrix(final Type[][] typesMatrix) {
-        for (var pos : this.field.keySet()) {
+        for (final var pos : this.field.keySet()) {
             typesMatrix[pos.getX()][pos.getY()] = this.field.get(pos).getX();
         }
     }
