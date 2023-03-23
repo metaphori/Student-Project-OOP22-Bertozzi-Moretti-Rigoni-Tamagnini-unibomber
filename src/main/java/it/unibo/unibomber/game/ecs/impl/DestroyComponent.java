@@ -9,6 +9,7 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Pair;
 
 import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
+import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Destroy.DROPPED_POWERUP_PERCENT;
 
 /**
@@ -18,6 +19,7 @@ public final class DestroyComponent extends AbstractComponent {
 
     private boolean isDestroyed;
     private int destroyFrames;
+    private int destroyFramesPerType;
 
     /**
      * The constructor set 0 the field destroyFrames
@@ -26,15 +28,21 @@ public final class DestroyComponent extends AbstractComponent {
     public DestroyComponent() {
         this.isDestroyed = false;
         this.destroyFrames = 0;
+        this.destroyFramesPerType = -1;
     }
 
     @Override
     public void update() {
+        if (this.destroyFramesPerType == -1) {
+            this.destroyFramesPerType = DESTROY_FRAMES_PER_TYPE.containsKey(this.getEntity().getType())
+                    ? DESTROY_FRAMES_PER_TYPE.get(this.getEntity().getType())
+                    : STANDARD_FRAME_DURATION;
+        }
         if (this.isDestroyed) {
             this.destroyFrames++;
-            if (this.destroyFrames >= DESTROY_FRAMES_PER_TYPE.get(this.getEntity().getType())) {
-                if (this.getEntity().getType() != Type.BOMB 
-                    && this.getEntity().getType() != Type.POWERUP) {
+            if (this.destroyFrames >= this.destroyFramesPerType) {
+                if (this.getEntity().getType() != Type.BOMB
+                        && this.getEntity().getType() != Type.POWERUP) {
                     dropPowerUps();
                 } else {
                     this.getEntity().getGame().removeEntity(this.getEntity());
@@ -52,6 +60,7 @@ public final class DestroyComponent extends AbstractComponent {
 
     /**
      * A method to know if the entity is destroyed.
+     * 
      * @return true if the entity is destroyed, false otherwise.
      */
     public boolean isDestroyed() {
@@ -60,6 +69,7 @@ public final class DestroyComponent extends AbstractComponent {
 
     /**
      * A method to know the desctrution frames.
+     * 
      * @return timer of destruction frame.
      */
     public int getDestroyFrames() {
@@ -83,7 +93,8 @@ public final class DestroyComponent extends AbstractComponent {
             if (!powerUps.isEmpty()) {
                 if (entity.getType() != Type.PLAYABLE && entity.getType() != Type.BOT) {
                     entity.getGame()
-                            .addEntity(entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
+                            .addEntity(
+                                    entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
                     powerUps.remove(0);
                 }
                 dropRemaining(powerUps, droppedPowerUps);
@@ -120,10 +131,10 @@ public final class DestroyComponent extends AbstractComponent {
         final Random rnd = new Random();
         Pair<Integer, Integer> coord;
         do {
-            coord = new Pair<>(rnd.nextInt(gameDimensions.getX()), 
-                rnd.nextInt(gameDimensions.getY()));
+            coord = new Pair<>(rnd.nextInt(gameDimensions.getX()),
+                    rnd.nextInt(gameDimensions.getY()));
         } while (this.getEntity().getGame().getGameField().getField().containsKey(coord));
-        return new Pair<>((float) coord.getX(), 
-            (float) coord.getY());
+        return new Pair<>((float) coord.getX(),
+                (float) coord.getY());
     }
 }
