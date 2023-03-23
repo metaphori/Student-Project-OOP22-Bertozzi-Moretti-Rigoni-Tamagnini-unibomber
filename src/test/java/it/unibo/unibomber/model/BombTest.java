@@ -73,11 +73,11 @@ class BombTest {
 
     @Test
     void testBombPlace() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         game.addEntity(player);
         player.getComponent(BombPlaceComponent.class).get().placeBomb();
         player.getComponent(BombPlaceComponent.class).get().update();
-        Optional<Entity> bombEntity = game.getEntities().stream()
+        final Optional<Entity> bombEntity = game.getEntities().stream()
                 .filter(entity -> entity.getType() == Type.BOMB)
                 .findFirst();
         assertTrue(bombEntity.isPresent());
