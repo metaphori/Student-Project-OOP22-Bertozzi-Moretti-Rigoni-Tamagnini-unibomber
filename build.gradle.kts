@@ -48,3 +48,13 @@ tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+tasks {
+    spotbugsTest {
+        onlyIf { false }
+    }
+    spotbugsMain {
+        onlyIf { false }
+    }
+}
+

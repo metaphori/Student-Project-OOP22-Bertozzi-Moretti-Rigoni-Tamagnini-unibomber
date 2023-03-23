@@ -3,6 +3,7 @@ package it.unibo.unibomber.model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -41,6 +43,7 @@ class WallTest {
         final var desWall = this.createDestructibleWall();
         final var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
         final var destroyComponent = desWall.getComponent(DestroyComponent.class);
+        new Constants.Destroy();
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());
@@ -49,7 +52,9 @@ class WallTest {
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
-        destroyComponent.get().update();
+        for (int i = 0; i < DESTROY_FRAMES_PER_TYPE.get(desWall.getType()); i++) {
+            destroyComponent.get().update();
+        }
         assertFalse(this.game.getEntities().contains(desWall));
     }
 
