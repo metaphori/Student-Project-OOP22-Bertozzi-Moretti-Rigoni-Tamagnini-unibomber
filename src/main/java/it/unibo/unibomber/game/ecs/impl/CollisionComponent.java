@@ -75,7 +75,7 @@ public final class CollisionComponent extends AbstractComponent {
       * @return hitbox of entity
       */
      public Rectangle2D.Float getHitbox() {
-          return hitbox;
+          return new Rectangle2D.Float(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
      }
 
      /**

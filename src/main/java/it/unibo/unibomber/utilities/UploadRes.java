@@ -30,13 +30,7 @@ public final class UploadRes {
         try {
             inputStream = new FileInputStream("./src/main/res/" + fileName);
             img = ImageIO.read(inputStream);
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                logger.log(SEVERE, e.getMessage());
-            }
+            inputStream.close();
         } catch (IOException e) {
             logger.log(SEVERE, e.getMessage());
         }

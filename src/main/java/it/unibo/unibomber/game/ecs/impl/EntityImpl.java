@@ -31,7 +31,7 @@ public class EntityImpl implements Entity {
      */
     public EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
         this.game = game;
-        this.position = position;
+        this.position = new Pair<>(position.getX(), position.getY());
         this.type = type;
         speed = Constants.Entity.BASE_SPEED;
     }
