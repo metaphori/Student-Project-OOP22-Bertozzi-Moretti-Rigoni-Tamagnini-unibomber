@@ -98,6 +98,7 @@ public class ExplodeComponent extends AbstractComponent {
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var totalEntities = this.getEntity().getGame().getEntities();
+        List<Entity> players;
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
@@ -148,8 +149,16 @@ public class ExplodeComponent extends AbstractComponent {
                         } else if ((entitySearched.get().getType() == Type.PLAYABLE 
                                     || entitySearched.get().getType() == Type.BOT)
                                     && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
-                            entitySearched.get().getComponent(DestroyComponent.class).get()
-                                .destroy();
+                            players = totalEntities.stream()
+                                                    .filter(e -> e.getType() == Type.PLAYABLE
+                                                                || e.getType() == Type.BOT)
+                                                    .collect(Collectors.toList());
+                            for (final var player : players) {
+                                if (this.checkRound(player.getPosition(), checkPos)) {
+                                    player.getComponent(DestroyComponent.class).get()
+                                        .destroy();
+                                }
+                            }
                             this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()), 
                                                                 Math.round(checkPos.getX())));
                         }
