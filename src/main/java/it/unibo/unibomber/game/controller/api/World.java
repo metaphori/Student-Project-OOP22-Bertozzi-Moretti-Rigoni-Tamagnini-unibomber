@@ -21,6 +21,10 @@ public interface World {
      */
     Play getPlay();
     /**
+     * set Play.
+     */
+    void setPlay();
+    /**
      * @return pause.
      */
     Pause getPause();

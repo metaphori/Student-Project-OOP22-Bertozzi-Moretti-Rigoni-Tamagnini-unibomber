@@ -9,7 +9,6 @@ import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;

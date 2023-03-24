@@ -443,6 +443,14 @@ public class Constants {
              */
             public static final Map<Type, BufferedImage> SPRITESPATH = new HashMap<>();
             /**
+             * List of destructible wall based on level chose.
+             */
+            public static final List<BufferedImage> DESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+            /**
+             * List of indestucrtible wall based on level chose.
+             */
+            public static final List<BufferedImage> INDESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+            /**
              * Map of powerup type and path of powerup sprites.
              */
             public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
@@ -460,9 +468,6 @@ public class Constants {
                 SPRITESPATH.put(Type.POWERUP, null);
                 SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map1/destructible_wall.png"));
-                SPRITESPATH.put(Type.INDESTRUCTIBLE_WALL,
-                        UploadRes.getSpriteAtlas("wall/map1/indestructible_wall.png"));
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
@@ -478,7 +483,13 @@ public class Constants {
                 ANIMATION_ROW.put(Type.BOMB, ANIMATION_ROW_BOMB);
                 ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, ANIMATION_ROW_DESTRUCTIBLE_WALL);
             }
-
+            /**
+             * @param t
+             * @param bImage
+             */
+            public static final void addSprites(Type t, BufferedImage bImage){
+                SPRITESPATH.put(t, bImage);
+            }
         }
 
         /**

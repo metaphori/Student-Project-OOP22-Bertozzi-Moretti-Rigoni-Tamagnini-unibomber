@@ -16,12 +16,15 @@ import static java.util.logging.Level.SEVERE;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Option;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
 import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 
+import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
+import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 
 /**
  * Menu Button settings implementation class.
@@ -30,6 +33,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final int width, height;
   private final String type;
   private BufferedImage[] bufferImages;
+  //TO DO map level contanst file.
   private static int mapChose = 0;
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
@@ -44,7 +48,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {
-    super(x, y, rowIndex);
+    super(x, y, Buttons.getOptionButtonSize() / 2, rowIndex);
     this.option = option;
     this.width = w;
     this.height = h;
@@ -78,6 +82,9 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
       loadDimension();
       this.option.getWorld().createGame();
       extractData();
+      SpritesMap.addSprites(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map"+mapChose+"/destructible_wall.png"));
+      SpritesMap.addSprites(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map"+mapChose+"/indestructible_wall.png"));
+      option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
     }
     if ("left".equals(type)) {

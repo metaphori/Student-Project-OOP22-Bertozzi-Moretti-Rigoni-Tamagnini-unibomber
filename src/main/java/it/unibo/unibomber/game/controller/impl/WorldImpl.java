@@ -52,9 +52,8 @@ public class WorldImpl implements World, Runnable, GameLoop {
     menu = new Menu();
     option = new Option(this);
     pause = new Pause();
-    play = new Play(this);
   }
-
+  
   private void loadSprites() {
     new Constants.UI.SpritesMap();
     new Constants.Destroy();
@@ -159,5 +158,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final Game getGame() {
     return game;
+  }
+
+  @Override
+  public void setPlay() {
+    play = new Play(this);
   }
 }

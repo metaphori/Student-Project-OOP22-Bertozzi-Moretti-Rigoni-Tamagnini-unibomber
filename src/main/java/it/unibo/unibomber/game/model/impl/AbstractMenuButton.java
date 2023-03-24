@@ -22,17 +22,22 @@ public abstract class AbstractMenuButton implements MenuButton {
      * Position of button in panel and ind vector.
      */
     private final int x, y, rowIndex;
+    /**
+     * position of left top angle of bounds.
+     */
+    private final int xButtonPosition;
 
     /**
      * @param x        x coordinate of the button.
      * @param y        y coordinate of the button.
      * @param rowIndex index which represents the button row.
      */
-    public AbstractMenuButton(final int x, final int y, final int rowIndex) {
+    public AbstractMenuButton(final int x, final int y, final int xButtonPosition, final int rowIndex) {
         this.x = x;
         this.y = y;
         this.rowIndex = rowIndex;
-        bounds = new Rectangle(x, y, Constants.UI.Buttons.getBWidht(),
+        this.xButtonPosition = xButtonPosition;
+        bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(),
                 Constants.UI.Buttons.getBHeight());
     }
 
@@ -56,7 +61,12 @@ public abstract class AbstractMenuButton implements MenuButton {
     protected final int getRowIndex() {
         return rowIndex;
     }
-
+    /**
+     * @return xButtonPosition.
+     */
+    protected final int getxButtonPosition() {
+        return xButtonPosition;
+    }
     @Override
     public final boolean isMouseOver() {
         return mouseOver;

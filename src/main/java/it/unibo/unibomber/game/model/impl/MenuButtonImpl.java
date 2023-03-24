@@ -22,7 +22,7 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param gameState
    */
   public MenuButtonImpl(final int x, final int y, final int rowIndex, final Gamestate gameState) {
-    super(x, y, rowIndex);
+    super(x, y, Constants.UI.Buttons.getBWidht() / 2, rowIndex);
     this.gameState = gameState;
     loadbufferImages();
   }
@@ -39,7 +39,7 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
 
   @Override
   public final void draw(final Graphics g) {
-    g.drawImage(bufferImages[this.getRowIndex()], this.getX() - Constants.UI.Buttons.getBWidht() / 2, this.getY(),
+    g.drawImage(bufferImages[this.getRowIndex()], this.getX() - getxButtonPosition(), this.getY(),
         Constants.UI.Buttons.getBWidht(),
         Constants.UI.Buttons.getBHeight(), null);
   }
