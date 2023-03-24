@@ -10,7 +10,7 @@ import it.unibo.unibomber.utilities.Pair;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Game;
+import static it.unibo.unibomber.utilities.Constants.UI.Screen;
 
 /**
  * This component manage the collision of entity.
@@ -21,15 +21,14 @@ public final class CollisionComponent extends AbstractComponent {
      private Rectangle2D.Float hitbox;
      private float x, y;
      private int width, height;
-     private BiConsumer<Entity, Entity> biConsumer;
+     private final BiConsumer<Entity, Entity> biConsumer;
 
      @Override
      public void update() {
-          // update hitbox rectangle coord
-          hitbox.x = (int) (this.getEntity().getPosition().getX() * Game.getTilesSize());
-          hitbox.y = (int) (this.getEntity().getPosition().getY() * Game.getTilesSize());
+          hitbox.x = (int) (this.getEntity().getPosition().getX() * Screen.getTilesSize());
+          hitbox.y = (int) (this.getEntity().getPosition().getY() * Screen.getTilesSize());
           isOutofField();
-          Entity player = this.getEntity();
+          final Entity player = this.getEntity();
           if (player.getType() == Type.PLAYABLE) {
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
@@ -66,8 +65,8 @@ public final class CollisionComponent extends AbstractComponent {
                final BiConsumer<Entity, Entity> biConsumer) {
           this.isSolid = isSolid;
           this.isOver = isOver;
-          this.x = (int) (x * Game.getTilesSize());
-          this.y = (int) (y * Game.getTilesSize());
+          this.x = (int) (x * Screen.getTilesSize());
+          this.y = (int) (y * Screen.getTilesSize());
           this.biConsumer = biConsumer;
           initHitbox();
      }
@@ -76,7 +75,7 @@ public final class CollisionComponent extends AbstractComponent {
       * @return hitbox of entity
       */
      public Rectangle2D.Float getHitbox() {
-          return hitbox;
+          return new Rectangle2D.Float(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
      }
 
      /**
@@ -104,7 +103,7 @@ public final class CollisionComponent extends AbstractComponent {
       * This method check if entity collide with other one.
       */
      public void checkCollisions() {
-          Entity entity = this.getEntity();
+          final Entity entity = this.getEntity();
           if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOMB || entity.getType() == Type.BOT) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))
@@ -119,23 +118,23 @@ public final class CollisionComponent extends AbstractComponent {
       * Check if entity is out of field and if it is push back.
       */
      private void isOutofField() {
-          if (hitbox.x > (Game.getgWidth() - Game.getTilesSize())) {
+          if (hitbox.x > (Screen.getgWidth() - Screen.getTilesSize())) {
                this.getEntity().setPosition(
-                         new Pair<Float, Float>((float) Game.TILES_WIDTH - 1,
+                         new Pair<Float, Float>((float) Screen.getTilesWidth() - 1,
                                    this.getEntity().getPosition().getY()));
           } else if (hitbox.x < 0) {
                this.getEntity().setPosition(new Pair<Float, Float>(0f,
                          this.getEntity().getPosition().getY()));
-          } else if (hitbox.y > (Game.getgHeight() - Game.getTilesSize())) {
+          } else if (hitbox.y > (Screen.getgHeight() - Screen.getTilesSize())) {
                this.getEntity().setPosition(
-                         new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float) Game.TILES_HEIGHT - 1));
+                         new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float) Screen.getTilesHeight() - 1));
           } else if (hitbox.y < 0) {
                this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
           }
      }
 
      private void initHitbox() {
-          this.width = (int) Game.getTilesSize();
+          this.width = (int) Screen.getTilesSize();
           this.height = this.width;
           hitbox = new Rectangle2D.Float(x, y, this.width, this.height);
      }

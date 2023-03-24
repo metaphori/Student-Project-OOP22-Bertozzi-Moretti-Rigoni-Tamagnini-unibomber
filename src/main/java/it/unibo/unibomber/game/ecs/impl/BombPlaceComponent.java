@@ -27,7 +27,7 @@ public class BombPlaceComponent extends AbstractComponent {
                     .filter(e -> e.getPosition().equals(normalizedPosition))
                     .findFirst();
             if (bombSamePlace.isEmpty()) {
-                var bombCreate = thisEntity.getGame().getFactory().makeBomb(thisEntity, normalizedPosition);
+                final var bombCreate = thisEntity.getGame().getFactory().makeBomb(thisEntity, normalizedPosition);
                 bombCreate.addSpeed(Constants.Bomb.BASE_SPEED);
                 thisEntity.getGame().addEntity(bombCreate);
                 thisEntity.getComponent(PowerUpHandlerComponent.class)

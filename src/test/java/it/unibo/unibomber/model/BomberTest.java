@@ -28,13 +28,13 @@ class BomberTest {
 
     @Test
     void testCreateBomber() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         assertEquals(new Pair<>(PLAYER_EXCEPTED_X, PLAYER_EXCEPTED_Y), player.getPosition());
     }
 
     @Test
     void testMovementBomber() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         assertEquals(new Pair<>(PLAYER_EXCEPTED_X, PLAYER_EXCEPTED_Y), player.getPosition());
         player.getComponent(MovementComponent.class).get().moveBy(new Pair<Float, Float>(PLAYER_MOVE_X, PLAYER_MOVE_Y));
         player.getComponent(MovementComponent.class).get().update();

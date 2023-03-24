@@ -4,10 +4,13 @@ import java.awt.Graphics;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
+import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.WorldPanelImpl;
 import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
 
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.NANO_S;
 import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.UPS_SET;
@@ -22,7 +25,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private Option option;
   private Play play;
   private Pause pause;
-  private Thread gThread;
+  private Game game;
 
   /**
    * WorldImpl constructor.
@@ -36,21 +39,31 @@ public class WorldImpl implements World, Runnable, GameLoop {
     startGameLoop();
   }
 
+  /**
+   * Create game.
+   */
+  public void createGame() {
+    game = new GameImpl(this, Screen.getTilesWidth(), Screen.getTilesHeight());
+    Screen.setDimensionOnMap();
+    game.getGameField().updateField();
+  }
+
   private void initClasses() {
     menu = new Menu();
-    play = new Play(this);
+    option = new Option(this);
     pause = new Pause();
-    option = new Option();
+    play = new Play(this);
   }
 
   private void loadSprites() {
     new Constants.UI.SpritesMap();
     new Constants.Destroy();
     new Constants.UI.Scale();
+    new Constants.UI.MapOption();
   }
 
   private void startGameLoop() {
-    gThread = new Thread(this);
+    final Thread gThread = new Thread(this);
     gThread.start();
   }
 
@@ -60,7 +73,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case MENU:
         menu.update();
         break;
-        case OPTION:
+      case OPTION:
         option.update();
         break;
       case PLAY:
@@ -82,7 +95,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case MENU:
         menu.draw(g);
         break;
-        case OPTION:
+      case OPTION:
         option.draw(g);
         break;
       case PLAY:
@@ -97,15 +110,12 @@ public class WorldImpl implements World, Runnable, GameLoop {
     }
   }
 
-  @SuppressWarnings("PMD")
   @Override
   public final void run() {
     double timePerUpdate = NANO_S / UPS_SET;
 
     long previousTime = System.nanoTime();
 
-    int frames = 0;
-    int updates = 0;
     long lastCheck = System.currentTimeMillis();
 
     double deltaU = 0;
@@ -117,16 +127,11 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
       while (deltaU >= 1) {
         update();
-        updates++;
         deltaU--;
       }
       unibomberPanel.repaint();
-      frames++;
       if (System.currentTimeMillis() - lastCheck >= 1000) {
         lastCheck = System.currentTimeMillis();
-        System.out.println("FPS: " + frames + " | UPS: " + updates);
-        frames = 0;
-        updates = 0;
       }
     }
   }
@@ -145,8 +150,14 @@ public class WorldImpl implements World, Runnable, GameLoop {
   public final Pause getPause() {
     return pause;
   }
+
   @Override
   public final Option getOption() {
     return option;
+  }
+
+  @Override
+  public final Game getGame() {
+    return game;
   }
 }

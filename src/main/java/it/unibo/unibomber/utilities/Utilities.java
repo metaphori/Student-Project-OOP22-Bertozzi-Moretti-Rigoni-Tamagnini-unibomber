@@ -16,7 +16,7 @@ public final class Utilities {
      * @return beetween status
      */
     public static boolean isBetween(final int value, final int min, final int max) {
-        return (value >= min && value < max);
+        return value >= min && value < max;
     }
 
     /**
@@ -35,7 +35,7 @@ public final class Utilities {
      * @param floatPair
      * @return rounded pair
      */
-    public static Pair<Integer,Integer> getRoundedPair(final Pair<Float,Float> floatPair) {
-        return new Pair<Integer,Integer>(Math.round(floatPair.getX()), Math.round(floatPair.getY()));
+    public static Pair<Integer, Integer> getRoundedPair(final Pair<Float, Float> floatPair) {
+        return new Pair<Integer, Integer>(Math.round(floatPair.getX()), Math.round(floatPair.getY()));
     }
 }

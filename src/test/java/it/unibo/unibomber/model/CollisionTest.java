@@ -14,21 +14,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Collision Test class.
  */
-public class CollisionTest {
+class CollisionTest {
      @Test
      void testCollisions() {
 
           final int rows = 5;
           final int columns = 5;
-          Game game = new GameImpl(null, rows, columns);
+          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(1f, 0f)));
-          Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
+          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           game.addEntity(player);
 
           assertEquals(player.getPosition(), new Pair<>(0f, 0f));
-          MovementComponent movement = player.getComponent(MovementComponent.class).get();
-          CollisionComponent collision = player.getComponent(CollisionComponent.class).get();
+          final MovementComponent movement = player.getComponent(MovementComponent.class).get();
+          final CollisionComponent collision = player.getComponent(CollisionComponent.class).get();
           movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
           movement.update();
           collision.update();

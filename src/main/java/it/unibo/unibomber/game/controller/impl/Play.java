@@ -8,39 +8,24 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
-import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
-import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
-import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
-import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.PlayView;
-import it.unibo.unibomber.utilities.Pair;
 
 /**
  * This class manage playable game.
  */
 public class Play extends StateImpl implements KeyListener, GameLoop {
-    private Deque<Integer> keyQueue;
-    private Map<Integer, Boolean> firstFrameKey;
-    private final Game game;
-    private Explosion explosion;
+    private final Deque<Integer> keyQueue;
+    private final Map<Integer, Boolean> firstFrameKey;
+    private final Explosion explosion;
     private final PlayView view;
-    private int rows, collums;
-
+    private final WorldImpl world;
     /**
      * This method create the instance of all game parameters.
      * 
@@ -48,93 +33,29 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public Play(final WorldImpl world) {
         super();
-        loadDimension();
-        game = new GameImpl(world, rows, collums);
-        extractData();
         view = new PlayView(this);
-        game.getGameField().updateField();
+        this.world = world;
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
         explosion = new Explosion();
-        // TODO load map at settings not in constructor
-    }
-
-    private void loadDimension() {
-        String myTextFile = "./src/main/res/maps/arena1.map";
-        Path myPath = Paths.get(myTextFile);
-        try {
-            String[] strArray = Files.lines(myPath)
-                    .map(s -> s.split(" "))
-                    .findFirst()
-                    .get();
-            rows = Integer.parseInt(strArray[0]);
-            collums = Integer.parseInt(strArray[1]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void extractData() {
-        try {
-            FileInputStream fstream = new FileInputStream("./src/main/res/maps/arena1.map");
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            Integer row = 0;
-            br.readLine();
-            while ((strLine = br.readLine()) != null) {
-                String[] tokens = strLine.split(" ");
-                for (int i = 0; i < tokens.length; i++) {
-                    switch (tokens[i]) {
-                        case "0":
-                            game.addEntity(new EntityFactoryImpl(game)
-                                    .makePlayable(new Pair<Float, Float>((float) i, (float) row)));
-                            break;
-                        case "1":
-                            game.addEntity(new EntityFactoryImpl(game)
-                                    .makeBot(new Pair<Float, Float>((float) i, (float) row), 1));
-                            break;
-                        case "2":
-                            game.addEntity(new EntityFactoryImpl(game)
-                                    .makePowerUp(new Pair<Float, Float>((float) i, (float) row),
-                                            PowerUpType.getRandomPowerUp()));
-                            break;
-                        case "5":
-                            game.addEntity(new EntityFactoryImpl(game)
-                                    .makeDestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
-                            break;
-                        case "6":
-                            game.addEntity(new EntityFactoryImpl(game)
-                                    .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                row++;
-            }
-            in.close();
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
     }
 
     @Override
     public final void update() {
-        //this.game.updateTimesUp();
-        for (int i = 0; i < game.getEntities().size(); i++) {
-            for (final Component c : game.getEntities().get(i).getComponents()) {
+        // this.game.updateTimesUp();
+        for (int i = 0; i < this.world.getGame().getEntities().size(); i++) {
+            for (final Component c : this.world.getGame().getEntities().get(i).getComponents()) {
                 c.update();
             }
         }
-        game.getEntities().stream()
+        this.world.getGame().getEntities().stream()
                 .filter(e -> e.getType() == Type.BOMB)
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                 .forEach((e) -> {
                     explosion.setEntityExploding(e);
                 });
-                explosion.update();
-        game.getGameField().updateField();
+        explosion.update();
+        this.world.getGame().getGameField().updateField();
         view.update();
         updateKeys();
     }
@@ -143,7 +64,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      * If those keys are still here they were not presed on the first frame.
      */
     private void updateKeys() {
-        for (Integer keyCode : firstFrameKey.keySet()) {
+        for (final Integer keyCode : firstFrameKey.keySet()) {
             firstFrameKey.put(keyCode, false);
         }
 
@@ -202,7 +123,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      * @return all entity in game.
      */
     public final List<Entity> getEntities() {
-        return game.getEntities();
+        return this.world.getGame().getEntities();
     }
 
     /**

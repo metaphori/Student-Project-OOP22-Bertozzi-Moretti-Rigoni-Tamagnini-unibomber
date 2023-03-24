@@ -1,24 +1,38 @@
 package it.unibo.unibomber.game.model.impl;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Logger;
+import static java.util.logging.Level.SEVERE;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.model.api.MenuButton;
-import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.game.controller.impl.Option;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
+import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
+
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
 
 /**
  * Menu Button settings implementation class.
  */
-public class OptionButtonImpl implements MenuButton, GameLoop {
-  private final int x, y, width, height, rowIndex;
-  private final int xButtonPosition = Constants.UI.Buttons.B_WIDTH / 2;
+public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
+  private final int width, height;
   private final String type;
   private BufferedImage[] bufferImages;
-  private boolean mouseOver, mousePressed;
-  private final Rectangle bounds;
+  private static int mapChose = 0;
+  private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
+  private final Option option;
 
   /**
    * @param x
@@ -28,70 +42,115 @@ public class OptionButtonImpl implements MenuButton, GameLoop {
    * @param h
    * @param type
    */
-  public OptionButtonImpl(final int x, final int y, final int rowIndex, final int w, final int h, final String type) {
-    this.x = x;
-    this.y = y;
+  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+      final String type) {
+    super(x, y, rowIndex);
+    this.option = option;
     this.width = w;
     this.height = h;
-    this.rowIndex = rowIndex;
     this.type = type;
     loadbufferImages();
-    bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.B_WIDTH, Constants.UI.Buttons.B_HEIGHT);
   }
 
   private void loadbufferImages() {
     bufferImages = new BufferedImage[4];
     bufferImages[0] = UploadRes.getSpriteAtlas("menu/left.png");
-    bufferImages[1] = UploadRes.getSpriteAtlas("menu/right.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/map.png");
+    bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
     bufferImages[3] = UploadRes.getSpriteAtlas("menu/ok.png");
 
   }
 
   @Override
   public final void draw(final Graphics g) {
-    g.drawImage(bufferImages[rowIndex], x, y, width, height, null);
+    bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(mapChose);
+    g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), width, height, null);
   }
 
   @Override
   public void update() {
   }
 
-  @Override
-  public final boolean isMouseOver() {
-    return mouseOver;
-  }
-
-  @Override
-  public final void setMouseOver(final boolean mouseOver) {
-    this.mouseOver = mouseOver;
-  }
-
-  @Override
-  public final boolean isMousePressed() {
-    return mousePressed;
-  }
-
-  @Override
-  public final void setMousePressed(final boolean mousePressed) {
-    this.mousePressed = mousePressed;
-  }
-
-  @Override
-  public final Rectangle getBounds() {
-    return bounds;
-  }
-
   /**
-   * @return type of istruction.
+   * setup game based on settings.
    */
-  public String getType() {
-    return type;
+  public void setupGame() {
+    if ("ok".equals(type)) {
+      loadDimension();
+      this.option.getWorld().createGame();
+      extractData();
+      Gamestate.setGameState(Gamestate.PLAY);
+    }
+    if ("left".equals(type)) {
+      if (mapChose > 0) {
+        mapChose--;
+      }
+    }
+    if ("right".equals(type)) {
+      if (mapChose < MapOption.MAP_CHOSE_LIST.size() - 1) {
+        mapChose++;
+      }
+    }
   }
 
-  @Override
-  public final void reset() {
-    mouseOver = false;
-    mousePressed = false;
+  private void loadDimension() {
+    final Path myPath = Paths.get(MapOption.MAP_LIST.get(mapChose));
+    try {
+      final String[] strArray = Files.lines(myPath)
+          .map(s -> s.split(" "))
+          .findFirst()
+          .get();
+      Screen.setTilesWidth(Integer.parseInt(strArray[0]));
+      Screen.setTilesHeight(Integer.parseInt(strArray[1]));
+    } catch (IOException e) {
+      logger.log(SEVERE, e.getMessage());
+    }
   }
+
+  private void extractData() {
+    try {
+      final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(mapChose));
+      final DataInputStream in = new DataInputStream(fstream);
+      final BufferedReader br = new BufferedReader(new InputStreamReader(in));
+      String strLine;
+      Integer row = 0;
+      br.readLine();
+      strLine = br.readLine();
+      while (strLine != null) {
+        final String[] tokens = strLine.split(" ");
+        for (int i = 0; i < tokens.length; i++) {
+          switch (tokens[i]) {
+            case "0":
+              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makePlayable(new Pair<Float, Float>((float) i, (float) row)));
+              break;
+            case "1":
+              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makeBot(new Pair<Float, Float>((float) i, (float) row), 1));
+              break;
+            case "2":
+              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makePowerUp(new Pair<Float, Float>((float) i, (float) row),
+                      PowerUpType.getRandomPowerUp()));
+              break;
+            case "5":
+              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makeDestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+              break;
+            case "6":
+              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+              break;
+            default:
+              break;
+          }
+        }
+        row++;
+        strLine = br.readLine();
+      }
+      in.close();
+    } catch (IOException e) {
+      logger.log(SEVERE, e.getMessage());
+    }
+  }
+
 }

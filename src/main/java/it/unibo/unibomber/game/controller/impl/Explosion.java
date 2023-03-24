@@ -16,9 +16,9 @@ import it.unibo.unibomber.utilities.Pair;
  * Explosion controller.
  */
 public final class Explosion implements GameLoop {
-    private ExplosionView view;
+    private final ExplosionView view;
     private List<Optional<Entity>> explode;
-    private List<Integer> power;
+    private final List<Integer> power;
 
     /**
      * Constructor.
@@ -48,11 +48,11 @@ public final class Explosion implements GameLoop {
      * @return list of coordinate of explosion.
      */
     public List<List<Pair<Integer, Integer>>> getExplosionList() {
-        List<List<Pair<Integer, Integer>>> l = new ArrayList<>();
-        if (explode.size() > 0) {
-            for (int i = 0; i < explode.size(); i++) {
-                if (explode.get(i).isPresent()) {
-                    l.add(explode.get(i).get().getComponent(ExplodeComponent.class).get().getExplosions());
+        final List<List<Pair<Integer, Integer>>> l = new ArrayList<>();
+        if (!explode.isEmpty()) {
+            for (final Optional<Entity> e : explode) {
+                if (e.isPresent()) {
+                    l.add(e.get().getComponent(ExplodeComponent.class).get().getExplosions());
                 }
             }
             return new ArrayList<>(l);

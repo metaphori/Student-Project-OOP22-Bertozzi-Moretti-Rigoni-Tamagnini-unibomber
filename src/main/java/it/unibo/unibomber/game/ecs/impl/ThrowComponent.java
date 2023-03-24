@@ -20,17 +20,22 @@ public class ThrowComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
-        Pair<Float, Float> bombPosition = this.getEntity().getPosition();
+        final MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
+        final Pair<Float, Float> bombPosition = this.getEntity().getPosition();
         if (isThrowing) {
             if (Math.round(bombPosition.getX()) != (float) (finalPos.getX())
                     || Math.round(bombPosition.getY()) != (float) (finalPos.getY())) {
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
                         playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
             } else {
-                bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
-                this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
-                this.isThrowing = false;
+                if (checkFinalPosition()) {
+                    bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
+                    this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
+                    this.isThrowing = false;
+                } else {
+                    finalPos = new Pair<>(finalPos.getX() + (playerDir.getX() * 1),
+                            finalPos.getY() + (-playerDir.getY() * 1));
+                }
             }
         }
     }
@@ -47,31 +52,39 @@ public class ThrowComponent extends AbstractComponent {
         this.isThrowing = isThrowing;
         this.startingPos = startingPos;
         this.playerDir = playerDir;
-        this.finalPos = calculateFinalPosition();
+        this.finalPos = calculateStandardPosition();
     }
 
     /**
      * @return bomb throwing status
      */
-    public final boolean getThrowing() {
+    public final boolean isThrowing() {
         return this.isThrowing;
     }
 
     /**
      * This method calculate where bomb will be throwed.
      * 
-     * @return final position
+     * @return standard position
      */
-    private Pair<Integer, Integer> calculateFinalPosition() {
-        Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
-        Pair<Integer, Integer> finalPosition = new Pair<>(startingPos.getX() + (playerDir.getX() * 4),
-                startingPos.getY() + (-playerDir.getY() * 4));
-        while (fieldMap.containsKey(finalPosition) && (fieldMap.get(finalPosition).getX() == Type.INDESTRUCTIBLE_WALL
-                || fieldMap.get(finalPosition).getX() == Type.DESTRUCTIBLE_WALL)) {
-            finalPosition = new Pair<>(finalPosition.getX() + (playerDir.getX() * 2),
-                    finalPosition.getY() + (-playerDir.getY() * 2));
-        }
-        return finalPosition;
+    private Pair<Integer, Integer> calculateStandardPosition() {
+        return new Pair<>(startingPos.getX() + (playerDir.getX() * 3), startingPos.getY() + (-playerDir.getY() * 3));
+    }
+
+    /**
+     * This method check if bomb can be stopped.
+     * 
+     * @return final position status
+     */
+    private boolean checkFinalPosition() {
+        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
+        return fieldMap.entrySet().stream()
+                .filter(e -> e.getKey().equals(finalPos))
+                .map(Map.Entry::getValue)
+                .noneMatch(value -> value.getX() == Type.INDESTRUCTIBLE_WALL
+                        || value.getX() == Type.DESTRUCTIBLE_WALL
+                        || value.getX() == Type.BOMB);
+
     }
 
 }

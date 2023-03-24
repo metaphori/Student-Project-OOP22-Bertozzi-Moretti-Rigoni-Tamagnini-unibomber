@@ -10,8 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_PLAY;
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.TOP_DISTANCE_QUIT;
+import static it.unibo.unibomber.utilities.Constants.UI.Buttons.getTopDistancePlay;
+import static it.unibo.unibomber.utilities.Constants.UI.Buttons.getTopDistanceQuit;
 
 /**
  * This class manage the game menu.
@@ -31,11 +31,11 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) TOP_DISTANCE_PLAY, 0,
-                Gamestate.PLAY);
-        buttons[1] = new MenuButtonImpl(Constants.UI.Game.getgWidth() / 2,
-                (int) TOP_DISTANCE_QUIT, 1,
+        buttons[0] = new MenuButtonImpl(Constants.UI.Screen.getgWidth() / 2,
+                (int) getTopDistancePlay(), 0,
+                Gamestate.OPTION);
+        buttons[1] = new MenuButtonImpl(Constants.UI.Screen.getgWidth() / 2,
+                (int) getTopDistanceQuit(), 1,
                 Gamestate.QUIT);
 
     }

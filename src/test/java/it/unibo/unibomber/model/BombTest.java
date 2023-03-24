@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODE_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
-import static it.unibo.unibomber.utilities.Constants.Destroy.getDestructionFrames;
+import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,11 +73,11 @@ class BombTest {
 
     @Test
     void testBombPlace() {
-        Entity player = this.createPlayerEntity();
+        final Entity player = this.createPlayerEntity();
         game.addEntity(player);
         player.getComponent(BombPlaceComponent.class).get().placeBomb();
         player.getComponent(BombPlaceComponent.class).get().update();
-        Optional<Entity> bombEntity = game.getEntities().stream()
+        final Optional<Entity> bombEntity = game.getEntities().stream()
                 .filter(entity -> entity.getType() == Type.BOMB)
                 .findFirst();
         assertTrue(bombEntity.isPresent());
@@ -86,11 +86,11 @@ class BombTest {
 
     @Test
     void testBombExplosion() {
-        var player = this.createPlayerForBomb();
-        var bomb = this.createBombEntitiy(player);
-        var powerup = this.createPowerupEntity();
-        var desWall = this.createDesWallEntity();
-        var indesWall = this.createIndesWallEntity();
+        final var player = this.createPlayerForBomb();
+        final var bomb = this.createBombEntitiy(player);
+        final var powerup = this.createPowerupEntity();
+        final var desWall = this.createDesWallEntity();
+        final var indesWall = this.createIndesWallEntity();
         final List<Entity> entities = new ArrayList<>(List.of(
                                     player, bomb, powerup, desWall, indesWall));
         new Constants.Destroy();
@@ -109,10 +109,10 @@ class BombTest {
         for (int i = 0; i < (EXPIRING_TIME + EXPLODE_DURATION); i++) {
             bomb.getComponent(ExplodeComponent.class).get().update();
         }
-        for (int i = 0; i < entities.size(); i++) {
-            if (entities.get(i).getComponent(DestroyComponent.class).isPresent()) {
-                for (int j = 0; j <= getDestructionFrames(entities.get(i).getType()); j++) {
-                    entities.get(i).getComponent(DestroyComponent.class)
+        for (final var entity : entities) {
+            if (entity.getComponent(DestroyComponent.class).isPresent()) {
+                for (int j = 0; j <= DESTROY_FRAMES_PER_TYPE.get(entity.getType()); j++) {
+                   entity.getComponent(DestroyComponent.class)
                         .get().update();
                 }
             }

@@ -8,7 +8,10 @@ import java.util.Arrays;
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.OptionView;
-//import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
+import it.unibo.unibomber.utilities.Constants.UI.Buttons;
+import static it.unibo.unibomber.utilities.Constants.UI.OptionButton;
+import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 
 /**
  * Option class.
@@ -16,31 +19,41 @@ import it.unibo.unibomber.game.view.OptionView;
 public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
-    private OptionButtonImpl[] buttons = new OptionButtonImpl[4];
+    private OptionButtonImpl[] optionButtons = new OptionButtonImpl[4];
+    private WorldImpl world;
 
     /**
      * This method manage the view of game option.
      */
-    public Option() {
+    public Option(final WorldImpl world) {
         super();
+        this.world = world;
         view = new OptionView(this);
         loadButtons();
     }
 
     private void loadButtons() {
-       /* buttons[0] = new OptionButtonImpl(50, 60, 0, 40, 40, "left");
-        buttons[1] = new OptionButtonImpl(50 + 200 + 50, 60, 1, 40, 40, "right");
-        buttons[2] = new OptionButtonImpl(50 + 50, 40, 2,
-                200, 200, "map");
-        buttons[3] = new OptionButtonImpl(Constants.UI.Game.getgWidth() - 50, Constants.UI.Game.getgHeight() - 40, 3,
-                40, 30, "ok"); */
+        optionButtons[0] = new OptionButtonImpl(this, Screen.getgWidth() / 4 - Buttons.getOptionButtonSize(),
+                Buttons.getDefaultTopDistance() + MapOption.getMapDimension() / 2, 0,
+                Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "left");
+        optionButtons[1] = new OptionButtonImpl(this, Screen.getgWidth() / 2 - MapOption.getMapDimension() / 2,
+                Buttons.getDefaultTopDistance(), 1,
+                MapOption.getMapDimension(), MapOption.getMapDimension(), "map");
+        optionButtons[2] = new OptionButtonImpl(this, Screen.getgWidth() - (Screen.getgWidth() / 4),
+                Buttons.getDefaultTopDistance() + MapOption.getMapDimension() / 2, 2,
+                Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "right");
+        optionButtons[3] = new OptionButtonImpl(this,
+                Screen.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_OK_INCREMENT * 2)),
+                Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT),
+                3, Buttons.getOptionButtonSize() + OptionButton.WIDTH_OK_INCREMENT,
+                Buttons.getOptionButtonSize(), "ok");
     }
 
     /**
-     * @return button menu pressed
+     * @return button option pressed
      */
-    public final OptionButtonImpl[] getButtons() {
-        return Arrays.copyOf(buttons, buttons.length);
+    public final OptionButtonImpl[] getOptionButtons() {
+        return Arrays.copyOf(optionButtons, optionButtons.length);
     }
 
     @Override
@@ -67,7 +80,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void mousePressed(final MouseEvent e) {
-        for (final OptionButtonImpl mb : buttons) {
+        for (final OptionButtonImpl mb : optionButtons) {
             if (isMouseIn(e, mb)) {
                 mb.setMousePressed(true);
             }
@@ -76,10 +89,10 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void mouseReleased(final MouseEvent e) {
-        for (final OptionButtonImpl mb : buttons) {
+        for (final OptionButtonImpl mb : optionButtons) {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
-                    System.out.println(mb.getType());
+                    mb.setupGame();
                 }
                 break;
             }
@@ -88,10 +101,16 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void resetButtons() {
-        for (final OptionButtonImpl mb : buttons) {
+        for (final OptionButtonImpl mb : optionButtons) {
             mb.reset();
         }
 
     }
 
+    /**
+     * @return world.
+     */
+    public WorldImpl getWorld() {
+        return world;
+    }
 }
