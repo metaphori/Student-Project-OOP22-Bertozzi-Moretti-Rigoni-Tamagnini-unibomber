@@ -120,7 +120,9 @@ public class ExplodeComponent extends AbstractComponent {
                         if (checkEntity(entity.getPosition(), checkPos, entitySearched.get())) {
                             if (entitySearched.get().getType() == Type.BOMB
                                     && !entitySearched.get().getComponent(ExplodeComponent.class).get()
-                                            .isExploding()) {
+                                            .isExploding()
+                                    && !entitySearched.get().getComponent(ThrowComponent.class).get()
+                                            .isThrowing()) {
                                 entitySearched.get().getComponent(ExplodeComponent.class).get()
                                         .explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
