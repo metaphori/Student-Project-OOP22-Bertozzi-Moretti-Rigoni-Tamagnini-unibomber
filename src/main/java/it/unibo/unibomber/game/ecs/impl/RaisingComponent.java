@@ -13,7 +13,7 @@ public class RaisingComponent extends AbstractComponent{
      public void update() {
           Entity entity = this.getEntity();
           this.normalizedFrames++;
-          if(this.normalizedFrames >= 5){
+          if(this.normalizedFrames >= 50){
                entity.getGame().addEntity(entity.getGame().getFactory().makeIndestructibleWall(entity.getPosition()));
                entity.getGame().getEntities().remove(entity);
           }
