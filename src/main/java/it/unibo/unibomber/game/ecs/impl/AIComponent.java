@@ -26,7 +26,7 @@ public final class AIComponent extends AbstractComponent {
      private boolean isGettingCloser;
 
      /**
-      * isGettingCloser is used to get the bot to more closely get to the next cell
+      * isGettingCloser is used to get the bot to more closely get to the next cell.
       */
      public AIComponent() {
           isGettingCloser = false;

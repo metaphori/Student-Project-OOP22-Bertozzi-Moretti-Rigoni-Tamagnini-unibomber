@@ -20,18 +20,22 @@ public interface World {
      * @return play.
      */
     Play getPlay();
+
     /**
      * set Play.
      */
     void setPlay();
+
     /**
      * @return pause.
      */
     Pause getPause();
+
     /**
      * @return option.
      */
     Option getOption();
+
     /**
      * @return game.
      */

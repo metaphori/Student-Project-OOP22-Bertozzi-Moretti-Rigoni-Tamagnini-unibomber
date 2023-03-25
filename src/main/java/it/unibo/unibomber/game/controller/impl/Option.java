@@ -20,10 +20,11 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
     private OptionButtonImpl[] optionButtons = new OptionButtonImpl[4];
-    private WorldImpl world;
+    private final WorldImpl world;
 
     /**
      * This method manage the view of game option.
+     * @param world
      */
     public Option(final WorldImpl world) {
         super();

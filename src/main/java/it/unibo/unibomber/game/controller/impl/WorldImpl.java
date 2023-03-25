@@ -1,7 +1,6 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
@@ -54,7 +53,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
     option = new Option(this);
     pause = new Pause();
   }
-  
+
   private void loadSprites() {
     new Constants.UI.SpritesMap();
     new Constants.Destroy();
@@ -112,7 +111,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public final void run() {
-    double timePerUpdate = NANO_S / UPS_SET;
+    final double timePerUpdate = NANO_S / UPS_SET;
 
     long previousTime = System.nanoTime();
 
@@ -120,7 +119,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
     double deltaU = 0;
     while (true) {
-      long currentTime = System.nanoTime();
+      final long currentTime = System.nanoTime();
 
       deltaU += (currentTime - previousTime) / timePerUpdate;
       previousTime = currentTime;
@@ -162,7 +161,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public void setPlay() {
+  public final void setPlay() {
     play = new Play(this);
   }
 }

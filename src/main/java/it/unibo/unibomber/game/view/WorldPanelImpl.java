@@ -2,15 +2,12 @@ package it.unibo.unibomber.game.view;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.awt.Toolkit;
 
 import it.unibo.unibomber.inputs.MouseInputsImpl;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.game.controller.impl.WorldImpl;
-import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
 import static it.unibo.unibomber.utilities.Constants.UI.Screen;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons;

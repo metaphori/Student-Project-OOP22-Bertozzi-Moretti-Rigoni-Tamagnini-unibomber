@@ -153,6 +153,9 @@ public class Constants {
 
         }
 
+        /**
+         * Constanst for map settings.
+         */
         public static final class MapOption {
 
             /**
@@ -163,13 +166,6 @@ public class Constants {
              * Selection map dimension.
              */
             private static int mapDimension = DEFAULT_MAP_SELECTION_SIZE * (int) Buttons.scaleButton;
-
-            /**
-             * @return map dimension.
-             */
-            public static int getMapDimension() {
-                return mapDimension;
-            }
 
             /**
              * List of chosing map.
@@ -190,6 +186,13 @@ public class Constants {
                 MAP_LIST.add("./src/main/res/maps/map0/arena.map");
                 MAP_LIST.add("./src/main/res/maps/map1/arena.map");
             }
+
+            /**
+             * @return map dimension.
+             */
+            public static int getMapDimension() {
+                return mapDimension;
+            }
         }
 
         /**
@@ -209,14 +212,22 @@ public class Constants {
              */
             public static final float SCALE = 3f;
             /**
+             * default tilest width.
+             */
+            private static final int DEFAULT_TILES_WIDTH = 15;
+            /**
+             * default tilest wihrightdth.
+             */
+            private static final int DEFAULT_TILES_HEIGHT = 19;
+            /**
              * arena width in tiles.
              */
-            private static int tilesWidth = 15;
+            private static int tilesWidth = DEFAULT_TILES_WIDTH;
 
             /**
              * arena height in tiles.
              */
-            private static int tilesHeight = 19;
+            private static int tilesHeight = DEFAULT_TILES_HEIGHT;
 
             /**
              * tiles dimension scaled.
@@ -342,7 +353,7 @@ public class Constants {
             /**
              * @param tilesHeight
              */
-            public static void setTilesHeight(int tilesHeight) {
+            public static void setTilesHeight(final int tilesHeight) {
                 Screen.tilesHeight = tilesHeight;
             }
 
@@ -356,7 +367,7 @@ public class Constants {
             /**
              * @param tilesWidth
              */
-            public static void setTilesWidth(int tilesWidth) {
+            public static void setTilesWidth(final int tilesWidth) {
                 Screen.tilesWidth = tilesWidth;
             }
 
@@ -371,7 +382,7 @@ public class Constants {
         /**
          * GameLoop settings constans.
          */
-        public static class GameLoopConstants {
+        public static final class GameLoopConstants {
             /**
              * one nano second.
              */
@@ -385,19 +396,21 @@ public class Constants {
              */
             public static final int UPS_SET = 60;
             /**
-             *Game level.
+             * Game level.
              */
-            private static int level = 0;
+            private static int level;
+
             /**
              * @return game level.
              */
-            public static final int getLEVEL() {
+            public static int getLEVEL() {
                 return level;
             }
+
             /**
              * @param lEVEL
              */
-            public static final void setLEVEL(int lEVEL) {
+            public static void setLEVEL(final int lEVEL) {
                 level = lEVEL;
             }
 
@@ -406,7 +419,7 @@ public class Constants {
         /**
          * Sprites settings constans.
          */
-        public static class SpritesMap {
+        public static final class SpritesMap {
             /**
              * MENU_BUTTONS sprites path.
              */
@@ -499,11 +512,12 @@ public class Constants {
                 ANIMATION_ROW.put(Type.BOMB, ANIMATION_ROW_BOMB);
                 ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, ANIMATION_ROW_DESTRUCTIBLE_WALL);
             }
+
             /**
              * @param t
              * @param bImage
              */
-            public static final void addSprites(Type t, BufferedImage bImage){
+            public static void addSprites(final Type t, final BufferedImage bImage) {
                 SPRITESPATH.put(t, bImage);
             }
         }

@@ -30,6 +30,7 @@ public abstract class AbstractMenuButton implements MenuButton {
     /**
      * @param x        x coordinate of the button.
      * @param y        y coordinate of the button.
+     * @param xButtonPosition x coordinate of left top bound.
      * @param rowIndex index which represents the button row.
      */
     public AbstractMenuButton(final int x, final int y, final int xButtonPosition, final int rowIndex) {

@@ -38,6 +38,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final Option option;
 
   /**
+   * @param option
    * @param x
    * @param y
    * @param rowIndex
@@ -88,15 +89,11 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
       option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
     }
-    if ("left".equals(type)) {
-      if (GameLoopConstants.getLEVEL() > 0) {
-        GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() - 1);
-      }
+    if ("left".equals(type) && GameLoopConstants.getLEVEL() > 0) {
+      GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() - 1);
     }
-    if ("right".equals(type)) {
-      if (GameLoopConstants.getLEVEL() < MapOption.MAP_CHOSE_LIST.size() - 1) {
-        GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() + 1);
-      }
+    if ("right".equals(type) && GameLoopConstants.getLEVEL() < MapOption.MAP_CHOSE_LIST.size() - 1) {
+      GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() + 1);
     }
   }
 
