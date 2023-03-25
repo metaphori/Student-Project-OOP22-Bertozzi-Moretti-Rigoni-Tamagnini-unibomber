@@ -25,6 +25,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
+import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
 
 /**
  * Menu Button settings implementation class.
@@ -33,8 +34,6 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final int width, height;
   private final String type;
   private BufferedImage[] bufferImages;
-  //TO DO map level contanst file.
-  private static int mapChose = 0;
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
 
@@ -66,7 +65,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
 
   @Override
   public final void draw(final Graphics g) {
-    bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(mapChose);
+    bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(GameLoopConstants.getLEVEL());
     g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), width, height, null);
   }
 
@@ -82,25 +81,27 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
       loadDimension();
       this.option.getWorld().createGame();
       extractData();
-      SpritesMap.addSprites(Type.DESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map"+mapChose+"/destructible_wall.png"));
-      SpritesMap.addSprites(Type.INDESTRUCTIBLE_WALL, UploadRes.getSpriteAtlas("wall/map"+mapChose+"/indestructible_wall.png"));
+      SpritesMap.addSprites(Type.DESTRUCTIBLE_WALL,
+          UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/destructible_wall.png"));
+      SpritesMap.addSprites(Type.INDESTRUCTIBLE_WALL,
+          UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/indestructible_wall.png"));
       option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
     }
     if ("left".equals(type)) {
-      if (mapChose > 0) {
-        mapChose--;
+      if (GameLoopConstants.getLEVEL() > 0) {
+        GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() - 1);
       }
     }
     if ("right".equals(type)) {
-      if (mapChose < MapOption.MAP_CHOSE_LIST.size() - 1) {
-        mapChose++;
+      if (GameLoopConstants.getLEVEL() < MapOption.MAP_CHOSE_LIST.size() - 1) {
+        GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() + 1);
       }
     }
   }
 
   private void loadDimension() {
-    final Path myPath = Paths.get(MapOption.MAP_LIST.get(mapChose));
+    final Path myPath = Paths.get(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
     try {
       final String[] strArray = Files.lines(myPath)
           .map(s -> s.split(" "))
@@ -115,7 +116,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
 
   private void extractData() {
     try {
-      final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(mapChose));
+      final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
       final DataInputStream in = new DataInputStream(fstream);
       final BufferedReader br = new BufferedReader(new InputStreamReader(in));
       String strLine;

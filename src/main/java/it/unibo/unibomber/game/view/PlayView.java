@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.view;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Map;
 import java.awt.image.BufferedImage;
 
@@ -14,6 +15,9 @@ import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.UploadRes;
+import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
+
 import static it.unibo.unibomber.utilities.Constants.Player;
 import static it.unibo.unibomber.utilities.Constants.UI.Screen;
 import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
@@ -31,6 +35,7 @@ public final class PlayView implements GameLoop {
     private final Map<PowerUpType, BufferedImage> powerUpSprites;
     private Integer playerAction = Player.STANDING;
     private Integer indexDir;
+    private final BufferedImage[] tile;
 
     /**
      * 
@@ -42,6 +47,7 @@ public final class PlayView implements GameLoop {
         this.scale = Constants.UI.Scale.ENTITY_SCALE;
         this.controller = controller;
         indexDir = 0;
+        tile = new BufferedImage[2];
         loadSprites();
     }
 
@@ -65,6 +71,10 @@ public final class PlayView implements GameLoop {
         }
         for (Integer i = 0; i < SpritesMap.COL_WALL_SPRITES; i++) {
             animations[SpritesMap.ANIMATION_ROW.get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
+                    .getSubimage(i * Screen.WALL_DEFAULT, 0, Screen.WALL_DEFAULT, Screen.WALL_DEFAULT);
+        }
+        for (int i = 0; i < 2; i++) {
+            tile[i] = UploadRes.getSpriteAtlas("maps/map" + GameLoopConstants.getLEVEL() + "/grass.png")
                     .getSubimage(i * Screen.WALL_DEFAULT, 0, Screen.WALL_DEFAULT, Screen.WALL_DEFAULT);
         }
     }
@@ -96,10 +106,19 @@ public final class PlayView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
-
+        final Graphics2D g2d = (Graphics2D) g.create();
+        for (int y = 0; y < Screen.getgHeight(); y += Screen.getTilesSize()) {
+            for (int x = 0; x < Screen.getgWidth(); x += Screen.getTilesSize()) {
+                g2d.drawImage(tile[(x + y) % 2], x, y,
+                        (int) (Screen.getTilesSize()),
+                        (int) (Screen.getTilesSize()),
+                        null);
+            }
+        }
+        g2d.dispose();
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             // TODO TOGLIERE IL PRINT DELLE HITBOX
-            //controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
+            // controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
             if (controller.getEntities().get(i).getType() == Type.BOMB
                     && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()) {
                 controller.getExplosionController().draw(g);

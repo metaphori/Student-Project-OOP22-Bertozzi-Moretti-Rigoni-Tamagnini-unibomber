@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
@@ -12,8 +13,8 @@ import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 
-import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.NANO_S;
-import static it.unibo.unibomber.utilities.Constants.UI.GameLoop.UPS_SET;
+import static it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants.NANO_S;
+import static it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants.UPS_SET;
 
 /**
  * WordImpl constructor.

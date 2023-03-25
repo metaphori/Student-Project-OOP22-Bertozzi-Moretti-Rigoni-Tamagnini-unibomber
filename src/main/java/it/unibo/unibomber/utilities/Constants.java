@@ -371,7 +371,7 @@ public class Constants {
         /**
          * GameLoop settings constans.
          */
-        public static class GameLoop {
+        public static class GameLoopConstants {
             /**
              * one nano second.
              */
@@ -384,6 +384,23 @@ public class Constants {
              * ups setting.
              */
             public static final int UPS_SET = 60;
+            /**
+             *Game level.
+             */
+            private static int level = 0;
+            /**
+             * @return game level.
+             */
+            public static final int getLEVEL() {
+                return level;
+            }
+            /**
+             * @param lEVEL
+             */
+            public static final void setLEVEL(int lEVEL) {
+                level = lEVEL;
+            }
+
         }
 
         /**
@@ -466,7 +483,6 @@ public class Constants {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.EMPTY_AREA, UploadRes.getSpriteAtlas("menu/grass.png"));
                 SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));

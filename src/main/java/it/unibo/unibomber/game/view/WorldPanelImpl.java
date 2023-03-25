@@ -21,7 +21,6 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
 public final class WorldPanelImpl extends JPanel {
   private static final long serialVersionUID = -8854543282432946255L;
   private final transient WorldImpl world;
-  private final transient BufferedImage tile;
 
   /**
    * WordPanelImpl constructor.
@@ -31,7 +30,6 @@ public final class WorldPanelImpl extends JPanel {
   public WorldPanelImpl(final WorldImpl world) {
     this.world = world;
     setSize();
-    this.tile = Constants.UI.SpritesMap.SPRITESPATH.get(Type.EMPTY_AREA);
     addKeyListener(new KeyboardInputsImpl(this));
     addMouseListener(new MouseInputsImpl(this));
   }
@@ -53,17 +51,6 @@ public final class WorldPanelImpl extends JPanel {
   @Override
   public void paintComponent(final Graphics g) {
     super.paintComponent(g);
-    final Graphics2D g2d = (Graphics2D) g.create();
-    for (int y = 0; y < Screen.getgHeight(); y += Screen.getTilesSize()) {
-      for (int x = 0; x < Screen.getgWidth(); x += Screen.getTilesSize()) {
-        g2d.drawImage(tile, x, y,
-            (int) (Screen.getTilesSize()),
-            (int) (Screen.getTilesSize()),
-            this);
-      }
-    }
-    g2d.dispose();
-    setPreferredSize(new Dimension(Screen.getgWidth(), Screen.getgHeight()));
     world.draw(g);
   }
 
