@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Pair;
+
 /**
  * GameImpl class.
  */
@@ -18,16 +19,16 @@ public class GameImpl implements Game {
     private final List<Entity> entities = new ArrayList<>();
     private final List<Integer> keysPressedQueue = new ArrayList<>();
     private final Field gameField = new FieldImpl(this);
-    //private final TimesUpImpl timesUp = new TimesUpImpl(this);
+    // private final TimesUpImpl timesUp = new TimesUpImpl(this);
     private final int columns;
     private final int rows;
     private final World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
     private Gamestate gameState;
 
-
     /**
      * GameImpl constructor.
+     * 
      * @param world
      * @param rows
      * @param columns
@@ -37,7 +38,7 @@ public class GameImpl implements Game {
         this.rows = rows;
         this.columns = columns;
         this.gameState = Gamestate.PLAY;
-        //this.timesUp.start();
+        // this.timesUp.start();
     }
 
     @Override
@@ -89,18 +90,19 @@ public class GameImpl implements Game {
     public final EntityFactoryImpl getFactory() {
         return entityFactory;
     }
+
     @Override
     public final void updateTimesUp() {
-        //this.timesUp.update();
+        // this.timesUp.update();
     }
 
     @Override
-    public Gamestate getGameState() {
+    public final Gamestate getGameState() {
         return this.gameState;
     }
 
     @Override
-    public void updateGameState() {
+    public final void updateGameState() {
         final int playersLive = (int) this.entities.stream().filter(e -> e.getType() == Type.PLAYABLE).count();
         final int botLive = (int) this.entities.stream().filter(e -> e.getType() == Type.BOT).count();
         if (botLive == 0) {
