@@ -13,6 +13,7 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.view.PlayView;
@@ -48,9 +49,11 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
                 c.update();
             }
         }
+        explosion.resetEntity();
         this.world.getGame().getEntities().stream()
                 .filter(e -> e.getType() == Type.BOMB)
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
+                .filter(e -> !e.getComponent(DestroyComponent.class).get().isDestroyed())
                 .forEach((e) -> {
                     explosion.setEntityExploding(e);
                 });

@@ -35,7 +35,6 @@ public final class Explosion implements GameLoop {
      * @param entity
      */
     public void setEntityExploding(final Entity entity) {
-        this.explode = new ArrayList<>();
         this.explode.add(Optional.of(entity));
         this.power.add(entity.getComponent(PowerUpListComponent.class).get().getBombFire());
     }
@@ -82,9 +81,9 @@ public final class Explosion implements GameLoop {
     }
 
     /**
-     * @param id
+     * reset explosion list.
      */
-    public void removeEntity(final int id) {
-        explode.remove(id);
+    public void resetEntity() {
+        this.explode = new ArrayList<>();
     }
 }
