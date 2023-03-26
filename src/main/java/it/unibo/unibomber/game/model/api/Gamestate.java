@@ -23,7 +23,15 @@ public enum Gamestate {
     /**
     * Quit game.
     */
-    QUIT;
+    QUIT,
+    /**
+     *Player wins game.
+     */
+    WIN,
+    /**
+     *Player wins game.
+     */
+    LOSE;
 
     private static Gamestate state = MENU;
 
