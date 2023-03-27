@@ -2,48 +2,46 @@ package it.unibo.unibomber.game.controller.impl;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
-import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
-import it.unibo.unibomber.game.view.MenuView;
+import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
+import it.unibo.unibomber.game.view.StateGameView;
 import it.unibo.unibomber.utilities.Constants;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.getTopDistancePlay;
-import static it.unibo.unibomber.utilities.Constants.UI.Buttons.getTopDistanceQuit;
-
 /**
  * This class manage the game menu.
  */
-public class Menu extends StateImpl implements MouseListener, GameLoop {
+public class StateGame extends StateImpl implements MouseListener, GameLoop {
 
-    private MenuButtonImpl[] buttons = new MenuButtonImpl[2];
-    private final MenuView view;
+    private StateGameButtonImpl[] buttons = new StateGameButtonImpl[3];
+    private final StateGameView view;
 
     /**
      * This method manage the view of game menu.
      */
-    public Menu() {
+    public StateGame() {
         super();
-        view = new MenuView(this);
+        view = new StateGameView(this);
         loadButtons();
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButtonImpl(Constants.UI.Screen.getgWidth() / 2,
-                (int) getTopDistancePlay(), Constants.UI.Buttons.getBWidht(), Constants.UI.Buttons.getBHeight(), 0,
-                Gamestate.OPTION);
-        buttons[1] = new MenuButtonImpl(Constants.UI.Screen.getgWidth() / 2,
-                (int) getTopDistanceQuit(), Constants.UI.Buttons.getBWidht(), Constants.UI.Buttons.getBHeight(), 1,
-                Gamestate.QUIT);
+        buttons[0] = new StateGameButtonImpl(null, (Constants.UI.Screen.getgWidth() / 2) - 50,
+                Constants.UI.Screen.getgHeight() / 4, 100, 50, 0);
+        buttons[1] = new StateGameButtonImpl(Gamestate.MENU, (Constants.UI.Screen.getgWidth() / 4 - 50),
+                (Constants.UI.Screen.getgHeight() - Constants.UI.Screen.getgHeight() / 4), 50, 25, 1);
+        buttons[2] = new StateGameButtonImpl(Gamestate.QUIT,
+                Constants.UI.Screen.getgWidth() - Constants.UI.Screen.getgWidth() / 4,
+                (Constants.UI.Screen.getgHeight() - Constants.UI.Screen.getgHeight() / 4), 50, 25, 2);
 
     }
 
     /**
      * @return button menu pressed
      */
-    public final MenuButtonImpl[] getButtons() {
+    public final StateGameButtonImpl[] getButtons() {
         return Arrays.copyOf(buttons, buttons.length);
     }
 
@@ -71,7 +69,7 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void mousePressed(final MouseEvent e) {
-        for (final MenuButtonImpl mb : buttons) {
+        for (final StateGameButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 mb.setMousePressed(true);
             }
@@ -80,7 +78,7 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void mouseReleased(final MouseEvent e) {
-        for (final MenuButtonImpl mb : buttons) {
+        for (final StateGameButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
                     mb.applyGamestate();
@@ -92,7 +90,7 @@ public class Menu extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void resetButtons() {
-        for (final MenuButtonImpl mb : buttons) {
+        for (final StateGameButtonImpl mb : buttons) {
             mb.reset();
         }
 

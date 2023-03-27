@@ -4,6 +4,7 @@ import it.unibo.unibomber.game.controller.impl.Menu;
 import it.unibo.unibomber.game.controller.impl.Option;
 import it.unibo.unibomber.game.controller.impl.Pause;
 import it.unibo.unibomber.game.controller.impl.Play;
+import it.unibo.unibomber.game.controller.impl.StateGame;
 import it.unibo.unibomber.game.model.api.Game;
 
 /**
@@ -35,6 +36,11 @@ public interface World {
      * @return option.
      */
     Option getOption();
+
+    /**
+     * @return stateGame.
+     */
+    StateGame getEndGame();
 
     /**
      * @return game.

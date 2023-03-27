@@ -25,6 +25,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private Option option;
   private Play play;
   private Pause pause;
+  private StateGame endGame;
   private Game game;
 
   /**
@@ -52,6 +53,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
     menu = new Menu();
     option = new Option(this);
     pause = new Pause();
+    endGame = new StateGame();
   }
 
   private void loadSprites() {
@@ -81,6 +83,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case PAUSE:
         pause.update();
         break;
+      case WIN:
+      case LOSE:
+        endGame.update();
+        break;
       case QUIT:
       default:
         System.exit(0);
@@ -103,6 +109,11 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case PAUSE:
         play.draw(g);
         pause.draw(g);
+        break;
+      case WIN:
+      case LOSE:
+        play.draw(g);
+        endGame.draw(g);
         break;
       default:
         break;
@@ -163,5 +174,10 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final void setPlay() {
     play = new Play(this);
+  }
+
+  @Override
+  public StateGame getEndGame() {
+    return endGame;
   }
 }

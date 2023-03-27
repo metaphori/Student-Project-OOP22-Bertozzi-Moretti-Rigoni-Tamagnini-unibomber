@@ -5,20 +5,20 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.Pause;
+import it.unibo.unibomber.game.controller.impl.StateGame;
 import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
 import it.unibo.unibomber.utilities.Constants;
 
 /**
  * Draw game pause view statement.
  */
-public class PauseView implements GameLoop {
-    private final Pause controller;
+public class StateGameView implements GameLoop {
+    private final StateGame controller;
 
     /**
      * @param controller
      */
-    public PauseView(final Pause controller) {
+    public StateGameView(final StateGame controller) {
         this.controller = controller;
     }
 

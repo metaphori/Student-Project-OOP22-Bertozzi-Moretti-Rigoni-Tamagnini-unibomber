@@ -6,6 +6,7 @@ import java.util.List;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Explosion;
+import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
@@ -51,20 +52,22 @@ public final class ExplosionView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
-        final List<List<Pair<Integer, Integer>>> explosions = controller.getExplosionList();
-        frame++;
-        for (int i = 0; i < explosions.size(); i++) {
-            if (!explosions.get(i).isEmpty()) {
-                final Pair<Integer, Integer> center = explosions.get(i).get(0);
-                for (final Pair<Integer, Integer> p1 : explosions.get(i)) {
-                    g.drawImage(
-                            getCorrectImage(Direction.getDistance(p1, center),
-                                    Direction.extractDirecionBetweenTwo(center, p1).get(), i),
-                            Math.round(p1.getY() * Screen.getTilesSize()),
-                            Math.round(p1.getX() * Screen.getTilesSize()),
-                            (int) (Screen.getTilesDefault() * Screen.SCALE),
-                            (int) (Screen.getTilesDefault() * Screen.SCALE),
-                            null);
+        if (Gamestate.getGamestate() == Gamestate.PLAY) {
+            final List<List<Pair<Integer, Integer>>> explosions = controller.getExplosionList();
+            frame++;
+            for (int i = 0; i < explosions.size(); i++) {
+                if (!explosions.get(i).isEmpty()) {
+                    final Pair<Integer, Integer> center = explosions.get(i).get(0);
+                    for (final Pair<Integer, Integer> p1 : explosions.get(i)) {
+                        g.drawImage(
+                                getCorrectImage(Direction.getDistance(p1, center),
+                                        Direction.extractDirecionBetweenTwo(center, p1).get(), i),
+                                Math.round(p1.getY() * Screen.getTilesSize()),
+                                Math.round(p1.getX() * Screen.getTilesSize()),
+                                (int) (Screen.getTilesDefault() * Screen.SCALE),
+                                (int) (Screen.getTilesDefault() * Screen.SCALE),
+                                null);
+                    }
                 }
             }
         }

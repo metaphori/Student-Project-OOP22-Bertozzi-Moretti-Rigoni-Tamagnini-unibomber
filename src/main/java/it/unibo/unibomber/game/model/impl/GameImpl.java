@@ -24,7 +24,6 @@ public class GameImpl implements Game {
     private final int rows;
     private final World world;
     private final EntityFactoryImpl entityFactory = new EntityFactoryImpl(this);
-    private Gamestate gameState;
 
     /**
      * GameImpl constructor.
@@ -37,7 +36,6 @@ public class GameImpl implements Game {
         this.world = world;
         this.rows = rows;
         this.columns = columns;
-        this.gameState = Gamestate.PLAY;
         // this.timesUp.start();
     }
 
@@ -97,18 +95,13 @@ public class GameImpl implements Game {
     }
 
     @Override
-    public final Gamestate getGameState() {
-        return this.gameState;
-    }
-
-    @Override
     public final void updateGameState() {
         final int playersLive = (int) this.entities.stream().filter(e -> e.getType() == Type.PLAYABLE).count();
         final int botLive = (int) this.entities.stream().filter(e -> e.getType() == Type.BOT).count();
         if (botLive == 0) {
-            this.gameState = Gamestate.WIN;
+            Gamestate.setGameState(Gamestate.WIN);
         } else if (playersLive == 0) {
-            this.gameState = Gamestate.LOSE;
+            Gamestate.setGameState(Gamestate.LOSE);
         }
     }
 

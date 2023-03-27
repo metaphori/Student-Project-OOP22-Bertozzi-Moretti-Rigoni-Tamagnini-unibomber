@@ -69,15 +69,6 @@ public interface Game {
     void updateTimesUp();
 
     /**
-     * A method to know the state of the game.
-     * 
-     * @return PLAY if game is in progress,
-     *         WIN if the player win the game,
-     *         LOSE otherwise.
-     */
-    Gamestate getGameState();
-
-    /**
      * A method to update the new state of the game.
      */
     void updateGameState();

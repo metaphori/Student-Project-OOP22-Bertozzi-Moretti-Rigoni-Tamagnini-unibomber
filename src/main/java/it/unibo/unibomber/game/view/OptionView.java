@@ -20,10 +20,6 @@ public final class OptionView implements GameLoop {
          */
         public OptionView(final Option controller) {
                 this.controller = controller;
-                loadBackground();
-        }
-
-        private void loadBackground() {
         }
 
         @Override
