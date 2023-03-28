@@ -118,18 +118,22 @@ public final class CollisionComponent extends AbstractComponent {
       * Check if entity is out of field and if it is push back.
       */
      private void isOutofField() {
-          if (hitbox.x > (Screen.getgWidth() - Screen.getTilesSize())) {
-               this.getEntity().setPosition(
-                         new Pair<Float, Float>((float) Screen.getTilesWidth() - 1,
-                                   this.getEntity().getPosition().getY()));
-          } else if (hitbox.x < 0) {
-               this.getEntity().setPosition(new Pair<Float, Float>(0f,
-                         this.getEntity().getPosition().getY()));
-          } else if (hitbox.y > (Screen.getgHeight() - Screen.getTilesSize())) {
-               this.getEntity().setPosition(
-                         new Pair<Float, Float>(this.getEntity().getPosition().getX(), (float) Screen.getTilesHeight() - 1));
-          } else if (hitbox.y < 0) {
-               this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
+          if (this.getEntity().getType() != Type.BOMB
+                    || !this.getEntity().getComponent(ThrowComponent.class).get().isThrowing()) {
+               if (hitbox.x > (Screen.getgWidth() - Screen.getTilesSize())) {
+                    this.getEntity().setPosition(
+                              new Pair<Float, Float>((float) Screen.getTilesWidth() - 1,
+                                        this.getEntity().getPosition().getY()));
+               } else if (hitbox.x < 0) {
+                    this.getEntity().setPosition(new Pair<Float, Float>(0f,
+                              this.getEntity().getPosition().getY()));
+               } else if (hitbox.y > (Screen.getgHeight() - Screen.getTilesSize())) {
+                    this.getEntity().setPosition(
+                              new Pair<Float, Float>(this.getEntity().getPosition().getX(),
+                                        (float) Screen.getTilesHeight() - 1));
+               } else if (hitbox.y < 0) {
+                    this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
+               }
           }
      }
 
