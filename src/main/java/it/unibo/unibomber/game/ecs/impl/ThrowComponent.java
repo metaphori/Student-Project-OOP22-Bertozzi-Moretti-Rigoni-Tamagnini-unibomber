@@ -21,12 +21,47 @@ public class ThrowComponent extends AbstractComponent {
     @Override
     public final void update() {
         final MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
-        final Pair<Float, Float> bombPosition = this.getEntity().getPosition();
+        final int bombActualPositionX = Math.round(this.getEntity().getPosition().getX());
+        final int bombActualPositionY = Math.round(this.getEntity().getPosition().getY());
         if (isThrowing) {
-            if (Math.round(bombPosition.getX()) != (float) (finalPos.getX())
-                    || Math.round(bombPosition.getY()) != (float) (finalPos.getY())) {
+            if (bombActualPositionX != (float) (finalPos.getX()) || bombActualPositionY != (float) (finalPos.getY())) {
+                //TODO refactor
+                if (!Utilities.isBetweenIncluded(bombActualPositionX, 0, Constants.UI.Screen.getTilesWidth() - 1)
+                        || !Utilities.isBetweenIncluded(bombActualPositionY, 0,
+                                Constants.UI.Screen.getTilesHeight() - 1)) {
+
+                    final int dimensionX = this.getEntity().getGame().getDimensions().getX();
+                    final int dimensionY = this.getEntity().getGame().getDimensions().getY();
+
+                    int nextX = Math.abs(bombActualPositionX + (bombMovement.getDirection().getX() * 3)) % dimensionX;
+                    int nextY = Math.abs(bombActualPositionY - (bombMovement.getDirection().getY() * 3)) % dimensionY;
+
+                    finalPos = new Pair<Integer, Integer>(nextX, nextY);
+
+                    switch (bombMovement.getDirection()) {
+                        case UP:
+                            nextY = 0;
+                            break;
+                        case DOWN:
+                            nextY = dimensionY - 1;
+                            break;
+                        case LEFT:
+                            nextX = dimensionX - 1;
+                            break;
+                        case RIGHT:
+                            nextX = 0;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    this.getEntity().setPosition(new Pair<Float, Float>((float) nextX, (float) nextY));
+
+                }
+
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
                         playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
+
             } else {
                 if (checkFinalPosition()) {
                     bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
@@ -37,6 +72,7 @@ public class ThrowComponent extends AbstractComponent {
                             finalPos.getY() + (-playerDir.getY() * 1));
                 }
             }
+
         }
     }
 
@@ -52,7 +88,7 @@ public class ThrowComponent extends AbstractComponent {
         this.isThrowing = isThrowing;
         this.startingPos = startingPos;
         this.playerDir = playerDir;
-        this.finalPos = calculateStandardPosition();
+        calculateStandardPosition();
     }
 
     /**
@@ -67,8 +103,12 @@ public class ThrowComponent extends AbstractComponent {
      * 
      * @return standard position
      */
-    private Pair<Integer, Integer> calculateStandardPosition() {
-        return new Pair<>(startingPos.getX() + (playerDir.getX() * 3), startingPos.getY() + (-playerDir.getY() * 3));
+    private void calculateStandardPosition() {
+        //TODO refactor
+        var possfinal = new Pair<>(startingPos.getX() + (playerDir.getX() * 3),
+                startingPos.getY() + (-playerDir.getY() * 3));
+        this.finalPos = possfinal;
+
     }
 
     /**
@@ -77,7 +117,8 @@ public class ThrowComponent extends AbstractComponent {
      * @return final position status
      */
     private boolean checkFinalPosition() {
-        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField().getField();
+        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = this.getEntity().getGame().getGameField()
+                .getField();
         return fieldMap.entrySet().stream()
                 .filter(e -> e.getKey().equals(finalPos))
                 .map(Map.Entry::getValue)
