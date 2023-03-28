@@ -110,7 +110,9 @@ public class Constants {
                 OptionButton.incrementBotSize = OptionButton.bombNumberDimension / 2;
                 OptionButton.plyerSelectionWidth = OptionButton.PLAYER_SELECTION_WIDTH * (int) Buttons.scaleButton;
                 OptionButton.plyerSelectionHeight = OptionButton.PLAYER_SELECTION_HEIGHT * (int) Buttons.scaleButton;
-                OptionButton.plyerSelectioBorderDistance = (Screen.getgWidth() - (OptionButton.plyerSelectionWidth * 2 + 10)) / 2;
+                OptionButton.plyerSelectioBorderDistance = (Screen.getgWidth()
+                        - (OptionButton.plyerSelectionWidth * 2 + 10)) / 2;
+                OptionButton.powerUpSetTopDistance = Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
             }
 
             /**
@@ -199,6 +201,16 @@ public class Constants {
              * player selection border distance scaled.
              */
             private static int plyerSelectioBorderDistance = (Screen.getgWidth() - (plyerSelectionWidth * 2 + 10)) / 2;
+            /**
+             * Top distance for power up set.
+             */
+            private static int powerUpSetTopDistance = Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+            /**
+             * @return Top distance for power up set.
+             */
+            public static int getPowerUpSetTopDistance() {
+                return powerUpSetTopDistance;
+            }
 
             /**
              * @return plyerSelectioBorderDistance.

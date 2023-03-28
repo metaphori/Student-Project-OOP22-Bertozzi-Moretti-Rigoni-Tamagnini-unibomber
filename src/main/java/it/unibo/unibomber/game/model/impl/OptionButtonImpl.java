@@ -1,8 +1,6 @@
 package it.unibo.unibomber.game.model.impl;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -33,7 +31,8 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
  * Menu Button settings implementation class.
  */
 public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
-  private final String type;
+  private String type;
+  private PowerUpType Ptype;
   private BufferedImage[] bufferImages;
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
@@ -54,9 +53,25 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     this.type = type;
     loadbufferImages();
   }
+  /**
+   * @param option
+   * @param x
+   * @param y
+   * @param rowIndex
+   * @param w
+   * @param h
+   * @param Ptype
+   */
+  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+      final PowerUpType Ptype) {
+    super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
+    this.option = option;
+    this.Ptype = Ptype;
+    loadbufferImages();
+  }
 
   private void loadbufferImages() {
-    bufferImages = new BufferedImage[10];
+    bufferImages = new BufferedImage[17];
     bufferImages[0] = UploadRes.getSpriteAtlas("menu/left.png");
     bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
     bufferImages[3] = UploadRes.getSpriteAtlas("menu/ok.png");
@@ -66,16 +81,19 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     bufferImages[7] = UploadRes.getSpriteAtlas("menu/botNumber.png");
     bufferImages[8] = UploadRes.getSpriteAtlas("menu/+.png");
     bufferImages[9] = UploadRes.getSpriteAtlas("menu/-.png");
-
+    bufferImages[10] = UploadRes.getSpriteAtlas("powerUp/bomb_up.png");
+    bufferImages[11] = UploadRes.getSpriteAtlas("powerUp/fire_up.png");
+    bufferImages[12] = UploadRes.getSpriteAtlas("powerUp/speed_up.png");
+    bufferImages[13] = UploadRes.getSpriteAtlas("powerUp/bomb_kick.png");
+    bufferImages[14] = UploadRes.getSpriteAtlas("powerUp/power_glove.png");
+    bufferImages[15] = UploadRes.getSpriteAtlas("menu/delete.png");
+    bufferImages[16] = UploadRes.getSpriteAtlas("menu/delete_all.png");
   }
 
   @Override
   public final void draw(final Graphics g) {
     bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(GameLoopConstants.getLEVEL());
     g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), this.getW(), this.getH(), null);
-    final Graphics2D g2 = (Graphics2D) g;
-    g2.setColor(Color.BLACK);
-    g2.drawRect(this.getX(), this.getY(), this.getW(), this.getH());
   }
 
   @Override
@@ -177,5 +195,11 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    */
   public String getType() {
     return type;
+  }
+  /**
+   * @return type of button.
+   */
+  public PowerUpType getPType() {
+    return Ptype;
   }
 }

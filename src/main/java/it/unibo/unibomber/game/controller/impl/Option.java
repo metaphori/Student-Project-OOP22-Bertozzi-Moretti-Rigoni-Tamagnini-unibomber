@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.OptionView;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
@@ -20,7 +21,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
-    private OptionButtonImpl[] optionButtons = new OptionButtonImpl[8 + MapOption.getNumberOfBot()];
+    private OptionButtonImpl[] optionButtons = new OptionButtonImpl[15 + MapOption.getNumberOfBot()];
     private final WorldImpl world;
 
     /**
@@ -49,7 +50,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                 Screen.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_INCREMENT * 2)),
                 Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT),
                 3, Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT,
-                Buttons.getOptionButtonSize(), "ok");
+                Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT, "ok");
         optionButtons[4] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT,
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() + OptionButton.HEIGHT_BOTNUMBER_SELECTION,
                 7, OptionButton.getBombNumberDimension(), OptionButton.getBombNumberDimension(), "botNumber");
@@ -65,8 +66,17 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
                 optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
                 4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
-        // 1 scalare quando > 4
         setBot();
+        setPowerUp();
+        optionButtons[21] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2)*5,
+        OptionButton.getPowerUpSetTopDistance()
+                + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
+        15, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2, "delete");
+        
+        optionButtons[22] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 3 + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2)*6,
+        OptionButton.getPowerUpSetTopDistance()
+                + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
+        16, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2, "deleteAll");
     }
 
     /**
@@ -105,13 +115,11 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                 mb.setMousePressed(true);
                 if ("player".equals(mb.getType())) {
                     optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
-                            OptionButton.PLAYER_WIDTH_INCREMENT + MapOption.getMapDimension()
-                                    + (OptionButton.WIDTH_INCREMENT * 10),
+                            optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
                             5, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
                 } else {
                     optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
-                            OptionButton.PLAYER_WIDTH_INCREMENT + MapOption.getMapDimension()
-                                    + (OptionButton.WIDTH_INCREMENT * 10),
+                            optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
                             4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
                 }
             }
@@ -178,5 +186,20 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private void resetBot() {
         IntStream.range(8, 8 + MapOption.getNumberOfBot())
                 .forEach(i -> optionButtons[i] = new OptionButtonImpl(null, 0, 0, 0, 0, 0, "empty"));
+    }
+
+    /**
+     * Set power up buttons.
+     */
+    private void setPowerUp() {
+        final int powerUpNumber = 5;
+        int basedWidth = 0;
+        for (int i = 0; i < powerUpNumber; i++) {
+            optionButtons[16 + i] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
+                    OptionButton.getPowerUpSetTopDistance()
+                            + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
+                    10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, PowerUpType.BOMBUP);
+            basedWidth += Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2;
+        }
     }
 }

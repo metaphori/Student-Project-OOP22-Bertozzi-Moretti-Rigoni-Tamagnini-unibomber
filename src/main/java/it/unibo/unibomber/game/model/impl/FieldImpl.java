@@ -6,14 +6,10 @@ import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
-import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;
 import it.unibo.unibomber.game.ecs.impl.ThrowComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
-import it.unibo.unibomber.utilities.Constants;
-import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
-import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * Field is an object that manages the game field frame by frame.

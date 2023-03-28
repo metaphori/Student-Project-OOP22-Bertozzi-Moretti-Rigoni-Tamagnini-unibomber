@@ -1,6 +1,5 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
@@ -112,6 +111,7 @@ public final class AIComponent extends AbstractComponent {
                int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
                addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),strength , d, 0);
           }
+          return true;
      }
 
      private void placeBomb(Type[][] typesMatrix) {
