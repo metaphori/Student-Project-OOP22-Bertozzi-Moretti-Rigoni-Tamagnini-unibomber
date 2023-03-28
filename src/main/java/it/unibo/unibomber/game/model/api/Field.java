@@ -20,12 +20,4 @@ public interface Field {
      * A method that updates the field.
      */
     void updateField();
-
-    /**
-     * A method that supplies a matrix of the types of entities
-     * in the field with its own positions.
-     * 
-     * @return a matrix of types of the entities
-     */
-    Type[][] getMatrixTypes();
 }
