@@ -45,6 +45,7 @@ public final class DestroyComponent extends AbstractComponent {
                         && this.getEntity().getType() != Type.POWERUP) {
                     dropPowerUps();
                 } else {
+                    this.getEntity().getGame().updateGameState();
                     this.getEntity().getGame().removeEntity(this.getEntity());
                 }
             }
@@ -87,6 +88,7 @@ public final class DestroyComponent extends AbstractComponent {
         final List<PowerUpType> powerUps;
         int droppedPowerUps;
         this.getEntity().getGame().removeEntity(this.getEntity());
+        entity.getGame().updateGameState();
         if (powerUpComponent.isPresent()) {
             powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
