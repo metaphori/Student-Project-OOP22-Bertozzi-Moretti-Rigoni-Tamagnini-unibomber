@@ -112,7 +112,17 @@ public class Constants {
                 OptionButton.plyerSelectionHeight = OptionButton.PLAYER_SELECTION_HEIGHT * (int) Buttons.scaleButton;
                 OptionButton.plyerSelectioBorderDistance = (Screen.getgWidth()
                         - (OptionButton.plyerSelectionWidth * 2 + 10)) / 2;
-                OptionButton.powerUpSetTopDistance = Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+                OptionButton.powerUpSetTopDistance = Screen.getgHeight()
+                        - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+                OptionButton.gameStateDimension = new Pair<Integer, Integer>(
+                        OptionButton.GAMESTATE_W_DEFAULT * (int) Buttons.scaleButton,
+                        OptionButton.GAMESTATE_H_DEFAULT * (int) Buttons.scaleButton);
+                OptionButton.continueDimension = new Pair<Integer, Integer>(
+                        OptionButton.CONTINUE_W_DEFAULT * (int) Buttons.scaleButton,
+                        OptionButton.CONTINUE_H_DEFAULT * (int) Buttons.scaleButton);
+                OptionButton.quitDimension = new Pair<Integer, Integer>(
+                        OptionButton.QUIT_W_DEFAULT * (int) Buttons.scaleButton,
+                        OptionButton.QUIT_H_DEFAULT * (int) Buttons.scaleButton);
             }
 
             /**
@@ -152,7 +162,30 @@ public class Constants {
              * Option background color.
              */
             public static final Color OPTION_BACKGROUND = new Color(255, 255, 156);
-
+            /**
+             * Default gamestate witdh.
+             */
+            private static final int GAMESTATE_W_DEFAULT = 50;
+            /**
+             * Default gamestate height.
+             */
+            private static final int GAMESTATE_H_DEFAULT = 15;
+            /**
+             * Default continue witdh.
+             */
+            private static final int CONTINUE_W_DEFAULT = 50;
+            /**
+             * Default continue height.
+             */
+            private static final int CONTINUE_H_DEFAULT = 15;
+            /**
+             * Default quit witdh.
+             */
+            private static final int QUIT_W_DEFAULT = 30;
+            /**
+             * Default quit height.
+             */
+            private static final int QUIT_H_DEFAULT = 15;
             /**
              * Increment of with on height of ok button.
              */
@@ -170,15 +203,6 @@ public class Constants {
              */
             private static final int BOTNUMBER_DEFAULT_SIZE = 15;
             /**
-             * Selection bombNumber dimension scaled.
-             */
-            private static int bombNumberDimension = BOTNUMBER_DEFAULT_SIZE * (int) Buttons.scaleButton;
-
-            /**
-             * Selection incrementBotSize dimension scaled.
-             */
-            private static int incrementBotSize = bombNumberDimension / 2;
-            /**
              * player selection width default size.
              */
             private static final int PLAYER_SELECTION_WIDTH = 80;
@@ -186,7 +210,51 @@ public class Constants {
              * player selection height default size.
              */
             private static final int PLAYER_SELECTION_HEIGHT = 20;
+            /**
+             * gamestate dimention.
+             */
+            private static Pair<Integer, Integer> gameStateDimension = new Pair<Integer, Integer>(
+                    GAMESTATE_W_DEFAULT * (int) Buttons.scaleButton, GAMESTATE_H_DEFAULT * (int) Buttons.scaleButton);
+            /**
+             * Contiunue button dimension.
+             */
+            private static Pair<Integer, Integer> continueDimension = new Pair<Integer, Integer>(
+                    CONTINUE_W_DEFAULT * (int) Buttons.scaleButton, CONTINUE_H_DEFAULT * (int) Buttons.scaleButton);
+            /**
+             * Quit button dimension.
+             */
+            private static Pair<Integer, Integer> quitDimension = new Pair<Integer, Integer>(
+                    QUIT_W_DEFAULT * (int) Buttons.scaleButton, QUIT_H_DEFAULT * (int) Buttons.scaleButton);
 
+            /**
+             * @return quit dimension.
+             */
+            public static Pair<Integer, Integer> getQuitDimension() {
+                return quitDimension;
+            }
+
+            /**
+             * @return gamestate dimension.
+             */
+            public static Pair<Integer, Integer> getGameStateDimension() {
+                return gameStateDimension;
+            }
+
+            /**
+             * @return conitnue dimension.
+             */
+            public static Pair<Integer, Integer> getContinueDimension() {
+                return continueDimension;
+            }
+
+            /**
+             * Selection bombNumber dimension scaled.
+             */
+            private static int bombNumberDimension = BOTNUMBER_DEFAULT_SIZE * (int) Buttons.scaleButton;
+            /**
+             * Selection incrementBotSize dimension scaled.
+             */
+            private static int incrementBotSize = bombNumberDimension / 2;
             /**
              * player selection width dimension scaled.
              */
@@ -204,7 +272,9 @@ public class Constants {
             /**
              * Top distance for power up set.
              */
-            private static int powerUpSetTopDistance = Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+            private static int powerUpSetTopDistance = Screen.getgHeight()
+                    - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+
             /**
              * @return Top distance for power up set.
              */

@@ -31,11 +31,12 @@ public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop 
   }
 
   private void loadbufferImages() {
-    bufferImages = new BufferedImage[3];
-    bufferImages[0] = UploadRes.getSpriteAtlas("menu/ok.png");
-    bufferImages[1] = UploadRes.getSpriteAtlas("menu/left.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
-
+    bufferImages = new BufferedImage[5];
+    bufferImages[0] = UploadRes.getSpriteAtlas("menu/stateGame/pause.png");
+    bufferImages[1] = UploadRes.getSpriteAtlas("menu/stateGame/continue.png");
+    bufferImages[2] = UploadRes.getSpriteAtlas("menu/stateGame/quit.png");
+    bufferImages[3] = UploadRes.getSpriteAtlas("menu/stateGame/win.png");
+    bufferImages[4] = UploadRes.getSpriteAtlas("menu/stateGame/lose.png");
   }
 
   @Override

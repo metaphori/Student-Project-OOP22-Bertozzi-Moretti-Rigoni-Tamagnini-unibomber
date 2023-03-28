@@ -4,7 +4,9 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
 import it.unibo.unibomber.game.view.PauseView;
-import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Constants.UI.OptionButton;
+import it.unibo.unibomber.utilities.Constants.UI.Screen;
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,14 +32,18 @@ public class Pause extends StateImpl implements MouseListener, KeyListener, Game
     }
 
     private void loadButtons() {
-        buttons[0] = new StateGameButtonImpl(null, (Constants.UI.Screen.getgWidth() / 2) - 50,
-                Constants.UI.Screen.getgHeight() / 4, 100, 50, 0);
-        buttons[1] = new StateGameButtonImpl(Gamestate.PLAY, (Constants.UI.Screen.getgWidth() / 4 - 50),
-                (Constants.UI.Screen.getgHeight() - Constants.UI.Screen.getgHeight() / 4), 50, 25, 1);
+        buttons[0] = new StateGameButtonImpl(null,
+                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
+                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), 0);
+        buttons[1] = new StateGameButtonImpl(Gamestate.PLAY,
+                (((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2)
+                        - OptionButton.getContinueDimension().getX()) / 2,
+                (Screen.getgHeight() - Screen.getgHeight() / 4),
+                OptionButton.getContinueDimension().getX(), OptionButton.getContinueDimension().getY(), 1);
         buttons[2] = new StateGameButtonImpl(Gamestate.MENU,
-                Constants.UI.Screen.getgWidth() - Constants.UI.Screen.getgWidth() / 4,
-                (Constants.UI.Screen.getgHeight() - Constants.UI.Screen.getgHeight() / 4), 50, 25, 2);
-
+                Screen.getgWidth() - Screen.getgWidth() / 4, (Screen.getgHeight() - Screen.getgHeight() / 4),
+                OptionButton.getQuitDimension().getX(), OptionButton.getQuitDimension().getY(),
+                2);
     }
 
     /**

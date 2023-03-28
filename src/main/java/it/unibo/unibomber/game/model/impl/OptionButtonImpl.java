@@ -72,22 +72,22 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
 
   private void loadbufferImages() {
     bufferImages = new BufferedImage[17];
-    bufferImages[0] = UploadRes.getSpriteAtlas("menu/left.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
-    bufferImages[3] = UploadRes.getSpriteAtlas("menu/ok.png");
-    bufferImages[4] = UploadRes.getSpriteAtlas("menu/player.png");
-    bufferImages[5] = UploadRes.getSpriteAtlas("menu/player_hover.png");
-    bufferImages[6] = UploadRes.getSpriteAtlas("menu/bot.png");
-    bufferImages[7] = UploadRes.getSpriteAtlas("menu/botNumber.png");
-    bufferImages[8] = UploadRes.getSpriteAtlas("menu/+.png");
-    bufferImages[9] = UploadRes.getSpriteAtlas("menu/-.png");
+    bufferImages[0] = UploadRes.getSpriteAtlas("menu/option/left.png");
+    bufferImages[2] = UploadRes.getSpriteAtlas("menu/option/right.png");
+    bufferImages[3] = UploadRes.getSpriteAtlas("menu/option/ok.png");
+    bufferImages[4] = UploadRes.getSpriteAtlas("menu/option/player.png");
+    bufferImages[5] = UploadRes.getSpriteAtlas("menu/option/player_hover.png");
+    bufferImages[6] = UploadRes.getSpriteAtlas("menu/option/bot.png");
+    bufferImages[7] = UploadRes.getSpriteAtlas("menu/option/botNumber.png");
+    bufferImages[8] = UploadRes.getSpriteAtlas("menu/option/+.png");
+    bufferImages[9] = UploadRes.getSpriteAtlas("menu/option/-.png");
     bufferImages[10] = UploadRes.getSpriteAtlas("powerUp/bomb_up.png");
     bufferImages[11] = UploadRes.getSpriteAtlas("powerUp/fire_up.png");
     bufferImages[12] = UploadRes.getSpriteAtlas("powerUp/speed_up.png");
     bufferImages[13] = UploadRes.getSpriteAtlas("powerUp/bomb_kick.png");
     bufferImages[14] = UploadRes.getSpriteAtlas("powerUp/power_glove.png");
-    bufferImages[15] = UploadRes.getSpriteAtlas("menu/delete.png");
-    bufferImages[16] = UploadRes.getSpriteAtlas("menu/delete_all.png");
+    bufferImages[15] = UploadRes.getSpriteAtlas("menu/option/delete.png");
+    bufferImages[16] = UploadRes.getSpriteAtlas("menu/option/delete_all.png");
   }
 
   @Override
