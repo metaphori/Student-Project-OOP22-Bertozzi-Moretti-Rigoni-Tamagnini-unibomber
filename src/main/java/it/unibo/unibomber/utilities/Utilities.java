@@ -20,6 +20,18 @@ public final class Utilities {
     }
 
     /**
+     * Establishes if a float value is beetween included 2 value.
+     * 
+     * @param value
+     * @param min
+     * @param max
+     * @return beetween included status
+     */
+    public static boolean isBetweenIncluded(final float value, final int min, final int max) {
+        return value >= min && value <= max;
+    }
+
+    /**
      * This method convert Integer pair to Float pair.
      * 
      * @param integerPair
