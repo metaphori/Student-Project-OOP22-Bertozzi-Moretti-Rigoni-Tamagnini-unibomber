@@ -13,7 +13,6 @@ import it.unibo.unibomber.utilities.UploadRes;
  */
 public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
   private final Gamestate gameState;
-  private final int w, h;
   private BufferedImage[] bufferImages;
 
   /**
@@ -25,10 +24,8 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param gameState
    */
   public MenuButtonImpl(final int x, final int y, final int w, final int h, final int rowIndex, final Gamestate gameState) {
-    super(x, y, Constants.UI.Buttons.getBWidht() / 2, rowIndex);
+    super(x, y, w, h, Constants.UI.Buttons.getBWidht() / 2, rowIndex);
     this.gameState = gameState;
-    this.w = w;
-    this.h = h;
     loadbufferImages();
   }
 
@@ -45,7 +42,7 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
   @Override
   public final void draw(final Graphics g) {
     g.drawImage(bufferImages[this.getRowIndex()], this.getX() - getxButtonPosition(), this.getY(),
-        w, h, null);
+        this.getW(), this.getH(), null);
   }
 
   @Override

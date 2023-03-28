@@ -1,6 +1,8 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -20,18 +22,17 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
-import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
+import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 
 /**
  * Menu Button settings implementation class.
  */
 public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
-  private final int width, height;
   private final String type;
   private BufferedImage[] bufferImages;
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
@@ -48,26 +49,33 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {
-    super(x, y, Buttons.getOptionButtonSize() / 2, rowIndex);
+    super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
     this.option = option;
-    this.width = w;
-    this.height = h;
     this.type = type;
     loadbufferImages();
   }
 
   private void loadbufferImages() {
-    bufferImages = new BufferedImage[4];
+    bufferImages = new BufferedImage[10];
     bufferImages[0] = UploadRes.getSpriteAtlas("menu/left.png");
     bufferImages[2] = UploadRes.getSpriteAtlas("menu/right.png");
     bufferImages[3] = UploadRes.getSpriteAtlas("menu/ok.png");
+    bufferImages[4] = UploadRes.getSpriteAtlas("menu/player.png");
+    bufferImages[5] = UploadRes.getSpriteAtlas("menu/player_hover.png");
+    bufferImages[6] = UploadRes.getSpriteAtlas("menu/bot.png");
+    bufferImages[7] = UploadRes.getSpriteAtlas("menu/botNumber.png");
+    bufferImages[8] = UploadRes.getSpriteAtlas("menu/+.png");
+    bufferImages[9] = UploadRes.getSpriteAtlas("menu/-.png");
 
   }
 
   @Override
   public final void draw(final Graphics g) {
     bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(GameLoopConstants.getLEVEL());
-    g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), width, height, null);
+    g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), this.getW(), this.getH(), null);
+    final Graphics2D g2 = (Graphics2D) g;
+    g2.setColor(Color.BLACK);
+    g2.drawRect(this.getX(), this.getY(), this.getW(), this.getH());
   }
 
   @Override
@@ -94,6 +102,12 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     }
     if ("right".equals(type) && GameLoopConstants.getLEVEL() < MapOption.MAP_CHOSE_LIST.size() - 1) {
       GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() + 1);
+    }
+    if ("+".equals(type) && MapOption.getNumberOfBot() < 8) {
+      MapOption.incrementBot();
+    }
+    if ("-".equals(type) && MapOption.getNumberOfBot() > 1) {
+      MapOption.decrementBot();
     }
   }
 
@@ -158,4 +172,10 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     }
   }
 
+  /**
+   * @return type of button.
+   */
+  public String getType() {
+    return type;
+  }
 }

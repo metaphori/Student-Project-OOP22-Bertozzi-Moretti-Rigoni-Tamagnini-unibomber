@@ -58,15 +58,15 @@ public class Pause extends StateImpl implements MouseListener, KeyListener, Game
     }
 
     @Override
-    public void mouseClicked(final MouseEvent e) {
+    public final void mouseClicked(final MouseEvent e) {
     }
 
     @Override
-    public void mouseEntered(final MouseEvent e) {
+    public final void mouseEntered(final MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(final MouseEvent e) {
+    public final void mouseExited(final MouseEvent e) {
     }
 
     @Override
@@ -99,17 +99,17 @@ public class Pause extends StateImpl implements MouseListener, KeyListener, Game
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public final void keyPressed(final KeyEvent e) {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public final void keyReleased(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Gamestate.setGameState(Gamestate.PLAY);
         }
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public final void keyTyped(final KeyEvent e) {
     }
 }

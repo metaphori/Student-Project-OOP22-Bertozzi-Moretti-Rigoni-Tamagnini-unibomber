@@ -13,7 +13,7 @@ public class StateImpl implements State {
 
  @Override
  public final boolean isMouseIn(final MouseEvent e, final MenuButtonImpl mb) {
-  return mb.getBounds().contains(e.getX(), e.getY());
+  return mb.getBounds().contains(e.getX() + mb.getxButtonPosition(), e.getY());
  }
 
 @Override

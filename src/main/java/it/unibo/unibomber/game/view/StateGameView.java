@@ -12,7 +12,7 @@ import it.unibo.unibomber.utilities.Constants;
 /**
  * Draw game pause view statement.
  */
-public class StateGameView implements GameLoop {
+public final class StateGameView implements GameLoop {
     private final StateGame controller;
 
     /**
@@ -30,7 +30,7 @@ public class StateGameView implements GameLoop {
     }
 
     @Override
-    public final void draw(final Graphics g) {
+    public void draw(final Graphics g) {
         final Graphics2D g2 = (Graphics2D) g;
         g2.setColor(new Color(0, 0, 0, Constants.UI.Screen.getOpacity()));
         g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());

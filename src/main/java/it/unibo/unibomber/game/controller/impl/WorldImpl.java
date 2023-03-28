@@ -177,7 +177,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public StateGame getEndGame() {
+  public final StateGame getEndGame() {
     return endGame;
   }
 }

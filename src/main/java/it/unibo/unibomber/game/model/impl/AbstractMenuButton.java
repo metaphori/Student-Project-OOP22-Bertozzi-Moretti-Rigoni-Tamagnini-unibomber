@@ -3,7 +3,6 @@ package it.unibo.unibomber.game.model.impl;
 import java.awt.Rectangle;
 
 import it.unibo.unibomber.game.model.api.MenuButton;
-import it.unibo.unibomber.utilities.Constants;
 
 /**
  * an intermediate class for menu buttons.
@@ -21,39 +20,58 @@ public abstract class AbstractMenuButton implements MenuButton {
     /**
      * Position of button in panel and ind vector.
      */
-    private final int x, y, rowIndex;
+    private final int x, y, w, h, rowIndex;
     /**
      * position of left top angle of bounds.
      */
     private final int xButtonPosition;
 
     /**
-     * @param x        x coordinate of the button.
-     * @param y        y coordinate of the button.
+     * @param x               x coordinate of the button.
+     * @param y               y coordinate of the button.
+     * @param w               widht of the button.
+     * @param h               hieght of the button.
      * @param xButtonPosition x coordinate of left top bound.
-     * @param rowIndex index which represents the button row.
+     * @param rowIndex        index which represents the button row.
      */
-    public AbstractMenuButton(final int x, final int y, final int xButtonPosition, final int rowIndex) {
+    public AbstractMenuButton(final int x, final int y, final int w, final int h, final int xButtonPosition,
+            final int rowIndex) {
         this.x = x;
         this.y = y;
         this.rowIndex = rowIndex;
+        this.w = w;
+        this.h = h;
         this.xButtonPosition = xButtonPosition;
-        bounds = new Rectangle(x - xButtonPosition, y, Constants.UI.Buttons.getBWidht(),
-                Constants.UI.Buttons.getBHeight());
+        bounds = new Rectangle(x, y, w,
+                h);
     }
 
     /**
      * @return x
      */
-    protected final int getX() {
+    public final int getX() {
         return x;
     }
 
     /**
      * @return y
      */
-    protected final int getY() {
+    public final int getY() {
         return y;
+    }
+
+    /**
+     * @return height.
+     */
+    public int getH() {
+        return h;
+    }
+
+    /**
+     * @return width.
+     */
+    public int getW() {
+        return w;
     }
 
     /**
@@ -62,12 +80,14 @@ public abstract class AbstractMenuButton implements MenuButton {
     protected final int getRowIndex() {
         return rowIndex;
     }
+
     /**
      * @return xButtonPosition.
      */
-    protected final int getxButtonPosition() {
+    public final int getxButtonPosition() {
         return xButtonPosition;
     }
+
     @Override
     public final boolean isMouseOver() {
         return mouseOver;

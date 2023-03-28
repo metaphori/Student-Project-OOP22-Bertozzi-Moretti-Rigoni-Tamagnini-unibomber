@@ -106,6 +106,11 @@ public class Constants {
                 optionButtonSize = DEFAULT_OPTION_BUTTON_SIZE * (int) getScaleButton();
                 defaultTopDistance = DEFAULT_OPTION_BUTTON_SIZE * (int) scaleButton;
                 MapOption.mapDimension = MapOption.DEFAULT_MAP_SELECTION_SIZE * (int) scaleButton;
+                OptionButton.bombNumberDimension = OptionButton.BOTNUMBER_DEFAULT_SIZE * (int) Buttons.scaleButton;
+                OptionButton.incrementBotSize = OptionButton.bombNumberDimension / 2;
+                OptionButton.plyerSelectionWidth = OptionButton.PLAYER_SELECTION_WIDTH * (int) Buttons.scaleButton;
+                OptionButton.plyerSelectionHeight = OptionButton.PLAYER_SELECTION_HEIGHT * (int) Buttons.scaleButton;
+                OptionButton.plyerSelectioBorderDistance = (Screen.getgWidth() - (OptionButton.plyerSelectionWidth * 2 + 10)) / 2;
             }
 
             /**
@@ -149,19 +154,96 @@ public class Constants {
             /**
              * Increment of with on height of ok button.
              */
-            public static final int WIDTH_OK_INCREMENT = 10;
+            public static final int WIDTH_INCREMENT = 10;
+            /**
+             * Increment of player section with on height of ok button.
+             */
+            public static final int PLAYER_WIDTH_INCREMENT = 20;
+            /**
+             * Increment of height for bot number selction.
+             */
+            public static final int HEIGHT_BOTNUMBER_SELECTION = 30;
+            /**
+             * bombNumber default size.
+             */
+            private static final int BOTNUMBER_DEFAULT_SIZE = 15;
+            /**
+             * Selection bombNumber dimension scaled.
+             */
+            private static int bombNumberDimension = BOTNUMBER_DEFAULT_SIZE * (int) Buttons.scaleButton;
 
+            /**
+             * Selection incrementBotSize dimension scaled.
+             */
+            private static int incrementBotSize = bombNumberDimension / 2;
+            /**
+             * player selection width default size.
+             */
+            private static final int PLAYER_SELECTION_WIDTH = 80;
+            /**
+             * player selection height default size.
+             */
+            private static final int PLAYER_SELECTION_HEIGHT = 20;
+
+            /**
+             * player selection width dimension scaled.
+             */
+            private static int plyerSelectionWidth = PLAYER_SELECTION_WIDTH * (int) Buttons.scaleButton;
+
+            /**
+             * player selection height dimension scaled.
+             */
+            private static int plyerSelectionHeight = PLAYER_SELECTION_HEIGHT * (int) Buttons.scaleButton;
+
+            /**
+             * player selection border distance scaled.
+             */
+            private static int plyerSelectioBorderDistance = (Screen.getgWidth() - (plyerSelectionWidth * 2 + 10)) / 2;
+
+            /**
+             * @return plyerSelectioBorderDistance.
+             */
+            public static int getPlyerSelectioBorderDistance() {
+                return plyerSelectioBorderDistance;
+            }
+
+            /**
+             * @return plyerSelectionHeight.
+             */
+            public static int getPlyerSelectionHeight() {
+                return plyerSelectionHeight;
+            }
+
+            /**
+             * @return plyerSelectionWidth.
+             */
+            public static int getPlyerSelectionWidth() {
+                return plyerSelectionWidth;
+            }
+
+            /**
+             * @return incrementBotSize button.
+             */
+            public static int getIncrementBotSize() {
+                return incrementBotSize;
+            }
+
+            /**
+             * @return bombNumber button.
+             */
+            public static int getBombNumberDimension() {
+                return bombNumberDimension;
+            }
         }
 
         /**
          * Constanst for map settings.
          */
         public static final class MapOption {
-
             /**
              * default size of map selection.
              */
-            public static final int DEFAULT_MAP_SELECTION_SIZE = 80;
+            private static final int DEFAULT_MAP_SELECTION_SIZE = 55;
             /**
              * Selection map dimension.
              */
@@ -175,11 +257,37 @@ public class Constants {
              * List of map file.
              */
             public static final List<String> MAP_LIST = new ArrayList<>();
+            /**
+             * Number of bot in game.
+             */
+            private static int numberOfBot;
+
+            /**
+             * @return number of bot.
+             */
+            public static int getNumberOfBot() {
+                return numberOfBot;
+            }
+
+            /**
+             * increment number of bot.
+             */
+            public static void incrementBot() {
+                numberOfBot++;
+            }
+
+            /**
+             * decrement number of bot.
+             */
+            public static void decrementBot() {
+                numberOfBot--;
+            }
 
             /**
              * Constructor.
              */
             public MapOption() {
+                numberOfBot = 8;
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
 
