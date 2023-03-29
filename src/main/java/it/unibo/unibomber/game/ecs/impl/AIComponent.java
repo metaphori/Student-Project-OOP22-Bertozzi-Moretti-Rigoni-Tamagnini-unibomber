@@ -43,13 +43,14 @@ public final class AIComponent extends AbstractComponent {
           placeBombIfAdvantageous(typesMatrix);
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
+          System.out.println(isSafe(typesMatrix));
      }
 
      private void placeBombIfAdvantageous(Type[][] typesMatrix) {
           final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
           List<Type> typesToDestroy = List.of(Type.DESTRUCTIBLE_WALL, Type.BOMBER);
-          if (wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())
-                    && wouldBeSafe(typesMatrix, this.getEntity().getPosition())) {
+          if (wouldBeSafe(typesMatrix, this.getEntity().getPosition())
+           && wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())) {
                placeBomb(typesMatrix);
                followingPath = new ArrayList<>(List.of(Direction.CENTER));
           }
@@ -64,7 +65,7 @@ public final class AIComponent extends AbstractComponent {
                this.followingPath = getNextPath(typesMatrix);
                Collections.reverse(followingPath);
                this.followingPath = this.followingPath.stream()
-                         .limit(2)
+                         .limit(1)
                          .collect(Collectors.toList());
           }
           if (this.followingPath.isEmpty()) {
@@ -97,7 +98,10 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
-     private boolean wouldBeSafe(Type[][] typesMatrix, Pair<Float, Float> position) {
+     private boolean wouldBeSafe(Type[][] typesMatrix, Pair<Float, Float> position){
+          if(typesMatrix[Math.round(position.getX())][Math.round(position.getY())] == Type.EXPLOSION){
+               return false;
+          }
           Type[][] newMatrix = new Type[typesMatrix.length][typesMatrix[0].length];
           for (int x = 0; x < typesMatrix.length; x++)
                for (int y = 0; y < typesMatrix[0].length; y++)
@@ -107,6 +111,7 @@ public final class AIComponent extends AbstractComponent {
                addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),
                          strength, d, 0);
           }
+          //TODO
           var a = getDirectionsTowards(Type.EXPLOSION, false, newMatrix);
           return a.get(0) == Direction.CENTER ? false : true;
      }
@@ -119,7 +124,7 @@ public final class AIComponent extends AbstractComponent {
                     && nextTo(Type.AIR, typesMatrix, this.getEntity().getPosition())) {
                final BombPlaceComponent placeBomb = this.getEntity()
                          .getComponent(BombPlaceComponent.class).get();
-               placeBomb.placeBomb();
+                placeBomb.placeBomb();
           }
      }
 
