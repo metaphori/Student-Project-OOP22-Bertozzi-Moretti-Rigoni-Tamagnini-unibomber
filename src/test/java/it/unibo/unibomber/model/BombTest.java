@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPLODE_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Explode.EXPIRING_TIME;
 import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
+import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,8 @@ class BombTest {
     }
 
     private Entity createPowerupEntity() {
-        return this.entityFactory.makePowerUp(new Pair<>(POWERUP_EXCEPTED_X, POWERUP_EXCEPTED_Y), 
-                                            PowerUpType.SPEEDUP);
+        return this.entityFactory.makePowerUp(new Pair<>(POWERUP_EXCEPTED_X, POWERUP_EXCEPTED_Y),
+                PowerUpType.SPEEDUP);
     }
 
     private Entity createDesWallEntity() {
@@ -69,6 +70,12 @@ class BombTest {
 
     private Entity createIndesWallEntity() {
         return this.entityFactory.makeIndestructibleWall(new Pair<>(INDESWALL_EXCEPTED_X, INDESWALL_EXCEPTED_Y));
+    }
+
+    private int getDestructionFrames(final Type type) {
+        return DESTROY_FRAMES_PER_TYPE.containsKey(type)
+                ? DESTROY_FRAMES_PER_TYPE.get(type)
+                : STANDARD_FRAME_DURATION;
     }
 
     @Test
@@ -92,7 +99,7 @@ class BombTest {
         final var desWall = this.createDesWallEntity();
         final var indesWall = this.createIndesWallEntity();
         final List<Entity> entities = new ArrayList<>(List.of(
-                                    player, bomb, powerup, desWall, indesWall));
+                player, bomb, powerup, desWall, indesWall));
         new Constants.Destroy();
         this.game.addEntity(player);
         this.game.addEntity(bomb);
@@ -111,9 +118,8 @@ class BombTest {
         }
         for (final var entity : entities) {
             if (entity.getComponent(DestroyComponent.class).isPresent()) {
-                for (int j = 0; j <= DESTROY_FRAMES_PER_TYPE.get(entity.getType()); j++) {
-                   entity.getComponent(DestroyComponent.class)
-                        .get().update();
+                for (int j = 0; j <= this.getDestructionFrames(entity.getType()); j++) {
+                    entity.getComponent(DestroyComponent.class).get().update();
                 }
             }
         }
