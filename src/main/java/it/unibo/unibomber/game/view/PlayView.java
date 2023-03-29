@@ -131,13 +131,19 @@ public final class PlayView implements GameLoop {
 
     private void drawImage(final Graphics g, final Entity entity) {
         final BufferedImage image = getCorrectImage(entity);
+        final Type type;
+        if (entity.getType() == Type.BOMBER) {
+            type = entity.getComponent(AIComponent.class).isPresent() ? Type.BOT : Type.PLAYABLE;
+        } else {
+            type = entity.getType();
+        }
         g.drawImage(image,
                 Math.round(entity.getPosition()
                         .getX() * Screen.getTilesSize()),
                 Math.round(entity.getPosition()
                         .getY() * Screen.getTilesSize()),
-                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(entity.getType()))),
-                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(entity.getType()))),
+                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(type))),
+                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(type))),
                 null);
     }
 
@@ -148,7 +154,7 @@ public final class PlayView implements GameLoop {
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 changePlayerAction(Player.DEFEAT, entity);
                 return animations[playerAction + SpritesMap.ANIMATION_ROW
-                        .get(entity.getType())][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
+                        .get(type)][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
                                 / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.DEFEAT)];
             } else if (!movementComponent.hasMoved()) {
                 changePlayerAction(Player.STANDING, entity);
