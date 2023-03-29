@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.AIComponent;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
@@ -130,23 +131,30 @@ public final class PlayView implements GameLoop {
 
     private void drawImage(final Graphics g, final Entity entity) {
         final BufferedImage image = getCorrectImage(entity);
+        final Type type;
+        if (entity.getType() == Type.BOMBER) {
+            type = entity.getComponent(AIComponent.class).isPresent() ? Type.BOT : Type.PLAYABLE;
+        } else {
+            type = entity.getType();
+        }
         g.drawImage(image,
                 Math.round(entity.getPosition()
                         .getX() * Screen.getTilesSize()),
                 Math.round(entity.getPosition()
                         .getY() * Screen.getTilesSize()),
-                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(entity.getType()))),
-                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(entity.getType()))),
+                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(type))),
+                (int) (Screen.getTilesDefault() * (Screen.SCALE + scale.get(type))),
                 null);
     }
 
     private BufferedImage getCorrectImage(final Entity entity) {
-        if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOT) {
+        if (entity.getType() == Type.BOMBER) {
+            final Type type = entity.getComponent(AIComponent.class).isPresent() ? Type.BOT : Type.PLAYABLE;
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 changePlayerAction(Player.DEFEAT, entity);
                 return animations[playerAction + SpritesMap.ANIMATION_ROW
-                        .get(entity.getType())][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
+                        .get(type)][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
                                 / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.DEFEAT)];
             } else if (!movementComponent.hasMoved()) {
                 changePlayerAction(Player.STANDING, entity);
@@ -172,7 +180,7 @@ public final class PlayView implements GameLoop {
                         break;
                 }
             }
-            return animations[playerAction + SpritesMap.ANIMATION_ROW.get(entity.getType())][getAnimationIndex(entity)
+            return animations[playerAction + SpritesMap.ANIMATION_ROW.get(type)][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {
             return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());

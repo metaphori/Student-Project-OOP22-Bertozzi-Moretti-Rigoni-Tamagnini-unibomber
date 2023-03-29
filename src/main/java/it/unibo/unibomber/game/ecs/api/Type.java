@@ -1,4 +1,5 @@
 package it.unibo.unibomber.game.ecs.api;
+
 /**
  * Type enum.
  */
@@ -11,6 +12,10 @@ public enum Type {
      * Bot Type.
      */
     BOT,
+    /**
+     * Bomber Type.
+     */
+    BOMBER,
     /**
      * PowerUp Type.
      */

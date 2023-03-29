@@ -78,7 +78,7 @@ public final class Extension {
                 if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
-                if ((e.getType() == Type.PLAYABLE || e.getType() == Type.BOT)
+                if ((e.getType() == Type.BOMBER)
                         && !entity.getComponent(CollisionComponent.class).get().isOver()
                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                 .contains(PowerUpType.KICKBOMB)) {
