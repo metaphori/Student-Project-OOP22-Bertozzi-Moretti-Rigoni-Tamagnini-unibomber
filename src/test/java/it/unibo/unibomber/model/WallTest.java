@@ -60,7 +60,7 @@ class WallTest {
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
-        for (int i = 0; i <= this.getDestroyFrames(desWall.getType()); i++) {
+        for (int i = 0; i < this.getDestroyFrames(desWall.getType()); i++) {
             destroyComponent.get().update();
         }
         assertFalse(this.game.getEntities().contains(desWall));
