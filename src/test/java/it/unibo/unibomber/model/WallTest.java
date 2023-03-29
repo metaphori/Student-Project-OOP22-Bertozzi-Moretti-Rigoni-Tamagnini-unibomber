@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
+import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,15 +28,22 @@ class WallTest {
     private static final float WALL_COORD_Y = 3.4f;
     private static final int FIELD_ROWS = 15;
     private static final int FIELD_COLS = 19;
+    private static final int DROPPED_POWERUPS_FROM_WALL = 1;
     private final Game game = new GameImpl(null, FIELD_ROWS, FIELD_COLS);
     private final EntityFactory entityFactory = new EntityFactoryImpl(this.game);
 
     private Entity createDestructibleWall() {
-        return this.entityFactory.makeDestructibleWall(new Pair<Float, Float>(WALL_COORD_X, WALL_COORD_Y));
+        return this.entityFactory.makeDestructibleWall(new Pair<>(WALL_COORD_X, WALL_COORD_Y));
     }
 
     private Entity createIndestructibleWall() {
-        return this.entityFactory.makeIndestructibleWall(new Pair<Float, Float>(WALL_COORD_X, WALL_COORD_Y));
+        return this.entityFactory.makeIndestructibleWall(new Pair<>(WALL_COORD_X, WALL_COORD_Y));
+    }
+
+    private int getDestroyFrames(final Type type) {
+        return DESTROY_FRAMES_PER_TYPE.containsKey(type)
+                ? DESTROY_FRAMES_PER_TYPE.get(type)
+                : STANDARD_FRAME_DURATION;
     }
 
     @Test
@@ -52,10 +60,13 @@ class WallTest {
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
         assertTrue(destroyComponent.get().isDestroyed());
-        for (int i = 0; i < DESTROY_FRAMES_PER_TYPE.get(desWall.getType()); i++) {
+        for (int i = 0; i <= this.getDestroyFrames(desWall.getType()); i++) {
             destroyComponent.get().update();
         }
         assertFalse(this.game.getEntities().contains(desWall));
+        if (!powerUpListComponent.get().getPowerUpList().isEmpty()) {
+            assertEquals(DROPPED_POWERUPS_FROM_WALL, this.game.getEntities().size());
+        }
     }
 
     @Test

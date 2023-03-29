@@ -69,9 +69,9 @@ public enum Direction {
         } else if (movement.getX() < 0 && movement.getY() == 0) {
             return Optional.of(LEFT);
         } else if (movement.getX() == 0 && movement.getY() < 0) {
-            return Optional.of(DOWN);
-        } else if (movement.getX() == 0 && movement.getY() > 0) {
             return Optional.of(UP);
+        } else if (movement.getX() == 0 && movement.getY() > 0) {
+            return Optional.of(DOWN);
         }
         return Optional.empty();
     }

@@ -162,7 +162,7 @@ public final class PlayView implements GameLoop {
                 changePlayerAction(Player.WALKING, entity);
                 switch (movementComponent.getDirection()) {
                     case UP:
-                        indexDir = 0;
+                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
                         break;
                     case LEFT:
                         indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
@@ -171,7 +171,7 @@ public final class PlayView implements GameLoop {
                         indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
                         break;
                     case DOWN:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
+                        indexDir = 0;
                         break;
                     case CENTER:
                         indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);

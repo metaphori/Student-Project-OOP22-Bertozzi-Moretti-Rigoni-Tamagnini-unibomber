@@ -21,29 +21,27 @@ public class ThrowComponent extends AbstractComponent {
     @Override
     public final void update() {
         final MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
-        final int bombActualPositionX = Math.round(this.getEntity().getPosition().getX());
-        final int bombActualPositionY = Math.round(this.getEntity().getPosition().getY());
+        final float bombActualPositionX = this.getEntity().getPosition().getX();
+        final float bombActualPositionY = this.getEntity().getPosition().getY();
         if (isThrowing) {
-            if (bombActualPositionX != (float) (finalPos.getX()) || bombActualPositionY != (float) (finalPos.getY())) {
-                //TODO refactor
-                if (!Utilities.isBetweenIncluded(bombActualPositionX, 0, Constants.UI.Screen.getTilesWidth() - 1)
-                        || !Utilities.isBetweenIncluded(bombActualPositionY, 0,
-                                Constants.UI.Screen.getTilesHeight() - 1)) {
+            if (Math.round(bombActualPositionX) != (float) (finalPos.getX())
+                    || Math.round(bombActualPositionY) != (float) (finalPos.getY())) {
+                final int dimensionX = this.getEntity().getGame().getDimensions().getX();
+                final int dimensionY = this.getEntity().getGame().getDimensions().getY();
+                if (!Utilities.isBetweenIncluded(bombActualPositionX, 0, dimensionX)
+                        || !Utilities.isBetweenIncluded(bombActualPositionY, 0, dimensionY)) {
 
-                    final int dimensionX = this.getEntity().getGame().getDimensions().getX();
-                    final int dimensionY = this.getEntity().getGame().getDimensions().getY();
+                    int nextX = Math.abs(finalPos.getX() + dimensionX) % (dimensionX);
+                    int nextY = Math.abs(finalPos.getY() + dimensionY) % (dimensionY);
 
-                    int nextX = Math.abs(bombActualPositionX + (bombMovement.getDirection().getX() * 3)) % dimensionX;
-                    int nextY = Math.abs(bombActualPositionY - (bombMovement.getDirection().getY() * 3)) % dimensionY;
-
-                    finalPos = new Pair<Integer, Integer>(nextX, nextY);
+                    this.finalPos = new Pair<>(nextX, nextY);
 
                     switch (bombMovement.getDirection()) {
                         case UP:
-                            nextY = 0;
+                            nextY = dimensionY - 1;
                             break;
                         case DOWN:
-                            nextY = dimensionY - 1;
+                            nextY = 0;
                             break;
                         case LEFT:
                             nextX = dimensionX - 1;
@@ -56,11 +54,10 @@ public class ThrowComponent extends AbstractComponent {
                     }
 
                     this.getEntity().setPosition(new Pair<Float, Float>((float) nextX, (float) nextY));
-
                 }
 
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
-                        playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
+                        playerDir.getY() * Constants.Input.POSITIVE_MOVE));
 
             } else {
                 if (checkFinalPosition()) {
@@ -68,8 +65,8 @@ public class ThrowComponent extends AbstractComponent {
                     this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
                     this.isThrowing = false;
                 } else {
-                    finalPos = new Pair<>(finalPos.getX() + (playerDir.getX() * 1),
-                            finalPos.getY() + (-playerDir.getY() * 1));
+                    finalPos = new Pair<>(finalPos.getX() + (playerDir.getX()),
+                            finalPos.getY() + (playerDir.getY()));
                 }
             }
 
@@ -79,16 +76,14 @@ public class ThrowComponent extends AbstractComponent {
     /**
      * Set throwing status.
      * 
-     * @param isThrowing
      * @param startingPos
      * @param playerDir
      */
-    public final void throwBomb(final boolean isThrowing, final Pair<Integer, Integer> startingPos,
-            final Direction playerDir) {
-        this.isThrowing = isThrowing;
+    public final void throwBomb(final Pair<Integer, Integer> startingPos, final Direction playerDir) {
         this.startingPos = startingPos;
         this.playerDir = playerDir;
-        calculateStandardPosition();
+        this.isThrowing = true;
+        this.finalPos = calculateStandardPosition();
     }
 
     /**
@@ -103,12 +98,9 @@ public class ThrowComponent extends AbstractComponent {
      * 
      * @return standard position
      */
-    private void calculateStandardPosition() {
-        //TODO refactor
-        var possfinal = new Pair<>(startingPos.getX() + (playerDir.getX() * 3),
-                startingPos.getY() + (-playerDir.getY() * 3));
-        this.finalPos = possfinal;
-
+    private Pair<Integer, Integer> calculateStandardPosition() {
+        return new Pair<>(startingPos.getX() + (playerDir.getX() * 3),
+                startingPos.getY() + (playerDir.getY() * 3));
     }
 
     /**
@@ -125,7 +117,6 @@ public class ThrowComponent extends AbstractComponent {
                 .noneMatch(value -> value.getX() == Type.INDESTRUCTIBLE_WALL
                         || value.getX() == Type.DESTRUCTIBLE_WALL
                         || value.getX() == Type.BOMB);
-
     }
 
 }

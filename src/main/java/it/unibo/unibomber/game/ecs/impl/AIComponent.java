@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
-
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.utilities.Constants;
@@ -21,37 +20,46 @@ import it.unibo.unibomber.utilities.Utilities;
  */
 public final class AIComponent extends AbstractComponent {
 
-     private List<Direction> followingPath = new ArrayList<>();
+     private List<Direction> followingPath;
      private Pair<Float, Float> oldPosition;
      private boolean isGettingCloser;
 
      /**
       * isGettingCloser is used to get the bot to more closely get to the next cell.
       */
-     public AIComponent() {
+     public AIComponent(Pair<Float, Float> position) {
           isGettingCloser = false;
+          oldPosition = position;
+          followingPath = new ArrayList<>(List.of(Direction.CENTER));
      }
 
      @Override
      public void update() {
           final Entity entity = this.getEntity();
           Type[][] typesMatrix = getMatrixTypes();
-          // TODO
-          if (oldPosition == null) {
-               oldPosition = this.getEntity().getPosition();
 
-          }
-          checkPath(typesMatrix);
+          setValidPath(typesMatrix);
           move(this.followingPath.get(0));
+          placeBombIfAdvantageous(typesMatrix);
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
      }
 
+     private void placeBombIfAdvantageous(Type[][] typesMatrix) {
+          final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
+          List<Type> typesToDestroy = List.of(Type.DESTRUCTIBLE_WALL, Type.BOMBER);
+          if (wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())
+                    && wouldBeSafe(typesMatrix, this.getEntity().getPosition())) {
+               placeBomb(typesMatrix);
+               followingPath = new ArrayList<>(List.of(Direction.CENTER));
+          }
+     }
+
      /**
-      * @param typesMatrix matrix of game types
-      *                    makes sure the path the AI is following is not empty
+      * @param typesMatrix matrix of game types.
+      *                    fills the path if empty.
       */
-     private void checkPath(final Type[][] typesMatrix) {
+     private void setValidPath(final Type[][] typesMatrix) {
           if (this.followingPath.isEmpty()) {
                this.followingPath = getNextPath(typesMatrix);
                Collections.reverse(followingPath);
@@ -70,48 +78,37 @@ public final class AIComponent extends AbstractComponent {
       * @return a List of directions toward the most advantageous position
       */
      private List<Direction> getNextPath(final Type[][] typesMatrix) {
-          if (isSafe(typesMatrix)) {
-               final var towardsPowerup = getDirectionsTowards(Type.POWERUP, true, typesMatrix);
-               if (!towardsPowerup.contains(Direction.CENTER)) {
-                    return towardsPowerup;
-               } else {
+          if (!isSafe(typesMatrix)) {
+               return getDirectionsTowards(Type.EXPLOSION, false, typesMatrix);
+          } else {
+               var goTowards = getDirectionsTowards(Type.POWERUP, true, typesMatrix);
+               if (goTowards.contains(Direction.CENTER)) {
+                    final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
+                    goTowards = getDirectionsTowards(Type.BOMBER, true, typesWithBomber);
                     if (typeLeftExist(Type.DESTRUCTIBLE_WALL)) {
-                         if (wouldExplodeNextTo(Type.DESTRUCTIBLE_WALL, typesMatrix, this.getEntity().getPosition())
-                         && wouldBeSafe(typesMatrix,this.getEntity().getPosition())) {
-                              placeBomb(typesMatrix);
-                              return new ArrayList<>(List.of(Direction.CENTER));
-                         } else {
-                              List<Direction> path = getDirectionsTowards(Type.DESTRUCTIBLE_WALL, true, typesMatrix);
-                              path.remove(0);
-                              return path;
-                         }
+                         List<Direction> path = getDirectionsTowards(Type.DESTRUCTIBLE_WALL, true, typesMatrix);
+                         path.remove(0);
+                         return path;
                     } else {
-                         if (((int) (Math.random() * 100)) % 100 == 0) {
-                              final PowerUpListComponent powerups = this.getEntity()
-                                        .getComponent(PowerUpListComponent.class)
-                                        .get();
-                              if (powerups.getBombNumber() - powerups.getBombPlaced() > 0
-                                        && nextTo(Type.AIR, typesMatrix, this.getEntity().getPosition())) {
-                                   final BombPlaceComponent placeBomb = this.getEntity()
-                                             .getComponent(BombPlaceComponent.class).get();
-                                   placeBomb.placeBomb();
-                              }
-                         }
-                         return new ArrayList<>(List.of(Direction.CENTER));
+                         goTowards = getDirectionsTowards(Type.BOMBER, true, typesMatrix);
                     }
                }
-          } else {
-               return getDirectionsTowards(Type.EXPLOSION, false, typesMatrix);
+               return goTowards;
           }
      }
 
      private boolean wouldBeSafe(Type[][] typesMatrix, Pair<Float, Float> position) {
           Type[][] newMatrix = new Type[typesMatrix.length][typesMatrix[0].length];
-          for(Direction d : Direction.valuesNoCenter()){
+          for (int x = 0; x < typesMatrix.length; x++)
+               for (int y = 0; y < typesMatrix[0].length; y++)
+                    newMatrix[x][y] = typesMatrix[x][y];
+          for (final Direction d : Direction.valuesNoCenter()) {
                int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
-               addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),strength , d, 0);
+               addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),
+                         strength, d, 0);
           }
-          return true;
+          var a = getDirectionsTowards(Type.EXPLOSION, false, newMatrix);
+          return a.get(0) == Direction.CENTER ? false : true;
      }
 
      private void placeBomb(Type[][] typesMatrix) {
@@ -145,22 +142,23 @@ public final class AIComponent extends AbstractComponent {
           return false;
      }
 
-     private boolean wouldExplodeNextTo(final Type searchedType, final Type[][] typesMatrix,
+     private boolean wouldExplodeNextTo(final List<Type> searchedTypes, final Type[][] typesMatrix,
                final Pair<Float, Float> position) {
-          if (this.getEntity().getComponent(PowerUpListComponent.class).isEmpty()) {
-               return false;
-          }
           int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
+          List<Type> solidTypes = List.of(Type.INDESTRUCTIBLE_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL, Type.POWERUP);
           for (final Direction d : Direction.valuesNoCenter()) {
                for (int i = 1; i <= strength; i++) {
                     Pair<Integer, Integer> newPosition = new Pair<>(Math.round(position.getX()) + d.getX() * i,
                               Math.round(position.getY()) + d.getY() * i);
                     if (Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Screen.getTilesWidth())
-                              && Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())
-                              && typesMatrix[newPosition.getX()][newPosition.getY()] == searchedType) {
-                         return true;
+                              && Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())) {
+                         if (searchedTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])) {
+                              return true;
+                         }
+                         if (solidTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])) {
+                              break;
+                         }
                     }
-
                }
           }
           return false;
@@ -340,6 +338,24 @@ public final class AIComponent extends AbstractComponent {
           return typesMatrix;
      }
 
+     private Type[][] getMatrixWithBombers(Type[][] typesMatrix) {
+          Type[][] typesWithBomber = new Type[typesMatrix.length][typesMatrix[0].length];
+          for (int x = 0; x < typesMatrix.length; x++)
+               for (int y = 0; y < typesMatrix[0].length; y++)
+                    typesWithBomber[x][y] = typesMatrix[x][y];
+
+          List<Entity> entities = this.getEntity().getGame().getEntities();
+          entities.stream()
+                    .filter(e -> e.getType().equals(Type.BOMBER))
+                    .map(Entity::getPosition)
+                    .filter(e -> !e.equals(this.getEntity().getPosition()))
+                    .map(e -> Utilities.getRoundedPair(e))
+                    .forEach(e -> {
+                         typesWithBomber[e.getX()][e.getY()] = Type.BOMBER;
+                    });
+          return typesWithBomber;
+     }
+
      private void initializeTypeMatrix(final Type[][] typesMatrix) {
           for (int x = 0; x < typesMatrix.length; x++) {
                for (int y = 0; y < typesMatrix[0].length; y++) {
@@ -349,7 +365,7 @@ public final class AIComponent extends AbstractComponent {
      }
 
      private void handleBombExplosion(final Type[][] typesMatrix) {
-          var field = this.getEntity().getGame().getGameField().getField();
+          final var field = this.getEntity().getGame().getGameField().getField();
           field.keySet().stream()
                     .filter(e -> field.get(e).getX().equals(Type.BOMB))
                     .forEach(e -> {
@@ -357,15 +373,13 @@ public final class AIComponent extends AbstractComponent {
                                    .getComponent(PowerUpListComponent.class)
                                    .get();
 
-                         for (final Direction d : Direction.values()) {
-                              if (d != Direction.CENTER) {
-                                   addExplosionToMatrix(typesMatrix, e, powerupList.getBombFire(), d, 1);
-                              }
+                         for (final Direction d : Direction.valuesNoCenter()) {
+                              addExplosionToMatrix(typesMatrix, e, powerupList.getBombFire(), d, 1);
                          }
-                         if (Math.round(this.getEntity().getPosition().getX()) == e.getX() 
-                         && Math.round(this.getEntity().getPosition().getY()) == e.getY()){
+                         if (Math.round(this.getEntity().getPosition().getX()) == e.getX()
+                                   && Math.round(this.getEntity().getPosition().getY()) == e.getY()) {
                               typesMatrix[e.getX()][e.getY()] = Type.EXPLOSION;
-}
+                         }
                     });
 
      }
@@ -375,16 +389,10 @@ public final class AIComponent extends AbstractComponent {
           if (step <= strength) {
                final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
                          where.getY() + d.getY() * step);
+               List<Type> volatileTypes = List.of(Type.AIR, Type.EXPLOSION, Type.POWERUP);
                if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Screen.getTilesWidth())
                          && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
-                         && typesMatrix[newDirection.getX()][newDirection.getY()] == Type.AIR) {
-                    /*
-                     * if (typesMatrix[newDirection.getX()][newDirection.getY()] !=
-                     * Type.DESTRUCTIBLE_WALL
-                     * && typesMatrix[newDirection.getX()][newDirection.getY()] !=
-                     * Type.INDESTRUCTIBLE_WALL) {
-                     * }
-                     */
+                         && volatileTypes.contains(typesMatrix[newDirection.getX()][newDirection.getY()])) {
                     typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
                     addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
                }
@@ -392,7 +400,7 @@ public final class AIComponent extends AbstractComponent {
      }
 
      private void addEntitiesToMatrix(final Type[][] typesMatrix) {
-          var field = this.getEntity().getGame().getGameField().getField();
+          final var field = this.getEntity().getGame().getGameField().getField();
           for (final Pair<Integer, Integer> pos : field.keySet()) {
                typesMatrix[pos.getX()][pos.getY()] = field.get(pos).getX();
           }

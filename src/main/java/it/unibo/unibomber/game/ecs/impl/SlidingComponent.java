@@ -16,7 +16,7 @@ public class SlidingComponent extends AbstractComponent {
         if (isSliding) {
             final MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
             bombMove.moveBy(new Pair<Float, Float>(direction.getX() * Constants.Input.POSITIVE_MOVE,
-                    direction.getY() * Constants.Input.NEGATIVE_MOVE));
+                    direction.getY() * Constants.Input.POSITIVE_MOVE));
         }
     }
 

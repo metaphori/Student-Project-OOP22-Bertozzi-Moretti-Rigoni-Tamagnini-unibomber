@@ -46,7 +46,7 @@ class GameTest {
         assertTrue(bot.getComponent(DestroyComponent.class).isPresent());
         assertTrue(player.getComponent(DestroyComponent.class).isPresent());
         bot.getComponent(DestroyComponent.class).get().destroy();
-        for (int i = 0; i <= getDestroyFrames(bot.getType()); i++) {
+        for (int i = 0; i <= this.getDestroyFrames(bot.getType()); i++) {
             bot.getComponent(DestroyComponent.class).get().update();
         }
         assertEquals(Gamestate.WIN, Gamestate.getGamestate());
@@ -66,7 +66,7 @@ class GameTest {
         assertTrue(bot.getComponent(DestroyComponent.class).isPresent());
         assertTrue(player.getComponent(DestroyComponent.class).isPresent());
         player.getComponent(DestroyComponent.class).get().destroy();
-        for (int i = 0; i <= getDestroyFrames(player.getType()); i++) {
+        for (int i = 0; i <= this.getDestroyFrames(player.getType()); i++) {
             player.getComponent(DestroyComponent.class).get().update();
         }
         assertEquals(Gamestate.LOSE, Gamestate.getGamestate());
