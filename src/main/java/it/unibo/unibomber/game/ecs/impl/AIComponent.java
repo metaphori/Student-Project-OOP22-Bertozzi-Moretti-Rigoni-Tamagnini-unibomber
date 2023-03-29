@@ -145,22 +145,22 @@ public final class AIComponent extends AbstractComponent {
      private boolean wouldExplodeNextTo(final List<Type> searchedTypes, final Type[][] typesMatrix,
                final Pair<Float, Float> position) {
           int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
-          List<Type> solidTypes = List.of(Type.INDESTRUCTIBLE_WALL,Type.BOMB,Type.DESTRUCTIBLE_WALL,Type.POWERUP);
+          List<Type> solidTypes = List.of(Type.INDESTRUCTIBLE_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL, Type.POWERUP);
           for (final Direction d : Direction.valuesNoCenter()) {
                for (int i = 1; i <= strength; i++) {
                     Pair<Integer, Integer> newPosition = new Pair<>(Math.round(position.getX()) + d.getX() * i,
                               Math.round(position.getY()) + d.getY() * i);
                     if (Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Screen.getTilesWidth())
-                              && Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())){
-                                   if(searchedTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])) {
-                                        return true;
-                                   }
-                                   if(solidTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])){
-                                        break;
-                                   }
-                              }
+                              && Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())) {
+                         if (searchedTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])) {
+                              return true;
                          }
+                         if (solidTypes.contains(typesMatrix[newPosition.getX()][newPosition.getY()])) {
+                              break;
+                         }
+                    }
                }
+          }
           return false;
      }
 
@@ -344,8 +344,6 @@ public final class AIComponent extends AbstractComponent {
                for (int y = 0; y < typesMatrix[0].length; y++)
                     typesWithBomber[x][y] = typesMatrix[x][y];
 
-          
-
           List<Entity> entities = this.getEntity().getGame().getEntities();
           entities.stream()
                     .filter(e -> e.getType().equals(Type.BOMBER))
@@ -391,10 +389,10 @@ public final class AIComponent extends AbstractComponent {
           if (step <= strength) {
                final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
                          where.getY() + d.getY() * step);
-               List<Type> volatileTypes = List.of(Type.AIR,Type.EXPLOSION,Type.POWERUP);
+               List<Type> volatileTypes = List.of(Type.AIR, Type.EXPLOSION, Type.POWERUP);
                if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Screen.getTilesWidth())
-                && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
-                && volatileTypes.contains(typesMatrix[newDirection.getX()][newDirection.getY()])) {
+                         && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
+                         && volatileTypes.contains(typesMatrix[newDirection.getX()][newDirection.getY()])) {
                     typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
                     addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
                }
