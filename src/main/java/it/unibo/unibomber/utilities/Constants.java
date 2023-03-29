@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.unibo.unibomber.game.controller.api.OptionType;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 
@@ -269,6 +270,37 @@ public class Constants {
              * player selection border distance scaled.
              */
             private static int plyerSelectioBorderDistance = (Screen.getgWidth() - (plyerSelectionWidth * 2 + 10)) / 2;
+            /**
+             *Map of power up handicap. 
+             */
+            public static final Map<Integer, PowerUpType> HANDICAP_LIST = new HashMap<>();
+            /**
+             *Map of power up handicap. 
+             */
+            public static final Map<OptionType, BufferedImage> OPTION_IMAGE_LIST = new HashMap<>();
+            /**
+             * Option button constuctor.
+             */
+            public OptionButton (){
+                HANDICAP_LIST.put(0, PowerUpType.BOMBUP);
+                HANDICAP_LIST.put(1, PowerUpType.FIREUP);
+                HANDICAP_LIST.put(2, PowerUpType.SPEEDUP);
+                HANDICAP_LIST.put(3, PowerUpType.KICKBOMB);
+                HANDICAP_LIST.put(4, PowerUpType.THROWBOMB);
+                OPTION_IMAGE_LIST.put(OptionType.LEFT, UploadRes.getSpriteAtlas("menu/option/left.png"));
+                OPTION_IMAGE_LIST.put(OptionType.RIGHT, UploadRes.getSpriteAtlas("menu/option/right.png"));
+                OPTION_IMAGE_LIST.put(OptionType.OK, UploadRes.getSpriteAtlas("menu/option/ok.png"));
+                OPTION_IMAGE_LIST.put(OptionType.PLAYER, UploadRes.getSpriteAtlas("menu/option/player.png"));
+                OPTION_IMAGE_LIST.put(OptionType.PLAYER_HOVER, UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
+                OPTION_IMAGE_LIST.put(OptionType.BOT, UploadRes.getSpriteAtlas("menu/option/bot.png"));
+                OPTION_IMAGE_LIST.put(OptionType.BOTNUMBER, UploadRes.getSpriteAtlas("menu/option/botNumber.png"));
+                OPTION_IMAGE_LIST.put(OptionType.PLUS, UploadRes.getSpriteAtlas("menu/option/+.png"));
+                OPTION_IMAGE_LIST.put(OptionType.MINUS, UploadRes.getSpriteAtlas("menu/option/-.png"));
+                OPTION_IMAGE_LIST.put(OptionType.DELETE, UploadRes.getSpriteAtlas("menu/option/delete.png"));
+                OPTION_IMAGE_LIST.put(OptionType.DELETE_ALL, UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
+
+
+            }
             /**
              * Top distance for power up set.
              */
@@ -1049,8 +1081,7 @@ public class Constants {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, DESTROY_FRAMES_POWERUP);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, DESTROY_FRAMES_BOMB);
             DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);
-            DESTROY_FRAMES_PER_TYPE.put(Type.PLAYABLE, DESTROY_FRAMES_PLAYER);
-            DESTROY_FRAMES_PER_TYPE.put(Type.BOT, DESTROY_FRAMES_PLAYER);
+            DESTROY_FRAMES_PER_TYPE.put(Type.BOMBER, DESTROY_FRAMES_PLAYER);
             DESTROY_FRAMES_PER_TYPE.put(Type.RISING_WALL, DESTROY_FRAMES_RISING_WALL);
 
         }

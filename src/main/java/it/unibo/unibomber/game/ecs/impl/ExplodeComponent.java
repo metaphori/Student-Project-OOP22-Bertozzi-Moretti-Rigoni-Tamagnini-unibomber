@@ -112,7 +112,7 @@ public class ExplodeComponent extends AbstractComponent {
                 countPositions = 1;
                 while (countPositions <= bombRange) {
                     checkPos = new Pair<>(entity.getPosition().getX() + (dir.getX() * countPositions),
-                            entity.getPosition().getY() + (-(dir.getY()) * countPositions));
+                            entity.getPosition().getY() + (dir.getY() * countPositions));
                     entitySearched = checkContainedInList(checkPos, totalEntities);
                     if (entitySearched.isPresent()
                             && !this.positionsNotToExplode.contains(new Pair<>(Math.round(checkPos.getX()),
@@ -149,7 +149,7 @@ public class ExplodeComponent extends AbstractComponent {
                             this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()),
                                     Math.round(checkPos.getY())));
                             countPositions += bombRange;
-                        } else if ((entitySearched.get().getType() == Type.BOMBER)
+                        } else if (entitySearched.get().getType() == Type.BOMBER
                                 && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
                             players = totalEntities.stream()
                                     .filter(e -> e.getType() == Type.BOMBER)

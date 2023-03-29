@@ -70,7 +70,7 @@ public class EntityFactoryImpl implements EntityFactory {
         @Override
         public final Entity makeBot(final Pair<Float, Float> position, final int difficultyAI) {
                 return makeBomber(position, Type.BOMBER)
-                                .addComponent(new AIComponent());
+                                .addComponent(new AIComponent(position));
         }
 
         @Override

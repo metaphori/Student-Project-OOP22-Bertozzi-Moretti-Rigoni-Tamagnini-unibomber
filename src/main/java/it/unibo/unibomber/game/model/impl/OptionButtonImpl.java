@@ -11,12 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import static java.util.logging.Level.SEVERE;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Option;
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.UploadRes;
@@ -32,10 +36,11 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
  */
 public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private String type;
-  private PowerUpType Ptype;
+  private PowerUpType pType;
   private BufferedImage[] bufferImages;
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
+  private int index;
 
   /**
    * @param option
@@ -61,13 +66,34 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param rowIndex
    * @param w
    * @param h
-   * @param Ptype
+   * @param type
+   * @param pType
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
-      final PowerUpType Ptype) {
+      final String type, final PowerUpType pType) {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
     this.option = option;
-    this.Ptype = Ptype;
+    this.type = type;
+    this.pType = pType;
+    loadbufferImages();
+  }
+
+  /**
+   * @param option
+   * @param x
+   * @param y
+   * @param rowIndex
+   * @param w
+   * @param h
+   * @param type
+   * @param index
+   */
+  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+      final String type, final int index) {
+    super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
+    this.option = option;
+    this.type = type;
+    this.index = index;
     loadbufferImages();
   }
 
@@ -115,6 +141,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
           UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/indestructible_wall.png"));
       option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
+      System.out.println(this.option.getWorld().getGame().getEntities().stream().filter(e -> e.getType()== Type.BOMBER).collect(Collectors.toList()).get(0).getComponent(PowerUpHandlerComponent.class).get().getPowerUpList());
     }
     if ("left".equals(type) && GameLoopConstants.getLEVEL() > 0) {
       GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() - 1);
@@ -147,6 +174,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private void extractData() {
     try {
       int botPlaced = 0;
+      Entity e;
       final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
       final DataInputStream in = new DataInputStream(fstream);
       final BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -159,14 +187,22 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
         for (int i = 0; i < tokens.length; i++) {
           switch (tokens[i]) {
             case "0":
-              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makePlayable(new Pair<Float, Float>((float) i, (float) row)));
+              e = new EntityFactoryImpl(this.option.getWorld().getGame())
+                  .makePlayable(new Pair<Float, Float>((float) i, (float) row));
+              for (PowerUpType pt : option.getListPowerUp(0)) {
+                e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
+              }
+              this.option.getWorld().getGame().addEntity(e);
               break;
             case "1":
               if (botPlaced < MapOption.getNumberOfBot()) {
                 botPlaced++;
-                this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                    .makeBot(new Pair<Float, Float>((float) i, (float) row), 1));
+                e = new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makeBot(new Pair<Float, Float>((float) i, (float) row), 1);
+                for (PowerUpType pt : option.getListPowerUp(botPlaced)) {
+                  e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
+                }
+                this.option.getWorld().getGame().addEntity(e);
               }
               break;
             case "2":
@@ -206,6 +242,13 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @return type of button.
    */
   public PowerUpType getPType() {
-    return Ptype;
+    return pType;
+  }
+
+  /**
+   * @return index in power up list.
+   */
+  public int getIndex() {
+    return index;
   }
 }
