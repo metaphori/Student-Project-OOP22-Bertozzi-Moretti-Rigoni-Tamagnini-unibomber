@@ -80,11 +80,10 @@ public class ThrowComponent extends AbstractComponent {
      * @param startingPos
      * @param playerDir
      */
-    public final void throwBomb(final boolean isThrowing, final Pair<Integer, Integer> startingPos,
-            final Direction playerDir) {
-        this.isThrowing = isThrowing;
+    public final void throwBomb(final Pair<Integer, Integer> startingPos, final Direction playerDir) {
         this.startingPos = startingPos;
         this.playerDir = playerDir;
+        this.isThrowing = true;
         this.finalPos = calculateStandardPosition();
     }
 
