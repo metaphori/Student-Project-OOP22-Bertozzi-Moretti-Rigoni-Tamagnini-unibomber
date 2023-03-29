@@ -3,7 +3,11 @@ package it.unibo.unibomber.game.controller.impl;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
@@ -23,6 +27,8 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private final OptionView view;
     private OptionButtonImpl[] optionButtons = new OptionButtonImpl[15 + MapOption.getNumberOfBot()];
     private final WorldImpl world;
+    private int focusIndex;
+    private Map<Integer, List<PowerUpType>> powerUpListOfEntity;
 
     /**
      * This method manage the view of game option.
@@ -32,11 +38,19 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     public Option(final WorldImpl world) {
         super();
         this.world = world;
+        this.focusIndex = 0;
+        powerUpListOfEntity = new HashMap<>();
         view = new OptionView(this);
         loadButtons();
+        loadPowerUpList();
+    }
+
+    private void loadPowerUpList() {
+        powerUpListOfEntity.put(0, new ArrayList<>());
     }
 
     private void loadButtons() {
+        new OptionButton();
         optionButtons[0] = new OptionButtonImpl(this, Screen.getgWidth() / 4 - Buttons.getOptionButtonSize(),
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() / 2, 0,
                 Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), "left");
@@ -65,18 +79,24 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                 9, OptionButton.getIncrementBotSize(), OptionButton.getIncrementBotSize(), "-");
         optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
                 optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
-                4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
+                4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player", 0);
         setBot();
         setPowerUp();
-        optionButtons[21] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2)*5,
-        OptionButton.getPowerUpSetTopDistance()
-                + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
-        15, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2, "delete");
-        
-        optionButtons[22] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 3 + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2)*6,
-        OptionButton.getPowerUpSetTopDistance()
-                + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
-        16, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2, "deleteAll");
+        optionButtons[21] = new OptionButtonImpl(this,
+                OptionButton.WIDTH_INCREMENT * 2
+                        + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2) * 5,
+                OptionButton.getPowerUpSetTopDistance()
+                        + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
+                15, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2,
+                "delete");
+
+        optionButtons[22] = new OptionButtonImpl(this,
+                OptionButton.WIDTH_INCREMENT * 3
+                        + (Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2) * 6,
+                OptionButton.getPowerUpSetTopDistance()
+                        + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
+                16, Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT, Buttons.getOptionButtonSize() / 2,
+                "deleteAll");
     }
 
     /**
@@ -116,11 +136,13 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                 if ("player".equals(mb.getType())) {
                     optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
                             optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
-                            5, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
+                            5, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player",
+                            0);
                 } else {
                     optionButtons[7] = new OptionButtonImpl(this, OptionButton.getPlyerSelectioBorderDistance(),
                             optionButtons[4].getY() + optionButtons[4].getH() + OptionButton.PLAYER_WIDTH_INCREMENT,
-                            4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player");
+                            4, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "player",
+                            0);
                 }
             }
         }
@@ -137,6 +159,18 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                     mb.setupGame();
                     if ("+".equals(mb.getType()) || "-".equals(mb.getType())) {
                         setBot();
+                    }
+                    if ("powerup".equals(mb.getType())) {
+                        powerUpListOfEntity.get(focusIndex).add(mb.getPType());
+                    }
+                    if ("delete".equals(mb.getType())) {
+                        powerUpListOfEntity.get(focusIndex).remove(powerUpListOfEntity.get(focusIndex).size() - 1);
+                    }
+                    if ("deleteAll".equals(mb.getType())) {
+                        powerUpListOfEntity.put(focusIndex, new ArrayList<>());
+                    }
+                    if ("player".equals(mb.getType()) || "bot".equals(mb.getType())) {
+                        focusIndex = mb.getIndex();
                     }
                 }
                 break;
@@ -170,13 +204,14 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
             heightScale += (int) optionButtons[7].getH() + OptionButton.WIDTH_INCREMENT;
             optionButtons[8 + i] = new OptionButtonImpl(this, distanceScale,
                     optionButtons[7].getY() + heightScale,
-                    6, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "bot");
+                    6, OptionButton.getPlyerSelectionWidth(), OptionButton.getPlyerSelectionHeight(), "bot", (i + 1));
             if (i > 2 && !passed) {
                 distanceScale = OptionButton.getPlyerSelectioBorderDistance() + optionButtons[7].getW()
                         + OptionButton.WIDTH_INCREMENT;
                 heightScale = 0 - ((int) optionButtons[7].getH() + OptionButton.WIDTH_INCREMENT);
                 passed = true;
             }
+            powerUpListOfEntity.put(i + 1, new ArrayList<>());
         }
     }
 
@@ -186,6 +221,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private void resetBot() {
         IntStream.range(8, 8 + MapOption.getNumberOfBot())
                 .forEach(i -> optionButtons[i] = new OptionButtonImpl(null, 0, 0, 0, 0, 0, "empty"));
+        powerUpListOfEntity.keySet().removeIf(k -> k != 0);
     }
 
     /**
@@ -198,8 +234,16 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
             optionButtons[16 + i] = new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
                     OptionButton.getPowerUpSetTopDistance()
                             + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
-                    10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, PowerUpType.BOMBUP);
+                    10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, "powerup",
+                    OptionButton.HANDICAP_LIST.get(i));
             basedWidth += Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2;
         }
+    }
+    /**
+     * @param index
+     * @return list of power up of that index.
+     */
+    public List<PowerUpType> getListPowerUp(int index) {
+        return powerUpListOfEntity.get(index);
     }
 }

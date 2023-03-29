@@ -86,6 +86,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case WIN:
       case LOSE:
         endGame.update();
+        initClasses();
         break;
       case QUIT:
       default:
