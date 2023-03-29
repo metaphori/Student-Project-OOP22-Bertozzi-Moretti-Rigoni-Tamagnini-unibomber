@@ -34,14 +34,14 @@ public class ThrowComponent extends AbstractComponent {
                     int nextX = Math.abs(finalPos.getX() + dimensionX) % (dimensionX);
                     int nextY = Math.abs(finalPos.getY() + dimensionY) % (dimensionY);
 
-                    this.finalPos = new Pair<Integer, Integer>(nextX, nextY);
+                    this.finalPos = new Pair<>(nextX, nextY);
 
                     switch (bombMovement.getDirection()) {
                         case UP:
-                            nextY = 0;
+                            nextY = dimensionY - 1;
                             break;
                         case DOWN:
-                            nextY = dimensionY - 1;
+                            nextY = 0;
                             break;
                         case LEFT:
                             nextX = dimensionX - 1;
@@ -57,7 +57,7 @@ public class ThrowComponent extends AbstractComponent {
                 }
 
                 bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
-                        playerDir.getY() * Constants.Input.NEGATIVE_MOVE));
+                        playerDir.getY() * Constants.Input.POSITIVE_MOVE));
 
             } else {
                 if (checkFinalPosition()) {
@@ -66,7 +66,7 @@ public class ThrowComponent extends AbstractComponent {
                     this.isThrowing = false;
                 } else {
                     finalPos = new Pair<>(finalPos.getX() + (playerDir.getX()),
-                            finalPos.getY() + (-playerDir.getY()));
+                            finalPos.getY() + (playerDir.getY()));
                 }
             }
 
@@ -76,7 +76,6 @@ public class ThrowComponent extends AbstractComponent {
     /**
      * Set throwing status.
      * 
-     * @param isThrowing
      * @param startingPos
      * @param playerDir
      */
@@ -101,7 +100,7 @@ public class ThrowComponent extends AbstractComponent {
      */
     private Pair<Integer, Integer> calculateStandardPosition() {
         return new Pair<>(startingPos.getX() + (playerDir.getX() * 3),
-                startingPos.getY() + (-playerDir.getY() * 3));
+                startingPos.getY() + (playerDir.getY() * 3));
     }
 
     /**
