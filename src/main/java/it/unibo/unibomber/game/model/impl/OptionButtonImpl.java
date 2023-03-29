@@ -53,6 +53,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     this.type = type;
     loadbufferImages();
   }
+
   /**
    * @param option
    * @param x
@@ -145,6 +146,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
 
   private void extractData() {
     try {
+      int botPlaced = 0;
       final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
       final DataInputStream in = new DataInputStream(fstream);
       final BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -161,8 +163,11 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
                   .makePlayable(new Pair<Float, Float>((float) i, (float) row)));
               break;
             case "1":
-              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makeBot(new Pair<Float, Float>((float) i, (float) row), 1));
+              if (botPlaced < MapOption.getNumberOfBot()) {
+                botPlaced++;
+                this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makeBot(new Pair<Float, Float>((float) i, (float) row), 1));
+              }
               break;
             case "2":
               this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
@@ -196,6 +201,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   public String getType() {
     return type;
   }
+
   /**
    * @return type of button.
    */

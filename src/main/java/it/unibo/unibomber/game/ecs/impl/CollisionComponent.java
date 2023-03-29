@@ -29,7 +29,7 @@ public final class CollisionComponent extends AbstractComponent {
           hitbox.y = (int) (this.getEntity().getPosition().getY() * Screen.getTilesSize());
           isOutofField();
           final Entity player = this.getEntity();
-          if (player.getType() == Type.PLAYABLE && player.getType() == Type.BOT) {
+          if (player.getType() == Type.PLAYABLE) {
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
                          .filter(entity -> entity.getComponent(CollisionComponent.class).isPresent()
