@@ -6,6 +6,7 @@ import java.util.List;
 import it.unibo.unibomber.game.controller.api.World;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.AIComponent;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
@@ -96,8 +97,14 @@ public class GameImpl implements Game {
 
     @Override
     public final void updateGameState() {
-        final int playersLive = (int) this.entities.stream().filter(e -> e.getType() == Type.PLAYABLE).count();
-        final int botLive = (int) this.entities.stream().filter(e -> e.getType() == Type.BOT).count();
+        final int playersLive = (int) this.entities.stream()
+                .filter(e -> e.getType() == Type.BOMBER)
+                .filter(e -> e.getComponent(AIComponent.class).isEmpty())
+                .count();
+        final int botLive = (int) this.entities.stream()
+                .filter(e -> e.getType() == Type.BOMBER)
+                .filter(e -> e.getComponent(AIComponent.class).isPresent())
+                .count();
         if (botLive == 0) {
             Gamestate.setGameState(Gamestate.WIN);
         } else if (playersLive == 0) {
