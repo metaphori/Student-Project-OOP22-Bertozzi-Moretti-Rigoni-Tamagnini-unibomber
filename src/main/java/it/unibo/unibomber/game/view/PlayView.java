@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.ecs.impl.AIComponent;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
@@ -141,7 +142,8 @@ public final class PlayView implements GameLoop {
     }
 
     private BufferedImage getCorrectImage(final Entity entity) {
-        if (entity.getType() == Type.PLAYABLE || entity.getType() == Type.BOT) {
+        if (entity.getType() == Type.BOMBER) {
+            final Type type = entity.getComponent(AIComponent.class).isPresent() ? Type.BOT : Type.PLAYABLE;
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 changePlayerAction(Player.DEFEAT, entity);
@@ -172,7 +174,7 @@ public final class PlayView implements GameLoop {
                         break;
                 }
             }
-            return animations[playerAction + SpritesMap.ANIMATION_ROW.get(entity.getType())][getAnimationIndex(entity)
+            return animations[playerAction + SpritesMap.ANIMATION_ROW.get(type)][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {
             return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());

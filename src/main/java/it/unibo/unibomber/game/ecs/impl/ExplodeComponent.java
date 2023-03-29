@@ -130,8 +130,7 @@ public class ExplodeComponent extends AbstractComponent {
                             } else if (entitySearched.get().getType() != Type.BOMB) {
                                 entitySearched.get().getComponent(DestroyComponent.class).get()
                                         .destroy();
-                                if (entitySearched.get().getType() != Type.PLAYABLE
-                                        && entitySearched.get().getType() != Type.BOT
+                                if (entitySearched.get().getType() != Type.BOMBER
                                         && entitySearched.get().getType() != Type.BOMB) {
                                     this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()),
                                             Math.round(checkPos.getY())));
@@ -140,8 +139,7 @@ public class ExplodeComponent extends AbstractComponent {
                                 if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
                                     this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()),
                                             Math.round(checkPos.getX())));
-                                    if (entitySearched.get().getType() != Type.PLAYABLE
-                                            && entitySearched.get().getType() != Type.BOT
+                                    if (entitySearched.get().getType() != Type.BOMBER
                                             && entitySearched.get().getType() != Type.BOMB) {
                                         countPositions += bombRange;
                                     }
@@ -151,12 +149,10 @@ public class ExplodeComponent extends AbstractComponent {
                             this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()),
                                     Math.round(checkPos.getY())));
                             countPositions += bombRange;
-                        } else if ((entitySearched.get().getType() == Type.PLAYABLE
-                                || entitySearched.get().getType() == Type.BOT)
+                        } else if ((entitySearched.get().getType() == Type.BOMBER)
                                 && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
                             players = totalEntities.stream()
-                                    .filter(e -> e.getType() == Type.PLAYABLE
-                                            || e.getType() == Type.BOT)
+                                    .filter(e -> e.getType() == Type.BOMBER)
                                     .collect(Collectors.toList());
                             for (final var player : players) {
                                 if (this.checkRound(player.getPosition(), checkPos)) {

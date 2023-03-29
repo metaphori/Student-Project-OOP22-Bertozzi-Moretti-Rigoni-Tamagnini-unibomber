@@ -41,8 +41,7 @@ public class FieldImpl implements Field {
         int row;
         int col;
         final var fieldentities = this.game.getEntities().stream()
-                .filter(e -> e.getType() != Type.BOT
-                        && e.getType() != Type.PLAYABLE)
+                .filter(e -> e.getType() != Type.BOMBER)
                 .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {

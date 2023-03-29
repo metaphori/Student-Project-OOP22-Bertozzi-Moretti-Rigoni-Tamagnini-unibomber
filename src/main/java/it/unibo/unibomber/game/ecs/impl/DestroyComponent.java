@@ -93,7 +93,7 @@ public final class DestroyComponent extends AbstractComponent {
             powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
             if (!powerUps.isEmpty()) {
-                if (entity.getType() != Type.PLAYABLE && entity.getType() != Type.BOT) {
+                if (entity.getType() != Type.BOMBER) {
                     entity.getGame()
                             .addEntity(
                                     entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
