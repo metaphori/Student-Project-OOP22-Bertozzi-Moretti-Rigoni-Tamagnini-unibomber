@@ -394,8 +394,8 @@ public class Constants {
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
 
-                MAP_LIST.add("./src/main/res/maps/map0/arena.map");
-                MAP_LIST.add("./src/main/res/maps/map1/arena.map");
+                MAP_LIST.add("./src/main/resources/it/unibo/sprites/maps/map0/arena.map");
+                MAP_LIST.add("./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
             }
 
             /**

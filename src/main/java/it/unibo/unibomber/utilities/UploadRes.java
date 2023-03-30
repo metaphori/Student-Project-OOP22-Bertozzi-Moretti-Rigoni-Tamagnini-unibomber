@@ -28,7 +28,7 @@ public final class UploadRes {
         FileInputStream inputStream;
         final Logger logger = Logger.getLogger(UploadRes.class.getName());
         try {
-            inputStream = new FileInputStream("./src/main/res/" + fileName);
+            inputStream = new FileInputStream("./src/main/resources/it/unibo/sprites/" + fileName);
             img = ImageIO.read(inputStream);
             inputStream.close();
         } catch (IOException e) {
