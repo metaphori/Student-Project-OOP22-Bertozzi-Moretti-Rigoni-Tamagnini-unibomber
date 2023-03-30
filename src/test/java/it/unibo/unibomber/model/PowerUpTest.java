@@ -108,7 +108,7 @@ class PowerUpTest {
                 (int) Math.round(player.getPosition().getY()));
         throwComponent.throwBomb(playerPositionNormalized, playerDirection);
         assertTrue(throwComponent.isThrowing());
-        for (int i = 0; i < 50; i++) {
+        while (throwComponent.isThrowing()) {
             throwComponent.update();
             bombMovementComponent.update();
         }
