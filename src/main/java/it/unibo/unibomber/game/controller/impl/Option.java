@@ -13,6 +13,7 @@ import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.Handicap;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
+import it.unibo.unibomber.game.view.HandicapView;
 import it.unibo.unibomber.game.view.OptionView;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
@@ -25,6 +26,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
+    private final HandicapView hView;
     private final Map<Integer, OptionButtonImpl> optionButtons;
     private final WorldImpl world;
     private int focusIndex;
@@ -39,11 +41,12 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     public Option(final WorldImpl world) {
         super();
         this.world = world;
-        this.focusIndex = 0;
+        this.focusIndex = -1;
         this.basedWidth = 0;
         powerUpListOfEntity = new HashMap<>();
         optionButtons = new HashMap<>();
         view = new OptionView(this);
+        hView = new HandicapView(this);
         loadButtons();
         loadPowerUpList();
     }
@@ -129,6 +132,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     @Override
     public final void draw(final Graphics g) {
         view.draw(g);
+        hView.draw(g);
     }
 
     @Override
@@ -157,6 +161,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                             Handicap.PLAYER_HOVER.getIndex(), OptionButton.getPlyerSelectionWidth(),
                             OptionButton.getPlyerSelectionHeight(), Handicap.PLAYER_HOVER.getType(),
                             0));
+                    optionButtons.get(Handicap.PLAYER.getIndex()).setMousePressed(true);
                 } else {
                     optionButtons.put(Handicap.PLAYER.getIndex(), new OptionButtonImpl(this,
                             OptionButton.getPlyerSelectioBorderDistance(),
@@ -183,13 +188,13 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                     if ("+".equals(mb.getType()) || "-".equals(mb.getType())) {
                         setBot();
                     }
-                    if ("powerup".equals(mb.getType())) {
+                    if ("powerup".equals(mb.getType()) && focusIndex >= 0) {
                         powerUpListOfEntity.get(focusIndex).add(mb.getPType());
                     }
-                    if ("delete".equals(mb.getType())) {
+                    if ("delete".equals(mb.getType()) && !powerUpListOfEntity.get(focusIndex).isEmpty()) {
                         powerUpListOfEntity.get(focusIndex).remove(powerUpListOfEntity.get(focusIndex).size() - 1);
                     }
-                    if ("deleteAll".equals(mb.getType())) {
+                    if ("deleteAll".equals(mb.getType()) && focusIndex >= 0) {
                         powerUpListOfEntity.put(focusIndex, new ArrayList<>());
                     }
                     if ("player".equals(mb.getType()) || "bot".equals(mb.getType())) {
@@ -259,7 +264,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                     OptionButton.getPowerUpSetTopDistance()
                             + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
                     10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, "powerup",
-                    10 + i));
+                    Handicap.getPType(10 + i)));
             basedWidth += Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2;
         }
     }
@@ -268,7 +273,27 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      * @param index
      * @return list of power up of that index.
      */
-    public List<PowerUpType> getListPowerUp(final int index) {
+    public List<PowerUpType> getIndexListPowerUp(final int index) {
         return powerUpListOfEntity.get(index);
+    }
+
+    /**
+     * @return list of power up of that index.
+     */
+    public Map<Integer, List<PowerUpType>> getListPowerUp() {
+        return this.powerUpListOfEntity;
+    }
+
+    /**
+     * @param index
+     * @return top distance of index button.
+     */
+    public Integer getTopDistance(final int index) {
+        for (final OptionButtonImpl btn : optionButtons.values()) {
+            if (btn.getIndex() == index) {
+                return btn.getY();
+            }
+        }
+        return 0;
     }
 }

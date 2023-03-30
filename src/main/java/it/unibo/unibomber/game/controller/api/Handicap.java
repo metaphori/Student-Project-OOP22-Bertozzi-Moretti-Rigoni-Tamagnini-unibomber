@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.controller.api;
 
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.utilities.Constants.UI.OptionButton;
 
 /**
@@ -45,23 +46,23 @@ public enum Handicap {
     /**
      * bot index.
      */
-    BOMBUP(10, null),
+    BOMBUP(10, PowerUpType.BOMBUP),
     /**
      * bot index.
      */
-    FIREUP(11, null),
+    FIREUP(11, PowerUpType.FIREUP),
     /**
      * bot index.
      */
-    SPEEDUP(12, null),
+    SPEEDUP(12, PowerUpType.SPEEDUP),
     /**
      * bot index.
      */
-    BOMBKICK(13, null),
+    BOMBKICK(13, PowerUpType.KICKBOMB),
     /**
      * bot index.
      */
-    POWERGLOVE(14, null),
+    POWERGLOVE(14, PowerUpType.THROWBOMB),
     /**
      * delete index.
      */
@@ -73,14 +74,20 @@ public enum Handicap {
 
     private int index;
     private String type;
+    private PowerUpType pType;
 
     /**
      * @param index index of array in option buffer.
-     * @param type of handicap
+     * @param type  of handicap
      */
     Handicap(final int index, final String type) {
         this.index = index;
         this.type = type;
+    }
+
+    Handicap(final int index, final PowerUpType pType) {
+        this.index = index;
+        this.pType = pType;
     }
 
     /**
@@ -95,6 +102,19 @@ public enum Handicap {
      */
     public String getType() {
         return this.type;
+    }
+
+    /**
+     * @param index of power up
+     * @return power up type.
+     */
+    public static PowerUpType getPType(final int index) {
+        for (final Handicap h : Handicap.values()) {
+            if (h.getIndex() == index) {
+                return h.pType;
+            }
+        }
+        return BOMBUP.pType;
     }
 
     /**

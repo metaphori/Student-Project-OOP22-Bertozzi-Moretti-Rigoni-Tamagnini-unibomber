@@ -42,7 +42,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final Map<Integer, BufferedImage> bufferImages = new HashMap<>();
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
-  private int index;
+  private final int index;
 
   /**
    * @param option
@@ -58,6 +58,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
     this.option = option;
     this.type = type;
+    this.index = -1;
     loadbufferImages();
   }
 
@@ -77,6 +78,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     this.option = option;
     this.type = type;
     this.pType = pType;
+    this.index = -1;
     loadbufferImages();
   }
 
@@ -189,7 +191,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
             case "0":
               e = new EntityFactoryImpl(this.option.getWorld().getGame())
                   .makePlayable(new Pair<Float, Float>((float) i, (float) row));
-              for (final PowerUpType pt : option.getListPowerUp(0)) {
+              for (final PowerUpType pt : option.getIndexListPowerUp(0)) {
                 e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
               }
               this.option.getWorld().getGame().addEntity(e);
@@ -199,7 +201,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
                 botPlaced++;
                 e = new EntityFactoryImpl(this.option.getWorld().getGame())
                     .makeBot(new Pair<Float, Float>((float) i, (float) row), 1);
-                for (final PowerUpType pt : option.getListPowerUp(botPlaced)) {
+                for (final PowerUpType pt : option.getIndexListPowerUp(botPlaced)) {
                   e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
                 }
                 this.option.getWorld().getGame().addEntity(e);
