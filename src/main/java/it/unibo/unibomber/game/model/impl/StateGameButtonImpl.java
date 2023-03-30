@@ -2,6 +2,8 @@ package it.unibo.unibomber.game.model.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
@@ -13,7 +15,7 @@ import it.unibo.unibomber.utilities.Constants.UI.Buttons;
  * Menu Button settings implementation class.
  */
 public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop {
-  private BufferedImage[] bufferImages;
+  private final Map<Integer, BufferedImage> bufferImages = new HashMap<>();
   private final Gamestate gameState;
 
   /**
@@ -31,17 +33,16 @@ public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop 
   }
 
   private void loadbufferImages() {
-    bufferImages = new BufferedImage[5];
-    bufferImages[0] = UploadRes.getSpriteAtlas("menu/stateGame/pause.png");
-    bufferImages[1] = UploadRes.getSpriteAtlas("menu/stateGame/continue.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/stateGame/quit.png");
-    bufferImages[3] = UploadRes.getSpriteAtlas("menu/stateGame/win.png");
-    bufferImages[4] = UploadRes.getSpriteAtlas("menu/stateGame/lose.png");
+    bufferImages.put(0, UploadRes.getSpriteAtlas("menu/stateGame/pause.png"));
+    bufferImages.put(1, UploadRes.getSpriteAtlas("menu/stateGame/continue.png"));
+    bufferImages.put(2, UploadRes.getSpriteAtlas("menu/stateGame/quit.png"));
+    bufferImages.put(3, UploadRes.getSpriteAtlas("menu/stateGame/win.png"));
+    bufferImages.put(4, UploadRes.getSpriteAtlas("menu/stateGame/lose.png"));
   }
 
   @Override
   public final void draw(final Graphics g) {
-    g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), this.getW(), this.getH(), null);
+    g.drawImage(bufferImages.get(this.getRowIndex()), this.getX(), this.getY(), this.getW(), this.getH(), null);
   }
 
   @Override

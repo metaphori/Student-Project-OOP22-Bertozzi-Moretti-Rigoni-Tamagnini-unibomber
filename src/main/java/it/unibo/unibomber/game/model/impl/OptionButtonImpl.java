@@ -10,12 +10,14 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import static java.util.logging.Level.SEVERE;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.game.controller.api.Handicap;
 import it.unibo.unibomber.game.controller.impl.Option;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
@@ -35,9 +37,9 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
  * Menu Button settings implementation class.
  */
 public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
-  private String type;
+  private final String type;
   private PowerUpType pType;
-  private BufferedImage[] bufferImages;
+  private final Map<Integer, BufferedImage> bufferImages = new HashMap<>();
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
   private final Option option;
   private int index;
@@ -98,29 +100,28 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   private void loadbufferImages() {
-    bufferImages = new BufferedImage[17];
-    bufferImages[0] = UploadRes.getSpriteAtlas("menu/option/left.png");
-    bufferImages[2] = UploadRes.getSpriteAtlas("menu/option/right.png");
-    bufferImages[3] = UploadRes.getSpriteAtlas("menu/option/ok.png");
-    bufferImages[4] = UploadRes.getSpriteAtlas("menu/option/player.png");
-    bufferImages[5] = UploadRes.getSpriteAtlas("menu/option/player_hover.png");
-    bufferImages[6] = UploadRes.getSpriteAtlas("menu/option/bot.png");
-    bufferImages[7] = UploadRes.getSpriteAtlas("menu/option/botNumber.png");
-    bufferImages[8] = UploadRes.getSpriteAtlas("menu/option/+.png");
-    bufferImages[9] = UploadRes.getSpriteAtlas("menu/option/-.png");
-    bufferImages[10] = UploadRes.getSpriteAtlas("powerUp/bomb_up.png");
-    bufferImages[11] = UploadRes.getSpriteAtlas("powerUp/fire_up.png");
-    bufferImages[12] = UploadRes.getSpriteAtlas("powerUp/speed_up.png");
-    bufferImages[13] = UploadRes.getSpriteAtlas("powerUp/bomb_kick.png");
-    bufferImages[14] = UploadRes.getSpriteAtlas("powerUp/power_glove.png");
-    bufferImages[15] = UploadRes.getSpriteAtlas("menu/option/delete.png");
-    bufferImages[16] = UploadRes.getSpriteAtlas("menu/option/delete_all.png");
+    bufferImages.put(Handicap.LEFT.getIndex(), UploadRes.getSpriteAtlas("menu/option/left.png"));
+    bufferImages.put(Handicap.RIGHT.getIndex(), UploadRes.getSpriteAtlas("menu/option/right.png"));
+    bufferImages.put(Handicap.OK.getIndex(), UploadRes.getSpriteAtlas("menu/option/ok.png"));
+    bufferImages.put(Handicap.BOTNUMBER.getIndex(), UploadRes.getSpriteAtlas("menu/option/botNumber.png"));
+    bufferImages.put(Handicap.PLUS.getIndex(), UploadRes.getSpriteAtlas("menu/option/+.png"));
+    bufferImages.put(Handicap.MINUS.getIndex(), UploadRes.getSpriteAtlas("menu/option/-.png"));
+    bufferImages.put(Handicap.PLAYER.getIndex(), UploadRes.getSpriteAtlas("menu/option/player.png"));
+    bufferImages.put(Handicap.PLAYER_HOVER.getIndex(), UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
+    bufferImages.put(Handicap.BOT.getIndex(), UploadRes.getSpriteAtlas("menu/option/bot.png"));
+    bufferImages.put(Handicap.DELETE.getIndex(), UploadRes.getSpriteAtlas("menu/option/delete.png"));
+    bufferImages.put(Handicap.DELETE_ALL.getIndex(), UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
+    bufferImages.put(Handicap.BOMBUP.getIndex(), UploadRes.getSpriteAtlas("powerUp/bomb_up.png"));
+    bufferImages.put(Handicap.FIREUP.getIndex(), UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
+    bufferImages.put(Handicap.SPEEDUP.getIndex(), UploadRes.getSpriteAtlas("powerUp/speed_up.png"));
+    bufferImages.put(Handicap.BOMBKICK.getIndex(), UploadRes.getSpriteAtlas("powerUp/bomb_kick.png"));
+    bufferImages.put(Handicap.POWERGLOVE.getIndex(), UploadRes.getSpriteAtlas("powerUp/power_glove.png"));
   }
 
   @Override
   public final void draw(final Graphics g) {
-    bufferImages[1] = MapOption.MAP_CHOSE_LIST.get(GameLoopConstants.getLEVEL());
-    g.drawImage(bufferImages[this.getRowIndex()], this.getX(), this.getY(), this.getW(), this.getH(), null);
+    bufferImages.put(0, MapOption.MAP_CHOSE_LIST.get(GameLoopConstants.getLEVEL()));
+    g.drawImage(bufferImages.get(this.getRowIndex()), this.getX(), this.getY(), this.getW(), this.getH(), null);
   }
 
   @Override
@@ -141,7 +142,6 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
           UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/indestructible_wall.png"));
       option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
-      System.out.println(this.option.getWorld().getGame().getEntities().stream().filter(e -> e.getType()== Type.BOMBER).collect(Collectors.toList()).get(0).getComponent(PowerUpHandlerComponent.class).get().getPowerUpList());
     }
     if ("left".equals(type) && GameLoopConstants.getLEVEL() > 0) {
       GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() - 1);
@@ -149,7 +149,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     if ("right".equals(type) && GameLoopConstants.getLEVEL() < MapOption.MAP_CHOSE_LIST.size() - 1) {
       GameLoopConstants.setLEVEL(GameLoopConstants.getLEVEL() + 1);
     }
-    if ("+".equals(type) && MapOption.getNumberOfBot() < 8) {
+    if ("+".equals(type) && MapOption.getNumberOfBot() < 3) {
       MapOption.incrementBot();
     }
     if ("-".equals(type) && MapOption.getNumberOfBot() > 1) {
@@ -189,7 +189,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
             case "0":
               e = new EntityFactoryImpl(this.option.getWorld().getGame())
                   .makePlayable(new Pair<Float, Float>((float) i, (float) row));
-              for (PowerUpType pt : option.getListPowerUp(0)) {
+              for (final PowerUpType pt : option.getListPowerUp(0)) {
                 e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
               }
               this.option.getWorld().getGame().addEntity(e);
@@ -199,7 +199,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
                 botPlaced++;
                 e = new EntityFactoryImpl(this.option.getWorld().getGame())
                     .makeBot(new Pair<Float, Float>((float) i, (float) row), 1);
-                for (PowerUpType pt : option.getListPowerUp(botPlaced)) {
+                for (final PowerUpType pt : option.getListPowerUp(botPlaced)) {
                   e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
                 }
                 this.option.getWorld().getGame().addEntity(e);

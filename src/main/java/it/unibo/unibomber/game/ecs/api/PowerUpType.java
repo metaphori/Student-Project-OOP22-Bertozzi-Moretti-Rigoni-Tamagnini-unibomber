@@ -31,7 +31,7 @@ public enum PowerUpType {
     /**
      * Set bomb fire max.
      */
-    FIREFULL(false),
+    FIREFULL(true),
     /**
      * Increase speed.
      */

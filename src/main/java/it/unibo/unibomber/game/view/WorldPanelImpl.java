@@ -7,8 +7,6 @@ import java.awt.Toolkit;
 
 import it.unibo.unibomber.inputs.MouseInputsImpl;
 import it.unibo.unibomber.utilities.Constants;
-import it.unibo.unibomber.utilities.Constants.UI.MapOption;
-import it.unibo.unibomber.utilities.Constants.UI.OptionButton;
 import it.unibo.unibomber.game.controller.impl.WorldImpl;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
 import static it.unibo.unibomber.utilities.Constants.UI.Screen;
@@ -42,11 +40,7 @@ public final class WorldPanelImpl extends JPanel {
     }
     Screen.changeDimension();
     while ((Buttons.getTopDistanceQuit() + Buttons.getBHeight()) > Screen.getgHeight()) {
-      while (MapOption.getMapDimension() + OptionButton.getBombNumberDimension()
-          + (OptionButton.getPlyerSelectionHeight() * 5)
-          + (Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT) > Screen.getgHeight()) {
-        Buttons.setScaleButton(1);
-      }
+      Buttons.setScaleButton(1);
     }
     setPreferredSize(new Dimension(Screen.getgWidth(), Screen.getgHeight()));
   }
