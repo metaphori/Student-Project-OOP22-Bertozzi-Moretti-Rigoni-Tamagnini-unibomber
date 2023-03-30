@@ -32,44 +32,42 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
      */
     public void addPowerUp(final PowerUpType powerUpType) {
         this.addPowerUpList(powerUpType);
-        if (!powerUpType.isComplex()) {
-            switch (powerUpType) {
-                case FIREUP:
-                    if (this.getBombFire() < 8) {
-                        this.setBombFire(getBombFire() + 1);
-                    }
-                    break;
-                case FIREDOWN:
-                    if (this.getBombFire() > 1) {
-                        this.setBombFire(getBombFire() - 1);
-                    }
-                    break;
-                case FIREFULL:
-                    this.setBombFire(8);
-                    break;
-                case BOMBUP:
-                    if (this.getBombNumber() < 8) {
-                        this.setBombNumer(getBombNumber() + 1);
-                    }
-                    break;
-                case BOMBDOWN:
-                    if (this.getBombNumber() > 1) {
-                        this.setBombNumer(getBombNumber() - 1);
-                    }
-                    break;
-                case SPEEDUP:
-                    if (this.getEntity().getSpeed() < Constants.Entity.MAX_SPEED) {
-                        this.getEntity().addSpeed(Constants.PowerUp.SPEED_POWERUP_CHANGE);
-                    }
-                    break;
-                case SPEEDDOWN:
-                    if (this.getEntity().getSpeed() > Constants.Entity.MIN_SPEED) {
-                        this.getEntity().addSpeed(-Constants.PowerUp.SPEED_POWERUP_CHANGE);
-                    }
-                    break;
-                default:
-                    break;
-            }
+        switch (powerUpType) {
+            case FIREUP:
+                if (this.getBombFire() < 8) {
+                    this.setBombFire(this.getBombFire() + 1);
+                }
+                break;
+            case FIREDOWN:
+                if (this.getBombFire() > 1) {
+                    this.setBombFire(this.getBombFire() - 1);
+                }
+                break;
+            case FIREFULL:
+                this.setBombFire(8);
+                break;
+            case BOMBUP:
+                if (this.getBombNumber() < 8) {
+                    this.setBombNumer(this.getBombNumber() + 1);
+                }
+                break;
+            case BOMBDOWN:
+                if (this.getBombNumber() > 1) {
+                    this.setBombNumer(this.getBombNumber() - 1);
+                }
+                break;
+            case SPEEDUP:
+                if (this.getEntity().getSpeed() < Constants.Entity.MAX_SPEED) {
+                    this.getEntity().addSpeed(Constants.PowerUp.SPEED_POWERUP_CHANGE);
+                }
+                break;
+            case SPEEDDOWN:
+                if (this.getEntity().getSpeed() > Constants.Entity.MIN_SPEED) {
+                    this.getEntity().addSpeed(-Constants.PowerUp.SPEED_POWERUP_CHANGE);
+                }
+                break;
+            default:
+                break;
         }
     }
 }
