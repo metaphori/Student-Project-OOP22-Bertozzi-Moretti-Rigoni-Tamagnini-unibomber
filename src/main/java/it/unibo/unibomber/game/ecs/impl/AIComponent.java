@@ -25,9 +25,12 @@ public final class AIComponent extends AbstractComponent {
      private boolean isGettingCloser;
 
      /**
-      * isGettingCloser is used to get the bot to more closely get to the next cell.
+      * isGettingCloser is used to get the bot to more closely get to the next
+      * cell.
+      * 
+      * @param position
       */
-     public AIComponent(Pair<Float, Float> position) {
+     public AIComponent(final Pair<Float, Float> position) {
           isGettingCloser = false;
           oldPosition = position;
           followingPath = new ArrayList<>(List.of(Direction.CENTER));
@@ -40,20 +43,27 @@ public final class AIComponent extends AbstractComponent {
 
           setValidPath(typesMatrix);
           move(this.followingPath.get(0));
-          placeBombIfAdvantageous(typesMatrix);
+          if (isPlacingBombAdvantageous(typesMatrix)) {
+               placeBomb();
+               followingPath = new ArrayList<>(List.of(Direction.CENTER));
+          }
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
           System.out.println(isSafe(typesMatrix));
      }
 
-     private void placeBombIfAdvantageous(Type[][] typesMatrix) {
+     /**
+      * @param typesMatrix
+      * @return true if the bot should place a bomb, false otherwise
+      */
+     private boolean isPlacingBombAdvantageous(final Type[][] typesMatrix) {
           final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
           List<Type> typesToDestroy = List.of(Type.DESTRUCTIBLE_WALL, Type.BOMBER);
           if (wouldBeSafe(typesMatrix, this.getEntity().getPosition())
-           && wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())) {
-               placeBomb(typesMatrix);
-               followingPath = new ArrayList<>(List.of(Direction.CENTER));
+                    && wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())) {
+               return true;
           }
+          return false;
      }
 
      /**
@@ -98,33 +108,43 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
-     private boolean wouldBeSafe(Type[][] typesMatrix, Pair<Float, Float> position){
-          if(typesMatrix[Math.round(position.getX())][Math.round(position.getY())] == Type.EXPLOSION){
+     /**
+      * @param typesMatrix the matrix of types
+      * @param position    the position where the bomb would be placed
+      * @return true if the bot would be safe placing a bomb right now, false
+      *         otherwise
+      */
+     private boolean wouldBeSafe(final Type[][] typesMatrix, final Pair<Float, Float> position) {
+          if (typesMatrix[Math.round(position.getX())][Math.round(position.getY())] == Type.EXPLOSION) {
                return false;
           }
           Type[][] newMatrix = new Type[typesMatrix.length][typesMatrix[0].length];
-          for (int x = 0; x < typesMatrix.length; x++)
-               for (int y = 0; y < typesMatrix[0].length; y++)
+          for (int x = 0; x < typesMatrix.length; x++) {
+               for (int y = 0; y < typesMatrix[0].length; y++) {
                     newMatrix[x][y] = typesMatrix[x][y];
+               }
+          }
           for (final Direction d : Direction.valuesNoCenter()) {
                int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
                addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),
                          strength, d, 0);
           }
-          //TODO
+          // TODO
           var a = getDirectionsTowards(Type.EXPLOSION, false, newMatrix);
-          return a.get(0) == Direction.CENTER ? false : true;
+          return a.get(0) != Direction.CENTER;
      }
 
-     private void placeBomb(Type[][] typesMatrix) {
+     /**
+      * handles the bomb placement by the AI.
+      */
+     private void placeBomb() {
           final PowerUpListComponent powerups = this.getEntity()
                     .getComponent(PowerUpListComponent.class)
                     .get();
-          if (powerups.getBombNumber() - powerups.getBombPlaced() > 0
-                    && nextTo(Type.AIR, typesMatrix, this.getEntity().getPosition())) {
+          if (powerups.getBombNumber() - powerups.getBombPlaced() > 0) {
                final BombPlaceComponent placeBomb = this.getEntity()
                          .getComponent(BombPlaceComponent.class).get();
-                placeBomb.placeBomb();
+               placeBomb.placeBomb();
           }
      }
 
@@ -147,6 +167,12 @@ public final class AIComponent extends AbstractComponent {
           return false;
      }
 
+     /**
+      * @param searchedTypes the list of types checked for potential explosion
+      * @param typesMatrix   matrix of game types
+      * @param position      the position the potential bomb will be placed in
+      * @return whether the bomb will destroy one if the searchedtypes
+      */
      private boolean wouldExplodeNextTo(final List<Type> searchedTypes, final Type[][] typesMatrix,
                final Pair<Float, Float> position) {
           int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
@@ -170,7 +196,7 @@ public final class AIComponent extends AbstractComponent {
      }
 
      /**
-      * @param types       the list of types to go towards/away from
+      * @param type        the type to go towards/away from
       * @param goTowards   whether to go towards or away from types
       * @param typesMatrix matrix of game types
       * @return the closest (safe) path towards types
@@ -255,8 +281,9 @@ public final class AIComponent extends AbstractComponent {
           for (int i = 0; i < path.size(); i++) {
                path.set(i, path.get(i).reverse());
           }
-          if (path.isEmpty())
+          if (path.isEmpty()) {
                path.add(Direction.CENTER);
+          }
           return path;
      }
 
@@ -333,7 +360,10 @@ public final class AIComponent extends AbstractComponent {
           return (isCloser && !isOver);
      }
 
-     public final Type[][] getMatrixTypes() {
+     /**
+      * @return a matrix with the sizes of the game field with all the types in play.
+      */
+     private Type[][] getMatrixTypes() {
           final Pair<Integer, Integer> gameDimensions = this.getEntity().getGame().getDimensions();
           final Type[][] typesMatrix = new Type[gameDimensions.getX()][gameDimensions.getY()];
           initializeTypeMatrix(typesMatrix);
@@ -343,11 +373,19 @@ public final class AIComponent extends AbstractComponent {
           return typesMatrix;
      }
 
-     private Type[][] getMatrixWithBombers(Type[][] typesMatrix) {
+     /**
+      * adds to a type matrix the bomber in play.
+      * 
+      * @param typesMatrix matrix of game types
+      * @return the matrix of types in play
+      */
+     private Type[][] getMatrixWithBombers(final Type[][] typesMatrix) {
           Type[][] typesWithBomber = new Type[typesMatrix.length][typesMatrix[0].length];
-          for (int x = 0; x < typesMatrix.length; x++)
-               for (int y = 0; y < typesMatrix[0].length; y++)
+          for (int x = 0; x < typesMatrix.length; x++) {
+               for (int y = 0; y < typesMatrix[0].length; y++) {
                     typesWithBomber[x][y] = typesMatrix[x][y];
+               }
+          }
 
           List<Entity> entities = this.getEntity().getGame().getEntities();
           entities.stream()
@@ -369,6 +407,11 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
+     /**
+      * handles the explosion of future bombs in the typeMatrix.
+      * 
+      * @param typesMatrix matrix of game types.
+      */
      private void handleBombExplosion(final Type[][] typesMatrix) {
           final var field = this.getEntity().getGame().getGameField().getField();
           field.keySet().stream()
@@ -389,6 +432,15 @@ public final class AIComponent extends AbstractComponent {
 
      }
 
+     /**
+      * a recursive method which adds one row of explosion tiles at a time.
+      * 
+      * @param typesMatrix the matrix of types.
+      * @param where       the initial position.
+      * @param strength    the tsrength of the bomb.
+      * @param d           the direction the current explosion line is facing.
+      * @param step        how many steps of recurison it is in.
+      */
      private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where,
                final int strength, final Direction d, final int step) {
           if (step <= strength) {
@@ -404,6 +456,11 @@ public final class AIComponent extends AbstractComponent {
           }
      }
 
+     /**
+      * adds all types exept bombers to the type matrix.
+      * 
+      * @param typesMatrix matrix of game types
+      */
      private void addEntitiesToMatrix(final Type[][] typesMatrix) {
           final var field = this.getEntity().getGame().getGameField().getField();
           for (final Pair<Integer, Integer> pos : field.keySet()) {
