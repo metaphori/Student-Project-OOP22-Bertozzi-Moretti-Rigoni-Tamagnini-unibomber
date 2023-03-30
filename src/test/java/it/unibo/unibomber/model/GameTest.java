@@ -8,6 +8,7 @@ import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURA
 
 import org.junit.jupiter.api.Test;
 
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
@@ -28,21 +29,32 @@ class GameTest {
 
     private final Game game = new GameImpl(null, FIELD_ROWS, FIELD_COLS);
     private final EntityFactory entityFactory = new EntityFactoryImpl(this.game);
+    private Entity bot;
+    private Entity player;
 
     private int getDestroyFrames(final Type type) {
         return DESTROY_FRAMES_PER_TYPE.containsKey(type) ? DESTROY_FRAMES_PER_TYPE.get(type)
                 : STANDARD_FRAME_DURATION;
     }
 
-    @Test
-    void testVictory() {
-        final var bot = this.entityFactory.makeBot(new Pair<>(PLAYER_Y, PLAYER_X), DIFFICULT_AI);
-        final var player = this.entityFactory.makePlayable(new Pair<>(PLAYER_Y, PLAYER_X));
+    private void setPlayerAndBot() {
+        this.bot = this.entityFactory.makeBot(new Pair<>(PLAYER_X, PLAYER_Y), DIFFICULT_AI);
+        this.player = this.entityFactory.makePlayable(new Pair<>(PLAYER_X, PLAYER_Y));
         new Constants.Destroy();
         this.game.addEntity(bot);
         this.game.addEntity(player);
+    }
+
+    @Test
+    void testPlay() {
         Gamestate.setGameState(Gamestate.PLAY);
         assertEquals(Gamestate.PLAY, Gamestate.getGamestate());
+    }
+
+    @Test
+    void testVictory() {
+        this.setPlayerAndBot();
+        Gamestate.setGameState(Gamestate.PLAY);
         assertTrue(bot.getComponent(DestroyComponent.class).isPresent());
         assertTrue(player.getComponent(DestroyComponent.class).isPresent());
         bot.getComponent(DestroyComponent.class).get().destroy();
@@ -56,13 +68,8 @@ class GameTest {
 
     @Test
     void testLose() {
-        final var bot = this.entityFactory.makeBot(new Pair<>(PLAYER_Y, PLAYER_X), DIFFICULT_AI);
-        final var player = this.entityFactory.makePlayable(new Pair<>(PLAYER_Y, PLAYER_X));
-        new Constants.Destroy();
-        this.game.addEntity(bot);
-        this.game.addEntity(player);
+        this.setPlayerAndBot();
         Gamestate.setGameState(Gamestate.PLAY);
-        assertEquals(Gamestate.PLAY, Gamestate.getGamestate());
         assertTrue(bot.getComponent(DestroyComponent.class).isPresent());
         assertTrue(player.getComponent(DestroyComponent.class).isPresent());
         player.getComponent(DestroyComponent.class).get().destroy();

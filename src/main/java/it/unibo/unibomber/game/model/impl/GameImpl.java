@@ -107,10 +107,14 @@ public class GameImpl implements Game {
                 .count();
         if (botLive == 0) {
             Gamestate.setGameState(Gamestate.WIN);
-            this.world.getEndGame().loadButtons();
+            if (this.world != null) {
+                this.world.getEndGame().loadButtons();
+            }
         } else if (playersLive == 0) {
             Gamestate.setGameState(Gamestate.LOSE);
-            this.world.getEndGame().loadButtons();
+            if (this.world != null) {
+                this.world.getEndGame().loadButtons();
+            }
         }
     }
 
