@@ -8,6 +8,8 @@ import it.unibo.unibomber.utilities.Constants.UI.OptionButton;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -15,7 +17,7 @@ import java.util.Arrays;
 /**
  * This class manage the game menu.
  */
-public class StateGame extends StateImpl implements MouseListener, GameLoop {
+public final class StateGame extends StateImpl implements MouseListener, KeyListener, GameLoop {
 
     private StateGameButtonImpl[] buttons = new StateGameButtonImpl[3];
     private final StateGameView view;
@@ -29,13 +31,25 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
         loadButtons();
     }
 
-    private void loadButtons() {
-        buttons[1] = new StateGameButtonImpl(Gamestate.MENU,
+    /**
+     * Load button based on gamestate.
+     */
+    public void loadButtons() {
+        int index;
+        if (Gamestate.getGamestate() == Gamestate.PAUSE) {
+            index = 0;
+        } else {
+            index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
+        }
+        buttons[0] = new StateGameButtonImpl(null,
+                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
+                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
+        buttons[1] = new StateGameButtonImpl(Gamestate.getButtonStateGame().getX(),
                 ((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2
                         - OptionButton.getContinueDimension().getX()) / 2,
                 Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getContinueDimension().getX(), OptionButton.getContinueDimension().getY(), 1);
-        buttons[2] = new StateGameButtonImpl(Gamestate.QUIT,
+        buttons[2] = new StateGameButtonImpl(Gamestate.getButtonStateGame().getY(),
                 Screen.getgWidth() - Screen.getgWidth() / 4, Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getQuitDimension().getX(), OptionButton.getQuitDimension().getY(),
                 2);
@@ -44,25 +58,17 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
     /**
      * @return button menu pressed
      */
-    public final StateGameButtonImpl[] getButtons() {
+    public StateGameButtonImpl[] getButtons() {
         return Arrays.copyOf(buttons, buttons.length);
     }
 
     @Override
-    public final void update() {
-        final int index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
-        buttons[0] = new StateGameButtonImpl(null,
-                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
-                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
+    public void update() {
         view.update();
     }
 
     @Override
-    public final void draw(final Graphics g) {
-        final int index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
-        buttons[0] = new StateGameButtonImpl(null,
-                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
-                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
+    public void draw(final Graphics g) {
         view.draw(g);
     }
 
@@ -79,7 +85,7 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
     }
 
     @Override
-    public final void mousePressed(final MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         for (final StateGameButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 mb.setMousePressed(true);
@@ -88,7 +94,7 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
     }
 
     @Override
-    public final void mouseReleased(final MouseEvent e) {
+    public void mouseReleased(final MouseEvent e) {
         for (final StateGameButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
@@ -105,5 +111,20 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
             mb.reset();
         }
 
+    }
+
+    @Override
+    public void keyPressed(final KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(final KeyEvent e) {
+        if (Gamestate.getGamestate() == Gamestate.PAUSE && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            Gamestate.setGameState(Gamestate.PLAY);
+        }
+    }
+
+    @Override
+    public void keyTyped(final KeyEvent e) {
     }
 }

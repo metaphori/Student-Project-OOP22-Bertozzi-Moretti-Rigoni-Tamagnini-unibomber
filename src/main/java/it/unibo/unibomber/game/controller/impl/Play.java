@@ -82,6 +82,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     public final void keyReleased(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Gamestate.setGameState(Gamestate.PAUSE);
+            this.world.getEndGame().loadButtons();
         } else {
             if (keyQueue.contains(e.getKeyCode())) {
                 keyQueue.remove(e.getKeyCode());

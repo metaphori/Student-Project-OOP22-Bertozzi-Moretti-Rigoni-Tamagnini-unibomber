@@ -1,5 +1,7 @@
 package it.unibo.unibomber.game.model.api;
 
+import it.unibo.unibomber.utilities.Pair;
+
 /**
  * This enum represent the state of game.
  */
@@ -21,15 +23,15 @@ public enum Gamestate {
      */
     PAUSE,
     /**
-    * Quit game.
-    */
+     * Quit game.
+     */
     QUIT,
     /**
-     *Player wins game.
+     * Player wins game.
      */
     WIN,
     /**
-     *Player wins game.
+     * Player wins game.
      */
     LOSE;
 
@@ -49,5 +51,17 @@ public enum Gamestate {
      */
     public static void setGameState(final Gamestate st) {
         state = st;
+    }
+
+    /**
+     * @return pair of button gamestate if game is in pause or terminated.
+     */
+    public static Pair<Gamestate, Gamestate> getButtonStateGame() {
+        if (state == PAUSE) {
+            return new Pair<>(PLAY, MENU);
+        } else if (state == WIN || state == LOSE) {
+            return new Pair<>(MENU, QUIT);
+        }
+        return new Pair<>(PLAY, PLAY);
     }
 }

@@ -39,7 +39,7 @@ public final class MouseInputsImpl implements MouseListener {
       case PLAY:
         break;
       case PAUSE:
-        worldPanel.getWorld().getPause().mousePressed(e);
+        worldPanel.getWorld().getEndGame().mousePressed(e);
         break;
       case WIN:
       case LOSE:
@@ -63,7 +63,7 @@ public final class MouseInputsImpl implements MouseListener {
       case PLAY:
         break;
       case PAUSE:
-        worldPanel.getWorld().getPause().mouseReleased(e);
+        worldPanel.getWorld().getEndGame().mouseReleased(e);
         break;
       case WIN:
       case LOSE:

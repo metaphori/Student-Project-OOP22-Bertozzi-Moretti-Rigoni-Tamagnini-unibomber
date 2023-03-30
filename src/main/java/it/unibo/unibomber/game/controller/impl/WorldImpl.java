@@ -24,7 +24,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private Menu menu;
   private Option option;
   private Play play;
-  private Pause pause;
   private StateGame endGame;
   private Game game;
 
@@ -52,15 +51,14 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private void initClasses() {
     menu = new Menu();
     option = new Option(this);
-    pause = new Pause();
     endGame = new StateGame();
   }
 
   private void loadSprites() {
-    Constants.UI.SpritesMap.setSpritesMap();;
+    Constants.UI.SpritesMap.setSpritesMap();
     new Constants.Destroy();
     new Constants.UI.Scale();
-    Constants.UI.MapOption.setList();;
+    Constants.UI.MapOption.setList();
   }
 
   private void startGameLoop() {
@@ -81,7 +79,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
         play.update();
         break;
       case PAUSE:
-        pause.update();
+        endGame.update();
         break;
       case WIN:
       case LOSE:
@@ -109,7 +107,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
         break;
       case PAUSE:
         play.draw(g);
-        pause.draw(g);
+        endGame.draw(g);
         break;
       case WIN:
       case LOSE:
@@ -155,11 +153,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final Play getPlay() {
     return play;
-  }
-
-  @Override
-  public final Pause getPause() {
-    return pause;
   }
 
   @Override
