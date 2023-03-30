@@ -25,11 +25,11 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private final OptionView view;
-    private final Map<Integer, OptionButtonImpl> optionButtons = new HashMap<>();
+    private final Map<Integer, OptionButtonImpl> optionButtons;
     private final WorldImpl world;
     private int focusIndex;
     private final Map<Integer, List<PowerUpType>> powerUpListOfEntity;
-    private static int basedWidth;
+    private int basedWidth;
 
     /**
      * This method manage the view of game option.
@@ -40,7 +40,9 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         super();
         this.world = world;
         this.focusIndex = 0;
+        this.basedWidth = 0;
         powerUpListOfEntity = new HashMap<>();
+        optionButtons = new HashMap<>();
         view = new OptionView(this);
         loadButtons();
         loadPowerUpList();
@@ -253,8 +255,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      * Set power up buttons.
      */
     private void setPowerUp() {
-        final int powerUpNumber = 5;
-        for (int i = 0; i < powerUpNumber; i++) {
+        for (int i = 0; i < Handicap.getNumberOfPowerUp(); i++) {
             optionButtons.put(16 + i, new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
                     OptionButton.getPowerUpSetTopDistance()
                             + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,

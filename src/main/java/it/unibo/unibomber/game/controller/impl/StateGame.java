@@ -19,7 +19,7 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
 
     private StateGameButtonImpl[] buttons = new StateGameButtonImpl[3];
     private final StateGameView view;
-    private static int index;
+
     /**
      * This method manage the view of game menu.
      */
@@ -30,9 +30,6 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void loadButtons() {
-        buttons[0] = new StateGameButtonImpl(null,
-                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
-                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
         buttons[1] = new StateGameButtonImpl(Gamestate.MENU,
                 ((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2
                         - OptionButton.getContinueDimension().getX()) / 2,
@@ -62,6 +59,10 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void draw(final Graphics g) {
+        final int index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
+        buttons[0] = new StateGameButtonImpl(null,
+                (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
+                OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
         view.draw(g);
     }
 
