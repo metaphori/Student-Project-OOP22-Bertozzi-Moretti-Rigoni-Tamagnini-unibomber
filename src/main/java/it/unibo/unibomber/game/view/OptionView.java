@@ -1,6 +1,5 @@
 package it.unibo.unibomber.game.view;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -18,6 +17,7 @@ import static it.unibo.unibomber.utilities.Constants.UI.OptionButton.OPTION_BACK
  */
 public final class OptionView implements GameLoop {
         private final Option controller;
+
         /**
          * @param controller
          */
@@ -27,7 +27,7 @@ public final class OptionView implements GameLoop {
 
         @Override
         public void update() {
-                for (final OptionButtonImpl mb : controller.getOptionButtons()) {
+                for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
                         mb.update();
                 }
         }
@@ -37,10 +37,12 @@ public final class OptionView implements GameLoop {
                 final Graphics2D g2 = (Graphics2D) g;
                 g2.setColor(OPTION_BACKGROUND);
                 g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
-                Graphics2D g3 = (Graphics2D) g;
-                g3.setColor(new Color(214, 214, 214));
-                g3.fillRoundRect(OptionButton.WIDTH_INCREMENT, OptionButton.getPowerUpSetTopDistance(), 300, Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT, 5, 5);
-                for (final OptionButtonImpl mb : controller.getOptionButtons()) {
+                g2.setColor(OptionButton.CONTAINER_COLOR);
+                g2.fillRoundRect(OptionButton.WIDTH_INCREMENT, OptionButton.getPowerUpSetTopDistance(),
+                                OptionButton.CONTAINER_WIDTH,
+                                Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT,
+                                OptionButton.ARC_RECT, OptionButton.ARC_RECT);
+                for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
                         if (!"empty".equals(mb.getType())) {
                                 mb.draw(g);
                         }

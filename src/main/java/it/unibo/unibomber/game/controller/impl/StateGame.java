@@ -34,12 +34,12 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
                 (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
                 OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
         buttons[1] = new StateGameButtonImpl(Gamestate.MENU,
-                (((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2)
+                ((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2
                         - OptionButton.getContinueDimension().getX()) / 2,
-                (Screen.getgHeight() - Screen.getgHeight() / 4),
+                Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getContinueDimension().getX(), OptionButton.getContinueDimension().getY(), 1);
         buttons[2] = new StateGameButtonImpl(Gamestate.QUIT,
-                Screen.getgWidth() - Screen.getgWidth() / 4, (Screen.getgHeight() - Screen.getgHeight() / 4),
+                Screen.getgWidth() - Screen.getgWidth() / 4, Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getQuitDimension().getX(), OptionButton.getQuitDimension().getY(),
                 2);
     }
@@ -53,7 +53,7 @@ public class StateGame extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void update() {
-        int index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
+        final int index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
         buttons[0] = new StateGameButtonImpl(null,
                 (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
                 OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);

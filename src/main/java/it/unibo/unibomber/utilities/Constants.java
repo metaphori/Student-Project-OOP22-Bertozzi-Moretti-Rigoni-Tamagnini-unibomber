@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.unibomber.game.controller.api.OptionType;
+import it.unibo.unibomber.game.controller.api.Handicap;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 
@@ -115,13 +115,13 @@ public class Constants {
                         - (OptionButton.plyerSelectionWidth * 2 + 10)) / 2;
                 OptionButton.powerUpSetTopDistance = Screen.getgHeight()
                         - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
-                OptionButton.gameStateDimension = new Pair<Integer, Integer>(
+                OptionButton.gameStateDimension = new Pair<>(
                         OptionButton.GAMESTATE_W_DEFAULT * (int) Buttons.scaleButton,
                         OptionButton.GAMESTATE_H_DEFAULT * (int) Buttons.scaleButton);
-                OptionButton.continueDimension = new Pair<Integer, Integer>(
+                OptionButton.continueDimension = new Pair<>(
                         OptionButton.CONTINUE_W_DEFAULT * (int) Buttons.scaleButton,
                         OptionButton.CONTINUE_H_DEFAULT * (int) Buttons.scaleButton);
-                OptionButton.quitDimension = new Pair<Integer, Integer>(
+                OptionButton.quitDimension = new Pair<>(
                         OptionButton.QUIT_W_DEFAULT * (int) Buttons.scaleButton,
                         OptionButton.QUIT_H_DEFAULT * (int) Buttons.scaleButton);
             }
@@ -160,6 +160,22 @@ public class Constants {
          */
         public static final class OptionButton {
             /**
+             * Number of handicap power up.
+             */
+            public static final int HANDICAP_NUMBER_POWERUP = 5;
+            /**
+             * Default power up handicap conteiner width.
+             */
+            public static final int CONTAINER_WIDTH = 300;
+            /**
+             * Default arc for option rectangle.
+             */
+            public static final int ARC_RECT = 5;
+            /**
+             * handicap container background color.
+             */
+            public static final Color CONTAINER_COLOR = new Color(214, 214, 214);
+            /**
              * Option background color.
              */
             public static final Color OPTION_BACKGROUND = new Color(255, 255, 156);
@@ -194,7 +210,7 @@ public class Constants {
             /**
              * Increment of player section with on height of ok button.
              */
-            public static final int PLAYER_WIDTH_INCREMENT = 20;
+            public static final int PLAYER_WIDTH_INCREMENT = 70;
             /**
              * Increment of height for bot number selction.
              */
@@ -214,39 +230,18 @@ public class Constants {
             /**
              * gamestate dimention.
              */
-            private static Pair<Integer, Integer> gameStateDimension = new Pair<Integer, Integer>(
+            private static Pair<Integer, Integer> gameStateDimension = new Pair<>(
                     GAMESTATE_W_DEFAULT * (int) Buttons.scaleButton, GAMESTATE_H_DEFAULT * (int) Buttons.scaleButton);
             /**
              * Contiunue button dimension.
              */
-            private static Pair<Integer, Integer> continueDimension = new Pair<Integer, Integer>(
+            private static Pair<Integer, Integer> continueDimension = new Pair<>(
                     CONTINUE_W_DEFAULT * (int) Buttons.scaleButton, CONTINUE_H_DEFAULT * (int) Buttons.scaleButton);
             /**
              * Quit button dimension.
              */
-            private static Pair<Integer, Integer> quitDimension = new Pair<Integer, Integer>(
+            private static Pair<Integer, Integer> quitDimension = new Pair<>(
                     QUIT_W_DEFAULT * (int) Buttons.scaleButton, QUIT_H_DEFAULT * (int) Buttons.scaleButton);
-
-            /**
-             * @return quit dimension.
-             */
-            public static Pair<Integer, Integer> getQuitDimension() {
-                return quitDimension;
-            }
-
-            /**
-             * @return gamestate dimension.
-             */
-            public static Pair<Integer, Integer> getGameStateDimension() {
-                return gameStateDimension;
-            }
-
-            /**
-             * @return conitnue dimension.
-             */
-            public static Pair<Integer, Integer> getContinueDimension() {
-                return continueDimension;
-            }
 
             /**
              * Selection bombNumber dimension scaled.
@@ -271,41 +266,63 @@ public class Constants {
              */
             private static int plyerSelectioBorderDistance = (Screen.getgWidth() - (plyerSelectionWidth * 2 + 10)) / 2;
             /**
-             *Map of power up handicap. 
+             * Map of power up handicap.
              */
             public static final Map<Integer, PowerUpType> HANDICAP_LIST = new HashMap<>();
             /**
-             *Map of power up handicap. 
+             * Map of power up handicap.
              */
-            public static final Map<OptionType, BufferedImage> OPTION_IMAGE_LIST = new HashMap<>();
-            /**
-             * Option button constuctor.
-             */
-            public OptionButton (){
-                HANDICAP_LIST.put(0, PowerUpType.BOMBUP);
-                HANDICAP_LIST.put(1, PowerUpType.FIREUP);
-                HANDICAP_LIST.put(2, PowerUpType.SPEEDUP);
-                HANDICAP_LIST.put(3, PowerUpType.KICKBOMB);
-                HANDICAP_LIST.put(4, PowerUpType.THROWBOMB);
-                OPTION_IMAGE_LIST.put(OptionType.LEFT, UploadRes.getSpriteAtlas("menu/option/left.png"));
-                OPTION_IMAGE_LIST.put(OptionType.RIGHT, UploadRes.getSpriteAtlas("menu/option/right.png"));
-                OPTION_IMAGE_LIST.put(OptionType.OK, UploadRes.getSpriteAtlas("menu/option/ok.png"));
-                OPTION_IMAGE_LIST.put(OptionType.PLAYER, UploadRes.getSpriteAtlas("menu/option/player.png"));
-                OPTION_IMAGE_LIST.put(OptionType.PLAYER_HOVER, UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
-                OPTION_IMAGE_LIST.put(OptionType.BOT, UploadRes.getSpriteAtlas("menu/option/bot.png"));
-                OPTION_IMAGE_LIST.put(OptionType.BOTNUMBER, UploadRes.getSpriteAtlas("menu/option/botNumber.png"));
-                OPTION_IMAGE_LIST.put(OptionType.PLUS, UploadRes.getSpriteAtlas("menu/option/+.png"));
-                OPTION_IMAGE_LIST.put(OptionType.MINUS, UploadRes.getSpriteAtlas("menu/option/-.png"));
-                OPTION_IMAGE_LIST.put(OptionType.DELETE, UploadRes.getSpriteAtlas("menu/option/delete.png"));
-                OPTION_IMAGE_LIST.put(OptionType.DELETE_ALL, UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
-
-
-            }
+            public static final Map<Handicap, BufferedImage> OPTION_IMAGE_LIST = new HashMap<>();
             /**
              * Top distance for power up set.
              */
             private static int powerUpSetTopDistance = Screen.getgHeight()
                     - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT);
+
+            /**
+             * Option button constuctor.
+             */
+            public OptionButton() {
+                HANDICAP_LIST.put(0, PowerUpType.BOMBUP);
+                HANDICAP_LIST.put(1, PowerUpType.FIREUP);
+                HANDICAP_LIST.put(2, PowerUpType.SPEEDUP);
+                HANDICAP_LIST.put(3, PowerUpType.KICKBOMB);
+                HANDICAP_LIST.put(4, PowerUpType.THROWBOMB);
+                OPTION_IMAGE_LIST.put(Handicap.LEFT, UploadRes.getSpriteAtlas("menu/option/left.png"));
+                OPTION_IMAGE_LIST.put(Handicap.RIGHT, UploadRes.getSpriteAtlas("menu/option/right.png"));
+                OPTION_IMAGE_LIST.put(Handicap.OK, UploadRes.getSpriteAtlas("menu/option/ok.png"));
+                OPTION_IMAGE_LIST.put(Handicap.PLAYER, UploadRes.getSpriteAtlas("menu/option/player.png"));
+                OPTION_IMAGE_LIST.put(Handicap.PLAYER_HOVER,
+                        UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
+                OPTION_IMAGE_LIST.put(Handicap.BOT, UploadRes.getSpriteAtlas("menu/option/bot.png"));
+                OPTION_IMAGE_LIST.put(Handicap.BOTNUMBER, UploadRes.getSpriteAtlas("menu/option/botNumber.png"));
+                OPTION_IMAGE_LIST.put(Handicap.PLUS, UploadRes.getSpriteAtlas("menu/option/+.png"));
+                OPTION_IMAGE_LIST.put(Handicap.MINUS, UploadRes.getSpriteAtlas("menu/option/-.png"));
+                OPTION_IMAGE_LIST.put(Handicap.DELETE, UploadRes.getSpriteAtlas("menu/option/delete.png"));
+                OPTION_IMAGE_LIST.put(Handicap.DELETE_ALL, UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
+
+            }
+
+            /**
+             * @return quit dimension.
+             */
+            public static Pair<Integer, Integer> getQuitDimension() {
+                return quitDimension;
+            }
+
+            /**
+             * @return gamestate dimension.
+             */
+            public static Pair<Integer, Integer> getGameStateDimension() {
+                return gameStateDimension;
+            }
+
+            /**
+             * @return conitnue dimension.
+             */
+            public static Pair<Integer, Integer> getContinueDimension() {
+                return continueDimension;
+            }
 
             /**
              * @return Top distance for power up set.
@@ -374,7 +391,7 @@ public class Constants {
             /**
              * Number of bot in game.
              */
-            private static int numberOfBot;
+            private static int numberOfBot = 3;
 
             /**
              * @return number of bot.
@@ -401,7 +418,6 @@ public class Constants {
              * Constructor.
              */
             public MapOption() {
-                numberOfBot = 8;
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
 
