@@ -39,7 +39,7 @@ public final class AIComponent extends AbstractComponent {
      @Override
      public void update() {
           final Entity entity = this.getEntity();
-          Type[][] typesMatrix = getMatrixTypes();
+          final Type[][] typesMatrix = getMatrixTypes();
 
           setValidPath(typesMatrix);
           move(this.followingPath.get(0));
@@ -49,7 +49,6 @@ public final class AIComponent extends AbstractComponent {
           }
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
-          System.out.println(isSafe(typesMatrix));
      }
 
      /**
@@ -58,12 +57,9 @@ public final class AIComponent extends AbstractComponent {
       */
      private boolean isPlacingBombAdvantageous(final Type[][] typesMatrix) {
           final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
-          List<Type> typesToDestroy = List.of(Type.DESTRUCTIBLE_WALL, Type.BOMBER);
-          if (wouldBeSafe(typesMatrix, this.getEntity().getPosition())
-                    && wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition())) {
-               return true;
-          }
-          return false;
+          final List<Type> typesToDestroy = List.of(Type.DESTRUCTIBLE_WALL, Type.BOMBER);
+          return wouldBeSafe(typesMatrix, this.getEntity().getPosition())
+                    && wouldExplodeNextTo(typesToDestroy, typesWithBomber, this.getEntity().getPosition());
      }
 
      /**
@@ -92,16 +88,15 @@ public final class AIComponent extends AbstractComponent {
           if (!isSafe(typesMatrix)) {
                return getDirectionsTowards(Type.EXPLOSION, false, typesMatrix);
           } else {
-               var goTowards = getDirectionsTowards(Type.POWERUP, true, typesMatrix);
+               List<Direction> goTowards = getDirectionsTowards(Type.POWERUP, true, typesMatrix);
                if (goTowards.contains(Direction.CENTER)) {
-                    final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
-                    goTowards = getDirectionsTowards(Type.BOMBER, true, typesWithBomber);
                     if (typeLeftExist(Type.DESTRUCTIBLE_WALL)) {
-                         List<Direction> path = getDirectionsTowards(Type.DESTRUCTIBLE_WALL, true, typesMatrix);
+                         final List<Direction> path = getDirectionsTowards(Type.DESTRUCTIBLE_WALL, true, typesMatrix);
                          path.remove(0);
                          return path;
                     } else {
-                         goTowards = getDirectionsTowards(Type.BOMBER, true, typesMatrix);
+                         final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
+                         goTowards = getDirectionsTowards(Type.BOMBER, true, typesWithBomber);
                     }
                }
                return goTowards;
@@ -125,13 +120,11 @@ public final class AIComponent extends AbstractComponent {
                }
           }
           for (final Direction d : Direction.valuesNoCenter()) {
-               int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
+               final int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
                addExplosionToMatrix(newMatrix, new Pair<>(Math.round(position.getX()), Math.round(position.getY())),
                          strength, d, 0);
           }
-          // TODO
-          var a = getDirectionsTowards(Type.EXPLOSION, false, newMatrix);
-          return a.get(0) != Direction.CENTER;
+          return getDirectionsTowards(Type.EXPLOSION, false, newMatrix).get(0) != Direction.CENTER;
      }
 
      /**
@@ -149,25 +142,6 @@ public final class AIComponent extends AbstractComponent {
      }
 
      /**
-      * @param searchedType the type I want to know info about
-      * @param typesMatrix  matrix of game types
-      * @param position     the position of the AI entity
-      * @return whether the entity is next to the searched type
-      */
-     private boolean nextTo(final Type searchedType, final Type[][] typesMatrix, final Pair<Float, Float> position) {
-          for (final Direction d : Direction.valuesNoCenter()) {
-               final int nextX = Math.round(position.getX() + d.getX());
-               final int nextY = Math.round(position.getY() + d.getY());
-               if (Utilities.isBetween(nextX, 0, Constants.UI.Screen.getTilesWidth())
-                         && Utilities.isBetween(nextY, 0, Constants.UI.Screen.getTilesHeight())
-                         && typesMatrix[nextX][nextY] == searchedType) {
-                    return true;
-               }
-          }
-          return false;
-     }
-
-     /**
       * @param searchedTypes the list of types checked for potential explosion
       * @param typesMatrix   matrix of game types
       * @param position      the position the potential bomb will be placed in
@@ -175,11 +149,12 @@ public final class AIComponent extends AbstractComponent {
       */
      private boolean wouldExplodeNextTo(final List<Type> searchedTypes, final Type[][] typesMatrix,
                final Pair<Float, Float> position) {
-          int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
-          List<Type> solidTypes = List.of(Type.INDESTRUCTIBLE_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL, Type.POWERUP);
+          final int strength = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
+          final List<Type> solidTypes = List.of(Type.INDESTRUCTIBLE_WALL, Type.BOMB, Type.DESTRUCTIBLE_WALL,
+                    Type.POWERUP);
           for (final Direction d : Direction.valuesNoCenter()) {
                for (int i = 1; i <= strength; i++) {
-                    Pair<Integer, Integer> newPosition = new Pair<>(Math.round(position.getX()) + d.getX() * i,
+                    final Pair<Integer, Integer> newPosition = new Pair<>(Math.round(position.getX()) + d.getX() * i,
                               Math.round(position.getY()) + d.getY() * i);
                     if (Utilities.isBetween(newPosition.getX(), 0, Constants.UI.Screen.getTilesWidth())
                               && Utilities.isBetween(newPosition.getY(), 0, Constants.UI.Screen.getTilesHeight())) {
@@ -266,14 +241,14 @@ public final class AIComponent extends AbstractComponent {
           final List<Direction> path = new ArrayList<>();
           while (currentValue != 1) {
                for (final Direction d : Direction.valuesNoCenter()) {
-                    final Pair<Integer, Integer> nextCell = new Pair<>(current.getX() + d.getX(),
-                              current.getY() + d.getY());
-                    if (Utilities.isBetween(nextCell.getX(), 0, Constants.UI.Screen.getTilesWidth())
-                              && Utilities.isBetween(nextCell.getY(), 0, Constants.UI.Screen.getTilesHeight())
-                              && checkedPositions[nextCell.getX()][nextCell.getY()] == currentValue - 1) {
+                    final int nextX = current.getX() + d.getX();
+                    final int nextY = current.getY() + d.getY();
+                    if (Utilities.isBetween(nextX, 0, Constants.UI.Screen.getTilesWidth())
+                              && Utilities.isBetween(nextY, 0, Constants.UI.Screen.getTilesHeight())
+                              && checkedPositions[nextX][nextY] == currentValue - 1) {
                          path.add(d);
                          currentValue--;
-                         current = nextCell;
+                         current = new Pair<>(nextX, nextY);
                          break;
                     }
                }
@@ -327,11 +302,10 @@ public final class AIComponent extends AbstractComponent {
      private void updatePath(final Pair<Float, Float> oldPosition, final Pair<Float, Float> newPosition) {
           if (isGettingCloser || Math.round(oldPosition.getX()) != Math.round(newPosition.getX())
                     || Math.round(oldPosition.getY()) != Math.round(newPosition.getY())
-                    || this.followingPath.get(0) == Direction.CENTER) {
-               if (!canMoveFurther(newPosition)) {
-                    this.followingPath.remove(0);
-                    isGettingCloser = false;
-               }
+                    || this.followingPath.get(0) == Direction.CENTER
+                              && !canMoveFurther(newPosition)) {
+               this.followingPath.remove(0);
+               isGettingCloser = false;
           }
      }
 
@@ -343,21 +317,21 @@ public final class AIComponent extends AbstractComponent {
       */
      private boolean canMoveFurther(final Pair<Float, Float> newPosition) {
           isGettingCloser = true;
-          float currentDifferenceX = Math.abs(newPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
-          float currentDifferenceY = Math.abs(newPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
-          Pair<Float, Float> tryPosition = new Pair<>(newPosition.getX() + followingPath.get(0).getX()
+          final float currentDifferenceX = Math.abs(newPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
+          final float currentDifferenceY = Math.abs(newPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
+          final Pair<Float, Float> tryPosition = new Pair<>(newPosition.getX() + followingPath.get(0).getX()
                     * this.getEntity().getSpeed() * Constants.Movement.MULTIPLIER_GLOBAL_SPEED,
                     newPosition.getY() + followingPath.get(0).getY() * this.getEntity().getSpeed()
                               * Constants.Movement.MULTIPLIER_GLOBAL_SPEED);
-          float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
-          float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
+          final float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
+          final float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
 
-          boolean isCloser = Math.abs(currentDifferenceX) > Math.abs(nextDifferenceX)
+          final boolean isCloser = Math.abs(currentDifferenceX) > Math.abs(nextDifferenceX)
                     || Math.abs(currentDifferenceY) > Math.abs(nextDifferenceY);
-          boolean isOver = Math.round(tryPosition.getX()) != Math.round(newPosition.getX())
+          final boolean isOver = Math.round(tryPosition.getX()) != Math.round(newPosition.getX())
                     || Math.round(tryPosition.getY()) != Math.round(newPosition.getY());
 
-          return (isCloser && !isOver);
+          return isCloser && !isOver;
      }
 
      /**
@@ -380,14 +354,14 @@ public final class AIComponent extends AbstractComponent {
       * @return the matrix of types in play
       */
      private Type[][] getMatrixWithBombers(final Type[][] typesMatrix) {
-          Type[][] typesWithBomber = new Type[typesMatrix.length][typesMatrix[0].length];
+          final Type[][] typesWithBomber = new Type[typesMatrix.length][typesMatrix[0].length];
           for (int x = 0; x < typesMatrix.length; x++) {
                for (int y = 0; y < typesMatrix[0].length; y++) {
                     typesWithBomber[x][y] = typesMatrix[x][y];
                }
           }
 
-          List<Entity> entities = this.getEntity().getGame().getEntities();
+          final List<Entity> entities = this.getEntity().getGame().getEntities();
           entities.stream()
                     .filter(e -> e.getType().equals(Type.BOMBER))
                     .map(Entity::getPosition)
@@ -446,7 +420,7 @@ public final class AIComponent extends AbstractComponent {
           if (step <= strength) {
                final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
                          where.getY() + d.getY() * step);
-               List<Type> volatileTypes = List.of(Type.AIR, Type.EXPLOSION, Type.POWERUP);
+               final List<Type> volatileTypes = List.of(Type.AIR, Type.EXPLOSION, Type.POWERUP);
                if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Screen.getTilesWidth())
                          && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
                          && volatileTypes.contains(typesMatrix[newDirection.getX()][newDirection.getY()])) {
