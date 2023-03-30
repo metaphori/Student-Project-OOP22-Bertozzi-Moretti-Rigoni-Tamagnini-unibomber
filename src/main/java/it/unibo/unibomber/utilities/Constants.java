@@ -1022,13 +1022,18 @@ public class Constants {
     }
 
     /**
-     * Bomb speed settings constans.
+     * Bomb constans.
      */
     public static class Bomb {
         /**
-         * Entity speed.
+         * Entity bomb speed.
          */
         public static final float BASE_SPEED = 0.58f;
+
+        /**
+         * Standard range of throw bomb.
+         */
+        public static final int STANDARD_THROW = 3;
     }
 
     /**

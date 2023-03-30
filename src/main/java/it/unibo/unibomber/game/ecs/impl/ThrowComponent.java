@@ -99,8 +99,8 @@ public class ThrowComponent extends AbstractComponent {
      * @return standard position
      */
     private Pair<Integer, Integer> calculateStandardPosition() {
-        return new Pair<>(startingPos.getX() + (playerDir.getX() * 3),
-                startingPos.getY() + (playerDir.getY() * 3));
+        return new Pair<>(startingPos.getX() + (playerDir.getX() * Constants.Bomb.STANDARD_THROW),
+                startingPos.getY() + (playerDir.getY() * Constants.Bomb.STANDARD_THROW));
     }
 
     /**
