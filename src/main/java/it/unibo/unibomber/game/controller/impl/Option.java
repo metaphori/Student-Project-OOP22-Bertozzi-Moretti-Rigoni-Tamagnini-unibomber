@@ -53,7 +53,6 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void loadButtons() {
-        new OptionButton();
         optionButtons.put(Handicap.LEFT.getIndex(), new OptionButtonImpl(this,
                 Screen.getgWidth() / 4 - Buttons.getOptionButtonSize(),
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() / 2, Handicap.LEFT.getIndex(),
@@ -260,7 +259,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                     OptionButton.getPowerUpSetTopDistance()
                             + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
                     10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, "powerup",
-                    OptionButton.HANDICAP_LIST.get(i)));
+                    10 + i));
             basedWidth += Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT / 2;
         }
     }

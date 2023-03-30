@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import it.unibo.unibomber.game.controller.api.Handicap;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 
@@ -266,14 +265,6 @@ public class Constants {
              */
             private static int plyerSelectioBorderDistance = (Screen.getgWidth() - (plyerSelectionWidth * 2 + 10)) / 2;
             /**
-             * Map of power up handicap.
-             */
-            public static final Map<Integer, PowerUpType> HANDICAP_LIST = new HashMap<>();
-            /**
-             * Map of power up handicap.
-             */
-            public static final Map<Handicap, BufferedImage> OPTION_IMAGE_LIST = new HashMap<>();
-            /**
              * Top distance for power up set.
              */
             private static int powerUpSetTopDistance = Screen.getgHeight()
@@ -282,25 +273,7 @@ public class Constants {
             /**
              * Option button constuctor.
              */
-            public OptionButton() {
-                HANDICAP_LIST.put(0, PowerUpType.BOMBUP);
-                HANDICAP_LIST.put(1, PowerUpType.FIREUP);
-                HANDICAP_LIST.put(2, PowerUpType.SPEEDUP);
-                HANDICAP_LIST.put(3, PowerUpType.KICKBOMB);
-                HANDICAP_LIST.put(4, PowerUpType.THROWBOMB);
-                OPTION_IMAGE_LIST.put(Handicap.LEFT, UploadRes.getSpriteAtlas("menu/option/left.png"));
-                OPTION_IMAGE_LIST.put(Handicap.RIGHT, UploadRes.getSpriteAtlas("menu/option/right.png"));
-                OPTION_IMAGE_LIST.put(Handicap.OK, UploadRes.getSpriteAtlas("menu/option/ok.png"));
-                OPTION_IMAGE_LIST.put(Handicap.PLAYER, UploadRes.getSpriteAtlas("menu/option/player.png"));
-                OPTION_IMAGE_LIST.put(Handicap.PLAYER_HOVER,
-                        UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
-                OPTION_IMAGE_LIST.put(Handicap.BOT, UploadRes.getSpriteAtlas("menu/option/bot.png"));
-                OPTION_IMAGE_LIST.put(Handicap.BOTNUMBER, UploadRes.getSpriteAtlas("menu/option/botNumber.png"));
-                OPTION_IMAGE_LIST.put(Handicap.PLUS, UploadRes.getSpriteAtlas("menu/option/+.png"));
-                OPTION_IMAGE_LIST.put(Handicap.MINUS, UploadRes.getSpriteAtlas("menu/option/-.png"));
-                OPTION_IMAGE_LIST.put(Handicap.DELETE, UploadRes.getSpriteAtlas("menu/option/delete.png"));
-                OPTION_IMAGE_LIST.put(Handicap.DELETE_ALL, UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
-
+            private OptionButton() {
             }
 
             /**
@@ -415,14 +388,21 @@ public class Constants {
             }
 
             /**
-             * Constructor.
+             * Set Map list.
              */
-            public MapOption() {
+            public static void setList() {
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
                 MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
 
                 MAP_LIST.add("./src/main/res/maps/map0/arena.map");
                 MAP_LIST.add("./src/main/res/maps/map1/arena.map");
+            }
+
+            /**
+             * Constructor.
+             */
+            private MapOption() {
+
             }
 
             /**
@@ -652,6 +632,13 @@ public class Constants {
                 level = lEVEL;
             }
 
+            /**
+             * Game loop Constructor.
+             */
+            private GameLoopConstants() {
+
+            }
+
         }
 
         /**
@@ -730,7 +717,14 @@ public class Constants {
             /**
              * SpriteMap constructor.
              */
-            public SpritesMap() {
+            private SpritesMap() {
+
+            }
+
+            /**
+             * Set Sprites Map.
+             */
+            public static void setSpritesMap() {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
