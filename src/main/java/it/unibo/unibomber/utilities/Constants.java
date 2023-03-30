@@ -664,7 +664,7 @@ public class Constants {
             /**
              * max row of player sprites animation.
              */
-            public static final int ROW_PLAYER_SPRITES = 3;
+            public static final int ROW_PLAYER_SPRITES = 4;
             /**
              * max row of bomb sprites animation.
              */
@@ -710,9 +710,9 @@ public class Constants {
              */
             public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
             private static final int ANIMATION_ROW_PLAYABLE = 0;
-            private static final int ANIMATION_ROW_BOT = 3;
-            private static final int ANIMATION_ROW_BOMB = 6;
-            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 7;
+            private static final int ANIMATION_ROW_BOT = 4;
+            private static final int ANIMATION_ROW_BOMB = 8;
+            private static final int ANIMATION_ROW_DESTRUCTIBLE_WALL = 9;
 
             /**
              * SpriteMap constructor.
@@ -802,7 +802,7 @@ public class Constants {
         /**
          * THROWING animation.
          */
-        public static final int THROWING = 3;
+        public static final int THROWING = 7;
         /**
          * PUNCH animation.
          */
@@ -818,7 +818,7 @@ public class Constants {
         /**
          * VICTORY animation.
          */
-        public static final int VICTORY = 7;
+        public static final int VICTORY = 3;
         /**
          * DEFEAT animation.
          */
@@ -878,7 +878,7 @@ public class Constants {
         /**
          * VICTORY number of animations.
          */
-        public static final int VICTORY_ANIMATION = 6;
+        public static final int VICTORY_ANIMATION = 12;
         /**
          * DEFEAT number of animations.
          */
@@ -914,7 +914,7 @@ public class Constants {
         /**
          * PLAYER_COUNTER number of animations.
          */
-        public static final int PLAYER_COUNTER = 3;
+        public static final int PLAYER_COUNTER = 4;
 
         /**
          * @param playerAction
