@@ -100,7 +100,7 @@ class BombTest {
         final var indesWall = this.createIndesWallEntity();
         final List<Entity> entities = new ArrayList<>(List.of(
                 player, bomb, powerup, desWall, indesWall));
-        new Constants.Destroy();
+        Constants.Destroy.setDestroyFramesPerType();
         this.game.addEntity(player);
         this.game.addEntity(bomb);
         this.game.addEntity(powerup);

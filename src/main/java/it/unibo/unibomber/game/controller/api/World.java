@@ -40,4 +40,17 @@ public interface World {
      * @return game.
      */
     Game getGame();
+
+    /**
+     * Stop timer of game.
+     */
+    void stopTimer();
+    /**
+     * Set in pause timer.
+     */
+    void pauseTimer();
+    /**
+     * Start Timer.
+     */
+    void startTimer();
 }

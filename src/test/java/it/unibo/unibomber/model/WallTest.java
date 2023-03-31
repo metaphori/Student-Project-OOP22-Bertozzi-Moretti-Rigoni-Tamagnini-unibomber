@@ -51,7 +51,7 @@ class WallTest {
         final var desWall = this.createDestructibleWall();
         final var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
         final var destroyComponent = desWall.getComponent(DestroyComponent.class);
-        new Constants.Destroy();
+        Constants.Destroy.setDestroyFramesPerType();
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());

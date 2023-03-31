@@ -109,11 +109,13 @@ public class GameImpl implements Game {
             Gamestate.setGameState(Gamestate.WIN);
             if (this.world != null) {
                 this.world.getEndGame().loadButtons();
+                this.world.stopTimer();
             }
         } else if (playersLive == 0) {
             Gamestate.setGameState(Gamestate.LOSE);
             if (this.world != null) {
                 this.world.getEndGame().loadButtons();
+                this.world.stopTimer();
             }
         }
     }

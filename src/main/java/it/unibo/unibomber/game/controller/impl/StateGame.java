@@ -21,12 +21,14 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
 
     private StateGameButtonImpl[] buttons = new StateGameButtonImpl[3];
     private final StateGameView view;
-
+    private final WorldImpl world;
     /**
      * This method manage the view of game menu.
+     * @param world
      */
-    public StateGame() {
+    public StateGame(final WorldImpl world) {
         super();
+        this.world = world;
         view = new StateGameView(this);
         loadButtons();
     }
@@ -120,6 +122,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
     @Override
     public void keyReleased(final KeyEvent e) {
         if (Gamestate.getGamestate() == Gamestate.PAUSE && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.world.startTimer();
             Gamestate.setGameState(Gamestate.PLAY);
         }
     }

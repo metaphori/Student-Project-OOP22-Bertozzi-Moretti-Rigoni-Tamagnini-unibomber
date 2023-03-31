@@ -142,6 +142,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
           UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/destructible_wall.png"));
       SpritesMap.addSprites(Type.INDESTRUCTIBLE_WALL,
           UploadRes.getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/indestructible_wall.png"));
+      SpritesMap.setRaisingWallTexture();
       option.getWorld().setPlay();
       Gamestate.setGameState(Gamestate.PLAY);
     }

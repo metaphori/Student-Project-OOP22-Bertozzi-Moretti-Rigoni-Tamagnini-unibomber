@@ -40,7 +40,7 @@ class GameTest {
     private void setPlayerAndBot() {
         this.bot = this.entityFactory.makeBot(new Pair<>(PLAYER_X, PLAYER_Y), DIFFICULT_AI);
         this.player = this.entityFactory.makePlayable(new Pair<>(PLAYER_X, PLAYER_Y));
-        new Constants.Destroy();
+        Constants.Destroy.setDestroyFramesPerType();
         this.game.addEntity(bot);
         this.game.addEntity(player);
     }

@@ -618,6 +618,10 @@ public class Constants {
              */
             public static final int UPS_SET = 60;
             /**
+             * Second for start times up.
+             */
+            public static final int TIMES_UP_TIMER = 120;
+            /**
              * Game level.
              */
             private static int level;
@@ -736,7 +740,6 @@ public class Constants {
                 SPRITESPATH.put(Type.PLAYABLE, UploadRes.getSpriteAtlas("player/player_sprites.png"));
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
-                SPRITESPATH.put(Type.RISING_WALL, null);
                 SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bombs.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
@@ -751,6 +754,14 @@ public class Constants {
                 ANIMATION_ROW.put(Type.BOT, ANIMATION_ROW_BOT);
                 ANIMATION_ROW.put(Type.BOMB, ANIMATION_ROW_BOMB);
                 ANIMATION_ROW.put(Type.DESTRUCTIBLE_WALL, ANIMATION_ROW_DESTRUCTIBLE_WALL);
+            }
+
+            /**
+             * Set texture raising wall based on map chose.
+             */
+            public static void setRaisingWallTexture() {
+                SPRITESPATH.put(Type.RISING_WALL, UploadRes
+                        .getSpriteAtlas("wall/map" + GameLoopConstants.getLEVEL() + "/indestructible_wall.png"));
             }
 
             /**
@@ -816,7 +827,7 @@ public class Constants {
             /**
              * Scale constructor.
              */
-            public Scale() {
+            private Scale() {
             }
 
             /**
@@ -836,6 +847,7 @@ public class Constants {
                 ENTITY_SCALE.put(Type.POWERUP, POWERUP_SCALE);
                 ENTITY_SCALE.put(Type.DESTRUCTIBLE_WALL, DESTRUCTIBLE_WALL_SCALE);
                 ENTITY_SCALE.put(Type.INDESTRUCTIBLE_WALL, INDESTRUCTIBLE_WALL_SCALE);
+                ENTITY_SCALE.put(Type.RISING_WALL, INDESTRUCTIBLE_WALL_SCALE);
             }
         }
     }

@@ -27,6 +27,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private final Explosion explosion;
     private final PlayView view;
     private final WorldImpl world;
+
     /**
      * This method create the instance of all game parameters.
      * 
@@ -43,7 +44,6 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
 
     @Override
     public final void update() {
-         this.world.getGame().updateTimesUp();
         for (int i = 0; i < this.world.getGame().getEntities().size(); i++) {
             for (final Component c : this.world.getGame().getEntities().get(i).getComponents()) {
                 c.update();
@@ -82,6 +82,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     public final void keyReleased(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Gamestate.setGameState(Gamestate.PAUSE);
+            this.world.pauseTimer();
             this.world.getEndGame().loadButtons();
         } else {
             if (keyQueue.contains(e.getKeyCode())) {

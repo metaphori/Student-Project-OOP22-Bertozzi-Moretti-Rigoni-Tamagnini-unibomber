@@ -1,6 +1,10 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
@@ -10,10 +14,8 @@ import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.game.view.WorldPanelImpl;
 import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
-
-import static it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants.NANO_S;
-import static it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants.UPS_SET;
 
 /**
  * WordImpl constructor.
@@ -26,6 +28,8 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private Play play;
   private StateGame endGame;
   private Game game;
+  private Timer timer;
+  private int second;
 
   /**
    * WorldImpl constructor.
@@ -51,14 +55,13 @@ public class WorldImpl implements World, Runnable, GameLoop {
   private void initClasses() {
     menu = new Menu();
     option = new Option(this);
-    endGame = new StateGame();
+    endGame = new StateGame(this);
   }
 
   private void loadSprites() {
     Constants.UI.SpritesMap.setSpritesMap();
     Constants.Destroy.setDestroyFramesPerType();
     Constants.UI.Scale.setEntityScale();
-    new Constants.UI.Scale();
     Constants.UI.MapOption.setList();
   }
 
@@ -69,6 +72,9 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public final void update() {
+    if (second > GameLoopConstants.TIMES_UP_TIMER) {
+      game.updateTimesUp();
+    }
     switch (Gamestate.getGamestate()) {
       case MENU:
         menu.update();
@@ -122,7 +128,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public final void run() {
-    final double timePerUpdate = NANO_S / UPS_SET;
+    final double timePerUpdate = GameLoopConstants.NANO_S / GameLoopConstants.UPS_SET;
 
     long previousTime = System.nanoTime();
 
@@ -169,10 +175,37 @@ public class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public final void setPlay() {
     play = new Play(this);
+    simpleTimer();
+    timer.start();
   }
 
   @Override
   public final StateGame getEndGame() {
     return endGame;
+  }
+
+  private void simpleTimer() {
+    timer = new Timer(1000, new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        second++;
+      }
+    });
+  }
+
+  @Override
+  public final void stopTimer() {
+    timer.stop();
+    second = 0;
+  }
+
+  @Override
+  public final void pauseTimer() {
+    timer.stop();
+  }
+
+  @Override
+  public final void startTimer() {
+    timer.start();
   }
 }
