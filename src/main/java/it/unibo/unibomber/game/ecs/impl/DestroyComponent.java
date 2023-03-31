@@ -6,9 +6,9 @@ import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
-import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
 import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
 import static it.unibo.unibomber.utilities.Constants.Destroy.DROPPED_POWERUP_PERCENT;
 
@@ -34,8 +34,8 @@ public final class DestroyComponent extends AbstractComponent {
     @Override
     public void update() {
         if (this.destroyFramesPerType == -1) {
-            this.destroyFramesPerType = DESTROY_FRAMES_PER_TYPE.containsKey(this.getEntity().getType())
-                    ? DESTROY_FRAMES_PER_TYPE.get(this.getEntity().getType())
+            this.destroyFramesPerType = Constants.Destroy.getDestroyFramesPerType().containsKey(this.getEntity().getType())
+                    ? Constants.Destroy.getDestroyFramesPerType().get(this.getEntity().getType())
                     : STANDARD_FRAME_DURATION;
         }
         if (this.isDestroyed) {

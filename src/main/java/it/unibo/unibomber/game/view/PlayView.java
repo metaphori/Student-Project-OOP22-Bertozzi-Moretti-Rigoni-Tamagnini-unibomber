@@ -43,9 +43,9 @@ public final class PlayView implements GameLoop {
      * @param controller
      */
     public PlayView(final Play controller) {
-        this.sprites = SpritesMap.SPRITESPATH;
-        this.powerUpSprites = SpritesMap.SPRITESPOWERUPPATH;
-        this.scale = Constants.UI.Scale.ENTITY_SCALE;
+        this.sprites = SpritesMap.getSpritespath();
+        this.powerUpSprites = SpritesMap.getSpritesPowerupData();
+        this.scale = Constants.UI.Scale.getEntityScale();
         this.controller = controller;
         indexDir = 0;
         tile = new BufferedImage[2];
@@ -67,11 +67,11 @@ public final class PlayView implements GameLoop {
             }
         }
         for (Integer i = 0; i < SpritesMap.COL_BOMB_SPRITES; i++) {
-            animations[SpritesMap.ANIMATION_ROW.get(Type.BOMB)][i] = sprites.get(Type.BOMB)
+            animations[SpritesMap.getAnimationRow().get(Type.BOMB)][i] = sprites.get(Type.BOMB)
                     .getSubimage(i * Screen.BOMB_DEFAULT, 0, Screen.BOMB_DEFAULT, Screen.BOMB_DEFAULT);
         }
         for (Integer i = 0; i < SpritesMap.COL_WALL_SPRITES; i++) {
-            animations[SpritesMap.ANIMATION_ROW.get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
+            animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
                     .getSubimage(i * Screen.WALL_DEFAULT, 0, Screen.WALL_DEFAULT, Screen.WALL_DEFAULT);
         }
         for (int i = 0; i < 2; i++) {
@@ -153,7 +153,7 @@ public final class PlayView implements GameLoop {
             final var movementComponent = entity.getComponent(MovementComponent.class).get();
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 changePlayerAction(Player.DEFEAT, entity);
-                return animations[playerAction + SpritesMap.ANIMATION_ROW
+                return animations[playerAction + SpritesMap.getAnimationRow()
                         .get(type)][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
                                 / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.DEFEAT)];
             } else if (!movementComponent.hasMoved()) {
@@ -180,7 +180,7 @@ public final class PlayView implements GameLoop {
                         break;
                 }
             }
-            return animations[playerAction + SpritesMap.ANIMATION_ROW.get(type)][getAnimationIndex(entity)
+            return animations[playerAction + SpritesMap.getAnimationRow().get(type)][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(playerAction) + indexDir];
         } else if (entity.getType() == Type.POWERUP) {
             return powerUpSprites.get(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());
@@ -189,11 +189,11 @@ public final class PlayView implements GameLoop {
                     % Constants.Player.getSpriteAmount(Player.EXPLOSION)];
         } else if (entity.getType() == Type.DESTRUCTIBLE_WALL) {
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
-                return animations[SpritesMap.ANIMATION_ROW.get(
+                return animations[SpritesMap.getAnimationRow().get(
                         Type.DESTRUCTIBLE_WALL)][(entity.getComponent(DestroyComponent.class).get().getDestroyFrames()
                                 / (FRAME_DELAY / 2)) % Constants.Player.getSpriteAmount(Player.WALL)];
             } else {
-                return animations[SpritesMap.ANIMATION_ROW.get(Type.DESTRUCTIBLE_WALL)][0];
+                return animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][0];
             }
         } else {
             return sprites.get(entity.getType());

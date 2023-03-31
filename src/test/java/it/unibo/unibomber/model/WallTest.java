@@ -3,7 +3,7 @@ package it.unibo.unibomber.model;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static it.unibo.unibomber.utilities.Constants.Destroy.DESTROY_FRAMES_PER_TYPE;
+import static it.unibo.unibomber.utilities.Constants.Destroy.getDestroyFramesPerType;
 import static it.unibo.unibomber.utilities.Constants.Destroy.STANDARD_FRAME_DURATION;
 
 import org.junit.jupiter.api.Test;
@@ -41,8 +41,8 @@ class WallTest {
     }
 
     private int getDestroyFrames(final Type type) {
-        return DESTROY_FRAMES_PER_TYPE.containsKey(type)
-                ? DESTROY_FRAMES_PER_TYPE.get(type)
+        return getDestroyFramesPerType().containsKey(type)
+                ? getDestroyFramesPerType().get(type)
                 : STANDARD_FRAME_DURATION;
     }
 

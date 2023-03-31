@@ -696,23 +696,27 @@ public class Constants {
             /**
              * Map of row of entity animation.
              */
-            public static final Map<Type, Integer> ANIMATION_ROW = new HashMap<>();
+            private static final Map<Type, Integer> ANIMATION_ROW = new HashMap<>();
+
             /**
              * Map of type and path of sprites.
              */
-            public static final Map<Type, BufferedImage> SPRITESPATH = new HashMap<>();
+            private static final Map<Type, BufferedImage> SPRITESPATH = new HashMap<>();
+
             /**
              * List of destructible wall based on level chose.
              */
-            public static final List<BufferedImage> DESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+            private static final List<BufferedImage> DESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+
             /**
              * List of indestucrtible wall based on level chose.
              */
-            public static final List<BufferedImage> INDESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+            private static final List<BufferedImage> INDESTRUCTIBLE_WALL_LIST = new ArrayList<>();
+
             /**
              * Map of powerup type and path of powerup sprites.
              */
-            public static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
+            private static final Map<PowerUpType, BufferedImage> SPRITESPOWERUPPATH = new HashMap<>();
             private static final int ANIMATION_ROW_PLAYABLE = 0;
             private static final int ANIMATION_ROW_BOT = 4;
             private static final int ANIMATION_ROW_BOMB = 8;
@@ -756,6 +760,41 @@ public class Constants {
             public static void addSprites(final Type t, final BufferedImage bImage) {
                 SPRITESPATH.put(t, bImage);
             }
+
+            /**
+             * @return the map of PowerUpType BufferedImage
+             */
+            public static Map<PowerUpType, BufferedImage> getSpritesPowerupData() {
+                return SPRITESPOWERUPPATH;
+            }
+
+            /**
+             * @return ANIMATION_ROW
+             */
+            public static Map<Type, Integer> getAnimationRow() {
+                return ANIMATION_ROW;
+            }
+
+            /**
+             * @return SPRITESPATH
+             */
+            public static Map<Type, BufferedImage> getSpritespath() {
+                return SPRITESPATH;
+            }
+
+            /**
+             * @return DESTRUCTIBLE_WALL_LIST
+             */
+            public static List<BufferedImage> getDestructibleWallList() {
+                return DESTRUCTIBLE_WALL_LIST;
+            }
+
+            /**
+             * @return INDESTRUCTIBLE_WALL_LIST
+             */
+            public static List<BufferedImage> getIndestructibleWallList() {
+                return INDESTRUCTIBLE_WALL_LIST;
+            }
         }
 
         /**
@@ -765,7 +804,8 @@ public class Constants {
             /**
              * Map of type and scale of this entity .
              */
-            public static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+            private static final Map<Type, Float> ENTITY_SCALE = new HashMap<>();
+
             private static final float PLAYABLE_SCALE = 0.2f;
             private static final float BOT_SCALE = 0.5f;
             private static final float BOMB_SCALE = -0.5f;
@@ -777,6 +817,19 @@ public class Constants {
              * Scale constructor.
              */
             public Scale() {
+            }
+
+            /**
+             * @return ENTITY_SCALE.
+             */
+            public static Map<Type, Float> getEntityScale() {
+                return ENTITY_SCALE;
+            }
+
+            /**
+             * sets entity scale.
+             */
+            public static void setEntityScale() {
                 ENTITY_SCALE.put(Type.PLAYABLE, PLAYABLE_SCALE);
                 ENTITY_SCALE.put(Type.BOT, BOT_SCALE);
                 ENTITY_SCALE.put(Type.BOMB, BOMB_SCALE);
@@ -1078,7 +1131,8 @@ public class Constants {
          * the number of frames the destruction of effective frames the destruction of a
          * type takes.
          */
-        public static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
+        private static final Map<Type, Integer> DESTROY_FRAMES_PER_TYPE = new HashMap<>();
+
         private static final int DESTROY_FRAMES_POWERUP = 0;
         private static final int DESTROY_FRAMES_BOMB = 0;
         private static final int DESTROY_FRAMES_DESTRUCTIBLE_WALL = 15;
@@ -1096,7 +1150,20 @@ public class Constants {
         /**
          * constructor.
          */
-        public Destroy() {
+        private Destroy() {
+        }
+
+        /**
+         * @return DESTROY_FRAMES_PER_TYPE
+         */
+        public static Map<Type, Integer> getDestroyFramesPerType() {
+            return DESTROY_FRAMES_PER_TYPE;
+        }
+
+        /**
+         * setsDestroyFrames.
+         */
+        public static void setDestroyFramesPerType() {
             DESTROY_FRAMES_PER_TYPE.put(Type.POWERUP, DESTROY_FRAMES_POWERUP);
             DESTROY_FRAMES_PER_TYPE.put(Type.BOMB, DESTROY_FRAMES_BOMB);
             DESTROY_FRAMES_PER_TYPE.put(Type.DESTRUCTIBLE_WALL, DESTROY_FRAMES_DESTRUCTIBLE_WALL);

@@ -30,7 +30,7 @@ public final class HandicapView implements GameLoop {
         for (final Integer index : this.controller.getListPowerUp().keySet()) {
             if (!this.controller.getIndexListPowerUp(index).isEmpty()) {
                 for (final PowerUpType i : this.controller.getIndexListPowerUp(index)) {
-                    g.drawImage(SpritesMap.SPRITESPOWERUPPATH.get(i), basedWidth, this.controller.getTopDistance(index),
+                    g.drawImage(SpritesMap.getSpritesPowerupData().get(i), basedWidth, this.controller.getTopDistance(index),
                             Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, null);
                             basedWidth += Buttons.getOptionButtonSize() / 2;
                 }
