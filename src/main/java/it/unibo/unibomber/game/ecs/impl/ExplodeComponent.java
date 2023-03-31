@@ -127,7 +127,8 @@ public class ExplodeComponent extends AbstractComponent {
                                         .explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
                                 countPositions += bombRange;
-                            } else if (entitySearched.get().getType() != Type.BOMB) {
+                            } else if (entitySearched.get().getType() != Type.BOMB
+                                    && entitySearched.get().getType() != Type.RISING_WALL) {
                                 entitySearched.get().getComponent(DestroyComponent.class).get()
                                         .destroy();
                                 if (entitySearched.get().getType() != Type.BOMBER
