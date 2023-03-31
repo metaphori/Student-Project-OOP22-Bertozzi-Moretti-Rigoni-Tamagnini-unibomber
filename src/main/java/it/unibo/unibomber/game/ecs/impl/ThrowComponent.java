@@ -28,8 +28,8 @@ public class ThrowComponent extends AbstractComponent {
                     || Math.round(bombActualPositionY) != (float) (finalPos.getY())) {
                 final int dimensionX = this.getEntity().getGame().getDimensions().getX();
                 final int dimensionY = this.getEntity().getGame().getDimensions().getY();
-                if (!Utilities.isBetweenIncluded(bombActualPositionX, 0, dimensionX)
-                        || !Utilities.isBetweenIncluded(bombActualPositionY, 0, dimensionY)) {
+                if (!Utilities.isBetweenIncluded(bombActualPositionX, 0, dimensionX - 1)
+                        || !Utilities.isBetweenIncluded(bombActualPositionY, 0, dimensionY - 1)) {
 
                     int nextX = Math.abs(finalPos.getX() + dimensionX) % (dimensionX);
                     int nextY = Math.abs(finalPos.getY() + dimensionY) % (dimensionY);
