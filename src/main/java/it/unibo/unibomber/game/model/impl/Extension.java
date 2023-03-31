@@ -12,6 +12,7 @@ import it.unibo.unibomber.game.ecs.impl.PowerUpComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.ecs.impl.SlidingComponent;
 import it.unibo.unibomber.game.ecs.impl.ThrowComponent;
+import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -88,7 +89,7 @@ public final class Extension {
                 final CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
                 if (collision.isSolid() && !collision.isOver()
                         && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
-                    entity.getComponent(SlidingComponent.class).get().setSliding(false, null);
+                    entity.getComponent(SlidingComponent.class).get().setSliding(false, Direction.CENTER);
                     Extension.collisonWall(entity, e);
                 }
             };
@@ -111,6 +112,7 @@ public final class Extension {
 
     /**
      * Check collision entity with wall.
+     * 
      * @param entity
      * @param e
      */
@@ -141,6 +143,7 @@ public final class Extension {
             }
         }
     }
+
     /**
      * Constructor.
      */

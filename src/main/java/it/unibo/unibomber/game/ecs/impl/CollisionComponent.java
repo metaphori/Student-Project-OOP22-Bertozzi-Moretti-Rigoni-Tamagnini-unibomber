@@ -5,6 +5,7 @@ import java.util.function.BiConsumer;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
 import java.awt.Color;
@@ -28,17 +29,7 @@ public final class CollisionComponent extends AbstractComponent {
           hitbox.x = (int) (this.getEntity().getPosition().getX() * Screen.getTilesSize());
           hitbox.y = (int) (this.getEntity().getPosition().getY() * Screen.getTilesSize());
           isOutofField();
-          final Entity player = this.getEntity();
-          if (player.getType() == Type.BOMBER) {
-               CollisionComponent playerCollision = player.getComponent(CollisionComponent.class).get();
-               this.getEntity().getGame().getEntities().stream()
-                         .filter(entity -> entity.getType() == Type.BOMB)
-                         .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer() == player)
-                         .map(entity -> entity.getComponent(CollisionComponent.class))
-                         .filter(entity -> entity.isPresent() && entity.get().isOver())
-                         .filter(entity -> !playerCollision.getHitbox().intersects(entity.get().getHitbox()))
-                         .forEach(entity -> entity.get().setOver(false));
-          }
+          changeBombOver();
           checkCollisions();
      }
 
@@ -119,22 +110,44 @@ public final class CollisionComponent extends AbstractComponent {
       * Check if entity is out of field and if it is push back.
       */
      private void isOutofField() {
-          if (this.getEntity().getType() != Type.BOMB
-                    || !this.getEntity().getComponent(ThrowComponent.class).get().isThrowing()) {
+          final Entity entity = this.getEntity();
+          Pair<Float, Float> newPosition = null;
+          if (entity.getType() != Type.BOMB
+                    || !entity.getComponent(ThrowComponent.class).get().isThrowing()
+                    || entity.getComponent(SlidingComponent.class).get().isSliding()) {
                if (hitbox.x > (Screen.getgWidth() - Screen.getTilesSize())) {
-                    this.getEntity().setPosition(
-                              new Pair<Float, Float>((float) Screen.getTilesWidth() - 1,
-                                        this.getEntity().getPosition().getY()));
+                    newPosition = new Pair<>((float) Screen.getTilesWidth() - 1, entity.getPosition().getY());
                } else if (hitbox.x < 0) {
-                    this.getEntity().setPosition(new Pair<Float, Float>(0f,
-                              this.getEntity().getPosition().getY()));
+                    newPosition = new Pair<>(0f, entity.getPosition().getY());
                } else if (hitbox.y > (Screen.getgHeight() - Screen.getTilesSize())) {
-                    this.getEntity().setPosition(
-                              new Pair<Float, Float>(this.getEntity().getPosition().getX(),
-                                        (float) Screen.getTilesHeight() - 1));
+                    newPosition = new Pair<>(entity.getPosition().getX(), (float) Screen.getTilesHeight() - 1);
                } else if (hitbox.y < 0) {
-                    this.getEntity().setPosition(new Pair<Float, Float>(this.getEntity().getPosition().getX(), 0f));
+                    newPosition = new Pair<>(entity.getPosition().getX(), 0f);
                }
+               if (newPosition != null) {
+                    entity.setPosition(newPosition);
+                    if (entity.getType() == Type.BOMB
+                              && entity.getComponent(SlidingComponent.class).get().isSliding()) {
+                         entity.getComponent(SlidingComponent.class).get().setSliding(false, Direction.CENTER);
+                    }
+               }
+          }
+     }
+
+     /**
+      * This method change bomb over status if necessary.
+      */
+     private void changeBombOver() {
+          final Entity player = this.getEntity();
+          if (player.getType() == Type.BOMBER) {
+               final CollisionComponent playerCollision = player.getComponent(CollisionComponent.class).get();
+               this.getEntity().getGame().getEntities().stream()
+                         .filter(entity -> entity.getType() == Type.BOMB)
+                         .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer() == player)
+                         .map(entity -> entity.getComponent(CollisionComponent.class))
+                         .filter(entity -> entity.isPresent() && entity.get().isOver())
+                         .filter(entity -> !playerCollision.getHitbox().intersects(entity.get().getHitbox()))
+                         .forEach(entity -> entity.get().setOver(false));
           }
      }
 
