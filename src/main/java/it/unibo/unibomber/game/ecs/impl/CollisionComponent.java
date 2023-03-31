@@ -30,13 +30,14 @@ public final class CollisionComponent extends AbstractComponent {
           isOutofField();
           final Entity player = this.getEntity();
           if (player.getType() == Type.BOMBER) {
+               CollisionComponent playerCollision = player.getComponent(CollisionComponent.class).get();
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
-                         .filter(entity -> entity.getComponent(CollisionComponent.class).isPresent()
-                                   && entity.getComponent(CollisionComponent.class).get().isOver())
-                         .filter(entity -> !player.getComponent(CollisionComponent.class).get().getHitbox()
-                                   .intersects(entity.getComponent(CollisionComponent.class).get().getHitbox()))
-                         .forEach(entity -> entity.getComponent(CollisionComponent.class).get().setOver(false));
+                         .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer() == player)
+                         .map(entity -> entity.getComponent(CollisionComponent.class))
+                         .filter(entity -> entity.isPresent() && entity.get().isOver())
+                         .filter(entity -> !playerCollision.getHitbox().intersects(entity.get().getHitbox()))
+                         .forEach(entity -> entity.get().setOver(false));
           }
           checkCollisions();
      }
