@@ -189,7 +189,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                         setBot();
                     }
                     if ("powerup".equals(mb.getType()) && focusIndex >= 0
-                            && powerUpListOfEntity.get(focusIndex).size() < 6) {
+                            && powerUpListOfEntity.get(focusIndex).size() < OptionButton.MAX_HANDICAP) {
                         powerUpListOfEntity.get(focusIndex).add(mb.getPType());
                     }
                     if ("delete".equals(mb.getType()) && !powerUpListOfEntity.get(focusIndex).isEmpty()) {

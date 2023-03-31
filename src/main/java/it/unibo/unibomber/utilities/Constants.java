@@ -159,6 +159,10 @@ public class Constants {
          */
         public static final class OptionButton {
             /**
+             * Max number of handicap.
+             */
+            public static final int MAX_HANDICAP = 6;
+            /**
              * Number of handicap power up.
              */
             public static final int HANDICAP_NUMBER_POWERUP = 5;
@@ -729,7 +733,7 @@ public class Constants {
                 SPRITESPATH.put(Type.BOT, UploadRes.getSpriteAtlas("player/bot_sprites.png"));
                 SPRITESPATH.put(Type.POWERUP, null);
                 SPRITESPATH.put(Type.RISING_WALL, null);
-                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bomb.png"));
+                SPRITESPATH.put(Type.BOMB, UploadRes.getSpriteAtlas("bomb/bombs.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREUP, UploadRes.getSpriteAtlas("powerUp/fire_up.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREDOWN, UploadRes.getSpriteAtlas("powerUp/fire_down.png"));
                 SPRITESPOWERUPPATH.put(PowerUpType.FIREFULL, UploadRes.getSpriteAtlas("powerUp/max_fire.png"));
