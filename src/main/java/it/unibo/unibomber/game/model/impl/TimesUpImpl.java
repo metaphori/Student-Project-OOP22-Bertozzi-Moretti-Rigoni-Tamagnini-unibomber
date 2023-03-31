@@ -1,8 +1,5 @@
 package it.unibo.unibomber.game.model.impl;
 
-import java.awt.Graphics;
-
-import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.TimesUp;
@@ -14,7 +11,7 @@ import it.unibo.unibomber.utilities.Utilities;
 /**
  * TimesUpImpl class.
  */
-public final class TimesUpImpl implements TimesUp, GameLoop {
+public final class TimesUpImpl implements TimesUp {
      private final Game game;
      private boolean isStarted;
      private boolean isDone;
@@ -72,9 +69,5 @@ public final class TimesUpImpl implements TimesUp, GameLoop {
                this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
                currentPosition = newPosition;
           }
-     }
-
-     @Override
-     public void draw(final Graphics g) {
      }
 }
