@@ -32,7 +32,6 @@ public final class TimesUpImpl implements TimesUp {
           currentDirection = Direction.RIGHT;
           currentPosition = new Pair<>(-1, 0);
           this.game = game;
-          // TODO
           this.start();
      }
 

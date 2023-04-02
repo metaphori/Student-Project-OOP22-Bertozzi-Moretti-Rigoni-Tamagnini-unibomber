@@ -16,7 +16,8 @@ public class WorldWindow {
     final JFrame jframe = new JFrame();
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jframe.add(unibomberPanel);
-    final ImageIcon icon = new ImageIcon("./src/main/res/menu/icon.png");
+    //TODO sistemare licona
+    final ImageIcon icon = new ImageIcon("/it/unibo/sprites/menu/icon.png");
     jframe.setTitle("Unibomber");
     jframe.setIconImage(icon.getImage());
     jframe.setLocationRelativeTo(null);

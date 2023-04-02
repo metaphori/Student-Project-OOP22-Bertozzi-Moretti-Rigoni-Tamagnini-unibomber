@@ -16,6 +16,7 @@ import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.HandicapView;
 import it.unibo.unibomber.game.view.OptionView;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
+import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import static it.unibo.unibomber.utilities.Constants.UI.OptionButton;
 import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
@@ -287,12 +288,25 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     /**
      * @param index
-     * @return top distance of index button.
+     * @return cordiante of index button.
      */
-    public Integer getTopDistance(final int index) {
+    public Pair<Integer, Integer> getButtonPosition(final int index) {
         for (final OptionButtonImpl btn : optionButtons.values()) {
             if (btn.getIndex() == index) {
-                return btn.getY();
+                return new Pair<>(btn.getX(), btn.getY());
+            }
+        }
+        return new Pair<>(0, 0);
+    }
+
+    /**
+     * @param index
+     * @return height of index button.
+     */
+    public Integer getHeightIndexButton(final int index) {
+        for (final OptionButtonImpl btn : optionButtons.values()) {
+            if (btn.getIndex() == index) {
+                return btn.getH();
             }
         }
         return 0;

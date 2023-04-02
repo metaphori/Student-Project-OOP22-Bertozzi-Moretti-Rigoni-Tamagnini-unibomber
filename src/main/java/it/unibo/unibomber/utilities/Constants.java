@@ -159,6 +159,10 @@ public class Constants {
          */
         public static final class OptionButton {
             /**
+             * DIVIDER HANDICAP CENTER ON PLAYER SET.
+             */
+            public static final int HANDICAP_DIVIDER = 7;
+            /**
              * Max number of handicap.
              */
             public static final int MAX_HANDICAP = 6;
