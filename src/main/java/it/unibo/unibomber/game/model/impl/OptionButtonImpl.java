@@ -176,60 +176,62 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   private void extractData() {
-    try {
-      int botPlaced = 0;
-      Entity e;
-      final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
+    int botPlaced = 0;
+    Entity entity;
+    try (FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()))) {
       final DataInputStream in = new DataInputStream(fstream);
-      final BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-      String strLine;
-      Integer row = 0;
-      br.readLine();
-      strLine = br.readLine();
-      while (strLine != null) {
-        final String[] tokens = strLine.split(" ");
-        for (int i = 0; i < tokens.length; i++) {
-          switch (tokens[i]) {
-            case "0":
-              e = new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makePlayable(new Pair<Float, Float>((float) i, (float) row));
-              for (final PowerUpType pt : option.getIndexListPowerUp(0)) {
-                e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
-              }
-              this.option.getWorld().getGame().addEntity(e);
-              break;
-            case "1":
-              if (botPlaced < MapOption.getNumberOfBot()) {
-                botPlaced++;
-                e = new EntityFactoryImpl(this.option.getWorld().getGame())
-                    .makeBot(new Pair<Float, Float>((float) i, (float) row), 1);
-                for (final PowerUpType pt : option.getIndexListPowerUp(botPlaced)) {
-                  e.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
-                }
-                this.option.getWorld().getGame().addEntity(e);
-              }
-              break;
-            case "2":
-              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makePowerUp(new Pair<Float, Float>((float) i, (float) row),
-                      PowerUpType.getRandomPowerUp()));
-              break;
-            case "5":
-              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makeDestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
-              break;
-            case "6":
-              this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
-                  .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
-              break;
-            default:
-              break;
-          }
-        }
-        row++;
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        String strLine;
+        Integer row = 0;
+        br.readLine();
         strLine = br.readLine();
+        while (strLine != null) {
+          final String[] tokens = strLine.split(" ");
+          for (int i = 0; i < tokens.length; i++) {
+            switch (tokens[i]) {
+              case "0":
+                entity = new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makePlayable(new Pair<Float, Float>((float) i, (float) row));
+                for (final PowerUpType pt : option.getIndexListPowerUp(0)) {
+                  entity.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
+                }
+                this.option.getWorld().getGame().addEntity(entity);
+                break;
+              case "1":
+                if (botPlaced < MapOption.getNumberOfBot()) {
+                  botPlaced++;
+                  entity = new EntityFactoryImpl(this.option.getWorld().getGame())
+                      .makeBot(new Pair<Float, Float>((float) i, (float) row), 1);
+                  for (final PowerUpType pt : option.getIndexListPowerUp(botPlaced)) {
+                    entity.getComponent(PowerUpHandlerComponent.class).get().addPowerUp(pt);
+                  }
+                  this.option.getWorld().getGame().addEntity(entity);
+                }
+                break;
+              case "2":
+                this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makePowerUp(new Pair<Float, Float>((float) i, (float) row),
+                        PowerUpType.getRandomPowerUp()));
+                break;
+              case "5":
+                this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makeDestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+                break;
+              case "6":
+                this.option.getWorld().getGame().addEntity(new EntityFactoryImpl(this.option.getWorld().getGame())
+                    .makeIndestructibleWall(new Pair<Float, Float>((float) i, (float) row)));
+                break;
+              default:
+                break;
+            }
+          }
+          row++;
+          strLine = br.readLine();
+        }
+        in.close();
+      } catch (IOException e) {
+        logger.log(SEVERE, e.getMessage());
       }
-      in.close();
     } catch (IOException e) {
       logger.log(SEVERE, e.getMessage());
     }
