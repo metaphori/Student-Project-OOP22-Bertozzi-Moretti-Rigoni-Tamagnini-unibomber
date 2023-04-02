@@ -371,8 +371,8 @@ public class Constants {
              * List of map file.
              */
             public static final List<String> MAP_LIST = List.of(
-                "./src/main/resources/it/unibo/sprites/maps/map0/arena.map",
-                "./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
+                    "./src/main/resources/it/unibo/sprites/maps/map0/arena.map",
+                    "./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
             /**
              * Number of bot in game.
              */
@@ -787,7 +787,7 @@ public class Constants {
              * @return SPRITESPATH
              */
             public static Map<Type, BufferedImage> getSpritespath() {
-                return SPRITESPATH;
+                return new HashMap<>(SPRITESPATH);
             }
 
             /**
@@ -801,7 +801,7 @@ public class Constants {
              * @return INDESTRUCTIBLE_WALL_LIST
              */
             public static List<BufferedImage> getIndestructibleWallList() {
-                return INDESTRUCTIBLE_WALL_LIST;
+                return new ArrayList<>(INDESTRUCTIBLE_WALL_LIST);
             }
         }
 
@@ -831,7 +831,7 @@ public class Constants {
              * @return ENTITY_SCALE.
              */
             public static Map<Type, Float> getEntityScale() {
-                return ENTITY_SCALE;
+                return new HashMap<>(ENTITY_SCALE);
             }
 
             /**
@@ -1166,7 +1166,7 @@ public class Constants {
          * @return DESTROY_FRAMES_PER_TYPE
          */
         public static Map<Type, Integer> getDestroyFramesPerType() {
-            return DESTROY_FRAMES_PER_TYPE;
+            return new HashMap<>(DESTROY_FRAMES_PER_TYPE);
         }
 
         /**
