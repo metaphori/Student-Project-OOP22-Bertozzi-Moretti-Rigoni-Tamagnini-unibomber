@@ -71,7 +71,8 @@ public final class PlayView implements GameLoop {
                     .getSubimage(i * Screen.BOMB_DEFAULT, 0, Screen.BOMB_DEFAULT, Screen.BOMB_DEFAULT);
         }
         for (Integer i = 0; i < SpritesMap.COL_WALL_SPRITES; i++) {
-            animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
+            animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][i] = sprites
+                    .get(Type.DESTRUCTIBLE_WALL)
                     .getSubimage(i * Screen.WALL_DEFAULT, 0, Screen.WALL_DEFAULT, Screen.WALL_DEFAULT);
         }
         for (int i = 0; i < 2; i++) {
