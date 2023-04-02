@@ -437,8 +437,10 @@ public final class AIComponent extends AbstractComponent {
       */
      private void addEntitiesToMatrix(final Type[][] typesMatrix) {
           final var field = this.getEntity().getGame().getGameField().getField();
-          for (final Pair<Integer, Integer> pos : field.keySet()) {
-               typesMatrix[pos.getX()][pos.getY()] = field.get(pos).getX();
+          final var iterator = field.entrySet().iterator();
+          while (iterator.hasNext()) {
+               typesMatrix[iterator.next().getKey().getX()][iterator.next().getKey().getY()] = field
+                         .get(iterator.next().getKey()).getX();
           }
      }
 }
