@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 
 /**
  * This component manage a list of all bombers powerUp.

@@ -10,7 +10,6 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.AIComponent;
 import it.unibo.unibomber.game.ecs.impl.CollisionComponent;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
-import it.unibo.unibomber.game.ecs.impl.EntityImpl;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.InputComponent;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;

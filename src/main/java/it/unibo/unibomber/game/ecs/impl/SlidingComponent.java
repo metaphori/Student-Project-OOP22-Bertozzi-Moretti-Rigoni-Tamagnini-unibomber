@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;

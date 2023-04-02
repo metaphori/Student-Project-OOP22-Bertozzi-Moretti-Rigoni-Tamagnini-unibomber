@@ -7,6 +7,7 @@ import java.util.Random;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 

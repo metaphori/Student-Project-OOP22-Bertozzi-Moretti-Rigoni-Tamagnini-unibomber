@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.ecs.impl;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 
 /**
  * This component manage the type of all powerUps.

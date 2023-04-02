@@ -3,8 +3,8 @@ package it.unibo.unibomber.game.ecs.api;
 import java.util.Optional;
 import java.util.Set;
 
-import it.unibo.unibomber.game.ecs.impl.AbstractComponent;
 import it.unibo.unibomber.game.model.api.Game;
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Pair;
 
 /**

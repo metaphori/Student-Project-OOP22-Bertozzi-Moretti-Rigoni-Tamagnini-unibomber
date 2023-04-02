@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.ecs.impl;
+package it.unibo.unibomber.game.model.impl;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,7 +29,7 @@ public class EntityImpl implements Entity {
      * @param position
      * @param type
      */
-    public EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
+    protected EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
         this.game = game;
         this.position = new Pair<>(position.getX(), position.getY());
         this.type = type;

@@ -5,6 +5,7 @@ import java.util.function.BiConsumer;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 

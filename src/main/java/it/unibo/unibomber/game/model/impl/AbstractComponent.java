@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.ecs.impl;
+package it.unibo.unibomber.game.model.impl;
 
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
