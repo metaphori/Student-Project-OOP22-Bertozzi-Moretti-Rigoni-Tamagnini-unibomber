@@ -22,11 +22,13 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
     private StateGameButtonImpl[] buttons = new StateGameButtonImpl[3];
     private final StateGameView view;
     private final WorldImpl world;
+
     /**
      * This method manage the view of game menu.
+     * 
      * @param world
      */
-    public StateGame(final WorldImpl world) {
+    protected StateGame(final WorldImpl world) {
         super();
         this.world = world;
         view = new StateGameView(this);
