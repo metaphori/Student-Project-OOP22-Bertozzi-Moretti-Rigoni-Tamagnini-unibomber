@@ -127,7 +127,7 @@ public final class Extension {
                         Math.round(thisX) + entity.getComponent(MovementComponent.class)
                                 .get().getDirection().getX(),
                         Math.round(thisY)
-                                + -entity.getComponent(MovementComponent.class).get()
+                                + entity.getComponent(MovementComponent.class).get()
                                         .getDirection().getY())));
         if (!isOccupied) {
             if (thisX != eX || thisY != eY) {

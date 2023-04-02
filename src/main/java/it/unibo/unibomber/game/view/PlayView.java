@@ -161,25 +161,25 @@ public final class PlayView implements GameLoop {
                 changePlayerAction(Player.STANDING, entity);
             } else {
                 changePlayerAction(Player.WALKING, entity);
-                switch (movementComponent.getDirection()) {
-                    case UP:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
-                        break;
-                    case LEFT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
-                        break;
-                    case RIGHT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
-                        break;
-                    case DOWN:
-                        indexDir = 0;
-                        break;
-                    case CENTER:
-                        indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
-                        break;
-                    default:
-                        break;
-                }
+            }
+            switch (movementComponent.getDirection()) {
+                case UP:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
+                    break;
+                case LEFT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
+                    break;
+                case RIGHT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
+                    break;
+                case DOWN:
+                    indexDir = 0;
+                    break;
+                case CENTER:
+                    indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
+                    break;
+                default:
+                    break;
             }
             return animations[playerAction + SpritesMap.getAnimationRow().get(type)][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(playerAction) + indexDir];

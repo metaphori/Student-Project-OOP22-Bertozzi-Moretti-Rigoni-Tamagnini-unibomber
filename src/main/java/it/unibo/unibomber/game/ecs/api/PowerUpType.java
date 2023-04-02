@@ -59,13 +59,6 @@ public enum PowerUpType {
     }
 
     /**
-     * @return if powerUp is complex or not
-     */
-    public boolean isComplex() {
-        return this.isComplex;
-    }
-
-    /**
      * A method that returns a random powerup 25% complex and 75% not complex.
      * 
      * @return random powerUp
