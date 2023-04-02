@@ -62,7 +62,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
     Constants.UI.SpritesMap.setSpritesMap();
     Constants.Destroy.setDestroyFramesPerType();
     Constants.UI.Scale.setEntityScale();
-    Constants.UI.MapOption.setList();
   }
 
   private void startGameLoop() {
@@ -113,9 +112,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
         play.draw(g);
         break;
       case PAUSE:
-        play.draw(g);
-        endGame.draw(g);
-        break;
       case WIN:
       case LOSE:
         play.draw(g);

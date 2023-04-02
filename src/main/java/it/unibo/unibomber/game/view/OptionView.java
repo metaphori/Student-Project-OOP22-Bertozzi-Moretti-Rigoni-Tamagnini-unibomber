@@ -34,19 +34,21 @@ public final class OptionView implements GameLoop {
 
         @Override
         public void draw(final Graphics g) {
-                final Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(OPTION_BACKGROUND);
-                g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
-                g2.setColor(OptionButton.CONTAINER_COLOR);
-                g2.fillRoundRect(OptionButton.WIDTH_INCREMENT, OptionButton.getPowerUpSetTopDistance(),
-                                OptionButton.CONTAINER_WIDTH,
-                                Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT,
-                                OptionButton.ARC_RECT, OptionButton.ARC_RECT);
-                for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
-                        if (!"empty".equals(mb.getType())) {
-                                mb.draw(g);
+                final Graphics2D g2;
+                if (g instanceof Graphics2D) {
+                        g2 = (Graphics2D) g;
+                        g2.setColor(OPTION_BACKGROUND);
+                        g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
+                        g2.setColor(OptionButton.CONTAINER_COLOR);
+                        g2.fillRoundRect(OptionButton.WIDTH_INCREMENT, OptionButton.getPowerUpSetTopDistance(),
+                                        OptionButton.CONTAINER_WIDTH,
+                                        Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT,
+                                        OptionButton.ARC_RECT, OptionButton.ARC_RECT);
+                        for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
+                                if (!"empty".equals(mb.getType())) {
+                                        mb.draw(g);
+                                }
                         }
                 }
-
         }
 }

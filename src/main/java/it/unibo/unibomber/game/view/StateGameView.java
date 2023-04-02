@@ -31,11 +31,14 @@ public final class StateGameView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
-        final Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(new Color(0, 0, 0, Constants.UI.Screen.getOpacity()));
-        g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
-        for (final StateGameButtonImpl mb : controller.getButtons()) {
-            mb.draw(g);
+        final Graphics2D g2;
+        if (g instanceof Graphics2D) {
+            g2 = (Graphics2D) g;
+            g2.setColor(new Color(0, 0, 0, Constants.UI.Screen.getOpacity()));
+            g2.fillRect(0, 0, Constants.UI.Screen.getgWidth(), Constants.UI.Screen.getgHeight());
+            for (final StateGameButtonImpl mb : controller.getButtons()) {
+                mb.draw(g);
+            }
         }
     }
 

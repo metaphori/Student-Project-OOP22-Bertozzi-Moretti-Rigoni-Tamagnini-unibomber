@@ -360,11 +360,15 @@ public class Constants {
             /**
              * List of chosing map.
              */
-            public static final List<BufferedImage> MAP_CHOSE_LIST = new ArrayList<>();
+            public static final List<BufferedImage> MAP_CHOSE_LIST = List.of(
+                    UploadRes.getSpriteAtlas("maps/map0/map.png"),
+                    UploadRes.getSpriteAtlas("maps/map1/map.png"));
             /**
              * List of map file.
              */
-            public static final List<String> MAP_LIST = new ArrayList<>();
+            public static final List<String> MAP_LIST = List.of(
+                "./src/main/resources/it/unibo/sprites/maps/map0/arena.map",
+                "./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
             /**
              * Number of bot in game.
              */
@@ -389,17 +393,6 @@ public class Constants {
              */
             public static void decrementBot() {
                 numberOfBot--;
-            }
-
-            /**
-             * Set Map list.
-             */
-            public static void setList() {
-                MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map0/map.png"));
-                MAP_CHOSE_LIST.add(UploadRes.getSpriteAtlas("maps/map1/map.png"));
-
-                MAP_LIST.add("./src/main/resources/it/unibo/sprites/maps/map0/arena.map");
-                MAP_LIST.add("./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
             }
 
             /**

@@ -17,6 +17,7 @@ import static it.unibo.unibomber.utilities.Constants.Destroy.DROPPED_POWERUP_PER
  */
 public final class DestroyComponent extends AbstractComponent {
 
+    private final Random rnd = new Random();
     private boolean isDestroyed;
     private int destroyFrames;
     private int destroyFramesPerType;
@@ -130,11 +131,10 @@ public final class DestroyComponent extends AbstractComponent {
      * @return a random position
      */
     private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions) {
-        final Random rnd = new Random();
         Pair<Integer, Integer> coord;
         do {
-            coord = new Pair<>(rnd.nextInt(gameDimensions.getX()),
-                    rnd.nextInt(gameDimensions.getY()));
+            coord = new Pair<>(this.rnd.nextInt(gameDimensions.getX()),
+                    this.rnd.nextInt(gameDimensions.getY()));
         } while (this.getEntity().getGame().getGameField().getField().containsKey(coord));
         return new Pair<>((float) coord.getX(),
                 (float) coord.getY());
