@@ -773,14 +773,14 @@ public class Constants {
              * @return the map of PowerUpType BufferedImage
              */
             public static Map<PowerUpType, BufferedImage> getSpritesPowerupData() {
-                return SPRITESPOWERUPPATH;
+                return new HashMap<>(SPRITESPOWERUPPATH);
             }
 
             /**
              * @return ANIMATION_ROW
              */
             public static Map<Type, Integer> getAnimationRow() {
-                return ANIMATION_ROW;
+                return new HashMap<>(ANIMATION_ROW);
             }
 
             /**
@@ -794,7 +794,7 @@ public class Constants {
              * @return DESTRUCTIBLE_WALL_LIST
              */
             public static List<BufferedImage> getDestructibleWallList() {
-                return DESTRUCTIBLE_WALL_LIST;
+                return new ArrayList<>(DESTRUCTIBLE_WALL_LIST);
             }
 
             /**
