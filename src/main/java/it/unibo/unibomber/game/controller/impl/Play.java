@@ -114,14 +114,14 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      * @return list of pressed key.
      */
     public final Deque<Integer> getKeys() {
-        return keyQueue;
+        return new LinkedList<>(keyQueue);
     }
 
     /**
      * @return first key with status.
      */
     public final Map<Integer, Boolean> getFirstFrameKeys() {
-        return firstFrameKey;
+        return new HashMap<>(firstFrameKey);
     }
 
     /**
