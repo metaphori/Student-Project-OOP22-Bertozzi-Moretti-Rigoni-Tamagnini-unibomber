@@ -71,7 +71,8 @@ public final class PlayView implements GameLoop {
                     .getSubimage(i * Screen.BOMB_DEFAULT, 0, Screen.BOMB_DEFAULT, Screen.BOMB_DEFAULT);
         }
         for (Integer i = 0; i < SpritesMap.COL_WALL_SPRITES; i++) {
-            animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][i] = sprites.get(Type.DESTRUCTIBLE_WALL)
+            animations[SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL)][i] = sprites
+                    .get(Type.DESTRUCTIBLE_WALL)
                     .getSubimage(i * Screen.WALL_DEFAULT, 0, Screen.WALL_DEFAULT, Screen.WALL_DEFAULT);
         }
         for (int i = 0; i < 2; i++) {
@@ -160,25 +161,25 @@ public final class PlayView implements GameLoop {
                 changePlayerAction(Player.STANDING, entity);
             } else {
                 changePlayerAction(Player.WALKING, entity);
-                switch (movementComponent.getDirection()) {
-                    case UP:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
-                        break;
-                    case LEFT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
-                        break;
-                    case RIGHT:
-                        indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
-                        break;
-                    case DOWN:
-                        indexDir = 0;
-                        break;
-                    case CENTER:
-                        indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
-                        break;
-                    default:
-                        break;
-                }
+            }
+            switch (movementComponent.getDirection()) {
+                case UP:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 3;
+                    break;
+                case LEFT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 1;
+                    break;
+                case RIGHT:
+                    indexDir = Constants.Player.getSpriteAmount(playerAction) * 2;
+                    break;
+                case DOWN:
+                    indexDir = 0;
+                    break;
+                case CENTER:
+                    indexDir = indexDir % Constants.Player.getSpriteAmount(playerAction);
+                    break;
+                default:
+                    break;
             }
             return animations[playerAction + SpritesMap.getAnimationRow().get(type)][getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(playerAction) + indexDir];
