@@ -25,16 +25,15 @@ public final class UploadRes {
      */
     public static BufferedImage getSpriteAtlas(final String fileName) {
         BufferedImage img = null;
-        InputStream inputStream;
         final Logger logger = Logger.getLogger(UploadRes.class.getName());
-        try {
-            //System.out.println(UploadRes.class.getResource("/it/unibo/"));
-            inputStream = UploadRes.class.getResourceAsStream("/it/unibo/sprites/" + fileName);
+
+        try (InputStream inputStream = UploadRes.class.getResourceAsStream("/it/unibo/sprites/" + fileName)) {
             img = ImageIO.read(inputStream);
-            inputStream.close();
+
         } catch (IOException e) {
             logger.log(SEVERE, e.getMessage());
         }
+
         return img;
     }
 }
