@@ -7,6 +7,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -180,7 +181,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
       Entity e;
       final FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
       final DataInputStream in = new DataInputStream(fstream);
-      final BufferedReader br = new BufferedReader(new InputStreamReader(in));
+      final BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
       String strLine;
       Integer row = 0;
       br.readLine();
