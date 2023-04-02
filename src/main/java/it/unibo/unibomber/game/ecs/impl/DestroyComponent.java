@@ -6,6 +6,7 @@ import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
+import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -35,9 +36,10 @@ public final class DestroyComponent extends AbstractComponent {
     @Override
     public void update() {
         if (this.destroyFramesPerType == -1) {
-            this.destroyFramesPerType = Constants.Destroy.getDestroyFramesPerType().containsKey(this.getEntity().getType())
-                    ? Constants.Destroy.getDestroyFramesPerType().get(this.getEntity().getType())
-                    : STANDARD_FRAME_DURATION;
+            this.destroyFramesPerType = Constants.Destroy.getDestroyFramesPerType()
+                    .containsKey(this.getEntity().getType())
+                            ? Constants.Destroy.getDestroyFramesPerType().get(this.getEntity().getType())
+                            : STANDARD_FRAME_DURATION;
         }
         if (this.isDestroyed) {
             this.destroyFrames++;
@@ -100,7 +102,7 @@ public final class DestroyComponent extends AbstractComponent {
                                     entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
                     powerUps.remove(0);
                 }
-                dropRemaining(powerUps, droppedPowerUps);
+                dropRemaining(powerUps, droppedPowerUps, entity.getGame());
             }
         }
     }
@@ -110,32 +112,33 @@ public final class DestroyComponent extends AbstractComponent {
      * 
      * @param powerUps        the list of powerups
      * @param droppedPowerUps the number of powerups to drop
+     * @param game            the game playing
      */
-    private void dropRemaining(final List<PowerUpType> powerUps, final int droppedPowerUps) {
-        final var game = this.getEntity().getGame();
+    private void dropRemaining(final List<PowerUpType> powerUps, final int droppedPowerUps, final Game game) {
         final Pair<Integer, Integer> gameDimensions = game.getDimensions();
-        Pair<Float, Float> newRandomPos;
         while (powerUps.size() > droppedPowerUps) {
             powerUps.remove((int) (Math.random() * powerUps.size()));
         }
-        for (final var powerUp : powerUps) {
-            newRandomPos = getRandomPos(gameDimensions);
-            game.addEntity(game.getFactory().makePowerUp(newRandomPos, powerUp));
-        }
+        powerUps.stream()
+                .forEach(p -> {
+                    final var newRandomPos = getRandomPos(gameDimensions, game);
+                    game.addEntity(game.getFactory().makePowerUp(newRandomPos, p));
+                });
     }
 
     /**
      * A method to create a random position in the field.
      * 
      * @param gameDimensions the dimensions of the field
+     * @param game           the game playing
      * @return a random position
      */
-    private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions) {
+    private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions, final Game game) {
         Pair<Integer, Integer> coord;
         do {
             coord = new Pair<>(this.rnd.nextInt(gameDimensions.getX()),
                     this.rnd.nextInt(gameDimensions.getY()));
-        } while (this.getEntity().getGame().getGameField().getField().containsKey(coord));
+        } while (game.getGameField().getField().containsKey(coord));
         return new Pair<>((float) coord.getX(),
                 (float) coord.getY());
     }

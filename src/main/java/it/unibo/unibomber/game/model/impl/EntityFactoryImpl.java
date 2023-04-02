@@ -89,18 +89,12 @@ public class EntityFactoryImpl implements EntityFactory {
 
         @Override
         public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
-                if (this.rnd.nextInt(4) % 2 == 0) {
-                        return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
-                                        .addComponent(new CollisionComponent(true, false, Math.round(position.getX()),
-                                                        Math.round(position.getY()), null))
-                                        .addComponent(new PowerUpListComponent(0, 0,
-                                                        List.of(PowerUpType.getRandomPowerUp())))
-                                        .addComponent(new DestroyComponent());
-                }
                 return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
                                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()),
                                                 Math.round(position.getY()), null))
-                                .addComponent(new PowerUpListComponent(0, 0, List.of()))
+                                .addComponent(new PowerUpListComponent(0, 0,
+                                                this.rnd.nextInt(4) % 2 == 0 ? List.of()
+                                                                : List.of(PowerUpType.getRandomPowerUp())))
                                 .addComponent(new DestroyComponent());
         }
 

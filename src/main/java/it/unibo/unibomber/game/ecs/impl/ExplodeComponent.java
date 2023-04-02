@@ -50,8 +50,8 @@ public class ExplodeComponent extends AbstractComponent {
                 if (this.explodeFrames < EXPLODE_DURATION) {
                     this.explonsionsList.clear();
                     explodeEntities(this.getEntity().getGame().getEntities().stream()
-                            .filter(e -> e.getType() == Type.BOMB
-                                    && e.getComponent(ExplodeComponent.class).get().isExploding())
+                            .filter(e -> e.getType() == Type.BOMB)
+                            .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                             .collect(Collectors.toList()));
                 } else if (!this.getEntity().getComponent(DestroyComponent.class).get().isDestroyed()) {
                     this.getEntity().getComponent(DestroyComponent.class).get().destroy();
@@ -101,7 +101,6 @@ public class ExplodeComponent extends AbstractComponent {
     private void explodeEntities(final List<Entity> entitiesList) {
         final int bombRange = this.getEntity().getComponent(PowerUpListComponent.class).get().getBombFire();
         final var totalEntities = this.getEntity().getGame().getEntities();
-        List<Entity> players;
         Optional<Entity> entitySearched;
         Pair<Float, Float> checkPos;
         int countPositions;
@@ -152,15 +151,11 @@ public class ExplodeComponent extends AbstractComponent {
                             countPositions += bombRange;
                         } else if (entitySearched.get().getType() == Type.BOMBER
                                 && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
-                            players = totalEntities.stream()
+                            final var checkPosCopy = checkPos;
+                            totalEntities.stream()
                                     .filter(e -> e.getType() == Type.BOMBER)
-                                    .collect(Collectors.toList());
-                            for (final var player : players) {
-                                if (this.checkRound(player.getPosition(), checkPos)) {
-                                    player.getComponent(DestroyComponent.class).get()
-                                            .destroy();
-                                }
-                            }
+                                    .filter(p -> this.checkRound(p.getPosition(), checkPosCopy))
+                                    .forEach(p -> p.getComponent(DestroyComponent.class).get().destroy());
                             this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()),
                                     Math.round(checkPos.getX())));
                         }
@@ -198,10 +193,11 @@ public class ExplodeComponent extends AbstractComponent {
      * @return the entity if is contained, an empty otherwise.
      */
     private Optional<Entity> checkContainedInList(final Pair<Float, Float> pos, final List<Entity> entities) {
-        for (final var entity : entities) {
-            if (this.checkRound(entity.getPosition(), pos)) {
-                return Optional.of(entity);
-            }
+        final var entityInPos = entities.stream()
+                .filter(e -> this.checkRound(e.getPosition(), pos))
+                .collect(Collectors.toList());
+        if (!entityInPos.isEmpty()) {
+            return Optional.of(entityInPos.get(0));
         }
         return Optional.empty();
     }
