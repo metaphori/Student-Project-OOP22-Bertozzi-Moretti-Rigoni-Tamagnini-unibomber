@@ -301,9 +301,8 @@ public final class AIComponent extends AbstractComponent {
       *                    direction
       */
      private void updatePath(final Pair<Float, Float> oldPosition, final Pair<Float, Float> newPosition) {
-          if (isGettingCloser || Math.round(oldPosition.getX()) != Math.round(newPosition.getX())
-                    || Math.round(oldPosition.getY()) != Math.round(newPosition.getY())
-                    || this.followingPath.get(0) == Direction.CENTER
+          if ((Math.round(oldPosition.getX()) == Math.round(newPosition.getX())
+                    && Math.round(oldPosition.getY()) == Math.round(newPosition.getY()))
                               && !canMoveFurther(newPosition)) {
                this.followingPath.remove(0);
                isGettingCloser = false;
@@ -311,26 +310,26 @@ public final class AIComponent extends AbstractComponent {
      }
 
      /**
-      * @param newPosition the position of the bot
+      * @param currentPosition the position of the bot
       * @return whether or not the bot can move further to better allign with the
       *         cell
       *         without jepardizing it's safety
       */
-     private boolean canMoveFurther(final Pair<Float, Float> newPosition) {
+     private boolean canMoveFurther(final Pair<Float, Float> currentPosition) {
           isGettingCloser = true;
-          final float currentDifferenceX = Math.abs(newPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
-          final float currentDifferenceY = Math.abs(newPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
-          final Pair<Float, Float> tryPosition = new Pair<>(newPosition.getX() + followingPath.get(0).getX()
+          final float currentDifferenceX = Math.abs(currentPosition.getX()) - Math.abs(Math.round(currentPosition.getX()));
+          final float currentDifferenceY = Math.abs(currentPosition.getY()) - Math.abs(Math.round(currentPosition.getY()));
+          final Pair<Float, Float> tryPosition = new Pair<>(currentPosition.getX() + followingPath.get(0).getX()
                     * this.getEntity().getSpeed() * Constants.Movement.MULTIPLIER_GLOBAL_SPEED,
-                    newPosition.getY() + followingPath.get(0).getY() * this.getEntity().getSpeed()
+                    currentPosition.getY() + followingPath.get(0).getY() * this.getEntity().getSpeed()
                               * Constants.Movement.MULTIPLIER_GLOBAL_SPEED);
-          final float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(newPosition.getX()));
-          final float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(newPosition.getY()));
+          final float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(currentPosition.getX()));
+          final float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(currentPosition.getY()));
 
-          final boolean isCloser = Math.abs(currentDifferenceX) > Math.abs(nextDifferenceX)
-                    || Math.abs(currentDifferenceY) > Math.abs(nextDifferenceY);
-          final boolean isOver = Math.round(tryPosition.getX()) != Math.round(newPosition.getX())
-                    || Math.round(tryPosition.getY()) != Math.round(newPosition.getY());
+          final boolean isCloser = 1-Math.abs(currentDifferenceX) < 1-Math.abs(nextDifferenceX)
+                    || 1-Math.abs(currentDifferenceY) < 1-Math.abs(nextDifferenceY);
+          final boolean isOver = Math.round(tryPosition.getX()) != Math.round(currentPosition.getX())
+                    || Math.round(tryPosition.getY()) != Math.round(currentPosition.getY());
 
           return isCloser && !isOver;
      }
