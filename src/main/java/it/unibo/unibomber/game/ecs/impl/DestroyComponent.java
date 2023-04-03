@@ -139,8 +139,23 @@ public final class DestroyComponent extends AbstractComponent {
         do {
             coord = new Pair<>(this.rnd.nextInt(gameDimensions.getX()),
                     this.rnd.nextInt(gameDimensions.getY()));
-        } while (game.getGameField().getField().containsKey(coord));
+        } while (this.isInList(coord, game));
         return new Pair<>((float) coord.getX(),
                 (float) coord.getY());
+    }
+
+    /**
+     * A method who checks if the position is contained in the entities list.
+     * 
+     * @param pos  the position to check
+     * @param game the game playing
+     * @return true if is in list, false otherwise
+     */
+    private boolean isInList(final Pair<Integer, Integer> pos, final Game game) {
+        final var positions = new ArrayList<>();
+        game.getEntities().stream()
+                .map(e -> e.getPosition())
+                .forEach(p -> positions.add(new Pair<>(Math.round(p.getX()), Math.round(p.getX()))));
+        return positions.contains(pos);
     }
 }

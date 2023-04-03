@@ -95,6 +95,15 @@ public class ExplodeComponent extends AbstractComponent {
     }
 
     /**
+     * A method to get the actual expiring frames
+     * 
+     * @return the expiring frames
+     */
+    public int getExpiringFrames() {
+        return this.expiringFrames;
+    }
+
+    /**
      * General method to control if there are some entities on the bomb range.
      * 
      * @param entitiesList the entities to control
