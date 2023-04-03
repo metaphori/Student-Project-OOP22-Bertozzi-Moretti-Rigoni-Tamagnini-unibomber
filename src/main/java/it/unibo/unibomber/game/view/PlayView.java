@@ -79,8 +79,6 @@ public final class PlayView implements GameLoop {
         }
         g2d.dispose();
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
-            // TODO TOGLIERE IL PRINT DELLE HITBOX
-            // controller.getEntities().get(i).getComponent(CollisionComponent.class).get().drawHitbox(g);
             if (controller.getEntities().get(i).getType() == Type.BOMB
                     && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()
                     && !controller.getEntities().get(i).getComponent(DestroyComponent.class).get().isDestroyed()) {

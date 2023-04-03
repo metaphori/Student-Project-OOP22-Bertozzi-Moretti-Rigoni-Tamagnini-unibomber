@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class CollisionTest {
      @Test
-     void testCollisions() {
+     void testCollisionsPlayerWall() {
 
           final int rows = 5;
           final int columns = 5;

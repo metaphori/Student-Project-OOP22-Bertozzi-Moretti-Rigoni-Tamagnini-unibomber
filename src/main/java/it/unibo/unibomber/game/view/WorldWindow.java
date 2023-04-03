@@ -3,6 +3,8 @@ package it.unibo.unibomber.game.view;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import it.unibo.unibomber.utilities.UploadRes;
+
 /**
  * Word Window class.
  */
@@ -16,8 +18,7 @@ public class WorldWindow {
     final JFrame jframe = new JFrame();
     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     jframe.add(unibomberPanel);
-    //TODO sistemare licona
-    final ImageIcon icon = new ImageIcon("/it/unibo/sprites/menu/icon.png");
+    final ImageIcon icon = new ImageIcon(UploadRes.getSpriteAtlas("menu/icon.png"));
     jframe.setTitle("Unibomber");
     jframe.setIconImage(icon.getImage());
     jframe.setLocationRelativeTo(null);
