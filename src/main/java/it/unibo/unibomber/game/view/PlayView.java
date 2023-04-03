@@ -71,7 +71,7 @@ public final class PlayView implements GameLoop {
         final Graphics2D g2d = (Graphics2D) g.create();
         for (int y = 0; y < Screen.getgHeight(); y += Screen.getTilesSize()) {
             for (int x = 0; x < Screen.getgWidth(); x += Screen.getTilesSize()) {
-                g2d.drawImage(controller.getTileSprites()[(x + y) % 2], x, y,
+                g2d.drawImage(controller.getTileSpritesType((x + y) % 2), x, y,
                         (int) (Screen.getTilesSize()),
                         (int) (Screen.getTilesSize()),
                         null);

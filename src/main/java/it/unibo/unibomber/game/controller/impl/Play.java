@@ -45,7 +45,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
         explosion = new Explosion();
-        
+
     }
 
     @Override
@@ -143,6 +143,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     public Explosion getExplosionController() {
         return explosion;
     }
+
     /**
      * @param i
      * @param j
@@ -169,9 +170,10 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
+     * @param type
      * @return get ties sprites.
      */
-    public BufferedImage[] getTileSprites() {
-        return model.getTileSprites();
+    public BufferedImage getTileSpritesType(final int type) {
+        return model.getTileSpritesType(type);
     }
 }

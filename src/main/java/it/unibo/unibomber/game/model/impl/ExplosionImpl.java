@@ -8,6 +8,9 @@ import it.unibo.unibomber.utilities.Constants.Explode;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 
+/**
+ * Explosion Model.
+ */
 public class ExplosionImpl {
     private BufferedImage[][] animations;
 
@@ -31,12 +34,16 @@ public class ExplosionImpl {
             }
         }
     }
+
     /**
+     * @param i
+     * @param j
      * @return animation of that position.
      */
     public BufferedImage getAnimations(final int i, final int j) {
         return animations[i][j];
     }
+
     /**
      * @return direction of explosion.
      */

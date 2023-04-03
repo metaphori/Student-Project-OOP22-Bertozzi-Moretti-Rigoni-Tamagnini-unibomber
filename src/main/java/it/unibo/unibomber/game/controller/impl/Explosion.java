@@ -69,6 +69,8 @@ public final class Explosion implements GameLoop {
     }
 
     /**
+     * @param i
+     * @param j
      * @return animation of that position.
      */
     public BufferedImage getAnimations(final int i, final int j) {

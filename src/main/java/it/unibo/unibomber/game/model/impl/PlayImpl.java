@@ -11,12 +11,18 @@ import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
 import it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
 
+/**
+ * Play model.
+ */
 public class PlayImpl {
     private BufferedImage[][] animations;
     private final Map<Type, BufferedImage> sprites;
     private final Map<PowerUpType, BufferedImage> powerUpSprites;
     private final BufferedImage[] tile;
 
+    /**
+     * Play model controller.
+     */
     public PlayImpl() {
         this.sprites = SpritesMap.getSpritespath();
         this.powerUpSprites = SpritesMap.getSpritesPowerupData();
@@ -79,9 +85,10 @@ public class PlayImpl {
     }
 
     /**
+     * @param type
      * @return get ties sprites.
      */
-    public BufferedImage[] getTileSprites() {
-        return tile;
+    public BufferedImage getTileSpritesType(final int type) {
+        return tile[type];
     }
 }
