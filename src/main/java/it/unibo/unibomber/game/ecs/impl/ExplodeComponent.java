@@ -46,6 +46,10 @@ public class ExplodeComponent extends AbstractComponent {
     public final void update() {
         if (!this.getEntity().getComponent(ThrowComponent.class).get().isThrowing()) {
             if (this.expiringFrames == EXPIRING_TIME) {
+                if (this.getEntity().getComponent(SlidingComponent.class).get().isSliding()) {
+                    this.getEntity().getComponent(SlidingComponent.class).get()
+                        .setSliding(false, Direction.CENTER);
+                }
                 this.explodeFrames++;
                 this.explodeBomb();
                 if (this.explodeFrames < EXPLODE_DURATION) {
