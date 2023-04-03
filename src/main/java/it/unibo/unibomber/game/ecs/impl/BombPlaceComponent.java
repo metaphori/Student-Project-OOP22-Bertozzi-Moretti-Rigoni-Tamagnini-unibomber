@@ -18,7 +18,8 @@ public class BombPlaceComponent extends AbstractComponent {
     @Override
     public final void update() {
         final Entity thisEntity = this.getEntity();
-        if (this.bombPlaced) {
+        final Optional<DestroyComponent> destroy = thisEntity.getComponent(DestroyComponent.class);
+        if (this.bombPlaced && (!destroy.isPresent() || !destroy.get().isDestroyed())) {
             final Pair<Float, Float> normalizedPosition = new Pair<>(
                     (float) Math.round(thisEntity.getPosition().getX()),
                     (float) Math.round(thisEntity.getPosition().getY()));
