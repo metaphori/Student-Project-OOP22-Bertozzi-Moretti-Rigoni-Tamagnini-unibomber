@@ -95,7 +95,7 @@ public class ExplodeComponent extends AbstractComponent {
     }
 
     /**
-     * A method to get the actual expiring frames
+     * A method to get the actual expiring frames.
      * 
      * @return the expiring frames
      */
