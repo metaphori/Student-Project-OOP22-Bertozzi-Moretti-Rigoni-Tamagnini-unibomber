@@ -8,14 +8,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Component;
 import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.model.api.Gamestate;
+import it.unibo.unibomber.game.model.impl.PlayImpl;
 import it.unibo.unibomber.game.view.PlayView;
 
 /**
@@ -26,6 +29,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private final Map<Integer, Boolean> firstFrameKey;
     private final Explosion explosion;
     private final PlayView view;
+    private final PlayImpl model;
     private final WorldImpl world;
 
     /**
@@ -36,20 +40,22 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     public Play(final WorldImpl world) {
         super();
         view = new PlayView(this);
+        model = new PlayImpl();
         this.world = world;
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
         explosion = new Explosion();
+        
     }
 
     @Override
     public final void update() {
+        explosion.resetEntity();
         for (int i = 0; i < this.world.getGame().getEntities().size(); i++) {
             for (final Component c : this.world.getGame().getEntities().get(i).getComponents()) {
                 c.update();
             }
         }
-        explosion.resetEntity();
         this.world.getGame().getEntities().stream()
                 .filter(e -> e.getType() == Type.BOMB)
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
@@ -136,5 +142,36 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public Explosion getExplosionController() {
         return explosion;
+    }
+    /**
+     * @param i
+     * @param j
+     * @return animation of that position.
+     */
+    public BufferedImage getAnimation(final int i, final int j) {
+        return model.getAnimation(i, j);
+    }
+
+    /**
+     * @param type
+     * @return sprites of that type.
+     */
+    public BufferedImage getSprites(final Type type) {
+        return model.getSprites(type);
+    }
+
+    /**
+     * @param type
+     * @return sprites of that power up type.
+     */
+    public BufferedImage getPowerUpSprites(final PowerUpType type) {
+        return model.getPowerUpSprites(type);
+    }
+
+    /**
+     * @return get ties sprites.
+     */
+    public BufferedImage[] getTileSprites() {
+        return model.getTileSprites();
     }
 }
