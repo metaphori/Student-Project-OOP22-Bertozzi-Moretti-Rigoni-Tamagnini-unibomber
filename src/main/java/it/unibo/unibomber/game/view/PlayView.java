@@ -80,8 +80,7 @@ public final class PlayView implements GameLoop {
         g2d.dispose();
         for (Integer i = 0; i < controller.getEntities().size(); i++) {
             if (controller.getEntities().get(i).getType() == Type.BOMB
-                    && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()
-                    && !controller.getEntities().get(i).getComponent(DestroyComponent.class).get().isDestroyed()) {
+                    && controller.getEntities().get(i).getComponent(ExplodeComponent.class).get().isExploding()) {
                 controller.getExplosionController().draw(g);
             } else {
                 drawImage(g, controller.getEntities().get(i));

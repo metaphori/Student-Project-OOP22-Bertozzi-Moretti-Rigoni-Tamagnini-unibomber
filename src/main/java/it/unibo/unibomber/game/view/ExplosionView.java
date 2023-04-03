@@ -38,21 +38,24 @@ public final class ExplosionView implements GameLoop {
     @Override
     public void draw(final Graphics g) {
         if (Gamestate.getGamestate() == Gamestate.PLAY) {
-            for (final Entity entity : controller.getExplode()) {
-                final List<Pair<Integer, Integer>> explosions = entity.getComponent(ExplodeComponent.class).get()
-                        .getExplosions();
-                if (!explosions.isEmpty()) {
-                    final Pair<Integer, Integer> center = explosions.get(0);
-                    for (final Pair<Integer, Integer> p1 : explosions) {
-                        g.drawImage(
-                                getCorrectImage(entity.getComponent(ExplodeComponent.class).get().getExpiringFrames(),
-                                        Direction.getDistance(p1, center),
-                                        Direction.extractDirecionBetweenTwo(center, p1).get(), entity),
-                                p1.getY() * Screen.getTilesSize(),
-                                p1.getX() * Screen.getTilesSize(),
-                                (int) (Screen.getTilesDefault() * Screen.SCALE),
-                                (int) (Screen.getTilesDefault() * Screen.SCALE),
-                                null);
+            if (!controller.getExplode().isEmpty()) {
+                for (final Entity entity : controller.getExplode()) {
+                    final List<Pair<Integer, Integer>> explosions = entity.getComponent(ExplodeComponent.class).get()
+                            .getExplosions();
+                    if (!explosions.isEmpty()) {
+                        final Pair<Integer, Integer> center = explosions.get(0);
+                        for (final Pair<Integer, Integer> p1 : explosions) {
+                            g.drawImage(
+                                    getCorrectImage(
+                                            entity.getComponent(ExplodeComponent.class).get().getExpiringFrames(),
+                                            Direction.getDistance(p1, center),
+                                            Direction.extractDirecionBetweenTwo(center, p1).get(), entity),
+                                    p1.getY() * Screen.getTilesSize(),
+                                    p1.getX() * Screen.getTilesSize(),
+                                    (int) (Screen.getTilesDefault() * Screen.SCALE),
+                                    (int) (Screen.getTilesDefault() * Screen.SCALE),
+                                    null);
+                        }
                     }
                 }
             }

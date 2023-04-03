@@ -77,6 +77,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
     switch (Gamestate.getGamestate()) {
       case MENU:
         menu.update();
+        initClasses();
         break;
       case OPTION:
         option.update();
@@ -90,7 +91,6 @@ public class WorldImpl implements World, Runnable, GameLoop {
       case WIN:
       case LOSE:
         endGame.update();
-        initClasses();
         break;
       case QUIT:
       default:
