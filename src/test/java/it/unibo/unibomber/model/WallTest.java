@@ -16,6 +16,7 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
+import it.unibo.unibomber.game.model.impl.TimesUpImpl;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -77,5 +78,12 @@ class WallTest {
         assertFalse(indesWall.getComponent(DestroyComponent.class).isPresent());
         assertFalse(indesWall.getComponent(PowerUpListComponent.class).isPresent());
         assertTrue(this.game.getEntities().contains(indesWall));
+    }
+
+    @Test
+    void testRisingWall() {
+        TimesUpImpl timesUp = new TimesUpImpl(this.game);
+        timesUp.update();
+        assertTrue(this.game.getEntities().stream().anyMatch(e -> e.getType() == Type.RISING_WALL && e.getPosition().getX() == 0 && e.getPosition().getY() == 0));
     }
 }

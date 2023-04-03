@@ -34,18 +34,47 @@ class CollisionTest {
           moveOneTiles(player);
           assertEquals(new Pair<>(0f, 0f), player.getPosition());
      }
+
      @Test
-     void testCollisionsPlayerWallAngle() {
+     void testCollisionsPlayerWallAngleRight() {
 
           final int rows = 5;
           final int columns = 5;
           final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
+          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0.6f, 0f));
+          game.addEntity(player);
+          assertEquals(player.getPosition(), new Pair<>(0.6f, 0f));
+          moveOneTiles(player);
+          assertEquals(1, player.getPosition().getX());
+     }
+
+     @Test
+     void testCollisionsPlayerRisingWall() {
+
+          final int rows = 5;
+          final int columns = 5;
+          final Game game = new GameImpl(null, rows, columns);
+          game.addEntity(game.getFactory().makeRaisingWall(new Pair<Float, Float>(0f, 1f)));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           game.addEntity(player);
           assertEquals(player.getPosition(), new Pair<>(0f, 0f));
           moveOneTiles(player);
           assertEquals(new Pair<>(0f, 0f), player.getPosition());
+     }
+
+     @Test
+     void testCollisionsPlayerWallAnglLeft() {
+
+          final int rows = 5;
+          final int columns = 5;
+          final Game game = new GameImpl(null, rows, columns);
+          game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
+          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0.3f, 0f));
+          game.addEntity(player);
+          assertEquals(player.getPosition(), new Pair<>(0.3f, 0f));
+          moveOneTiles(player);
+          assertEquals(0, player.getPosition().getX());
      }
 
      @Test
@@ -75,6 +104,7 @@ class CollisionTest {
           moveOneTiles(player);
           assertEquals(new Pair<>(0f, 0f), player.getPosition());
      }
+
      @Test
      void testCollisionsPlayerBombSliding() {
           final int rows = 5;
@@ -92,6 +122,7 @@ class CollisionTest {
           assertEquals(new Pair<>(0f, 0f), player.getPosition());
           assertTrue(bomb.getComponent(SlidingComponent.class).get().isSliding());
      }
+
      private void moveOneTiles(Entity player) {
           final MovementComponent movement = player.getComponent(MovementComponent.class).get();
           final CollisionComponent collision = player.getComponent(CollisionComponent.class).get();

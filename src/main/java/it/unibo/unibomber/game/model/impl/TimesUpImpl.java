@@ -46,7 +46,6 @@ public final class TimesUpImpl implements TimesUp {
 
      @Override
      public void update() {
-          normalizedFrames = (normalizedFrames + 1) % 3;
           if (isStarted && !isDone && normalizedFrames == 0) {
                Pair<Integer, Integer> newPosition = new Pair<>(currentDirection.getX() + currentPosition.getX(),
                          currentDirection.getY() + currentPosition.getY());
@@ -68,5 +67,6 @@ public final class TimesUpImpl implements TimesUp {
                this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
                currentPosition = newPosition;
           }
+          normalizedFrames = (normalizedFrames + 1) % 3;
      }
 }
