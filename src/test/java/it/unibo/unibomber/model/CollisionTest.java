@@ -22,12 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CollisionTest {
      private static final float XPLAYERR = 0.6f;
      private static final float XPLAYERL = 0.3f;
+     private static final int ROWS = 5;
+     private static final int COLUMNS = 5;
+     private final Game game = new GameImpl(null, ROWS, COLUMNS);
      @Test
      void testCollisionsPlayerWall() {
-
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(1f, 0f)));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
@@ -39,9 +38,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerWallAngleRight() {
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(XPLAYERR, 0f));
           game.addEntity(player);
@@ -52,10 +48,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerRisingWall() {
-
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeRaisingWall(new Pair<Float, Float>(0f, 1f)));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           game.addEntity(player);
@@ -66,9 +58,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerWallAnglLeft() {
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(XPLAYERL, 0f));
           game.addEntity(player);
@@ -79,9 +68,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerPowerUP() {
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makePowerUp(new Pair<Float, Float>(0f, 1f), PowerUpType.FIREUP));
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           game.addEntity(player);
@@ -93,9 +79,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerBomb() {
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           game.addEntity(game.getFactory().makeBomb(player, new Pair<Float, Float>(0f, 1f)));
           game.addEntity(player);
@@ -107,9 +90,6 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerBombSliding() {
-          final int rows = 5;
-          final int columns = 5;
-          final Game game = new GameImpl(null, rows, columns);
           final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0f, 0f));
           player.getComponent(PowerUpListComponent.class).get().addPowerUpList(PowerUpType.KICKBOMB);
           final Entity bomb = game.getFactory().makeBomb(player, new Pair<Float, Float>(0f, 1f));

@@ -37,6 +37,22 @@ public class EntityImpl implements Entity {
         speed = Constants.Entity.BASE_SPEED;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * This constructor is for the extern files.
+     * 
+     * @param entity the entity to create
+     */
+    public EntityImpl(final Entity entity) {
+        this.game = entity.getGame();
+        this.type = entity.getType();
+        this.position = new Pair<>(entity.getPosition().getX(), entity.getPosition().getY());
+        this.components = new HashSet<>(entity.getComponents());
+        speed = Constants.Entity.BASE_SPEED;
+    }
+
+>>>>>>> 04325a828de14dd335449616da9deaf508752ce4
     @Override
     public final Set<Component> getComponents() {
         return new HashSet<>(this.components);
