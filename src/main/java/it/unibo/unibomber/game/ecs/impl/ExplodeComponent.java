@@ -55,7 +55,7 @@ public class ExplodeComponent extends AbstractComponent {
                 if (this.explodeFrames < EXPLODE_DURATION) {
                     this.explonsionsList.clear();
                     explodeEntities(this.getEntity().getGame().getEntities().stream()
-                            .filter(e -> e.getType() == Type.BOMB)
+                            .filter(e -> e.getType().equals(Type.BOMB))
                             .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                             .collect(Collectors.toList()));
                 } else if (!this.getEntity().getComponent(DestroyComponent.class).get().isDestroyed()) {
