@@ -11,7 +11,7 @@ import java.util.Map;
 import java.awt.image.BufferedImage;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.ecs.api.Component;
+import it.unibo.unibomber.game.controller.api.SystemManager;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -31,6 +31,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private final PlayView view;
     private final PlayImpl model;
     private final WorldImpl world;
+    private final SystemManager systems;
 
     /**
      * This method create the instance of all game parameters.
@@ -45,16 +46,14 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         keyQueue = new LinkedList<>();
         firstFrameKey = new HashMap<>();
         explosion = new Explosion();
-
+        systems = new SystemManagerImpl();
     }
 
     @Override
     public final void update() {
         explosion.resetEntity();
         for (int i = 0; i < this.world.getGame().getEntities().size(); i++) {
-            for (final Component c : this.world.getGame().getEntities().get(i).getComponents()) {
-                c.update();
-            }
+            systems.update(this.world.getGame().getEntities().get(i));
         }
         this.world.getGame().getEntities().stream()
                 .filter(e -> e.getType().equals(Type.BOMB))

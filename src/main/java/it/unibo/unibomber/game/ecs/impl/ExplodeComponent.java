@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
+import it.unibo.unibomber.game.model.impl.EntityImpl;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -36,9 +37,9 @@ public class ExplodeComponent extends AbstractComponent {
     public ExplodeComponent(final Entity placer) {
         this.explonsionsList = new ArrayList<>();
         this.positionsNotToExplode = new HashSet<>();
+        this.placer = new EntityImpl(placer);
         this.expiringFrames = 0;
         this.explodeFrames = 0;
-        this.placer = placer;
         this.isExploding = false;
     }
 
@@ -83,10 +84,10 @@ public class ExplodeComponent extends AbstractComponent {
      * A method that supplies the entity
      * who placed the bomb.
      * 
-     * @return the entity
+     * @return a copy of the entity
      */
     public Entity getPlacer() {
-        return this.placer;
+        return new EntityImpl(this.placer);
     }
 
     /**

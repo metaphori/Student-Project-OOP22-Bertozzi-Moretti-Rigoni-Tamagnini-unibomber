@@ -17,7 +17,7 @@ import it.unibo.unibomber.utilities.Pair;
 public class EntityImpl implements Entity {
 
     private final Type type;
-    private final Set<Component> components = new HashSet<>();
+    private final Set<Component> components;
     private final Game game;
     private Pair<Float, Float> position;
     private float speed;
@@ -25,15 +25,30 @@ public class EntityImpl implements Entity {
     /**
      * This method create a new Entity.
      * 
-     * @param game
-     * @param position
-     * @param type
+     * @param game     the game playing
+     * @param position the position of the entity
+     * @param type     the type of the entity
      */
     protected EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
         this.game = game;
-        this.position = new Pair<>(position.getX(), position.getY());
         this.type = type;
+        this.position = new Pair<>(position.getX(), position.getY());
+        this.components = new HashSet<>();
         speed = Constants.Entity.BASE_SPEED;
+    }
+
+    /**
+     * This constructor is for the extern files.
+     * 
+     * @param entity the entity to create
+     */
+    public EntityImpl(final Entity entity) {
+        this.game = entity.getGame();
+        this.type = entity.getType();
+        this.position = new Pair<>(entity.getPosition().getX(), entity.getPosition().getY());
+        this.components = new HashSet<>(entity.getComponents());
+        speed = Constants.Entity.BASE_SPEED;
+        
     }
 
     @Override
