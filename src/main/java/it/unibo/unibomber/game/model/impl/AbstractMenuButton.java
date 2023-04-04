@@ -20,7 +20,8 @@ public abstract class AbstractMenuButton implements MenuButton {
     /**
      * Position of button in panel and ind vector.
      */
-    private final int x, y, w, h, rowIndex;
+    private final int x, y, w, h;
+    private int rowIndex;
     /**
      * position of left top angle of bounds.
      */
@@ -79,6 +80,13 @@ public abstract class AbstractMenuButton implements MenuButton {
      */
     protected final int getRowIndex() {
         return rowIndex;
+    }
+
+    /**
+     * @param rowIndex index of button
+     */
+    protected final void setRowIndex(final int rowIndex) {
+        this.rowIndex = rowIndex;
     }
 
     /**

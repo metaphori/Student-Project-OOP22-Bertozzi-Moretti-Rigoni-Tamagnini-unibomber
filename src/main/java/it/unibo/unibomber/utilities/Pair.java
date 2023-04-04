@@ -1,11 +1,11 @@
 package it.unibo.unibomber.utilities;
 
 /**
- * A standard generic Pair<X,Y>, with getters, hashCode, equals, and toString
+ * A standard generic Pair, with getters, hashCode, equals, and toString
  * well implemented.
  * 
- * @param <X>
- * @param <Y>
+ * @param <X> x coord
+ * @param <Y> y coord
  */
 public class Pair<X, Y> {
 
@@ -13,8 +13,8 @@ public class Pair<X, Y> {
     private final Y y;
 
     /**
-     * @param x
-     * @param y
+     * @param x coord
+     * @param y coord
      */
     public Pair(final X x, final Y y) {
         super();

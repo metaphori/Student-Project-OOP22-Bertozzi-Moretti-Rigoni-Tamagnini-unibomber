@@ -37,7 +37,7 @@ public final class CollisionComponent extends AbstractComponent {
      /**
       * For debugging the hitbox.
       * 
-      * @param g
+      * @param g graphics.
       */
      public void drawHitbox(final Graphics g) {
           g.setColor(Color.PINK);
@@ -48,11 +48,11 @@ public final class CollisionComponent extends AbstractComponent {
      /**
       * This method manage the collision state of entity.
       * 
-      * @param isSolid
-      * @param isOver
-      * @param x
-      * @param y
-      * @param biConsumer
+      * @param isSolid if is solid.
+      * @param isOver if is over.
+      * @param x x coord.
+      * @param y y coord.
+      * @param biConsumer biConsumer type.
       */
      public CollisionComponent(final boolean isSolid, final boolean isOver, final int x, final int y,
                final BiConsumer<Entity, Entity> biConsumer) {
@@ -86,7 +86,7 @@ public final class CollisionComponent extends AbstractComponent {
      }
 
      /**
-      * @param isOver
+      * @param isOver if is over.
       */
      public void setOver(final boolean isOver) {
           this.isOver = isOver;

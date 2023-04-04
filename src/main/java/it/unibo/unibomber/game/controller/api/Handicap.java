@@ -70,7 +70,11 @@ public enum Handicap {
     /**
      * delete all index.
      */
-    DELETE_ALL(22, "deleteAll");
+    DELETE_ALL(22, "deleteAll"),
+    /**
+     * player hover index.
+     */
+    BOT_HOVER(23, "bot");
 
     private int index;
     private String type;

@@ -570,7 +570,7 @@ public class Constants {
             }
 
             /**
-             * @param tilesHeight
+             * @param tilesHeight set tiles height.
              */
             public static void setTilesHeight(final int tilesHeight) {
                 Screen.tilesHeight = tilesHeight;
@@ -584,7 +584,7 @@ public class Constants {
             }
 
             /**
-             * @param tilesWidth
+             * @param tilesWidth set tiles width.
              */
             public static void setTilesWidth(final int tilesWidth) {
                 Screen.tilesWidth = tilesWidth;
@@ -617,7 +617,7 @@ public class Constants {
             /**
              * Second for start times up.
              */
-            public static final int TIMES_UP_TIMER = 120;
+            public static final int TIMES_UP_TIMER = 80;
             /**
              * Game level.
              */
@@ -631,7 +631,7 @@ public class Constants {
             }
 
             /**
-             * @param lEVEL
+             * @param lEVEL set level.
              */
             public static void setLEVEL(final int lEVEL) {
                 level = lEVEL;
@@ -762,8 +762,8 @@ public class Constants {
             }
 
             /**
-             * @param t
-             * @param bImage
+             * @param t type of sprites.
+             * @param bImage image of sprites.
              */
             public static void addSprites(final Type t, final BufferedImage bImage) {
                 SPRITESPATH.put(t, bImage);
@@ -983,7 +983,7 @@ public class Constants {
         public static final int PLAYER_COUNTER = 4;
 
         /**
-         * @param playerAction
+         * @param playerAction player action.
          * @return the number of animation of that action
          */
         public static Integer getSpriteAmount(final int playerAction) {

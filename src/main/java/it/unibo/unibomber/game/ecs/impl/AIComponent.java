@@ -28,7 +28,7 @@ public final class AIComponent extends AbstractComponent {
       * isGettingCloser is used to get the bot to more closely get to the next
       * cell.
       * 
-      * @param position
+      * @param position position of entity.
       */
      public AIComponent(final Pair<Float, Float> position) {
           oldPosition = position;

@@ -152,27 +152,28 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     public final void mousePressed(final MouseEvent e) {
         for (final OptionButtonImpl mb : optionButtons.values()) {
             if (isMouseIn(e, mb)) {
+                final Handicap hH = Handicap.PLAYER.getType().equals(mb.getType()) ? Handicap.PLAYER_HOVER
+                        : Handicap.BOT_HOVER;
                 mb.setMousePressed(true);
-                if ("player".equals(mb.getType())) {
-                    optionButtons.put(Handicap.PLAYER.getIndex(), new OptionButtonImpl(this,
-                            OptionButton.getPlyerSelectioBorderDistance(),
-                            optionButtons.get(Handicap.BOTNUMBER.getIndex()).getY()
-                                    + optionButtons.get(Handicap.BOTNUMBER.getIndex()).getH()
-                                    + OptionButton.PLAYER_WIDTH_INCREMENT,
-                            Handicap.PLAYER_HOVER.getIndex(), OptionButton.getPlyerSelectionWidth(),
-                            OptionButton.getPlyerSelectionHeight(), Handicap.PLAYER_HOVER.getType(),
-                            0));
-                    optionButtons.get(Handicap.PLAYER.getIndex()).setMousePressed(true);
-                } else {
-                    optionButtons.put(Handicap.PLAYER.getIndex(), new OptionButtonImpl(this,
-                            OptionButton.getPlyerSelectioBorderDistance(),
-                            optionButtons.get(Handicap.BOTNUMBER.getIndex()).getY()
-                                    + optionButtons.get(Handicap.BOTNUMBER.getIndex()).getH()
-                                    + OptionButton.PLAYER_WIDTH_INCREMENT,
-                            Handicap.PLAYER.getIndex(), OptionButton.getPlyerSelectionWidth(),
-                            OptionButton.getPlyerSelectionHeight(), Handicap.PLAYER.getType(),
-                            0));
+                if (Handicap.PLAYER.getType().equals(mb.getType()) || Handicap.BOT.getType().equals(mb.getType())) {
+                    resetHover();
+                    for (final Integer i : optionButtons.keySet()) {
+                        if (optionButtons.get(i).equals(mb)) {
+                            optionButtons.get(i).changeRowIndex(hH.getIndex());
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    private void resetHover() {
+        Handicap h;
+        for (final Integer i : optionButtons.keySet()) {
+            h = Handicap.PLAYER.getType().equals(optionButtons.get(i).getType()) ? Handicap.PLAYER : Handicap.BOT;
+            if (Handicap.PLAYER.getType().equals(optionButtons.get(i).getType())
+                    || Handicap.BOT.getType().equals(optionButtons.get(i).getType())) {
+                optionButtons.get(i).changeRowIndex(h.getIndex());
             }
         }
     }

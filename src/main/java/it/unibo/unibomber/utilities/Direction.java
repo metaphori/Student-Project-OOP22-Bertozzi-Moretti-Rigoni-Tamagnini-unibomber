@@ -55,7 +55,7 @@ public enum Direction {
     }
 
     /**
-     * @param movement
+     * @param movement movement of entity.
      * @return direction based on movement.
      */
     public static Optional<Direction> extractDirecion(final Pair<Float, Float> movement) {
@@ -77,8 +77,8 @@ public enum Direction {
     }
 
     /**
-     * @param dir1
-     * @param dir2
+     * @param dir1 first direction.
+     * @param dir2 second direction.
      * @return direction based on two direction.
      */
     public static Optional<Direction> extractDirecionBetweenTwo(final Pair<Integer, Integer> dir1,
@@ -108,8 +108,8 @@ public enum Direction {
     }
 
     /**
-     * @param x1
-     * @param x2
+     * @param x1 first coord.
+     * @param x2 second coord.
      * @return distance from two points.
      */
     public static int getDistance(final Pair<Integer, Integer> x1,
