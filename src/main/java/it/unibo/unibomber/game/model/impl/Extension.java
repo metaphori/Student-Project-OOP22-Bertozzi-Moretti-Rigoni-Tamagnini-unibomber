@@ -31,7 +31,7 @@ public final class Extension {
              * Collide BiConsumer for Bomber.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP) {
+                if (e.getType().equals(Type.POWERUP)) {
                     final PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
                             .getPowerUpType();
                     final PowerUpHandlerComponent powerUpHandlerComponent = entity
@@ -39,7 +39,7 @@ public final class Extension {
                     powerUpHandlerComponent.addPowerUp(powerUpType);
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
-                if (e.getType() == Type.RISING_WALL) {
+                if (e.getType().equals(Type.RISING_WALL)) {
                     entity.getComponent(DestroyComponent.class).get().destroy();
                 }
                 final CollisionComponent collision = e.getComponent(CollisionComponent.class).get();

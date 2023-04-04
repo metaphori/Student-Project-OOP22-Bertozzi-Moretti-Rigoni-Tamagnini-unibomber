@@ -57,9 +57,9 @@ public enum Gamestate {
      * @return pair of button gamestate if game is in pause or terminated.
      */
     public static Pair<Gamestate, Gamestate> getButtonStateGame() {
-        if (state == PAUSE) {
+        if (state.equals(PAUSE)) {
             return new Pair<>(PLAY, MENU);
-        } else if (state == WIN || state == LOSE) {
+        } else if (state.equals(WIN) || state.equals(LOSE)) {
             return new Pair<>(MENU, QUIT);
         }
         return new Pair<>(PLAY, PLAY);

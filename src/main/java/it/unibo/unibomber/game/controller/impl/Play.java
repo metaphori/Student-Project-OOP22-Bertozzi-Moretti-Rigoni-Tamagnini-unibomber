@@ -57,7 +57,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
             }
         }
         this.world.getGame().getEntities().stream()
-                .filter(e -> e.getType() == Type.BOMB)
+                .filter(e -> e.getType().equals(Type.BOMB))
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                 .filter(e -> !e.getComponent(DestroyComponent.class).get().isDestroyed())
                 .forEach((e) -> {
