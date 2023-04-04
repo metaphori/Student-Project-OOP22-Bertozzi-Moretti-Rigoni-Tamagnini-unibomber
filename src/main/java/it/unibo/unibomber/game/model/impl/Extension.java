@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -82,7 +83,8 @@ public final class Extension {
                 if (e.getType() == Type.BOMBER
                         && !entity.getComponent(CollisionComponent.class).get().isOver()
                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
-                                .contains(PowerUpType.KICKBOMB)) {
+                                .contains(PowerUpType.KICKBOMB)
+                        && checkNextPosition(entity, e)) {
                     entity.getComponent(SlidingComponent.class).get().setSliding(true,
                             e.getComponent(MovementComponent.class).get().getDirection());
                 }
@@ -142,6 +144,22 @@ public final class Extension {
                         new Pair<Float, Float>(thisX, entity.getPosition().getY()));
             }
         }
+    }
+
+    /**
+     * This method check if bomb can be kicked.
+     * 
+     * @param bomb
+     * @param player
+     * @return whether the bomb che be kicked or not
+     */
+    private static boolean checkNextPosition(final Entity bomb, final Entity player) {
+        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = bomb.getGame().getGameField().getField();
+        final Direction playerDirection = player.getComponent(MovementComponent.class).get().getDirection();
+        final Pair<Integer, Integer> nextBombPosition = new Pair<>(
+                Math.round(bomb.getPosition().getX()) + playerDirection.getX(),
+                Math.round(bomb.getPosition().getY()) + playerDirection.getY());
+        return !fieldMap.containsKey(nextBombPosition);
     }
 
     /**
