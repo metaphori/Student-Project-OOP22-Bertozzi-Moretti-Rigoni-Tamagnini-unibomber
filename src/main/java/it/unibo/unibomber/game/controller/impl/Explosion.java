@@ -30,10 +30,11 @@ public final class Explosion implements GameLoop {
      * Constructor.
      */
     public Explosion() {
-        view = new ExplosionView();
+        view = new ExplosionView(this);
         model = new ExplosionImpl();
         explode = new ArrayList<>();
     }
+
     /**
      * Set entity that is exploding.
      * 
@@ -45,7 +46,6 @@ public final class Explosion implements GameLoop {
 
     @Override
     public void update() {
-        this.view.setController(this);
     }
 
     @Override

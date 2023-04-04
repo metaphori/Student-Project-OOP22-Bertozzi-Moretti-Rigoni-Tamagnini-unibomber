@@ -32,7 +32,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private final WorldImpl world;
     private int focusIndex;
     private final Map<Integer, List<PowerUpType>> powerUpListOfEntity;
-    private int basedWidth;
+    private int basedWidth; 
 
     /**
      * This method manage the view of game option.
@@ -184,6 +184,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
                     if ("+".equals(mb.getType()) || "-".equals(mb.getType())) {
+                        focusIndex = -1;
                         resetBot();
                     }
                     mb.setupGame();
