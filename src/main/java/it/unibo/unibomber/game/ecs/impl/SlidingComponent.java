@@ -1,9 +1,11 @@
 package it.unibo.unibomber.game.ecs.impl;
 
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
+import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * This component slides entities.
@@ -14,7 +16,8 @@ public class SlidingComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        if (isSliding) {
+        final Entity placerEntity = this.getEntity().getComponent(ExplodeComponent.class).get().getPlacer();
+        if (this.isSliding && Utilities.isAlive(placerEntity)) {
             final MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
             bombMove.moveBy(new Pair<Float, Float>(direction.getX() * Constants.Input.POSITIVE_MOVE,
                     direction.getY() * Constants.Input.POSITIVE_MOVE));
