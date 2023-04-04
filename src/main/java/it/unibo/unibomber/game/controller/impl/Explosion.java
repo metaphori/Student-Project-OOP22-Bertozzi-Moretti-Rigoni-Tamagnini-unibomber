@@ -38,7 +38,7 @@ public final class Explosion implements GameLoop {
     /**
      * Set entity that is exploding.
      * 
-     * @param entity
+     * @param entity bomb exploding.
      */
     public void setEntityExploding(final Entity entity) {
         this.explode.add(entity);
@@ -54,7 +54,7 @@ public final class Explosion implements GameLoop {
     }
 
     /**
-     * @param id
+     * @param id id of bomb.
      * @return entity of that id.
      */
     public Entity gEntity(final int id) {
@@ -69,8 +69,8 @@ public final class Explosion implements GameLoop {
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i row.
+     * @param j col.
      * @return animation of that position.
      */
     public BufferedImage getAnimations(final int i, final int j) {
@@ -87,7 +87,7 @@ public final class Explosion implements GameLoop {
     /**
      * change direction explosion.
      * 
-     * @param dir
+     * @param dir direction of explosion.
      */
     public void setDirectionIndex(final Direction dir) {
         model.setDirectionIndex(dir);

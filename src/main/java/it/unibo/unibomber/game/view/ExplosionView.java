@@ -25,7 +25,7 @@ public final class ExplosionView implements GameLoop {
     /**
      * Explosion view constructor.
      * 
-     * @param controller
+     * @param controller Explosion controller.
      */
     public ExplosionView(final Explosion controller) {
         this.controller = controller;

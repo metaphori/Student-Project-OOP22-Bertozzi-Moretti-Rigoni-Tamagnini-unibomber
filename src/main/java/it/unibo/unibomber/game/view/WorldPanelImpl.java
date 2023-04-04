@@ -22,7 +22,7 @@ public final class WorldPanelImpl extends JPanel {
   /**
    * WordPanelImpl constructor.
    * 
-   * @param world
+   * @param world world
    */
   public WorldPanelImpl(final WorldImpl world) {
     this.world = world;

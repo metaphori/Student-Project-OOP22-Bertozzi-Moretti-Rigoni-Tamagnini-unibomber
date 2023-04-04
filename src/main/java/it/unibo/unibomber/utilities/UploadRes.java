@@ -20,7 +20,7 @@ public final class UploadRes {
     }
 
     /**
-     * @param fileName
+     * @param fileName name of file to load.
      * @return Bufferd image from name of sprite.
      */
     public static BufferedImage getSpriteAtlas(final String fileName) {

@@ -16,7 +16,7 @@ public final class StateGameView implements GameLoop {
     private final StateGame controller;
 
     /**
-     * @param controller
+     * @param controller State Game controller.
      */
     public StateGameView(final StateGame controller) {
         this.controller = controller;

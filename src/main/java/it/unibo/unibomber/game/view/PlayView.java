@@ -33,7 +33,7 @@ public final class PlayView implements GameLoop {
 
     /**
      * 
-     * @param controller
+     * @param controller Play controller.
      */
     public PlayView(final Play controller) {
         this.scale = Constants.UI.Scale.getEntityScale();
@@ -54,8 +54,8 @@ public final class PlayView implements GameLoop {
     /**
      * change the player action for sprites.
      * 
-     * @param action
-     * @param e
+     * @param action action of player.
+     * @param e entity.
      */
     public void changePlayerAction(final Integer action, final Entity e) {
         if (action == Player.STANDING && playerAction != Player.STANDING) {

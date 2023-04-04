@@ -27,7 +27,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
     /**
      * This method manage the view of game menu.
      * 
-     * @param world
+     * @param world world.
      */
     protected StateGame(final WorldImpl world) {
         super();

@@ -60,8 +60,8 @@ public class PlayImpl {
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i row.
+     * @param j col.
      * @return animation of that position.
      */
     public BufferedImage getAnimation(final int i, final int j) {
@@ -69,7 +69,7 @@ public class PlayImpl {
     }
 
     /**
-     * @param type
+     * @param type type of sprite.
      * @return sprites of that type.
      */
     public BufferedImage getSprites(final Type type) {
@@ -77,7 +77,7 @@ public class PlayImpl {
     }
 
     /**
-     * @param type
+     * @param type type of powerup.
      * @return sprites of that power up type.
      */
     public BufferedImage getPowerUpSprites(final PowerUpType type) {
@@ -85,7 +85,7 @@ public class PlayImpl {
     }
 
     /**
-     * @param type
+     * @param type type of grass to print.
      * @return get ties sprites.
      */
     public BufferedImage getTileSpritesType(final int type) {

@@ -36,7 +36,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     /**
      * This method create the instance of all game parameters.
      * 
-     * @param world
+     * @param world world.
      */
     public Play(final WorldImpl world) {
         super();
@@ -144,8 +144,8 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i row index.
+     * @param j col index.
      * @return animation of that position.
      */
     public BufferedImage getAnimation(final int i, final int j) {
@@ -153,7 +153,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
-     * @param type
+     * @param type type of sprite to get.
      * @return sprites of that type.
      */
     public BufferedImage getSprites(final Type type) {
@@ -161,7 +161,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
-     * @param type
+     * @param type type of powerup to get.
      * @return sprites of that power up type.
      */
     public BufferedImage getPowerUpSprites(final PowerUpType type) {
@@ -169,7 +169,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     }
 
     /**
-     * @param type
+     * @param type type of grass to print.
      * @return get ties sprites.
      */
     public BufferedImage getTileSpritesType(final int type) {

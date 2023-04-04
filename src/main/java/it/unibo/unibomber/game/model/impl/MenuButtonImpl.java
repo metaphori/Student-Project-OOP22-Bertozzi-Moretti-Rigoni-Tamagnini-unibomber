@@ -16,12 +16,12 @@ public class MenuButtonImpl extends AbstractMenuButton implements GameLoop {
   private BufferedImage[] bufferImages;
 
   /**
-   * @param x
-   * @param y
-   * @param w
-   * @param h
-   * @param rowIndex
-   * @param gameState
+   * @param x x.
+   * @param y y.
+   * @param w width.
+   * @param h height.
+   * @param rowIndex button index.
+   * @param gameState state game of button.
    */
   public MenuButtonImpl(final int x, final int y, final int w, final int h, final int rowIndex, final Gamestate gameState) {
     super(x, y, w, h, Constants.UI.Buttons.getBWidht() / 2, rowIndex);

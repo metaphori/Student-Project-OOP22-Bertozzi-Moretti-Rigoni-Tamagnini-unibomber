@@ -12,7 +12,7 @@ public class WorldWindow {
   /**
    * Set default window settings.
    * 
-   * @param unibomberPanel
+   * @param unibomberPanel Panel of world
    */
   public WorldWindow(final WorldPanelImpl unibomberPanel) {
     final JFrame jframe = new JFrame();

@@ -37,7 +37,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     /**
      * This method manage the view of game option.
      * 
-     * @param world
+     * @param world world.
      */
     public Option(final WorldImpl world) {
         super();
@@ -274,7 +274,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     /**
-     * @param index
+     * @param index index of powerup to get.
      * @return list of power up of that index.
      */
     public List<PowerUpType> getIndexListPowerUp(final int index) {
@@ -289,7 +289,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     /**
-     * @param index
+     * @param index index of button to get.
      * @return cordiante of index button.
      */
     public Pair<Integer, Integer> getButtonPosition(final int index) {
@@ -302,7 +302,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     /**
-     * @param index
+     * @param index index of button to get.
      * @return height of index button.
      */
     public Integer getHeightIndexButton(final int index) {

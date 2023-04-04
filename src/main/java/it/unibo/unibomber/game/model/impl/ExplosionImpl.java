@@ -36,8 +36,8 @@ public class ExplosionImpl {
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i row.
+     * @param j col.
      * @return animation of that position.
      */
     public BufferedImage getAnimations(final int i, final int j) {
@@ -54,7 +54,7 @@ public class ExplosionImpl {
     /**
      * set direciont of explosion.
      * 
-     * @param dir
+     * @param dir direction explosion.
      */
     public void setDirectionIndex(final Direction dir) {
         switch (dir) {

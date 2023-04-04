@@ -46,13 +46,13 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final int index;
 
   /**
-   * @param option
-   * @param x
-   * @param y
-   * @param rowIndex
-   * @param w
-   * @param h
-   * @param type
+   * @param option option Controller.
+   * @param x x.
+   * @param y y.
+   * @param rowIndex indx of button.
+   * @param w width.
+   * @param h height.
+   * @param type type of button.
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {
@@ -64,14 +64,14 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   /**
-   * @param option
-   * @param x
-   * @param y
-   * @param rowIndex
-   * @param w
-   * @param h
-   * @param type
-   * @param pType
+   * @param option option Controller.
+   * @param x x.
+   * @param y y.
+   * @param rowIndex indx of button.
+   * @param w width.
+   * @param h height.
+   * @param type type of button.
+   * @param pType power up type.
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final PowerUpType pType) {
@@ -84,14 +84,14 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   /**
-   * @param option
-   * @param x
-   * @param y
-   * @param rowIndex
-   * @param w
-   * @param h
-   * @param type
-   * @param index
+   * @param option option Controller.
+   * @param x x.
+   * @param y y.
+   * @param rowIndex indx of button.
+   * @param w width.
+   * @param h height.
+   * @param type type of button.
+   * @param index index for determinate witch player/bot are
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final int index) {
@@ -260,7 +260,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
   /**
    * Change row index.
-   * @param index
+   * @param index index to set.
    */
   public void changeRowIndex(final int index) {
     this.setRowIndex(index);

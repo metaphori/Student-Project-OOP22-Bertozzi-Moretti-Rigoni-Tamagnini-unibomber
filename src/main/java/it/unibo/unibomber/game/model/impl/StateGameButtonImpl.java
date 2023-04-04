@@ -29,12 +29,12 @@ public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop 
   }
 
   /**
-   * @param gameState
-   * @param x
-   * @param y
-   * @param w
-   * @param h
-   * @param rowIndex
+   * @param gameState state of game to set.
+   * @param x x.
+   * @param y y.
+   * @param w width.
+   * @param h height.
+   * @param rowIndex index of button.
    */
   public StateGameButtonImpl(final Optional<Gamestate> gameState, final int x, final int y, final int w, final int h,
       final int rowIndex) {

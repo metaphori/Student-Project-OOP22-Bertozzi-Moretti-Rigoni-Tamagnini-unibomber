@@ -16,7 +16,7 @@ public final class HandicapView implements GameLoop {
     private final Option controller;
 
     /**
-     * @param controller
+     * @param controller Handicap controller.
      */
     public HandicapView(final Option controller) {
         this.controller = controller;
