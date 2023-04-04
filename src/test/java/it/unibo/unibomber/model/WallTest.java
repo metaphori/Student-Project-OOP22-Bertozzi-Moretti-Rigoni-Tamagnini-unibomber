@@ -82,7 +82,7 @@ class WallTest {
 
     @Test
     void testRisingWall() {
-        TimesUpImpl timesUp = new TimesUpImpl(this.game);
+        final TimesUpImpl timesUp = new TimesUpImpl(this.game);
         timesUp.update();
         assertTrue(this.game.getEntities().stream().anyMatch(e -> e.getType().equals(Type.RISING_WALL)
                 && e.getPosition().getX() == 0 && e.getPosition().getY() == 0));
