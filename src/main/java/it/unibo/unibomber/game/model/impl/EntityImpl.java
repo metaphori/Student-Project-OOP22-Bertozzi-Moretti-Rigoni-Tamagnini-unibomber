@@ -37,6 +37,8 @@ public class EntityImpl implements Entity {
         speed = Constants.Entity.BASE_SPEED;
     }
 
+<<<<<<< HEAD
+=======
     /**
      * This constructor is for the extern files.
      * 
@@ -50,6 +52,7 @@ public class EntityImpl implements Entity {
         speed = Constants.Entity.BASE_SPEED;
     }
 
+>>>>>>> 04325a828de14dd335449616da9deaf508752ce4
     @Override
     public final Set<Component> getComponents() {
         return new HashSet<>(this.components);
