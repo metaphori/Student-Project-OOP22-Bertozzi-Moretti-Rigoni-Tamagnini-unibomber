@@ -91,7 +91,7 @@ public final class PlayView implements GameLoop {
     private void drawImage(final Graphics g, final Entity entity) {
         final BufferedImage image = getCorrectImage(entity);
         final Type type;
-        if (entity.getType() == Type.BOMBER) {
+        if (entity.getType().equals(Type.BOMBER)) {
             type = entity.getComponent(AIComponent.class).isPresent() ? Type.BOT : Type.PLAYABLE;
         } else {
             type = entity.getType();
@@ -141,12 +141,12 @@ public final class PlayView implements GameLoop {
             }
             return controller.getAnimation(playerAction + SpritesMap.getAnimationRow().get(type),
                     getAnimationIndex(entity) % Constants.Player.getSpriteAmount(playerAction) + indexDir);
-        } else if (entity.getType() == Type.POWERUP) {
+        } else if (entity.getType().equals(Type.POWERUP)) {
             return controller.getPowerUpSprites(entity.getComponent(PowerUpComponent.class).get().getPowerUpType());
-        } else if (entity.getType() == Type.BOMB) {
+        } else if (entity.getType().equals(Type.BOMB)) {
             return controller.getAnimation(Player.PLAYER_COUNTER * 2, getAnimationIndex(entity)
                     % Constants.Player.getSpriteAmount(Player.EXPLOSION));
-        } else if (entity.getType() == Type.DESTRUCTIBLE_WALL) {
+        } else if (entity.getType().equals(Type.DESTRUCTIBLE_WALL)) {
             if (entity.getComponent(DestroyComponent.class).get().isDestroyed()) {
                 return controller.getAnimation(SpritesMap.getAnimationRow().get(Type.DESTRUCTIBLE_WALL),
                         (entity.getComponent(DestroyComponent.class).get().getDestroyFrames()

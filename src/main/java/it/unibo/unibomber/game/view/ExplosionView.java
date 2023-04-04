@@ -37,7 +37,7 @@ public final class ExplosionView implements GameLoop {
 
     @Override
     public void draw(final Graphics g) {
-        if (Gamestate.getGamestate() == Gamestate.PLAY) {
+        if (Gamestate.getGamestate().equals(Gamestate.PLAY)) {
             if (!controller.getExplode().isEmpty()) {
                 for (final Entity entity : controller.getExplode()) {
                     final List<Pair<Integer, Integer>> explosions = entity.getComponent(ExplodeComponent.class).get()
