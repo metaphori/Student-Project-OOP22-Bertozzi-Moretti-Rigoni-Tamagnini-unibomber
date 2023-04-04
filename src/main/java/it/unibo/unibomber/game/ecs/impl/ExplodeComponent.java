@@ -131,7 +131,7 @@ public class ExplodeComponent extends AbstractComponent {
                             && !this.positionsNotToExplode.contains(new Pair<>(Math.round(checkPos.getX()),
                                     Math.round(checkPos.getY())))) {
                         if (checkEntity(entity.getPosition(), checkPos, entitySearched.get())) {
-                            if (entitySearched.get().getType() == Type.BOMB
+                            if (entitySearched.get().getType().equals(Type.BOMB)
                                     && !entitySearched.get().getComponent(ExplodeComponent.class).get()
                                             .isExploding()
                                     && !entitySearched.get().getComponent(ThrowComponent.class).get()
@@ -140,34 +140,34 @@ public class ExplodeComponent extends AbstractComponent {
                                         .explodeBomb();
                                 explodeEntities(List.of(entitySearched.get()));
                                 countPositions += bombRange;
-                            } else if (entitySearched.get().getType() != Type.BOMB
-                                    && entitySearched.get().getType() != Type.RISING_WALL) {
+                            } else if (!entitySearched.get().getType().equals(Type.BOMB)
+                                    && !entitySearched.get().getType().equals(Type.RISING_WALL)) {
                                 entitySearched.get().getComponent(DestroyComponent.class).get()
                                         .destroy();
-                                if (entitySearched.get().getType() != Type.BOMBER
-                                        && entitySearched.get().getType() != Type.BOMB) {
+                                if (!entitySearched.get().getType().equals(Type.BOMBER)
+                                        && !entitySearched.get().getType().equals(Type.BOMB)) {
                                     this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()),
                                             Math.round(checkPos.getY())));
                                     countPositions += bombRange;
                                 }
-                                if (entitySearched.get().getType() != Type.DESTRUCTIBLE_WALL) {
+                                if (!entitySearched.get().getType().equals(Type.DESTRUCTIBLE_WALL)) {
                                     this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()),
                                             Math.round(checkPos.getX())));
-                                    if (entitySearched.get().getType() != Type.BOMBER
-                                            && entitySearched.get().getType() != Type.BOMB) {
+                                    if (!entitySearched.get().getType().equals(Type.BOMBER)
+                                            && !entitySearched.get().getType().equals(Type.BOMB)) {
                                         countPositions += bombRange;
                                     }
                                 }
                             }
-                        } else if (entitySearched.get().getType() == Type.INDESTRUCTIBLE_WALL) {
+                        } else if (entitySearched.get().getType().equals(Type.INDESTRUCTIBLE_WALL)) {
                             this.positionsNotToExplode.add(new Pair<>(Math.round(checkPos.getX()),
                                     Math.round(checkPos.getY())));
                             countPositions += bombRange;
-                        } else if (entitySearched.get().getType() == Type.BOMBER
+                        } else if (entitySearched.get().getType().equals(Type.BOMBER)
                                 && this.checkRound(entitySearched.get().getPosition(), entity.getPosition())) {
                             final var checkPosCopy = checkPos;
                             totalEntities.stream()
-                                    .filter(e -> e.getType() == Type.BOMBER)
+                                    .filter(e -> e.getType().equals(Type.BOMBER))
                                     .filter(p -> this.checkRound(p.getPosition(), checkPosCopy))
                                     .forEach(p -> p.getComponent(DestroyComponent.class).get().destroy());
                             this.explonsionsList.add(new Pair<>(Math.round(checkPos.getY()),
@@ -196,7 +196,7 @@ public class ExplodeComponent extends AbstractComponent {
      */
     private boolean checkEntity(final Pair<Float, Float> pos, final Pair<Float, Float> checkPos, final Entity entity) {
         return !this.checkRound(pos, checkPos)
-                && entity.getType() != Type.INDESTRUCTIBLE_WALL;
+                && !entity.getType().equals(Type.INDESTRUCTIBLE_WALL);
     }
 
     /**

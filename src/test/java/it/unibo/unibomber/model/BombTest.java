@@ -85,7 +85,7 @@ class BombTest {
         player.getComponent(BombPlaceComponent.class).get().placeBomb();
         player.getComponent(BombPlaceComponent.class).get().update();
         final Optional<Entity> bombEntity = game.getEntities().stream()
-                .filter(entity -> entity.getType() == Type.BOMB)
+                .filter(entity -> entity.getType().equals(Type.BOMB))
                 .findFirst();
         assertTrue(bombEntity.isPresent());
         assertEquals(new Pair<>(BOMB_EXCEPTED_X, BOMB_EXCEPTED_Y), bombEntity.get().getPosition());

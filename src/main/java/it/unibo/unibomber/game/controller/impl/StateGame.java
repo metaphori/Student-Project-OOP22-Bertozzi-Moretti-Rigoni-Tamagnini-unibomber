@@ -43,7 +43,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
         if (Gamestate.getGamestate() == Gamestate.PAUSE) {
             index = 0;
         } else {
-            index = Gamestate.getGamestate() == Gamestate.WIN ? 3 : 4;
+            index = Gamestate.getGamestate().equals(Gamestate.WIN) ? 3 : 4;
         }
         buttons[0] = new StateGameButtonImpl(null,
                 (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
@@ -123,7 +123,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
 
     @Override
     public void keyReleased(final KeyEvent e) {
-        if (Gamestate.getGamestate() == Gamestate.PAUSE && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (Gamestate.getGamestate().equals(Gamestate.PAUSE) && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             this.world.startTimer();
             Gamestate.setGameState(Gamestate.PLAY);
         }

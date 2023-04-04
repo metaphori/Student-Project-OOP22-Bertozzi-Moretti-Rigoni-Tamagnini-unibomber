@@ -1,5 +1,6 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
@@ -31,7 +32,7 @@ public final class Extension {
              * Collide BiConsumer for Bomber.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP) {
+                if (e.getType().equals(Type.POWERUP)) {
                     final PowerUpType powerUpType = e.getComponent(PowerUpComponent.class).get()
                             .getPowerUpType();
                     final PowerUpHandlerComponent powerUpHandlerComponent = entity
@@ -39,7 +40,7 @@ public final class Extension {
                     powerUpHandlerComponent.addPowerUp(powerUpType);
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
-                if (e.getType() == Type.RISING_WALL) {
+                if (e.getType().equals(Type.RISING_WALL)) {
                     entity.getComponent(DestroyComponent.class).get().destroy();
                 }
                 final CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
@@ -76,20 +77,22 @@ public final class Extension {
              * Collide BiConsumer for Bomb.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
+                final boolean throwingStatus = entity.getComponent(ThrowComponent.class).get().isThrowing();
+                final SlidingComponent slidingComponent = entity.getComponent(SlidingComponent.class).get();
+                if (e.getType() == Type.POWERUP && !throwingStatus) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
                 if (e.getType() == Type.BOMBER
                         && !entity.getComponent(CollisionComponent.class).get().isOver()
                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
-                                .contains(PowerUpType.KICKBOMB)) {
-                    entity.getComponent(SlidingComponent.class).get().setSliding(true,
+                                .contains(PowerUpType.KICKBOMB)
+                        && checkNextPosition(entity, e)) {
+                    slidingComponent.setSliding(true,
                             e.getComponent(MovementComponent.class).get().getDirection());
                 }
                 final CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
-                if (collision.isSolid() && !collision.isOver()
-                        && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
-                    entity.getComponent(SlidingComponent.class).get().setSliding(false, Direction.CENTER);
+                if (collision.isSolid() && !collision.isOver() && !throwingStatus) {
+                    slidingComponent.setSliding(false, Direction.CENTER);
                     Extension.collisonWall(entity, e);
                 }
             };
@@ -142,6 +145,22 @@ public final class Extension {
                         new Pair<Float, Float>(thisX, entity.getPosition().getY()));
             }
         }
+    }
+
+    /**
+     * This method check if bomb can be kicked.
+     * 
+     * @param bomb
+     * @param player
+     * @return whether the bomb che be kicked or not
+     */
+    private static boolean checkNextPosition(final Entity bomb, final Entity player) {
+        final Map<Pair<Integer, Integer>, Pair<Type, Entity>> fieldMap = bomb.getGame().getGameField().getField();
+        final Direction playerDirection = player.getComponent(MovementComponent.class).get().getDirection();
+        final Pair<Integer, Integer> nextBombPosition = new Pair<>(
+                Math.round(bomb.getPosition().getX()) + playerDirection.getX(),
+                Math.round(bomb.getPosition().getY()) + playerDirection.getY());
+        return !fieldMap.containsKey(nextBombPosition);
     }
 
     /**

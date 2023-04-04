@@ -45,8 +45,8 @@ public final class DestroyComponent extends AbstractComponent {
         if (this.isDestroyed) {
             this.destroyFrames++;
             if (this.destroyFrames >= this.destroyFramesPerType) {
-                if (this.getEntity().getType() != Type.BOMB
-                        && this.getEntity().getType() != Type.POWERUP) {
+                if (!this.getEntity().getType().equals(Type.BOMB)
+                        && !this.getEntity().getType().equals(Type.POWERUP)) {
                     dropPowerUps();
                 } else {
                     this.getEntity().getGame().updateGameState();
@@ -97,7 +97,7 @@ public final class DestroyComponent extends AbstractComponent {
             powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
             if (!powerUps.isEmpty()) {
-                if (entity.getType() != Type.BOMBER) {
+                if (!entity.getType().equals(Type.BOMBER)) {
                     entity.getGame()
                             .addEntity(
                                     entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
@@ -139,23 +139,24 @@ public final class DestroyComponent extends AbstractComponent {
         do {
             coord = new Pair<>(this.rnd.nextInt(gameDimensions.getX()),
                     this.rnd.nextInt(gameDimensions.getY()));
-        } while (this.isInList(coord, game));
+        } while (this.checkPosition(coord, game));
         return new Pair<>((float) coord.getX(),
                 (float) coord.getY());
     }
 
     /**
-     * A method who checks if the position is contained in the entities list.
+     * A method to check if the random position is already used.
      * 
      * @param pos  the position to check
      * @param game the game playing
-     * @return true if is in list, false otherwise
+     * @return true if the position is already used, false otherwise
      */
-    private boolean isInList(final Pair<Integer, Integer> pos, final Game game) {
-        final var positions = new ArrayList<>();
+    private boolean checkPosition(final Pair<Integer, Integer> pos, final Game game) {
+        final var bombersPos = new ArrayList<>();
         game.getEntities().stream()
-                .map(e -> e.getPosition())
-                .forEach(p -> positions.add(new Pair<>(Math.round(p.getX()), Math.round(p.getX()))));
-        return positions.contains(pos);
+                .filter(e -> e.getType().equals(Type.BOMBER))
+                .forEach(p -> bombersPos
+                        .add(new Pair<>(Math.round(p.getPosition().getX()), Math.round(p.getPosition().getY()))));
+        return game.getGameField().getField().containsKey(pos) || bombersPos.contains(pos);
     }
 }
