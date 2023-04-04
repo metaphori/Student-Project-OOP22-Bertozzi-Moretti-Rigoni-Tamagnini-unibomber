@@ -41,11 +41,11 @@ public class FieldImpl implements Field {
         int row;
         int col;
         final var fieldentities = this.game.getEntities().stream()
-                .filter(e -> e.getType() != Type.BOMBER)
+                .filter(e -> !e.getType().equals(Type.BOMBER))
                 .collect(Collectors.toList());
         this.field.clear();
         for (final var entity : fieldentities) {
-            if (entity.getType() != Type.BOMB
+            if (!entity.getType().equals(Type.BOMB)
                     || !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
                 row = Math.round(entity.getPosition().getX());
                 col = Math.round(entity.getPosition().getY());
