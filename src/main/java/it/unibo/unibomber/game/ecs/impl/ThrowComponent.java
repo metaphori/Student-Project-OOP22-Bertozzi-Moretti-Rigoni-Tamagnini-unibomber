@@ -115,9 +115,9 @@ public class ThrowComponent extends AbstractComponent {
         return fieldMap.entrySet().stream()
                 .filter(e -> e.getKey().equals(finalPos))
                 .map(Map.Entry::getValue)
-                .noneMatch(value -> value.getX() == Type.INDESTRUCTIBLE_WALL
-                        || value.getX() == Type.DESTRUCTIBLE_WALL
-                        || value.getX() == Type.BOMB);
+                .noneMatch(value -> value.getX().equals(Type.INDESTRUCTIBLE_WALL)
+                        || value.getX().equals(Type.DESTRUCTIBLE_WALL)
+                        || value.getX().equals(Type.BOMB));
     }
 
 }
