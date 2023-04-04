@@ -19,7 +19,7 @@ public class MovementComponent extends AbstractComponent {
     private static float globalSpeedMultiplier = Constants.Movement.MULTIPLIER_GLOBAL_SPEED;
     private boolean hasMoved;
     private Pair<Float, Float> moveBy = new Pair<>(0f, 0f);
-    private Direction direction = Direction.DOWN;
+    private Direction direction = Direction.CENTER;
     private int framesInDirection;
     private int passedFrame;
 
