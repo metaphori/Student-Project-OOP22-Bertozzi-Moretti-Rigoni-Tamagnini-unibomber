@@ -77,7 +77,9 @@ public final class Extension {
              * Collide BiConsumer for Bomb.
              */
             private static BiConsumer<Entity, Entity> collide = (entity, e) -> {
-                if (e.getType() == Type.POWERUP && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
+                final boolean throwingStatus = entity.getComponent(ThrowComponent.class).get().isThrowing();
+                final SlidingComponent slidingComponent = entity.getComponent(SlidingComponent.class).get();
+                if (e.getType() == Type.POWERUP && !throwingStatus) {
                     e.getComponent(DestroyComponent.class).get().destroy();
                 }
                 if (e.getType() == Type.BOMBER
@@ -85,13 +87,12 @@ public final class Extension {
                         && e.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList()
                                 .contains(PowerUpType.KICKBOMB)
                         && checkNextPosition(entity, e)) {
-                    entity.getComponent(SlidingComponent.class).get().setSliding(true,
+                    slidingComponent.setSliding(true,
                             e.getComponent(MovementComponent.class).get().getDirection());
                 }
                 final CollisionComponent collision = e.getComponent(CollisionComponent.class).get();
-                if (collision.isSolid() && !collision.isOver()
-                        && !entity.getComponent(ThrowComponent.class).get().isThrowing()) {
-                    entity.getComponent(SlidingComponent.class).get().setSliding(false, Direction.CENTER);
+                if (collision.isSolid() && !collision.isOver() && !throwingStatus) {
+                    slidingComponent.setSliding(false, Direction.CENTER);
                     Extension.collisonWall(entity, e);
                 }
             };
