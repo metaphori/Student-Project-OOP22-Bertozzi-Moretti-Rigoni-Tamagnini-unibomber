@@ -75,10 +75,10 @@ public class ThrowComponent extends AbstractComponent {
     }
 
     /**
-     * Set throwing status.
+     * This method set throwing status.
      * 
-     * @param startingPos
-     * @param playerDir
+     * @param startingPos bomb starting position
+     * @param playerDir direction of player
      */
     public final void throwBomb(final Pair<Integer, Integer> startingPos, final Direction playerDir) {
         this.startingPos = startingPos;
@@ -88,6 +88,8 @@ public class ThrowComponent extends AbstractComponent {
     }
 
     /**
+     * This method return throwing status.
+     * 
      * @return bomb throwing status
      */
     public final boolean isThrowing() {

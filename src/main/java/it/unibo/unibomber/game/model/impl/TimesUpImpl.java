@@ -23,7 +23,7 @@ public final class TimesUpImpl implements TimesUp {
      /**
       * Constructor of timesup.
       * 
-      * @param game
+      * @param game actual game
       */
      public TimesUpImpl(final Game game) {
           normalizedFrames = 0;

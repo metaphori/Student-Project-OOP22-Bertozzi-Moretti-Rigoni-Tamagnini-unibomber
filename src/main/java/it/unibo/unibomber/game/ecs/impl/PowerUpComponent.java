@@ -12,7 +12,8 @@ public class PowerUpComponent extends AbstractComponent {
 
     /**
      * This method set the type of powerUp.
-     * @param powerUpType
+     * 
+     * @param powerUpType type of powerUp
      */
     public PowerUpComponent(final PowerUpType powerUpType) {
         this.powerUpType = powerUpType;

@@ -12,9 +12,9 @@ public class PowerUpHandlerComponent extends PowerUpListComponent {
     /**
      * This method inherit powerUp from the superclass.
      * 
-     * @param bombNumber
-     * @param bombFire
-     * @param powerUpList
+     * @param bombNumber bomb number
+     * @param bombFire bomb power fire
+     * @param powerUpList list of all powerUps
      */
     public PowerUpHandlerComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
         super(bombNumber, bombFire, powerUpList);

@@ -24,8 +24,8 @@ public class SlidingComponent extends AbstractComponent {
     /**
      * Set sliding status.
      * 
-     * @param direction
-     * @param isSliding
+     * @param direction player direction
+     * @param isSliding set sliding status
      */
     public void setSliding(final boolean isSliding, final Direction direction) {
         if (!isSliding) {
