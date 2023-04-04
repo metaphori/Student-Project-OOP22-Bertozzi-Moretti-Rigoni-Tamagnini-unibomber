@@ -61,7 +61,7 @@ public interface Entity {
     float getSpeed();
 
     /**
-     * @param speedValue
+     * @param speedValue increment speed of entity.
      */
     void addSpeed(float speedValue);
 }

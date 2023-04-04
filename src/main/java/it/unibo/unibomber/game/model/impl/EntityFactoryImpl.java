@@ -35,7 +35,7 @@ public class EntityFactoryImpl implements EntityFactory {
         /**
          * This method takes the game for create entity.
          * 
-         * @param game
+         * @param game game of entity.
          */
         public EntityFactoryImpl(final Game game) {
                 this.game = game;

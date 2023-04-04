@@ -21,7 +21,7 @@ public abstract class AbstractComponent implements Component {
     }
 
     /**
-     * @param entity
+     * @param entity entity to set.
      */
     protected void setEntity(final Entity entity) {
         this.entity = entity;

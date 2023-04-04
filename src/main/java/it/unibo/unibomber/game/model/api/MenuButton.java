@@ -12,7 +12,7 @@ public interface MenuButton {
     boolean isMouseOver();
 
     /**
-     * @param mouseOver
+     * @param mouseOver set mouse over.
      */
     void setMouseOver(boolean mouseOver);
 
@@ -22,7 +22,7 @@ public interface MenuButton {
     boolean isMousePressed();
 
     /**
-     * @param mousePressed
+     * @param mousePressed set mouse pressed.
      */
     void setMousePressed(boolean mousePressed);
 

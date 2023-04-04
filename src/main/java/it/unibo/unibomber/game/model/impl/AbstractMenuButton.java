@@ -81,8 +81,9 @@ public abstract class AbstractMenuButton implements MenuButton {
     protected final int getRowIndex() {
         return rowIndex;
     }
+
     /**
-     * @return rowindex
+     * @param rowIndex index of button
      */
     protected final void setRowIndex(final int rowIndex) {
         this.rowIndex = rowIndex;

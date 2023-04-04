@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Collision Test class.
  */
 class CollisionTest {
+     private static final float XPLAYERR = 0.6f;
+     private static final float XPLAYERL = 0.3f;
      @Test
      void testCollisionsPlayerWall() {
 
@@ -37,14 +39,13 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerWallAngleRight() {
-
           final int rows = 5;
           final int columns = 5;
           final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
-          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0.6f, 0f));
+          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(XPLAYERR, 0f));
           game.addEntity(player);
-          assertEquals(player.getPosition(), new Pair<>(0.6f, 0f));
+          assertEquals(player.getPosition(), new Pair<>(XPLAYERR, 0f));
           moveOneTiles(player);
           assertEquals(1, player.getPosition().getX());
      }
@@ -65,14 +66,13 @@ class CollisionTest {
 
      @Test
      void testCollisionsPlayerWallAnglLeft() {
-
           final int rows = 5;
           final int columns = 5;
           final Game game = new GameImpl(null, rows, columns);
           game.addEntity(game.getFactory().makeIndestructibleWall(new Pair<Float, Float>(0f, 1f)));
-          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(0.3f, 0f));
+          final Entity player = game.getFactory().makePlayable(new Pair<Float, Float>(XPLAYERL, 0f));
           game.addEntity(player);
-          assertEquals(player.getPosition(), new Pair<>(0.3f, 0f));
+          assertEquals(player.getPosition(), new Pair<>(XPLAYERL, 0f));
           moveOneTiles(player);
           assertEquals(0, player.getPosition().getX());
      }

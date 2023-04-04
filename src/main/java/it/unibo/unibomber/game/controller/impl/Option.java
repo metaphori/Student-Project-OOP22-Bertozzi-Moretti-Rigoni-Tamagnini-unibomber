@@ -152,11 +152,12 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     public final void mousePressed(final MouseEvent e) {
         for (final OptionButtonImpl mb : optionButtons.values()) {
             if (isMouseIn(e, mb)) {
-                Handicap hH = "player".equals(mb.getType()) ? Handicap.PLAYER_HOVER : Handicap.BOT_HOVER;
+                final Handicap hH = Handicap.PLAYER.getType().equals(mb.getType()) ? Handicap.PLAYER_HOVER
+                        : Handicap.BOT_HOVER;
                 mb.setMousePressed(true);
-                if ("player".equals(mb.getType()) || "bot".equals(mb.getType())) {
+                if (Handicap.PLAYER.getType().equals(mb.getType()) || Handicap.BOT.getType().equals(mb.getType())) {
                     resetHover();
-                    for (Integer i : optionButtons.keySet()) {
+                    for (final Integer i : optionButtons.keySet()) {
                         if (optionButtons.get(i).equals(mb)) {
                             optionButtons.get(i).changeRowIndex(hH.getIndex());
                         }
@@ -168,9 +169,10 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private void resetHover() {
         Handicap h;
-        for (Integer i : optionButtons.keySet()) {
-            h = "player".equals(optionButtons.get(i).getType()) ? Handicap.PLAYER : Handicap.BOT;
-            if ("player".equals(optionButtons.get(i).getType()) || "bot".equals(optionButtons.get(i).getType())) {
+        for (final Integer i : optionButtons.keySet()) {
+            h = Handicap.PLAYER.getType().equals(optionButtons.get(i).getType()) ? Handicap.PLAYER : Handicap.BOT;
+            if (Handicap.PLAYER.getType().equals(optionButtons.get(i).getType())
+                    || Handicap.BOT.getType().equals(optionButtons.get(i).getType())) {
                 optionButtons.get(i).changeRowIndex(h.getIndex());
             }
         }
