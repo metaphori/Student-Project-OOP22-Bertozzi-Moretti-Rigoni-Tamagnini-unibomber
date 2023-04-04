@@ -371,8 +371,8 @@ public class Constants {
              * List of map file.
              */
             public static final List<String> MAP_LIST = List.of(
-                    "./src/main/resources/it/unibo/sprites/maps/map0/arena.map",
-                    "./src/main/resources/it/unibo/sprites/maps/map1/arena.map");
+                    "maps/map0/arena.map",
+                    "maps/map1/arena.map");
             /**
              * Number of bot in game.
              */
@@ -762,7 +762,7 @@ public class Constants {
             }
 
             /**
-             * @param t type of sprites.
+             * @param t      type of sprites.
              * @param bImage image of sprites.
              */
             public static void addSprites(final Type t, final BufferedImage bImage) {

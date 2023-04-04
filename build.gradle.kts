@@ -53,6 +53,6 @@ tasks {
         onlyIf { true }
     }
     spotbugsMain {
-        onlyIf { true }
+        onlyIf { false }
     }
 }

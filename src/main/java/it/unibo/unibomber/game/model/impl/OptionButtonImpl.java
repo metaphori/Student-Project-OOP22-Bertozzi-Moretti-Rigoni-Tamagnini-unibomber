@@ -4,13 +4,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -46,13 +43,13 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private final int index;
 
   /**
-   * @param option option Controller.
-   * @param x x.
-   * @param y y.
+   * @param option   option Controller.
+   * @param x        x.
+   * @param y        y.
    * @param rowIndex indx of button.
-   * @param w width.
-   * @param h height.
-   * @param type type of button.
+   * @param w        width.
+   * @param h        height.
+   * @param type     type of button.
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {
@@ -64,14 +61,14 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   /**
-   * @param option option Controller.
-   * @param x x.
-   * @param y y.
+   * @param option   option Controller.
+   * @param x        x.
+   * @param y        y.
    * @param rowIndex indx of button.
-   * @param w width.
-   * @param h height.
-   * @param type type of button.
-   * @param pType power up type.
+   * @param w        width.
+   * @param h        height.
+   * @param type     type of button.
+   * @param pType    power up type.
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final PowerUpType pType) {
@@ -84,14 +81,14 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   /**
-   * @param option option Controller.
-   * @param x x.
-   * @param y y.
+   * @param option   option Controller.
+   * @param x        x.
+   * @param y        y.
    * @param rowIndex indx of button.
-   * @param w width.
-   * @param h height.
-   * @param type type of button.
-   * @param index index for determinate witch player/bot are
+   * @param w        width.
+   * @param h        height.
+   * @param type     type of button.
+   * @param index    index for determinate witch player/bot are
    */
   public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final int index) {
@@ -163,14 +160,19 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   private void loadDimension() {
-    final Path myPath = Paths.get(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()));
-    try {
-      final String[] strArray = Files.lines(myPath)
-          .map(s -> s.split(" "))
-          .findFirst()
-          .get();
-      Screen.setTilesWidth(Integer.parseInt(strArray[0]));
-      Screen.setTilesHeight(Integer.parseInt(strArray[1]));
+    try (InputStream fstream = OptionButtonImpl.class
+        .getResourceAsStream("/it/unibo/sprites/" + MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()))) {
+      final DataInputStream in = new DataInputStream(fstream);
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        String strLine;
+        strLine = br.readLine();
+        final String[] strArray = strLine.split(" ");
+        Screen.setTilesWidth(Integer.parseInt(strArray[0]));
+        Screen.setTilesHeight(Integer.parseInt(strArray[1]));
+        in.close();
+      } catch (IOException e) {
+        logger.log(SEVERE, e.getMessage());
+      }
     } catch (IOException e) {
       logger.log(SEVERE, e.getMessage());
     }
@@ -179,7 +181,8 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private void extractData() {
     int botPlaced = 0;
     Entity entity;
-    try (FileInputStream fstream = new FileInputStream(MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()))) {
+    try (InputStream fstream = OptionButtonImpl.class
+        .getResourceAsStream("/it/unibo/sprites/" + MapOption.MAP_LIST.get(GameLoopConstants.getLEVEL()))) {
       final DataInputStream in = new DataInputStream(fstream);
       try (BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
         String strLine;
@@ -258,13 +261,16 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   public int getIndex() {
     return index;
   }
+
   /**
    * Change row index.
+   * 
    * @param index index to set.
    */
   public void changeRowIndex(final int index) {
     this.setRowIndex(index);
   }
+
   /**
    * @return row index.
    */
