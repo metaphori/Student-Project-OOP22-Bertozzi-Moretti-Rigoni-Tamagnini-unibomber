@@ -123,7 +123,7 @@ class CollisionTest {
           assertTrue(bomb.getComponent(SlidingComponent.class).get().isSliding());
      }
 
-     private void moveOneTiles(Entity player) {
+     private void moveOneTiles(final Entity player) {
           final MovementComponent movement = player.getComponent(MovementComponent.class).get();
           final CollisionComponent collision = player.getComponent(CollisionComponent.class).get();
           movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));

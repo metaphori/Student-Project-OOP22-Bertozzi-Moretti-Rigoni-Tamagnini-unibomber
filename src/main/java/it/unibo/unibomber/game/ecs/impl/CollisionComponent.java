@@ -97,7 +97,7 @@ public final class CollisionComponent extends AbstractComponent {
       */
      public void checkCollisions() {
           final Entity entity = this.getEntity();
-          if (entity.getType() == Type.BOMBER || entity.getType() == Type.BOMB) {
+          if (entity.getType().equals(Type.BOMBER) || entity.getType().equals(Type.BOMB)) {
                entity.getGame().getEntities().stream()
                          .filter(e -> !e.equals(entity))
                          .filter(e -> hitbox.intersects(e.getComponent(CollisionComponent.class).get().getHitbox()))
@@ -140,11 +140,11 @@ public final class CollisionComponent extends AbstractComponent {
       */
      private void changeBombOver() {
           final Entity player = this.getEntity();
-          if (player.getType() == Type.BOMBER) {
+          if (player.getType().equals(Type.BOMBER)) {
                final CollisionComponent playerCollision = player.getComponent(CollisionComponent.class).get();
                this.getEntity().getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
-                         .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer() == player)
+                         .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer().equals(player))
                          .map(entity -> entity.getComponent(CollisionComponent.class))
                          .filter(entity -> entity.isPresent() && entity.get().isOver())
                          .filter(entity -> !playerCollision.getHitbox().intersects(entity.get().getHitbox()))

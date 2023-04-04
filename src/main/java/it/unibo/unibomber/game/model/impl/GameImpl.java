@@ -98,11 +98,11 @@ public class GameImpl implements Game {
     @Override
     public final void updateGameState() {
         final int playersLive = (int) this.entities.stream()
-                .filter(e -> e.getType() == Type.BOMBER)
+                .filter(e -> e.getType().equals(Type.BOMBER))
                 .filter(e -> e.getComponent(AIComponent.class).isEmpty())
                 .count();
         final int botLive = (int) this.entities.stream()
-                .filter(e -> e.getType() == Type.BOMBER)
+                .filter(e -> e.getType().equals(Type.BOMBER))
                 .filter(e -> e.getComponent(AIComponent.class).isPresent())
                 .count();
         if (botLive == 0) {
