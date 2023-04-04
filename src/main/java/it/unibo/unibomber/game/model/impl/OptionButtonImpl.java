@@ -112,6 +112,7 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
     bufferImages.put(Handicap.PLAYER.getIndex(), UploadRes.getSpriteAtlas("menu/option/player.png"));
     bufferImages.put(Handicap.PLAYER_HOVER.getIndex(), UploadRes.getSpriteAtlas("menu/option/player_hover.png"));
     bufferImages.put(Handicap.BOT.getIndex(), UploadRes.getSpriteAtlas("menu/option/bot.png"));
+    bufferImages.put(Handicap.BOT_HOVER.getIndex(), UploadRes.getSpriteAtlas("menu/option/bot_hover.png"));
     bufferImages.put(Handicap.DELETE.getIndex(), UploadRes.getSpriteAtlas("menu/option/delete.png"));
     bufferImages.put(Handicap.DELETE_ALL.getIndex(), UploadRes.getSpriteAtlas("menu/option/delete_all.png"));
     bufferImages.put(Handicap.BOMBUP.getIndex(), UploadRes.getSpriteAtlas("powerUp/bomb_up.png"));
@@ -256,5 +257,18 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    */
   public int getIndex() {
     return index;
+  }
+  /**
+   * Change row index.
+   * @param index
+   */
+  public void changeRowIndex(final int index) {
+    this.setRowIndex(index);
+  }
+  /**
+   * @return row index.
+   */
+  public int getRIndex() {
+    return this.getRowIndex();
   }
 }
