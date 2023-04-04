@@ -38,7 +38,7 @@ public class SystemManagerImpl implements SystemManager {
       * @param componentList the list of passed components.
       */
      private void updateAllComponentsInOrder(final List<Optional<? extends AbstractComponent>> componentList) {
-          for (var component : componentList) {
+          for (final var component : componentList) {
                if (component.isPresent()) {
                     component.get().update();
                }
@@ -51,8 +51,8 @@ public class SystemManagerImpl implements SystemManager {
       * @param entity the entity
       */
      private void updateExplodeAndDestroy(final Entity entity) {
-          Optional<ExplodeComponent> explode = entity.getComponent(ExplodeComponent.class);
-          Optional<DestroyComponent> destroy = entity.getComponent(DestroyComponent.class);
+          final Optional<ExplodeComponent> explode = entity.getComponent(ExplodeComponent.class);
+          final Optional<DestroyComponent> destroy = entity.getComponent(DestroyComponent.class);
 
           updateAllComponentsInOrder(List.of(explode, destroy));
      }
@@ -63,8 +63,8 @@ public class SystemManagerImpl implements SystemManager {
       * @param entity the entity
       */
      private void updateActions(final Entity entity) {
-          Optional<BombPlaceComponent> placeBomb = entity.getComponent(BombPlaceComponent.class);
-          Optional<ThrowComponent> throwBomb = entity.getComponent(ThrowComponent.class);
+          final Optional<BombPlaceComponent> placeBomb = entity.getComponent(BombPlaceComponent.class);
+          final Optional<ThrowComponent> throwBomb = entity.getComponent(ThrowComponent.class);
 
           updateAllComponentsInOrder(List.of(placeBomb, throwBomb));
      }
@@ -75,10 +75,10 @@ public class SystemManagerImpl implements SystemManager {
       * @param entity the entity
       */
      private void updatePhysics(final Entity entity) {
-          Optional<SlidingComponent> slidingComponent = entity.getComponent(SlidingComponent.class);
-          Optional<MovementComponent> movement = entity.getComponent(MovementComponent.class);
-          Optional<CollisionComponent> collision = entity.getComponent(CollisionComponent.class);
-          Optional<RaisingComponent> raising = entity.getComponent(RaisingComponent.class);
+          final Optional<SlidingComponent> slidingComponent = entity.getComponent(SlidingComponent.class);
+          final Optional<MovementComponent> movement = entity.getComponent(MovementComponent.class);
+          final Optional<CollisionComponent> collision = entity.getComponent(CollisionComponent.class);
+          final Optional<RaisingComponent> raising = entity.getComponent(RaisingComponent.class);
 
           updateAllComponentsInOrder(List.of(slidingComponent, movement, collision, raising));
      }
@@ -90,8 +90,8 @@ public class SystemManagerImpl implements SystemManager {
       */
      private void updateInputAndAI(final Entity entity) {
 
-          Optional<AIComponent> bot = entity.getComponent(AIComponent.class);
-          Optional<InputComponent> input = entity.getComponent(InputComponent.class);
+          final Optional<AIComponent> bot = entity.getComponent(AIComponent.class);
+          final Optional<InputComponent> input = entity.getComponent(InputComponent.class);
 
           updateAllComponentsInOrder(List.of(bot, input));
      }

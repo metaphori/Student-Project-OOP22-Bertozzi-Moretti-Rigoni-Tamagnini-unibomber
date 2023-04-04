@@ -48,7 +48,6 @@ public class EntityImpl implements Entity {
         this.position = new Pair<>(entity.getPosition().getX(), entity.getPosition().getY());
         this.components = new HashSet<>(entity.getComponents());
         speed = Constants.Entity.BASE_SPEED;
-        
     }
 
     @Override
