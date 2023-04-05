@@ -408,22 +408,22 @@ public final class AIComponent extends AbstractComponent {
       * a recursive method which adds one row of explosion tiles at a time.
       * 
       * @param typesMatrix the matrix of types.
-      * @param where       the initial position.
+      * @param initialPosition       the initial position.
       * @param strength    the tsrength of the bomb.
-      * @param d           the direction the current explosion line is facing.
+      * @param direction           the direction the current explosion line is facing.
       * @param step        how many steps of recurison it is in.
       */
-     private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> where,
-               final int strength, final Direction d, final int step) {
+     private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> initialPosition,
+               final int strength, final Direction direction, final int step) {
           if (step <= strength) {
-               final Pair<Integer, Integer> newDirection = new Pair<>(where.getX() + d.getX() * step,
-                         where.getY() + d.getY() * step);
+               final Pair<Integer, Integer> newDirection = new Pair<>(initialPosition.getX() + direction.getX() * step,
+                         initialPosition.getY() + direction.getY() * step);
                final List<Type> volatileTypes = List.of(Type.AIR, Type.EXPLOSION, Type.POWERUP);
                if (Utilities.isBetween(newDirection.getX(), 0, Constants.UI.Screen.getTilesWidth())
                          && Utilities.isBetween(newDirection.getY(), 0, Constants.UI.Screen.getTilesHeight())
                          && volatileTypes.contains(typesMatrix[newDirection.getX()][newDirection.getY()])) {
                     typesMatrix[newDirection.getX()][newDirection.getY()] = Type.EXPLOSION;
-                    addExplosionToMatrix(typesMatrix, where, strength, d, step + 1);
+                    addExplosionToMatrix(typesMatrix, initialPosition, strength, direction, step + 1);
                }
           }
      }
