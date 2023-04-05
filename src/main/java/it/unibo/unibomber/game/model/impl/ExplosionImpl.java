@@ -1,7 +1,10 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.image.BufferedImage;
 
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants.Explode;
@@ -15,12 +18,21 @@ public class ExplosionImpl {
     private BufferedImage[][] animations;
 
     private int indexDirection;
+    private List<Entity> explode;
+
+    /**
+     * @param explode list of explosion.
+     */
+    public void setExplode(final List<Entity> explode) {
+        this.explode = new ArrayList<>(explode);
+    }
 
     /**
      * ExplosionImpl.
      */
     public ExplosionImpl() {
         loadSprites();
+        explode = new ArrayList<>();
         indexDirection = 8;
     }
 
@@ -75,4 +87,36 @@ public class ExplosionImpl {
                 break;
         }
     }
+
+    /**
+     * @return Explode List.
+     */
+    public List<Entity> getExplode() {
+        return new ArrayList<>(explode);
+    }
+
+    /**
+     * Set entity that is exploding.
+     * 
+     * @param entity bomb exploding.
+     */
+    public void setEntityExploding(final Entity entity) {
+        this.explode.add(entity);
+    }
+
+    /**
+     * @param id id of bomb.
+     * @return entity of that id.
+     */
+    public Entity gEntity(final int id) {
+        return explode.get(id);
+    }
+
+    /**
+     * reset explosion list.
+     */
+    public void resetEntity() {
+        this.explode = new ArrayList<>();
+    }
+
 }

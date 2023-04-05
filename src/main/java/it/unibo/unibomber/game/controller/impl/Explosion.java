@@ -1,7 +1,6 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.BufferedImage;
 
@@ -15,24 +14,38 @@ import it.unibo.unibomber.utilities.Direction;
  * Explosion controller.
  */
 public final class Explosion implements GameLoop {
-    private final ExplosionView view;
+    private ExplosionView view;
     private final ExplosionImpl model;
-    private List<Entity> explode;
 
     /**
      * @return Explode List.
      */
     public List<Entity> getExplode() {
-        return new ArrayList<>(explode);
+        return model.getExplode();
     }
 
     /**
-     * Constructor.
+     * Explosion constructor.
+     * @param controller controller.
+     */
+    public Explosion(final Explosion controller) {
+        model = new ExplosionImpl();
+        setExplodeList(controller);
+    }
+
+    /**
+     * Start Explosion View.
      */
     public Explosion() {
-        view = new ExplosionView(this);
         model = new ExplosionImpl();
-        explode = new ArrayList<>();
+        view = new ExplosionView(this);
+    }
+
+    /**
+     * @param ex controller.
+     */
+    public void setExplodeList(final Explosion ex) {
+        this.model.setExplode(ex.getExplode());
     }
 
     /**
@@ -41,7 +54,8 @@ public final class Explosion implements GameLoop {
      * @param entity bomb exploding.
      */
     public void setEntityExploding(final Entity entity) {
-        this.explode.add(entity);
+        model.setEntityExploding(entity);
+        view.updateList(this);
     }
 
     @Override
@@ -58,14 +72,14 @@ public final class Explosion implements GameLoop {
      * @return entity of that id.
      */
     public Entity gEntity(final int id) {
-        return explode.get(id);
+        return model.gEntity(id);
     }
 
     /**
      * reset explosion list.
      */
     public void resetEntity() {
-        this.explode = new ArrayList<>();
+        model.resetEntity();
     }
 
     /**
