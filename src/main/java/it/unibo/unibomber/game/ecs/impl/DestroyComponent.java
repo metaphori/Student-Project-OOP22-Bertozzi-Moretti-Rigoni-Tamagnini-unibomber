@@ -2,7 +2,6 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -19,7 +18,6 @@ import static it.unibo.unibomber.utilities.Constants.Destroy.DROPPED_POWERUP_PER
  */
 public final class DestroyComponent extends AbstractComponent {
 
-    private final Random rnd = new Random();
     private boolean isDestroyed;
     private int destroyFrames;
     private int destroyFramesPerType;
@@ -92,7 +90,7 @@ public final class DestroyComponent extends AbstractComponent {
         int droppedPowerUps;
         this.getEntity().getGame().removeEntity(this.getEntity());
         entity.getGame().updateGameState();
-        if (entity.getType().equals(Type.DESTRUCTIBLE_WALL) && this.rnd.nextInt(4) % 2 == 0) {
+        if (entity.getType().equals(Type.DESTRUCTIBLE_WALL) && Constants.RANDOM.RND.nextInt(4) % 2 == 0) {
             entity.getGame()
                     .addEntity(
                             entity.getGame().getFactory().makePowerUp(entity.getPosition(),
@@ -133,8 +131,8 @@ public final class DestroyComponent extends AbstractComponent {
     private Pair<Float, Float> getRandomPos(final Pair<Integer, Integer> gameDimensions, final Game game) {
         Pair<Integer, Integer> coord;
         do {
-            coord = new Pair<>(this.rnd.nextInt(gameDimensions.getX()),
-                    this.rnd.nextInt(gameDimensions.getY()));
+            coord = new Pair<>(Constants.RANDOM.RND.nextInt(gameDimensions.getX()),
+                    Constants.RANDOM.RND.nextInt(gameDimensions.getY()));
         } while (this.checkPosition(coord, game));
         return new Pair<>((float) coord.getX(),
                 (float) coord.getY());

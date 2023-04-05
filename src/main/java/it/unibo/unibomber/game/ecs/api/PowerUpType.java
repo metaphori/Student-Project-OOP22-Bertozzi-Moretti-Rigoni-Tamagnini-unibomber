@@ -1,6 +1,5 @@
 package it.unibo.unibomber.game.ecs.api;
 
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import it.unibo.unibomber.utilities.Constants;
@@ -64,12 +63,11 @@ public enum PowerUpType {
      * @return random powerUp
      */
     public static PowerUpType getRandomPowerUp() {
-        final Random rnd = new Random();
-        final boolean complexList = rnd.nextInt(100) <= Constants.PowerUp.COMPLEX_PERCENTAGE;
+        final boolean complexList = Constants.RANDOM.RND.nextInt(100) <= Constants.PowerUp.COMPLEX_PERCENTAGE;
         final List<PowerUpType> powerUpTypeList = List.of(PowerUpType.values()).stream()
                 .filter(e -> e.isComplex == complexList)
                 .collect(Collectors.toList());
-        return powerUpTypeList.get(rnd.nextInt(powerUpTypeList.size()));
+        return powerUpTypeList.get(Constants.RANDOM.RND.nextInt(powerUpTypeList.size()));
     }
 
     /**

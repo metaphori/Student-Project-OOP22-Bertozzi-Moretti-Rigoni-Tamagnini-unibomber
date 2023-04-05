@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -15,6 +16,16 @@ import java.awt.image.BufferedImage;
  * Constants class.
  */
 public class Constants {
+
+    /**
+     * Random costants.
+     */
+    public static class RANDOM {
+        /**
+         * Random for all cases.
+         */
+        public static final Random RND = new Random();
+    }
     /**
      * UI constants.
      */
