@@ -39,11 +39,10 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   private PowerUpType pType;
   private final Map<Integer, BufferedImage> bufferImages = new HashMap<>();
   private final Logger logger = Logger.getLogger(OptionButtonImpl.class.getName());
-  private final Option option;
+  private Option option;
   private final int index;
 
   /**
-   * @param option   option Controller.
    * @param x        x.
    * @param y        y.
    * @param rowIndex indx of button.
@@ -51,17 +50,15 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param h        height.
    * @param type     type of button.
    */
-  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+  public OptionButtonImpl(final int x, final int y, final int rowIndex, final int w, final int h,
       final String type) {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
-    this.option = option;
     this.type = type;
     this.index = -1;
     loadbufferImages();
   }
 
   /**
-   * @param option   option Controller.
    * @param x        x.
    * @param y        y.
    * @param rowIndex indx of button.
@@ -70,10 +67,9 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param type     type of button.
    * @param pType    power up type.
    */
-  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+  public OptionButtonImpl(final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final PowerUpType pType) {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
-    this.option = option;
     this.type = type;
     this.pType = pType;
     this.index = -1;
@@ -81,7 +77,6 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
   }
 
   /**
-   * @param option   option Controller.
    * @param x        x.
    * @param y        y.
    * @param rowIndex indx of button.
@@ -90,13 +85,19 @@ public class OptionButtonImpl extends AbstractMenuButton implements GameLoop {
    * @param type     type of button.
    * @param index    index for determinate witch player/bot are
    */
-  public OptionButtonImpl(final Option option, final int x, final int y, final int rowIndex, final int w, final int h,
+  public OptionButtonImpl(final int x, final int y, final int rowIndex, final int w, final int h,
       final String type, final int index) {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
-    this.option = option;
     this.type = type;
     this.index = index;
     loadbufferImages();
+  }
+
+  /**
+   * @param option set option.
+   */
+  public void setOption(final Option option) {
+    this.option = new Option(option);
   }
 
   private void loadbufferImages() {

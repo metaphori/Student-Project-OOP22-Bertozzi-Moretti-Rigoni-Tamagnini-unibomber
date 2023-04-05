@@ -19,7 +19,7 @@ public final class HandicapView implements GameLoop {
      * @param controller Handicap controller.
      */
     public HandicapView(final Option controller) {
-        this.controller = controller;
+        this.controller = new Option(controller);
     }
 
     @Override

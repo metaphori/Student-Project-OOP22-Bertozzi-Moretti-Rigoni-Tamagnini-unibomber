@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
@@ -32,7 +33,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private final WorldImpl world;
     private int focusIndex;
     private final Map<Integer, List<PowerUpType>> powerUpListOfEntity;
-    private int basedWidth; 
+    private int basedWidth;
 
     /**
      * Option costructor.
@@ -54,6 +55,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     /**
      * Copy of costructor for view.
+     * 
      * @param controller
      */
     public Option(final Option controller) {
@@ -63,6 +65,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         powerUpListOfEntity = new HashMap<>(controller.getListPowerUp());
         optionButtons = new HashMap<>(controller.getOptionButtons());
     }
+
     /**
      * @return base width.
      */
@@ -82,40 +85,40 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     private void loadButtons() {
-        optionButtons.put(Handicap.LEFT.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.LEFT.getIndex(), new OptionButtonImpl(
                 Screen.getgWidth() / 4 - Buttons.getOptionButtonSize(),
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() / 2, Handicap.LEFT.getIndex(),
                 Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), Handicap.LEFT.getType()));
-        optionButtons.put(0, new OptionButtonImpl(this, Screen.getgWidth() / 2 - MapOption.getMapDimension() / 2,
+        optionButtons.put(0, new OptionButtonImpl(Screen.getgWidth() / 2 - MapOption.getMapDimension() / 2,
                 OptionButton.WIDTH_INCREMENT, 0,
                 MapOption.getMapDimension(), MapOption.getMapDimension(), "map"));
-        optionButtons.put(Handicap.RIGHT.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.RIGHT.getIndex(), new OptionButtonImpl(
                 Screen.getgWidth() - (Screen.getgWidth() / 4),
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() / 2, Handicap.RIGHT.getIndex(),
                 Buttons.getOptionButtonSize(), Buttons.getOptionButtonSize(), Handicap.RIGHT.getType()));
-        optionButtons.put(Handicap.OK.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.OK.getIndex(), new OptionButtonImpl(
                 Screen.getgWidth() - (Buttons.getOptionButtonSize() + (OptionButton.WIDTH_INCREMENT * 2)),
                 Screen.getgHeight() - (Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT),
                 Handicap.OK.getIndex(), Buttons.getOptionButtonSize() + OptionButton.WIDTH_INCREMENT,
                 Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT, Handicap.OK.getType()));
-        optionButtons.put(Handicap.BOTNUMBER.getIndex(), new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT,
+        optionButtons.put(Handicap.BOTNUMBER.getIndex(), new OptionButtonImpl(OptionButton.WIDTH_INCREMENT,
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() + OptionButton.HEIGHT_BOTNUMBER_SELECTION,
                 Handicap.BOTNUMBER.getIndex(), OptionButton.getBombNumberDimension(),
                 OptionButton.getBombNumberDimension(), Handicap.BOTNUMBER.getType()));
-        optionButtons.put(Handicap.PLUS.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.PLUS.getIndex(), new OptionButtonImpl(
                 OptionButton.WIDTH_INCREMENT + (int) optionButtons.get(Handicap.BOTNUMBER.getIndex()).getW()
                         + OptionButton.WIDTH_INCREMENT,
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() + OptionButton.HEIGHT_BOTNUMBER_SELECTION,
                 Handicap.PLUS.getIndex(), OptionButton.getIncrementBotSize(), OptionButton.getIncrementBotSize(),
                 Handicap.PLUS.getType()));
-        optionButtons.put(Handicap.MINUS.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.MINUS.getIndex(), new OptionButtonImpl(
                 OptionButton.WIDTH_INCREMENT + (int) optionButtons.get(Handicap.BOTNUMBER.getIndex()).getW()
                         + OptionButton.WIDTH_INCREMENT,
                 OptionButton.WIDTH_INCREMENT + MapOption.getMapDimension() + OptionButton.HEIGHT_BOTNUMBER_SELECTION
                         + optionButtons.get(Handicap.PLUS.getIndex()).getH(),
                 Handicap.MINUS.getIndex(), OptionButton.getIncrementBotSize(), OptionButton.getIncrementBotSize(),
                 Handicap.MINUS.getType()));
-        optionButtons.put(Handicap.PLAYER.getIndex(), new OptionButtonImpl(this,
+        optionButtons.put(Handicap.PLAYER.getIndex(), new OptionButtonImpl(
                 OptionButton.getPlyerSelectioBorderDistance(),
                 optionButtons.get(Handicap.BOTNUMBER.getIndex()).getY()
                         + optionButtons.get(Handicap.BOTNUMBER.getIndex()).getH()
@@ -126,7 +129,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         setPowerUp();
         basedWidth += OptionButton.WIDTH_INCREMENT;
         optionButtons.put(Handicap.DELETE.getIndex(),
-                new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
+                new OptionButtonImpl(OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
                         OptionButton.getPowerUpSetTopDistance()
                                 + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
                         Handicap.DELETE.getIndex(), Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT,
@@ -134,7 +137,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                         Handicap.DELETE.getType()));
         basedWidth += Buttons.getOptionButtonSize() / 2 + OptionButton.WIDTH_INCREMENT * 2;
         optionButtons.put(Handicap.DELETE_ALL.getIndex(),
-                new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
+                new OptionButtonImpl(OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
                         OptionButton.getPowerUpSetTopDistance()
                                 + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
                         Handicap.DELETE_ALL.getIndex(),
@@ -147,7 +150,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      * @return button option pressed
      */
     public final Map<Integer, OptionButtonImpl> getOptionButtons() {
-        return Map.copyOf(optionButtons);
+        return new HashMap<>(optionButtons);
     }
 
     @Override
@@ -158,6 +161,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     @Override
     public final void draw(final Graphics g) {
         view = new OptionView(this);
+        hView = new HandicapView(this);
         view.draw(g);
         hView.draw(g);
     }
@@ -183,10 +187,15 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
                 mb.setMousePressed(true);
                 if (Handicap.PLAYER.getType().equals(mb.getType()) || Handicap.BOT.getType().equals(mb.getType())) {
                     resetHover();
-                    for (final Integer i : optionButtons.keySet()) {
-                        if (optionButtons.get(i).equals(mb)) {
-                            optionButtons.get(i).changeRowIndex(hH.getIndex());
+                    for (final Entry<Integer, OptionButtonImpl> btn : optionButtons.entrySet()) {
+                        if (optionButtons.get(btn.getKey()).equals(mb)) {
+                            optionButtons.get(btn.getKey()).changeRowIndex(hH.getIndex());
                         }
+                    }
+                }
+                if (Handicap.OK.getType().equals(mb.getType())) {
+                    for (final Entry<Integer, OptionButtonImpl> btn : optionButtons.entrySet()) {
+                        optionButtons.get(btn.getKey()).setOption(this);
                     }
                 }
             }
@@ -195,11 +204,12 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     private void resetHover() {
         Handicap h;
-        for (final Integer i : optionButtons.keySet()) {
-            h = Handicap.PLAYER.getType().equals(optionButtons.get(i).getType()) ? Handicap.PLAYER : Handicap.BOT;
-            if (Handicap.PLAYER.getType().equals(optionButtons.get(i).getType())
-                    || Handicap.BOT.getType().equals(optionButtons.get(i).getType())) {
-                optionButtons.get(i).changeRowIndex(h.getIndex());
+        for (final Entry<Integer, OptionButtonImpl> btn : optionButtons.entrySet()) {
+            h = Handicap.PLAYER.getType().equals(optionButtons.get(btn.getKey()).getType()) ? Handicap.PLAYER
+                    : Handicap.BOT;
+            if (Handicap.PLAYER.getType().equals(optionButtons.get(btn.getKey()).getType())
+                    || Handicap.BOT.getType().equals(optionButtons.get(btn.getKey()).getType())) {
+                optionButtons.get(btn.getKey()).changeRowIndex(h.getIndex());
             }
         }
     }
@@ -248,7 +258,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      * @return world.
      */
     public WorldImpl getWorld() {
-        return world;
+        return this.world;
     }
 
     /**
@@ -260,7 +270,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         boolean passed = false;
         for (int i = 0; i < MapOption.getNumberOfBot(); i++) {
             heightScale += (int) optionButtons.get(Handicap.PLAYER.getIndex()).getH() + OptionButton.WIDTH_INCREMENT;
-            optionButtons.put((Handicap.BOT.getIndex() - 1) + i, new OptionButtonImpl(this, distanceScale,
+            optionButtons.put((Handicap.BOT.getIndex() - 1) + i, new OptionButtonImpl(distanceScale,
                     optionButtons.get(Handicap.PLAYER.getIndex()).getY() + heightScale,
                     Handicap.BOT.getIndex(), OptionButton.getPlyerSelectionWidth(),
                     OptionButton.getPlyerSelectionHeight(), Handicap.BOT.getType(), i + 1));
@@ -281,7 +291,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      */
     private void resetBot() {
         IntStream.range(Handicap.BOT.getIndex() - 1, Handicap.BOT.getIndex() - 1 + MapOption.getNumberOfBot())
-                .forEach(i -> optionButtons.put(i, new OptionButtonImpl(null, 0, 0, 0, 0, 0, "empty")));
+                .forEach(i -> optionButtons.put(i, new OptionButtonImpl(0, 0, 0, 0, 0, "empty")));
         powerUpListOfEntity.keySet().removeIf(k -> k != 0);
     }
 
@@ -290,7 +300,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      */
     private void setPowerUp() {
         for (int i = 0; i < Handicap.getNumberOfPowerUp(); i++) {
-            optionButtons.put(16 + i, new OptionButtonImpl(this, OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
+            optionButtons.put(16 + i, new OptionButtonImpl(OptionButton.WIDTH_INCREMENT * 2 + basedWidth,
                     OptionButton.getPowerUpSetTopDistance()
                             + (Buttons.getOptionButtonSize() - Buttons.getOptionButtonSize() / 2) / 2,
                     10 + i, Buttons.getOptionButtonSize() / 2, Buttons.getOptionButtonSize() / 2, "powerup",
@@ -304,14 +314,14 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      * @return list of power up of that index.
      */
     public List<PowerUpType> getIndexListPowerUp(final int index) {
-        return powerUpListOfEntity.get(index);
+        return new ArrayList<>(powerUpListOfEntity.get(index));
     }
 
     /**
      * @return list of power up of that index.
      */
     public Map<Integer, List<PowerUpType>> getListPowerUp() {
-        return this.powerUpListOfEntity;
+        return new HashMap<>(this.powerUpListOfEntity);
     }
 
     /**
