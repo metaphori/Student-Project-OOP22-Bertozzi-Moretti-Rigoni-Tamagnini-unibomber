@@ -20,9 +20,10 @@ public final class OptionView implements GameLoop {
 
         /**
          * @param controller Option controller.
+         * @throws CloneNotSupportedException
          */
         public OptionView(final Option controller) {
-                this.controller = controller;
+                this.controller = new Option(controller);
         }
 
         @Override

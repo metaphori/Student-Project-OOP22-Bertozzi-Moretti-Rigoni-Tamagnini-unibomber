@@ -39,7 +39,16 @@ public class GameImpl implements Game {
         this.columns = columns;
         this.timesUp.start();
     }
-
+/**
+     * GameImpl copy constructor.
+     * 
+     * @param game game.
+     */
+    public GameImpl(final Game game) {
+        this.world = game.getWorld();
+        this.rows = game.getDimensions().getX();
+        this.columns = game.getDimensions().getY();
+    }
     @Override
     public final List<Entity> getEntities() {
         return this.entities;

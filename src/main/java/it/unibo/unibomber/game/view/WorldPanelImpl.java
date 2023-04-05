@@ -31,6 +31,15 @@ public final class WorldPanelImpl extends JPanel {
     addMouseListener(new MouseInputsImpl(this));
   }
 
+  /**
+   * WordPanelImpl copy constructor.
+   * 
+   * @param worldpanel world
+   */
+  public WorldPanelImpl(final WorldPanelImpl worldpanel) {
+    this.world = worldpanel.getWorld();
+  }
+
   private void setSize() {
     final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final double width = screenSize.getWidth();

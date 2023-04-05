@@ -19,7 +19,7 @@ public final class MouseInputsImpl implements MouseListener {
    * @param worldPanel Panel of world.
    */
   public MouseInputsImpl(final WorldPanelImpl worldPanel) {
-    this.worldPanel = worldPanel;
+    this.worldPanel = new WorldPanelImpl(worldPanel);
   }
 
   @Override

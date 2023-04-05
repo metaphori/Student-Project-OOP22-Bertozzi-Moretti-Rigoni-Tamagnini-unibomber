@@ -18,7 +18,7 @@ public final class KeyboardInputsImpl implements KeyListener {
    * @param worldPanel Panel of world.
    */
   public KeyboardInputsImpl(final WorldPanelImpl worldPanel) {
-    this.worldPanel = worldPanel;
+    this.worldPanel = new WorldPanelImpl(worldPanel);
   }
 
   @Override

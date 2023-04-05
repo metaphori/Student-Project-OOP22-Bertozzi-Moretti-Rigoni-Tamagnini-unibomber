@@ -26,8 +26,8 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
  */
 public class Option extends StateImpl implements MouseListener, GameLoop {
 
-    private final OptionView view;
-    private final HandicapView hView;
+    private OptionView view;
+    private HandicapView hView;
     private final Map<Integer, OptionButtonImpl> optionButtons;
     private final WorldImpl world;
     private int focusIndex;
@@ -35,7 +35,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     private int basedWidth; 
 
     /**
-     * This method manage the view of game option.
+     * Option costructor.
      * 
      * @param world world.
      */
@@ -46,10 +46,35 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         this.basedWidth = 0;
         powerUpListOfEntity = new HashMap<>();
         optionButtons = new HashMap<>();
-        view = new OptionView(this);
         hView = new HandicapView(this);
         loadButtons();
         loadPowerUpList();
+        view = new OptionView(this);
+    }
+
+    /**
+     * Copy of costructor for view.
+     * @param controller
+     */
+    public Option(final Option controller) {
+        this.world = controller.getWorld();
+        this.focusIndex = controller.getFocusIndex();
+        this.basedWidth = controller.getBaseWidth();
+        powerUpListOfEntity = new HashMap<>(controller.getListPowerUp());
+        optionButtons = new HashMap<>(controller.getOptionButtons());
+    }
+    /**
+     * @return base width.
+     */
+    private int getBaseWidth() {
+        return basedWidth;
+    }
+
+    /**
+     * @return focus index.
+     */
+    private int getFocusIndex() {
+        return focusIndex;
     }
 
     private void loadPowerUpList() {
@@ -132,6 +157,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     @Override
     public final void draw(final Graphics g) {
+        view = new OptionView(this);
         view.draw(g);
         hView.draw(g);
     }
