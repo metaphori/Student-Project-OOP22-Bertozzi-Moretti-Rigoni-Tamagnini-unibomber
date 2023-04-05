@@ -19,7 +19,7 @@ public final class MenuView implements GameLoop {
     private int menuWidth, menuHeight;
 
     /**
-     * @param controller
+     * @param controller Menu controller.
      */
     public MenuView(final Menu controller) {
         this.controller = controller;

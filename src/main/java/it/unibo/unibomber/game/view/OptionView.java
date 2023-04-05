@@ -19,7 +19,7 @@ public final class OptionView implements GameLoop {
         private final Option controller;
 
         /**
-         * @param controller
+         * @param controller Option controller.
          */
         public OptionView(final Option controller) {
                 this.controller = controller;

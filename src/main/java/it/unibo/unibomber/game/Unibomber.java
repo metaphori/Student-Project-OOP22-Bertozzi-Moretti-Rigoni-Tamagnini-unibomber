@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game;
 
 import it.unibo.unibomber.game.controller.impl.WorldImpl;
+
 /**
  * Unibobmer class.
  */
@@ -11,9 +12,11 @@ public final class Unibomber {
     private Unibomber() {
 
     }
+
     /**
      * Main.
-     * @param passedArgs
+     * 
+     * @param passedArgs args
      */
     public static void main(final String[] passedArgs) {
         new WorldImpl();

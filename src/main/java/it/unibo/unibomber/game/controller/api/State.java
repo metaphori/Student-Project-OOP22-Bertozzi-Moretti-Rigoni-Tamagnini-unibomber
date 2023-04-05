@@ -10,20 +10,20 @@ import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
  */
 public interface State {
     /**
-     * @param e
-     * @param mb
+     * @param e event.
+     * @param mb button.
      * @return true if mouse is in the button.
      */
     boolean isMouseIn(MouseEvent e, MenuButtonImpl mb);
     /**
-     * @param e
-     * @param mb
+     * @param e event.
+     * @param mb button.
      * @return true if mouse is in the button.
      */
     boolean isMouseIn(MouseEvent e, OptionButtonImpl mb);
     /**
-     * @param e
-     * @param mb
+     * @param e event.
+     * @param mb button.
      * @return true if mouse is in the button.
      */
     boolean isMouseIn(MouseEvent e, StateGameButtonImpl mb);

@@ -116,8 +116,8 @@ public final class Extension {
     /**
      * Check collision entity with wall.
      * 
-     * @param entity
-     * @param e
+     * @param entity enity who collide.
+     * @param e enity get collided.
      */
     public static void collisonWall(final Entity entity, final Entity e) {
         final float thisX = Math.round(entity.getPosition().getX());

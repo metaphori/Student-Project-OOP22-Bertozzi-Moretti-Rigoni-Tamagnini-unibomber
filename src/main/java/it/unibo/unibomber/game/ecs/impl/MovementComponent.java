@@ -1,11 +1,10 @@
 package it.unibo.unibomber.game.ecs.impl;
 
-import java.util.Optional;
-
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
+import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * The class is responsible for handling the movement of the enetity it is
@@ -25,8 +24,7 @@ public class MovementComponent extends AbstractComponent {
 
     @Override
     public final void update() {
-        final Optional<DestroyComponent> destroy = this.getEntity().getComponent(DestroyComponent.class);
-        if (!destroy.isPresent() || !destroy.get().isDestroyed()) {
+        if (Utilities.isAlive(this.getEntity())) {
             this.getEntity().addPosition(moveBy);
             handleDirection();
         }

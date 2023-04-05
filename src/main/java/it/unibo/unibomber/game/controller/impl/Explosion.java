@@ -1,7 +1,6 @@
 package it.unibo.unibomber.game.controller.impl;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.BufferedImage;
 
@@ -15,37 +14,52 @@ import it.unibo.unibomber.utilities.Direction;
  * Explosion controller.
  */
 public final class Explosion implements GameLoop {
-    private final ExplosionView view;
+    private ExplosionView view;
     private final ExplosionImpl model;
-    private List<Entity> explode;
 
     /**
      * @return Explode List.
      */
     public List<Entity> getExplode() {
-        return new ArrayList<>(explode);
+        return model.getExplode();
     }
 
     /**
-     * Constructor.
+     * Explosion constructor.
+     * @param controller controller.
+     */
+    public Explosion(final Explosion controller) {
+        model = new ExplosionImpl();
+        setExplodeList(controller);
+    }
+
+    /**
+     * Start Explosion View.
      */
     public Explosion() {
-        view = new ExplosionView();
         model = new ExplosionImpl();
-        explode = new ArrayList<>();
+        view = new ExplosionView(this);
     }
+
+    /**
+     * @param ex controller.
+     */
+    public void setExplodeList(final Explosion ex) {
+        this.model.setExplode(ex.getExplode());
+    }
+
     /**
      * Set entity that is exploding.
      * 
-     * @param entity
+     * @param entity bomb exploding.
      */
     public void setEntityExploding(final Entity entity) {
-        this.explode.add(entity);
+        model.setEntityExploding(entity);
+        view.updateList(this);
     }
 
     @Override
     public void update() {
-        this.view.setController(this);
     }
 
     @Override
@@ -54,23 +68,23 @@ public final class Explosion implements GameLoop {
     }
 
     /**
-     * @param id
+     * @param id id of bomb.
      * @return entity of that id.
      */
     public Entity gEntity(final int id) {
-        return explode.get(id);
+        return model.gEntity(id);
     }
 
     /**
      * reset explosion list.
      */
     public void resetEntity() {
-        this.explode = new ArrayList<>();
+        model.resetEntity();
     }
 
     /**
-     * @param i
-     * @param j
+     * @param i row.
+     * @param j col.
      * @return animation of that position.
      */
     public BufferedImage getAnimations(final int i, final int j) {
@@ -87,7 +101,7 @@ public final class Explosion implements GameLoop {
     /**
      * change direction explosion.
      * 
-     * @param dir
+     * @param dir direction of explosion.
      */
     public void setDirectionIndex(final Direction dir) {
         model.setDirectionIndex(dir);

@@ -29,9 +29,9 @@ public class GameImpl implements Game {
     /**
      * GameImpl constructor.
      * 
-     * @param world
-     * @param rows
-     * @param columns
+     * @param world world.
+     * @param rows rows number.
+     * @param columns cols number.
      */
     public GameImpl(final World world, final int rows, final int columns) {
         this.world = world;

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
@@ -16,17 +17,27 @@ import it.unibo.unibomber.utilities.Constants.UI.Buttons;
  */
 public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop {
   private final Map<Integer, BufferedImage> bufferImages = new HashMap<>();
-  private final Gamestate gameState;
+  private final Optional<Gamestate> gameState;
 
   /**
-   * @param gameState
-   * @param x
-   * @param y
-   * @param w
-   * @param h
-   * @param rowIndex
+   * Return gamestate of button.
+   * 
+   * @return gamestate.
    */
-  public StateGameButtonImpl(final Gamestate gameState, final int x, final int y, final int w, final int h, final int rowIndex) {
+  public Optional<Gamestate> getGameState() {
+    return gameState;
+  }
+
+  /**
+   * @param gameState state of game to set.
+   * @param x x.
+   * @param y y.
+   * @param w width.
+   * @param h height.
+   * @param rowIndex index of button.
+   */
+  public StateGameButtonImpl(final Optional<Gamestate> gameState, final int x, final int y, final int w, final int h,
+      final int rowIndex) {
     super(x, y, w, h, Buttons.getOptionButtonSize() / 2, rowIndex);
     this.gameState = gameState;
     loadbufferImages();
@@ -53,7 +64,7 @@ public class StateGameButtonImpl extends AbstractMenuButton implements GameLoop 
    * apply gamestate based on button press.
    */
   public final void applyGamestate() {
-    Gamestate.setGameState(gameState);
+    Gamestate.setGameState(gameState.get());
   }
 
 }

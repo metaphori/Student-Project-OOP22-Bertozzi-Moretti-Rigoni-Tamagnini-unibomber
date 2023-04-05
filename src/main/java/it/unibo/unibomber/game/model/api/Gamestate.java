@@ -47,7 +47,7 @@ public enum Gamestate {
     /**
      * SetGameState.
      * 
-     * @param st
+     * @param st game state.
      */
     public static void setGameState(final Gamestate st) {
         state = st;

@@ -22,9 +22,10 @@ public class ThrowComponent extends AbstractComponent {
     @Override
     public final void update() {
         final MovementComponent bombMovement = this.getEntity().getComponent(MovementComponent.class).get();
+        final Entity placerEntity = this.getEntity().getComponent(ExplodeComponent.class).get().getPlacer();
         final float bombActualPositionX = this.getEntity().getPosition().getX();
         final float bombActualPositionY = this.getEntity().getPosition().getY();
-        if (isThrowing) {
+        if (isThrowing && Utilities.isAlive(placerEntity)) {
             if (Math.round(bombActualPositionX) != (float) (finalPos.getX())
                     || Math.round(bombActualPositionY) != (float) (finalPos.getY())) {
                 final int dimensionX = this.getEntity().getGame().getDimensions().getX();
@@ -75,10 +76,10 @@ public class ThrowComponent extends AbstractComponent {
     }
 
     /**
-     * Set throwing status.
+     * This method set throwing status.
      * 
-     * @param startingPos
-     * @param playerDir
+     * @param startingPos bomb starting position
+     * @param playerDir   direction of player
      */
     public final void throwBomb(final Pair<Integer, Integer> startingPos, final Direction playerDir) {
         this.startingPos = startingPos;
@@ -88,6 +89,8 @@ public class ThrowComponent extends AbstractComponent {
     }
 
     /**
+     * This method return throwing status.
+     * 
      * @return bomb throwing status
      */
     public final boolean isThrowing() {

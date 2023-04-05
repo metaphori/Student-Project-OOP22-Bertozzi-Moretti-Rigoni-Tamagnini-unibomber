@@ -12,7 +12,7 @@ public interface GameLoop {
 
     /**
      * Draw.
-     * @param g
+     * @param g graphics.
      */
     void draw(Graphics g);
 }

@@ -20,13 +20,22 @@ import static it.unibo.unibomber.utilities.Constants.UI.SpritesMap;
  * Explosion View class.
  */
 public final class ExplosionView implements GameLoop {
-    private Explosion controller;
+    private final Explosion controller;
 
     /**
-     * @param explosion set explosion.
+     * Explosion view constructor.
+     * 
+     * @param controller Explosion controller.
      */
-    public void setController(final Explosion explosion) {
-        this.controller = explosion;
+    public ExplosionView(final Explosion controller) {
+        this.controller = new Explosion(controller);
+    }
+
+    /**
+     * @param controller explosion controller.
+     */
+    public void updateList(final Explosion controller) {
+        this.controller.setExplodeList(controller);
     }
 
     @Override

@@ -65,11 +65,11 @@ public enum PowerUpType {
      */
     public static PowerUpType getRandomPowerUp() {
         final Random rnd = new Random();
-        return List.of(PowerUpType.values()).stream()
-                .filter(e -> rnd.nextInt(100) <= Constants.PowerUp.COMPLEX_PERCENTAGE ? e.isComplex : !e.isComplex)
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        list -> list.get(rnd.nextInt(list.size()))));
+        final boolean complexList = rnd.nextInt(100) <= Constants.PowerUp.COMPLEX_PERCENTAGE;
+        final List<PowerUpType> powerUpTypeList = List.of(PowerUpType.values()).stream()
+                .filter(e -> e.isComplex == complexList)
+                .collect(Collectors.toList());
+        return powerUpTypeList.get(rnd.nextInt(powerUpTypeList.size()));
     }
 
     /**

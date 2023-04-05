@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * This class manage the game menu.
@@ -26,7 +27,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
     /**
      * This method manage the view of game menu.
      * 
-     * @param world
+     * @param world world.
      */
     protected StateGame(final WorldImpl world) {
         super();
@@ -48,12 +49,12 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
         buttons[0] = new StateGameButtonImpl(null,
                 (Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2, Screen.getgHeight() / 4,
                 OptionButton.getGameStateDimension().getX(), OptionButton.getGameStateDimension().getY(), index);
-        buttons[1] = new StateGameButtonImpl(Gamestate.getButtonStateGame().getX(),
+        buttons[1] = new StateGameButtonImpl(Optional.of(Gamestate.getButtonStateGame().getX()),
                 ((Screen.getgWidth() - OptionButton.getGameStateDimension().getX()) / 2
                         - OptionButton.getContinueDimension().getX()) / 2,
                 Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getContinueDimension().getX(), OptionButton.getContinueDimension().getY(), 1);
-        buttons[2] = new StateGameButtonImpl(Gamestate.getButtonStateGame().getY(),
+        buttons[2] = new StateGameButtonImpl(Optional.of(Gamestate.getButtonStateGame().getY()),
                 Screen.getgWidth() - Screen.getgWidth() / 4, Screen.getgHeight() - Screen.getgHeight() / 4,
                 OptionButton.getQuitDimension().getX(), OptionButton.getQuitDimension().getY(),
                 2);
@@ -101,7 +102,7 @@ public final class StateGame extends StateImpl implements MouseListener, KeyList
     public void mouseReleased(final MouseEvent e) {
         for (final StateGameButtonImpl mb : buttons) {
             if (isMouseIn(e, mb)) {
-                if (mb.isMousePressed()) {
+                if (mb.isMousePressed() && mb.getGameState().isPresent()) {
                     mb.applyGamestate();
                 }
                 break;
