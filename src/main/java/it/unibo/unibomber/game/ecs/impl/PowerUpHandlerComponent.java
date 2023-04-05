@@ -8,16 +8,52 @@ import it.unibo.unibomber.utilities.Constants;
  * This component manage bombers powerUp.
  */
 public class PowerUpHandlerComponent extends PowerUpListComponent {
+    private int bombNumber;
+    private int bombPlaced;
 
     /**
      * This method inherit powerUp from the superclass.
      * 
-     * @param bombNumber bomb number
-     * @param bombFire bomb power fire
+     * @param bombNumber  starting bomb number
+     * @param bombFire    bomb power fire
      * @param powerUpList list of all powerUps
      */
     public PowerUpHandlerComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
-        super(bombNumber, bombFire, powerUpList);
+        super(bombFire, powerUpList);
+        this.bombNumber = bombNumber;
+        this.bombPlaced = 0;
+    }
+
+    /**
+     * @return actual bomb number of player
+     */
+    public int getBombNumber() {
+        return this.bombNumber;
+    }
+
+    /**
+     * Set bombNumber.
+     * 
+     * @param bombNumber bomb number to set
+     */
+    public void setBombNumer(final int bombNumber) {
+        this.bombNumber = bombNumber;
+    }
+
+    /**
+     * @return actual bomb placed of player
+     */
+    public int getBombPlaced() {
+        return this.bombPlaced;
+    }
+
+    /**
+     * Add bombPlaced of player.
+     * 
+     * @param bombPlaced bomb placed to add
+     */
+    public void addBombPlaced(final int bombPlaced) {
+        this.bombPlaced += bombPlaced;
     }
 
     /**

@@ -10,24 +10,19 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
 
 /**
- * This component manage a list of all bombers powerUp.
+ * This component manage a list of all bombers and bomb powerUps.
  */
 public class PowerUpListComponent extends AbstractComponent {
-    private int bombNumber;
-    private int bombPlaced;
     private int bombFire;
     private final List<PowerUpType> powerUpList;
 
     /**
      * This method sets all bomber's powerups.
      * 
-     * @param bombNumber starting bomb number
-     * @param bombFire starting bomb power fire
-     * @param powerUpList starting list of all powerUps
+     * @param bombFire bomb power fire
+     * @param powerUpList bomb list of all powerUps
      */
-    public PowerUpListComponent(final int bombNumber, final int bombFire, final List<PowerUpType> powerUpList) {
-        this.bombNumber = bombNumber;
-        this.bombPlaced = 0;
+    public PowerUpListComponent(final int bombFire, final List<PowerUpType> powerUpList) {
         this.bombFire = bombFire;
         this.powerUpList = new ArrayList<>(powerUpList);
     }
@@ -40,7 +35,6 @@ public class PowerUpListComponent extends AbstractComponent {
     public PowerUpListComponent(final Entity giver) {
         final Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
         if (giversList.isPresent()) {
-            this.bombNumber = giversList.get().getBombNumber();
             this.bombFire = giversList.get().getBombFire();
             this.powerUpList = giversList.get().getPowerUpList();
         } else {
@@ -51,38 +45,6 @@ public class PowerUpListComponent extends AbstractComponent {
     @Override
     public void update() {
 
-    }
-
-    /**
-     * @return actual bomb number of player
-     */
-    public int getBombNumber() {
-        return this.bombNumber;
-    }
-
-    /**
-     * Set bombNumber.
-     * 
-     * @param bombNumber bomb number to set
-     */
-    public void setBombNumer(final int bombNumber) {
-        this.bombNumber = bombNumber;
-    }
-
-    /**
-     * @return actual bomb placed of player
-     */
-    public int getBombPlaced() {
-        return this.bombPlaced;
-    }
-
-    /**
-     * Add bombPlaced of player.
-     * 
-     * @param bombPlaced bomb placed to add
-     */
-    public void addBombPlaced(final int bombPlaced) {
-        this.bombPlaced += bombPlaced;
     }
 
     /**

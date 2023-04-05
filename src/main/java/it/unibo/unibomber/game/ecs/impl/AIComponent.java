@@ -130,8 +130,8 @@ public final class AIComponent extends AbstractComponent {
       * handles the bomb placement by the AI.
       */
      private void placeBomb() {
-          final PowerUpListComponent powerups = this.getEntity()
-                    .getComponent(PowerUpListComponent.class)
+          final PowerUpHandlerComponent powerups = this.getEntity()
+                    .getComponent(PowerUpHandlerComponent.class)
                     .get();
           if (powerups.getBombNumber() - powerups.getBombPlaced() > 0) {
                final BombPlaceComponent placeBomb = this.getEntity()
