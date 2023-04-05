@@ -29,7 +29,6 @@ class WallTest {
     private static final float WALL_COORD_Y = 3.4f;
     private static final int FIELD_ROWS = 15;
     private static final int FIELD_COLS = 19;
-    private static final int DROPPED_POWERUPS_FROM_WALL = 1;
     private final Game game = new GameImpl(null, FIELD_ROWS, FIELD_COLS);
     private final EntityFactory entityFactory = new EntityFactoryImpl(this.game);
 
@@ -50,13 +49,11 @@ class WallTest {
     @Test
     void testDestructibleWall() {
         final var desWall = this.createDestructibleWall();
-        final var powerUpListComponent = desWall.getComponent(PowerUpListComponent.class);
         final var destroyComponent = desWall.getComponent(DestroyComponent.class);
         Constants.Destroy.setDestroyFramesPerType();
         this.game.addEntity(desWall);
         assertEquals(Type.DESTRUCTIBLE_WALL, desWall.getType());
         assertTrue(destroyComponent.isPresent());
-        assertTrue(powerUpListComponent.isPresent());
         assertTrue(this.game.getEntities().contains(desWall));
         assertFalse(destroyComponent.get().isDestroyed());
         destroyComponent.get().destroy();
@@ -65,9 +62,6 @@ class WallTest {
             destroyComponent.get().update();
         }
         assertFalse(this.game.getEntities().contains(desWall));
-        if (!powerUpListComponent.get().getPowerUpList().isEmpty()) {
-            assertEquals(DROPPED_POWERUPS_FROM_WALL, this.game.getEntities().size());
-        }
     }
 
     @Test

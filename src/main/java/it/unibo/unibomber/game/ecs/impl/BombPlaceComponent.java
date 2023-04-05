@@ -7,6 +7,7 @@ import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Pair;
+import it.unibo.unibomber.utilities.Utilities;
 
 /**
  * This component manage bomb placement.
@@ -18,8 +19,7 @@ public class BombPlaceComponent extends AbstractComponent {
     @Override
     public final void update() {
         final Entity thisEntity = this.getEntity();
-        final Optional<DestroyComponent> destroy = thisEntity.getComponent(DestroyComponent.class);
-        if (this.bombPlaced && (!destroy.isPresent() || !destroy.get().isDestroyed())) {
+        if (this.bombPlaced && Utilities.isAlive(thisEntity)) {
             final Pair<Float, Float> normalizedPosition = new Pair<>(
                     (float) Math.round(thisEntity.getPosition().getX()),
                     (float) Math.round(thisEntity.getPosition().getY()));

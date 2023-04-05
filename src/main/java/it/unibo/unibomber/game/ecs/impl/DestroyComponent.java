@@ -47,7 +47,7 @@ public final class DestroyComponent extends AbstractComponent {
             if (this.destroyFrames >= this.destroyFramesPerType) {
                 if (!this.getEntity().getType().equals(Type.BOMB)
                         && !this.getEntity().getType().equals(Type.POWERUP)) {
-                    dropPowerUps();
+                    this.dropPowerUps();
                 } else {
                     this.getEntity().getGame().updateGameState();
                     this.getEntity().getGame().removeEntity(this.getEntity());
@@ -88,23 +88,19 @@ public final class DestroyComponent extends AbstractComponent {
      */
     private void dropPowerUps() {
         final var entity = this.getEntity();
-        final var powerUpComponent = entity.getComponent(PowerUpListComponent.class);
         final List<PowerUpType> powerUps;
         int droppedPowerUps;
         this.getEntity().getGame().removeEntity(this.getEntity());
         entity.getGame().updateGameState();
-        if (powerUpComponent.isPresent()) {
-            powerUps = new ArrayList<>(powerUpComponent.get().getPowerUpList());
+        if (entity.getType().equals(Type.DESTRUCTIBLE_WALL) && this.rnd.nextInt(4) % 2 == 0) {
+            entity.getGame()
+                    .addEntity(
+                            entity.getGame().getFactory().makePowerUp(entity.getPosition(),
+                                    PowerUpType.getRandomPowerUp()));
+        } else if (entity.getComponent(PowerUpHandlerComponent.class).isPresent()) {
+            powerUps = new ArrayList<>(entity.getComponent(PowerUpHandlerComponent.class).get().getPowerUpList());
             droppedPowerUps = (int) Math.ceil(powerUps.size() * DROPPED_POWERUP_PERCENT);
-            if (!powerUps.isEmpty()) {
-                if (!entity.getType().equals(Type.BOMBER)) {
-                    entity.getGame()
-                            .addEntity(
-                                    entity.getGame().getFactory().makePowerUp(entity.getPosition(), powerUps.get(0)));
-                    powerUps.remove(0);
-                }
-                dropRemaining(powerUps, droppedPowerUps, entity.getGame());
-            }
+            this.dropRemaining(powerUps, droppedPowerUps, entity.getGame());
         }
     }
 
