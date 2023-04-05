@@ -86,15 +86,13 @@ public class WorldImpl implements World, Runnable, GameLoop {
         play.update();
         break;
       case PAUSE:
-        endGame.update();
-        break;
       case WIN:
       case LOSE:
         endGame.update();
         break;
       case QUIT:
       default:
-        System.exit(0);
+        Runtime.getRuntime().exit(0);
         break;
     }
   }
