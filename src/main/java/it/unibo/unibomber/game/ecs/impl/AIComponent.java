@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -435,8 +436,8 @@ public final class AIComponent extends AbstractComponent {
       */
      private void addEntitiesToMatrix(final Type[][] typesMatrix) {
           final var field = this.getEntity().getGame().getGameField().getField();
-          for (final Pair<Integer, Integer> pos : field.keySet()) {
-               typesMatrix[pos.getX()][pos.getY()] = field.get(pos).getX();
+          for (final Entry<Pair<Integer, Integer>, Pair<Type, Entity>> pos : field.entrySet()) {
+               typesMatrix[pos.getKey().getX()][pos.getKey().getY()] = field.get(pos.getKey()).getX();
           }
      }
 }
