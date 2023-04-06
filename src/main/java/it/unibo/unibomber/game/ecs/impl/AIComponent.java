@@ -97,6 +97,9 @@ public final class AIComponent extends AbstractComponent {
                     } else {
                          final Type[][] typesWithBomber = getMatrixWithBombers(typesMatrix);
                          goTowards = getDirectionsTowards(Type.BOMBER, true, typesWithBomber);
+                         if (goTowards.contains(Direction.CENTER)) {
+                              placeBomb();
+                         }
                     }
                }
                return goTowards;
@@ -408,11 +411,11 @@ public final class AIComponent extends AbstractComponent {
      /**
       * a recursive method which adds one row of explosion tiles at a time.
       * 
-      * @param typesMatrix the matrix of types.
-      * @param initialPosition       the initial position.
-      * @param strength    the tsrength of the bomb.
-      * @param direction           the direction the current explosion line is facing.
-      * @param step        how many steps of recurison it is in.
+      * @param typesMatrix     the matrix of types.
+      * @param initialPosition the initial position.
+      * @param strength        the tsrength of the bomb.
+      * @param direction       the direction the current explosion line is facing.
+      * @param step            how many steps of recurison it is in.
       */
      private void addExplosionToMatrix(final Type[][] typesMatrix, final Pair<Integer, Integer> initialPosition,
                final int strength, final Direction direction, final int step) {

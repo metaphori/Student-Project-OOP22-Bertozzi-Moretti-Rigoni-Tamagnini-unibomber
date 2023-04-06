@@ -150,4 +150,11 @@ public enum Direction {
             return RIGHT;
         }
     }
+
+    /**
+     * @return a random direction
+     */
+    public static Direction getRandom() {
+        return Direction.valuesNoCenter().get((int)(Math.random()*4));
+    }
 }
