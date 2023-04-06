@@ -67,7 +67,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public final Game getGame() {
-        return this.game;
+        return new GameImpl(this.game);
     }
 
     @Override

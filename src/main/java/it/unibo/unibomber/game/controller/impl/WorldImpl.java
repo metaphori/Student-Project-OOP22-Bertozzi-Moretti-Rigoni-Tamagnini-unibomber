@@ -3,11 +3,14 @@ package it.unibo.unibomber.game.controller.impl;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Timer;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.World;
+import it.unibo.unibomber.game.ecs.api.Entity;
+import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.GameImpl;
@@ -20,10 +23,11 @@ import it.unibo.unibomber.utilities.Constants.UI.Screen;
 /**
  * WordImpl constructor.
  */
-public class WorldImpl implements World, Runnable, GameLoop {
+public final class WorldImpl implements World, Runnable, GameLoop {
 
   private final WorldPanelImpl unibomberPanel;
   private Menu menu;
+
   private Option option;
   private Play play;
   private StateGame endGame;
@@ -41,6 +45,20 @@ public class WorldImpl implements World, Runnable, GameLoop {
     new WorldWindow(unibomberPanel);
     unibomberPanel.requestFocus();
     startGameLoop();
+  }
+
+  /**
+   * @param world the world to copy
+   */
+  public WorldImpl(final World world) {
+    this.unibomberPanel = world.getUnibomberPanel();
+    this.menu = world.getMenu();
+    this.option = world.getOption();
+    this.play = world.getPlay();
+    this.endGame = world.getEndGame();
+    this.game = world.getGame();
+    this.timer = world.getTimer();
+    this.second = world.getSecond();
   }
 
   /**
@@ -70,7 +88,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public final void update() {
+  public void update() {
     if (second > GameLoopConstants.TIMES_UP_TIMER) {
       game.updateTimesUp();
     }
@@ -98,7 +116,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public final void draw(final Graphics g) {
+  public void draw(final Graphics g) {
     switch (Gamestate.getGamestate()) {
       case MENU:
         menu.draw(g);
@@ -121,7 +139,7 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public final void run() {
+  public void run() {
     final double timePerUpdate = GameLoopConstants.NANO_S / GameLoopConstants.UPS_SET;
 
     long previousTime = System.nanoTime();
@@ -129,15 +147,18 @@ public class WorldImpl implements World, Runnable, GameLoop {
     long lastCheck = System.currentTimeMillis();
 
     double deltaU = 0;
+    int delta;
     while (true) {
       final long currentTime = System.nanoTime();
 
       deltaU += (currentTime - previousTime) / timePerUpdate;
+      delta = (int) deltaU;
       previousTime = currentTime;
 
-      while (deltaU >= 1) {
+      while (delta >= 1) {
+        delta--;
         update();
-        deltaU--;
+        deltaU -= 1;
       }
       unibomberPanel.repaint();
       if (System.currentTimeMillis() - lastCheck >= 1000) {
@@ -147,34 +168,34 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public final Menu getMenu() {
+  public Menu getMenu() {
     return menu;
   }
 
   @Override
-  public final Play getPlay() {
+  public Play getPlay() {
     return play;
   }
 
   @Override
-  public final Option getOption() {
+  public Option getOption() {
     return option;
   }
 
   @Override
-  public final Game getGame() {
-    return game;
+  public Game getGame() {
+    return new GameImpl(game);
   }
 
   @Override
-  public final void setPlay() {
+  public void setPlay() {
     play = new Play(this);
     simpleTimer();
     timer.start();
   }
 
   @Override
-  public final StateGame getEndGame() {
+  public StateGame getEndGame() {
     return endGame;
   }
 
@@ -188,18 +209,57 @@ public class WorldImpl implements World, Runnable, GameLoop {
   }
 
   @Override
-  public final void stopTimer() {
+  public void stopTimer() {
     timer.stop();
     second = 0;
   }
 
   @Override
-  public final void pauseTimer() {
+  public void pauseTimer() {
     timer.stop();
   }
 
   @Override
-  public final void startTimer() {
+  public void startTimer() {
     timer.start();
+  }
+
+  @Override
+  public List<Entity> getEntities() {
+    return this.game.getEntities();
+  }
+
+  @Override
+  public <C extends Entity> void addEntity(final C entity) {
+    this.game.addEntity(entity);
+  }
+
+  @Override
+  public Field getGameField() {
+    return this.game.getGameField();
+  }
+
+  @Override
+  public WorldPanelImpl getUnibomberPanel() {
+    return new WorldPanelImpl(unibomberPanel);
+  }
+
+  @Override
+  public int getSecond() {
+    return this.second;
+  }
+
+  @Override
+  public Timer getTimer() {
+    Timer newTimer = new Timer(1000, new ActionListener() {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
+        second++;
+      }
+    });
+    newTimer.setDelay(this.timer.getDelay());
+    newTimer.setInitialDelay(this.timer.getInitialDelay());
+    return newTimer;
+
   }
 }

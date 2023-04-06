@@ -72,4 +72,9 @@ public interface Game {
      * A method to update the new state of the game.
      */
     void updateGameState();
+
+    /**
+     * @return allthe pressed keys
+     */
+    List<Integer> getPressedKeys();
 }

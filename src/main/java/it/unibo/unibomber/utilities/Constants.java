@@ -628,7 +628,7 @@ public class Constants {
             /**
              * Second for start times up.
              */
-            public static final int TIMES_UP_TIMER = 80;
+            public static final int TIMES_UP_TIMER = 1;
             /**
              * Game level.
              */

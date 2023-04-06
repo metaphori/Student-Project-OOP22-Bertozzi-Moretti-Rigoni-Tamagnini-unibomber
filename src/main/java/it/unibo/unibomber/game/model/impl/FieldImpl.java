@@ -28,7 +28,7 @@ public class FieldImpl implements Field {
      * @param game the game started
      */
     public FieldImpl(final Game game) {
-        this.game = game;
+        this.game = new GameImpl(game);
     }
 
     @Override

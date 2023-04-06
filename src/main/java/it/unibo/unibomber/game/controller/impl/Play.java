@@ -40,13 +40,13 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      */
     public Play(final WorldImpl world) {
         super();
-        view = new PlayView(this);
-        model = new PlayImpl();
+        this.view = new PlayView(this);
+        this.model = new PlayImpl();
         this.world = world;
-        keyQueue = new LinkedList<>();
-        firstFrameKey = new HashMap<>();
-        explosion = new Explosion();
-        systems = new SystemManagerImpl();
+        this.keyQueue = new LinkedList<>();
+        this.firstFrameKey = new HashMap<>();
+        this.explosion = new Explosion();
+        this.systems = new SystemManagerImpl();
     }
 
     @Override
