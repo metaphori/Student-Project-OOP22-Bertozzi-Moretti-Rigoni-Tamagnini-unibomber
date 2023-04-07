@@ -3,7 +3,9 @@ package it.unibo.unibomber.model;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.impl.MovementComponent;
 import it.unibo.unibomber.game.model.api.EntityFactory;
+import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
+import it.unibo.unibomber.game.model.impl.GameImpl;
 import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,8 +21,11 @@ class BomberTest {
     private static final float PLAYER_EXCEPTED_Y = 1.0f;
     private static final float PLAYER_MOVE_X = 0.0f;
     private static final float PLAYER_MOVE_Y = 4.0f;
+    private static final int FIELD_ROWS = 15;
+    private static final int FIELD_COLS = 19;
 
-    private final EntityFactory entityFactory = new EntityFactoryImpl(null);
+    private final Game game = new GameImpl(null, FIELD_ROWS, FIELD_COLS);
+    private final EntityFactory entityFactory = new EntityFactoryImpl(game);
 
     private Entity createPlayerEntity() {
         return this.entityFactory.makePlayable(new Pair<Float, Float>(PLAYER_STARTING_X, PLAYER_STARTING_Y));
