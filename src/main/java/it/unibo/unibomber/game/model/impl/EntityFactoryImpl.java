@@ -35,7 +35,7 @@ public class EntityFactoryImpl implements EntityFactory {
          * @param game game of entity.
          */
         public EntityFactoryImpl(final Game game) {
-                this.game = game;
+                this.game = new GameImpl(game);
         }
 
         @Override
