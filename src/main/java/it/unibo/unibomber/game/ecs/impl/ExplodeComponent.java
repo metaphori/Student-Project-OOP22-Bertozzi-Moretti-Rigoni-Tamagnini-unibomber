@@ -78,10 +78,10 @@ public class ExplodeComponent extends AbstractComponent {
     }
 
     /**
-     * A method that supplies the entity
+     * A method that supplies the first entity
      * who placed the bomb.
      * 
-     * @return a copy of the entity
+     * @return the entity
      */
     public Entity getPlacer() {
         return this.placers.get(0);
@@ -135,6 +135,8 @@ public class ExplodeComponent extends AbstractComponent {
                                         .isThrowing()) {
                             entitySearched.get().getComponent(ExplodeComponent.class).get()
                                     .explodeBomb();
+                            entitySearched.get().getComponent(ExplodeComponent.class).get()
+                                    .setExpiringFrames(EXPIRING_TIME);
                             explodeEntities(entitySearched.get());
                             countPositions += bombRange;
                         } else if (!entitySearched.get().getType().equals(Type.BOMB)
@@ -241,5 +243,14 @@ public class ExplodeComponent extends AbstractComponent {
         return Math.round(pos.getX()) >= 0 && Math.round(pos.getY()) >= 0
                 && Math.round(pos.getX()) < this.getEntity().getGame().getDimensions().getX()
                 && Math.round(pos.getY()) < this.getEntity().getGame().getDimensions().getY();
+    }
+
+    /**
+     * A method to set the value of the field expiringFrames.
+     * 
+     * @param newValue the new value of the field
+     */
+    private void setExpiringFrames(final int newValue) {
+        this.expiringFrames = newValue;
     }
 }
