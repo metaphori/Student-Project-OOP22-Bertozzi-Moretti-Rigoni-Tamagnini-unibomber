@@ -34,11 +34,6 @@ public interface Game {
     void addkeyPressed(int keyCode);
 
     /**
-     * after the keys are read the list is cleaned.
-     */
-    void clearKeysPressed();
-
-    /**
      * @param entity the entity to be removed
      */
     void removeEntity(Entity entity);

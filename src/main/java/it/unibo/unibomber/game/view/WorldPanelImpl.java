@@ -2,6 +2,8 @@ package it.unibo.unibomber.game.view;
 
 import javax.swing.JPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -19,7 +21,9 @@ import static it.unibo.unibomber.utilities.Constants.UI.Buttons;
  * WordPanel implement class.
  */
 public final class WorldPanelImpl extends JPanel {
-  private static final long serialVersionUID = -8854543282432946255L;
+  private static final long serialVersionUID = 1L;
+  @SuppressFBWarnings(value = { "SE_TRANSIENT_FIELD_NOT_RESTORED"
+  }, justification = "we don't use serilization and this field is redundant.")
   private final transient List<WorldImpl> world;
 
   /**
@@ -29,7 +33,7 @@ public final class WorldPanelImpl extends JPanel {
    */
   public WorldPanelImpl(final WorldImpl world) {
     this.world = new ArrayList<>();
-        this.world.add(world);
+    this.world.add(world);
     setSize();
     addKeyListener(new KeyboardInputsImpl(this));
     addMouseListener(new MouseInputsImpl(this));

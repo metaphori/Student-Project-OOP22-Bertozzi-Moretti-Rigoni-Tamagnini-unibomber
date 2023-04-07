@@ -73,11 +73,6 @@ public final class GameImpl implements Game {
     }
 
     @Override
-    public void clearKeysPressed() {
-        // keysPressedQueue.clear();
-    }
-
-    @Override
     public Pair<Integer, Integer> getDimensions() {
         return new Pair<Integer, Integer>(rows, columns);
     }
