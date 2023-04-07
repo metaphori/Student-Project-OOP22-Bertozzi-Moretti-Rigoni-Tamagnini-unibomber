@@ -23,7 +23,7 @@ public class ExplodeComponent extends AbstractComponent {
 
     private final List<Pair<Integer, Integer>> explonsionsList;
     private final Set<Pair<Integer, Integer>> positionsNotToExplode;
-    private final Entity placer;
+    private final List<Entity> placers;
     private int explodeFrames;
     private int expiringFrames;
     private boolean isExploding;
@@ -36,7 +36,8 @@ public class ExplodeComponent extends AbstractComponent {
     public ExplodeComponent(final Entity placer) {
         this.explonsionsList = new ArrayList<>();
         this.positionsNotToExplode = new HashSet<>();
-        this.placer = placer;
+        this.placers = new ArrayList<>();
+        this.placers.add(placer);
         this.expiringFrames = 0;
         this.explodeFrames = 0;
         this.isExploding = false;
@@ -58,7 +59,7 @@ public class ExplodeComponent extends AbstractComponent {
                 } else if (!this.getEntity().getComponent(DestroyComponent.class).get().isDestroyed()) {
                     this.getEntity().getComponent(DestroyComponent.class).get().destroy();
                     this.explonsionsList.clear();
-                    this.placer.getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
+                    this.placers.get(0).getComponent(PowerUpHandlerComponent.class).get().addBombPlaced(-1);
                 }
             } else {
                 this.expiringFrames++;
@@ -83,7 +84,7 @@ public class ExplodeComponent extends AbstractComponent {
      * @return a copy of the entity
      */
     public Entity getPlacer() {
-        return this.placer;
+        return this.placers.get(0);
     }
 
     /**
