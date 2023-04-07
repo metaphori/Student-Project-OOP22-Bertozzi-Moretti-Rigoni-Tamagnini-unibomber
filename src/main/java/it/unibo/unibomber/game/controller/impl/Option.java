@@ -12,9 +12,7 @@ import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.Handicap;
-import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
-import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.HandicapView;
 import it.unibo.unibomber.game.view.OptionView;
@@ -32,7 +30,7 @@ public final class Option extends StateImpl implements MouseListener, GameLoop {
     private OptionView view;
     private HandicapView hView;
     private final Map<Integer, OptionButtonImpl> optionButtons;
-    private WorldImpl world;
+    private final List<WorldImpl> world;
     private int focusIndex;
     private final Map<Integer, List<PowerUpType>> powerUpListOfEntity;
     private int basedWidth;
@@ -44,7 +42,8 @@ public final class Option extends StateImpl implements MouseListener, GameLoop {
      */
     public Option(final WorldImpl world) {
         super();
-        this.world = new WorldImpl(world);
+        this.world = new ArrayList<>();
+        this.world.add(world);
         this.focusIndex = -1;
         this.basedWidth = 0;
         powerUpListOfEntity = new HashMap<>();
@@ -53,42 +52,6 @@ public final class Option extends StateImpl implements MouseListener, GameLoop {
         loadButtons();
         loadPowerUpList();
         view = new OptionView(this);
-    }
-
-    /**
-     * Set world class with update.
-     * 
-     * @param world
-     */
-    public void setClass(final WorldImpl world) {
-        this.world = new WorldImpl(world);
-    }
-
-    /**
-     * Copy of costructor for view.
-     * 
-     * @param controller
-     */
-    public Option(final Option controller) {
-        this.world = controller.getWorld();
-        this.focusIndex = controller.getFocusIndex();
-        this.basedWidth = controller.getBaseWidth();
-        powerUpListOfEntity = new HashMap<>(controller.getListPowerUp());
-        optionButtons = new HashMap<>(controller.getOptionButtons());
-    }
-
-    /**
-     * @return base width.
-     */
-    private int getBaseWidth() {
-        return basedWidth;
-    }
-
-    /**
-     * @return focus index.
-     */
-    private int getFocusIndex() {
-        return focusIndex;
     }
 
     private void loadPowerUpList() {
@@ -265,39 +228,11 @@ public final class Option extends StateImpl implements MouseListener, GameLoop {
 
     }
 
-    private WorldImpl getWorld() {
-        return world;
-    }
-
     /**
-     * Create game.
+     * @return world copy.
      */
-    public void createGame() {
-        this.world.createGame();
-    }
-
-    /**
-     * Set play.
-     */
-    public void setPlay() {
-        this.world.setPlay();
-    }
-
-    /**
-     * @return game.
-     */
-    public Game getGame() {
-        return this.world.getGame();
-    }
-
-    /**
-     * Add entity to game.
-     * 
-     * @param <C>    extensions of entity
-     * @param entity entity to add
-     */
-    public <C extends Entity> void addEntity(final C entity) {
-        this.world.addEntity(entity);
+    public WorldImpl getWorld() {
+        return world.get(0);
     }
 
     /**

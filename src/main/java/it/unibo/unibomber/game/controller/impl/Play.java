@@ -3,6 +3,7 @@ package it.unibo.unibomber.game.controller.impl;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,10 +28,10 @@ import it.unibo.unibomber.game.view.PlayView;
 public class Play extends StateImpl implements KeyListener, GameLoop {
     private final Deque<Integer> keyQueue;
     private final Map<Integer, Boolean> firstFrameKey;
-    private final Explosion explosion;
+    private final List<Explosion> explosion;
     private final PlayView view;
     private final PlayImpl model;
-    private WorldImpl world;
+    private final List<WorldImpl> world;
     private final SystemManager systems;
 
     /**
@@ -42,37 +43,30 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         super();
         this.view = new PlayView(this);
         this.model = new PlayImpl();
-        this.world = new WorldImpl(world);
+        this.world = new ArrayList<>();
+        this.world.add(world);
         this.keyQueue = new LinkedList<>();
         this.firstFrameKey = new HashMap<>();
-        this.explosion = new Explosion();
+        explosion = new ArrayList<>();
+        this.explosion.add(new Explosion());
         this.systems = new SystemManagerImpl();
-    }
-
-    /**
-     * Set world class with update.
-     * 
-     * @param world
-     */
-    public void setClass(final WorldImpl world) {
-        this.world = new WorldImpl(world);
     }
 
     @Override
     public final void update() {
-        explosion.resetEntity();
-        for (int i = 0; i < this.world.getGame().getEntities().size(); i++) {
-            systems.update(this.world.getGame().getEntities().get(i));
+        explosion.get(0).resetEntity();
+        for (int i = 0; i < this.world.get(0).getEntities().size(); i++) {
+            systems.update(this.world.get(0).getEntities().get(i));
         }
-        this.world.getGame().getEntities().stream()
+        this.world.get(0).getEntities().stream()
                 .filter(e -> e.getType().equals(Type.BOMB))
                 .filter(e -> e.getComponent(ExplodeComponent.class).get().isExploding())
                 .filter(e -> !e.getComponent(DestroyComponent.class).get().isDestroyed())
                 .forEach((e) -> {
-                    explosion.setEntityExploding(e);
+                    explosion.get(0).setEntityExploding(e);
                 });
-        explosion.update();
-        this.world.getGame().getGameField().updateField();
+        explosion.get(0).update();
+        this.world.get(0).getGameField().updateField();
         view.update();
         updateKeys();
     }
@@ -96,8 +90,8 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     public final void keyReleased(final KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             Gamestate.setGameState(Gamestate.PAUSE);
-            this.world.pauseTimer();
-            this.world.getEndGame().loadButtons();
+            this.world.get(0).pauseTimer();
+            this.world.get(0).getEndGame().loadButtons();
         } else {
             if (keyQueue.contains(e.getKeyCode())) {
                 keyQueue.remove(e.getKeyCode());
@@ -142,14 +136,14 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
      * @return all entity in game.
      */
     public final List<Entity> getEntities() {
-        return this.world.getGame().getEntities();
+        return this.world.get(0).getGame().getEntities();
     }
 
     /**
      * @return explosion controller.
      */
     public Explosion getExplosionController() {
-        return explosion;
+        return explosion.get(0);
     }
 
     /**

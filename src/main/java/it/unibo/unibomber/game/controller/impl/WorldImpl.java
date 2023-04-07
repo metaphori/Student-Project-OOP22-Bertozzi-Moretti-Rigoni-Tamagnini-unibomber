@@ -3,6 +3,7 @@ package it.unibo.unibomber.game.controller.impl;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
 
@@ -26,10 +27,10 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   private final WorldPanelImpl unibomberPanel;
   private Menu menu;
-  private Option option;
+  private List<Option> option;
   private Play play;
   private StateGame endGame;
-  private Game game;
+  private List<Game> game;
   private Timer timer;
   private int second;
 
@@ -40,36 +41,25 @@ public final class WorldImpl implements World, Runnable, GameLoop {
     loadSprites();
     unibomberPanel = new WorldPanelImpl(this);
     initClasses();
-    unibomberPanel.setClass(this);
-    option.setClass(this);
     new WorldWindow(unibomberPanel);
     unibomberPanel.requestFocus();
     startGameLoop();
   }
 
   /**
-   * @param world the world to copy
-   */
-  public WorldImpl(final World world) {
-    this.menu = world.getMenu();
-    this.option = world.getOption();
-    this.endGame = world.getEndGame();
-    this.unibomberPanel = world.getUnibomberPanel();
-    this.play = world.getPlay();
-  }
-
-  /**
    * Create game.
    */
   public void createGame() {
-    game = new GameImpl(this, Screen.getTilesWidth(), Screen.getTilesHeight());
+    game = new ArrayList<>();
+    game.add(new GameImpl(this, Screen.getTilesWidth(), Screen.getTilesHeight()));
     Screen.setDimensionOnMap();
-    game.getGameField().updateField();
+    game.get(0).getGameField().updateField();
   }
 
   private void initClasses() {
     menu = new Menu();
-    option = new Option(this);
+    option = new ArrayList<>();
+    option.add(new Option(this));
     endGame = new StateGame(this);
   }
 
@@ -87,7 +77,7 @@ public final class WorldImpl implements World, Runnable, GameLoop {
   @Override
   public void update() {
     if (second > GameLoopConstants.TIMES_UP_TIMER) {
-      game.updateTimesUp();
+      game.get(0).updateTimesUp();
     }
     switch (Gamestate.getGamestate()) {
       case MENU:
@@ -95,7 +85,7 @@ public final class WorldImpl implements World, Runnable, GameLoop {
         initClasses();
         break;
       case OPTION:
-        option.update();
+        option.get(0).update();
         break;
       case PLAY:
         play.update();
@@ -119,7 +109,7 @@ public final class WorldImpl implements World, Runnable, GameLoop {
         menu.draw(g);
         break;
       case OPTION:
-        option.draw(g);
+        option.get(0).draw(g);
         break;
       case PLAY:
         play.draw(g);
@@ -176,19 +166,17 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public Option getOption() {
-      return new Option(option);
+      return option.get(0);
   }
 
   @Override
   public Game getGame() {
-    return new GameImpl(game);
+    return game.get(0);
   }
 
   @Override
   public void setPlay() {
     this.play = new Play(this);
-    play.setClass(this);
-    unibomberPanel.setClass(this);
     simpleTimer();
     timer.start();
   }
@@ -225,22 +213,17 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public List<Entity> getEntities() {
-    return this.game.getEntities();
+    return this.game.get(0).getEntities();
   }
 
   @Override
   public <C extends Entity> void addEntity(final C entity) {
-    this.game.addEntity(entity);
+    this.game.get(0).addEntity(entity);
   }
 
   @Override
   public Field getGameField() {
-    return this.game.getGameField();
-  }
-
-  @Override
-  public WorldPanelImpl getUnibomberPanel() {
-    return new WorldPanelImpl(unibomberPanel);
+    return this.game.get(0).getGameField();
   }
 
   @Override

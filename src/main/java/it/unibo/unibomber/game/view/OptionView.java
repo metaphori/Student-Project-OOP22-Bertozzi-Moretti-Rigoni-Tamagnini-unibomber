@@ -2,6 +2,8 @@ package it.unibo.unibomber.game.view;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.impl.Option;
@@ -16,19 +18,20 @@ import static it.unibo.unibomber.utilities.Constants.UI.OptionButton.OPTION_BACK
  * Option view class.
  */
 public final class OptionView implements GameLoop {
-        private final Option controller;
+        private final List<Option> controller;
 
         /**
          * @param controller Option controller.
          * @throws CloneNotSupportedException
          */
         public OptionView(final Option controller) {
-                this.controller = new Option(controller);
+                this.controller = new ArrayList<>();
+                this.controller.add(controller);
         }
 
         @Override
         public void update() {
-                for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
+                for (final OptionButtonImpl mb : controller.get(0).getOptionButtons().values()) {
                         mb.update();
                 }
         }
@@ -45,7 +48,7 @@ public final class OptionView implements GameLoop {
                                         OptionButton.CONTAINER_WIDTH,
                                         Buttons.getOptionButtonSize() - OptionButton.WIDTH_INCREMENT,
                                         OptionButton.ARC_RECT, OptionButton.ARC_RECT);
-                        for (final OptionButtonImpl mb : controller.getOptionButtons().values()) {
+                        for (final OptionButtonImpl mb : controller.get(0).getOptionButtons().values()) {
                                 if (!"empty".equals(mb.getType())) {
                                         mb.draw(g);
                                 }

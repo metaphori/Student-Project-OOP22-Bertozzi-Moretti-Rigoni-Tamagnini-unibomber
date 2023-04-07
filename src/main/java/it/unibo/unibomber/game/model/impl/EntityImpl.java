@@ -1,6 +1,8 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class EntityImpl implements Entity {
 
     private final Type type;
     private final Set<Component> components;
-    private final Game game;
+    private final List<Game> game;
     private Pair<Float, Float> position;
     private float speed;
 
@@ -30,7 +32,8 @@ public class EntityImpl implements Entity {
      * @param type     the type of the entity
      */
     protected EntityImpl(final Game game, final Pair<Float, Float> position, final Type type) {
-        this.game = game;
+        this.game = new ArrayList<>();
+        this.game.add(game);
         this.type = type;
         this.position = new Pair<>(position.getX(), position.getY());
         this.components = new HashSet<>();
@@ -67,7 +70,7 @@ public class EntityImpl implements Entity {
 
     @Override
     public final Game getGame() {
-        return new GameImpl(this.game);
+        return this.game.get(0);
     }
 
     @Override

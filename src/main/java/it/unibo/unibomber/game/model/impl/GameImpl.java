@@ -24,7 +24,7 @@ public final class GameImpl implements Game {
     private final TimesUpImpl timesUp;
     private final int columns;
     private final int rows;
-    private final World world;
+    private final List<World> world;
     private final EntityFactory entityFactory;
 
     /**
@@ -35,7 +35,8 @@ public final class GameImpl implements Game {
      * @param columns cols number.
      */
     public GameImpl(final World world, final int rows, final int columns) {
-        this.world = world;
+        this.world = new ArrayList<>();
+        this.world.add(world);
         this.rows = rows;
         this.columns = columns;
         this.timesUp = new TimesUpImpl(this);
@@ -46,25 +47,9 @@ public final class GameImpl implements Game {
         this.entityFactory = new EntityFactoryImpl(this);
     }
 
-    /**
-     * GameImpl copy constructor.
-     * 
-     * @param game game.
-     */
-    public GameImpl(final Game game) {
-        this.world = game.getWorld();
-        this.rows = game.getDimensions().getX();
-        this.columns = game.getDimensions().getY();
-        this.timesUp = null;
-        this.keysPressedQueue = new ArrayList<>(game.getPressedKeys());
-        this.entities = game.getEntities();
-        this.gameField = game.getGameField();
-        this.entityFactory = game.getFactory();
-    }
-
     @Override
     public List<Entity> getEntities() {
-        return this.entities;
+        return new ArrayList<>(this.entities);
     }
 
     @Override
@@ -104,7 +89,7 @@ public final class GameImpl implements Game {
 
     @Override
     public World getWorld() {
-        return this.world;
+        return this.world.get(0);
     }
 
     @Override
@@ -130,14 +115,14 @@ public final class GameImpl implements Game {
         if (botLive == 0) {
             Gamestate.setGameState(Gamestate.WIN);
             if (this.world != null) {
-                this.world.getEndGame().loadButtons();
-                this.world.stopTimer();
+                this.world.get(0).getEndGame().loadButtons();
+                this.world.get(0).stopTimer();
             }
         } else if (playersLive == 0) {
             Gamestate.setGameState(Gamestate.LOSE);
             if (this.world != null) {
-                this.world.getEndGame().loadButtons();
-                this.world.stopTimer();
+                this.world.get(0).getEndGame().loadButtons();
+                this.world.get(0).stopTimer();
             }
         }
     }

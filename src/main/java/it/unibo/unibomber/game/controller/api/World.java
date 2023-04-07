@@ -10,7 +10,6 @@ import it.unibo.unibomber.game.controller.impl.StateGame;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
-import it.unibo.unibomber.game.view.WorldPanelImpl;
 
 /**
  * World class.
@@ -77,11 +76,6 @@ public interface World {
      * @return the Field construct relative to the current game
      */
     Field getGameField();
-
-    /**
-     * @return a copy of UniBomberPanel
-     */
-    WorldPanelImpl getUnibomberPanel();
 
     /**
      * @return a copy of timer

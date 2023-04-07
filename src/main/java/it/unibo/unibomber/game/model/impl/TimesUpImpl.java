@@ -1,5 +1,8 @@
 package it.unibo.unibomber.game.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.TimesUp;
@@ -12,7 +15,7 @@ import it.unibo.unibomber.utilities.Utilities;
  * TimesUpImpl class.
  */
 public final class TimesUpImpl implements TimesUp {
-     private final Game game;
+     private final List<Game> game;
      private boolean isStarted;
      private boolean isDone;
      private int normalizedFrames;
@@ -31,7 +34,8 @@ public final class TimesUpImpl implements TimesUp {
           isDone = false;
           currentDirection = Direction.RIGHT;
           currentPosition = new Pair<>(-1, 0);
-          this.game = game;
+          this.game = new ArrayList<>();
+          this.game.add(game);
           this.start();
      }
 
@@ -60,11 +64,11 @@ public final class TimesUpImpl implements TimesUp {
                     }
                }
                raisedWalls[newPosition.getX()][newPosition.getY()] = true;
-               if (this.game.getGameField().getField().containsKey(newPosition)) {
-                    final Entity existingEntity = this.game.getGameField().getField().get(newPosition).getY();
-                    this.game.getEntities().remove(existingEntity);
+               if (this.game.get(0).getGameField().getField().containsKey(newPosition)) {
+                    final Entity existingEntity = this.game.get(0).getGameField().getField().get(newPosition).getY();
+                    this.game.get(0).getEntities().remove(existingEntity);
                }
-               this.game.addEntity(this.game.getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
+               this.game.get(0).addEntity(this.game.get(0).getFactory().makeRaisingWall(Utilities.getFloatPair(newPosition)));
                currentPosition = newPosition;
           }
           normalizedFrames = (normalizedFrames + 1) % 3;

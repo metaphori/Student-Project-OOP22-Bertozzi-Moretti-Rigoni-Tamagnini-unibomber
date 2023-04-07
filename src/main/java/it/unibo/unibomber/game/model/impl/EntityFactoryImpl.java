@@ -1,6 +1,7 @@
 package it.unibo.unibomber.game.model.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
@@ -27,7 +28,7 @@ import it.unibo.unibomber.utilities.Pair;
  */
 public class EntityFactoryImpl implements EntityFactory {
 
-        private final Game game;
+        private final List<Game> game;
 
         /**
          * This method takes the game for create entity.
@@ -35,12 +36,13 @@ public class EntityFactoryImpl implements EntityFactory {
          * @param game game of entity.
          */
         public EntityFactoryImpl(final Game game) {
-                this.game = new GameImpl(game);
+                this.game = new ArrayList<>();
+                this.game.add(game);
         }
 
         @Override
         public final Entity makePowerUp(final Pair<Float, Float> position, final PowerUpType powerUpType) {
-                return new EntityImpl(game, position, Type.POWERUP)
+                return new EntityImpl(game.get(0), position, Type.POWERUP)
                                 .addComponent(new PowerUpComponent(powerUpType))
                                 .addComponent(new CollisionComponent(true, true, Math.round(position.getX()),
                                                 Math.round(position.getY()), null))
@@ -49,7 +51,7 @@ public class EntityFactoryImpl implements EntityFactory {
 
         @Override
         public final Entity makeBomber(final Pair<Float, Float> position, final Type type) {
-                return new EntityImpl(game, position, type)
+                return new EntityImpl(game.get(0), position, type)
                                 .addComponent(new MovementComponent())
                                 .addComponent(new CollisionComponent(false, true, Math.round(position.getX()),
                                                 Math.round(position.getY()), Extension.Bomber.Collision.getCollide()))
@@ -72,7 +74,7 @@ public class EntityFactoryImpl implements EntityFactory {
 
         @Override
         public final Entity makeBomb(final Entity placer, final Pair<Float, Float> position) {
-                return new EntityImpl(game, position, Type.BOMB)
+                return new EntityImpl(game.get(0), position, Type.BOMB)
                                 .addComponent(new MovementComponent())
                                 .addComponent(new SlidingComponent())
                                 .addComponent(new ThrowComponent())
@@ -85,7 +87,7 @@ public class EntityFactoryImpl implements EntityFactory {
 
         @Override
         public final Entity makeDestructibleWall(final Pair<Float, Float> position) {
-                return new EntityImpl(game, position, Type.DESTRUCTIBLE_WALL)
+                return new EntityImpl(game.get(0), position, Type.DESTRUCTIBLE_WALL)
                                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()),
                                                 Math.round(position.getY()), null))
                                 .addComponent(new DestroyComponent());
@@ -93,14 +95,14 @@ public class EntityFactoryImpl implements EntityFactory {
 
         @Override
         public final Entity makeIndestructibleWall(final Pair<Float, Float> position) {
-                return new EntityImpl(game, position, Type.INDESTRUCTIBLE_WALL)
+                return new EntityImpl(game.get(0), position, Type.INDESTRUCTIBLE_WALL)
                                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()),
                                                 Math.round(position.getY()), null));
         }
 
         @Override
         public final Entity makeRaisingWall(final Pair<Float, Float> position) {
-                return new EntityImpl(game, position, Type.RISING_WALL)
+                return new EntityImpl(game.get(0), position, Type.RISING_WALL)
                                 .addComponent(new CollisionComponent(true, false, Math.round(position.getX()),
                                                 Math.round(position.getY()), null));
         }
