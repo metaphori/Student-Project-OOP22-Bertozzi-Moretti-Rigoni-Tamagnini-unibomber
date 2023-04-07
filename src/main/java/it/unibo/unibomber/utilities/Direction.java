@@ -155,6 +155,6 @@ public enum Direction {
      * @return a random direction
      */
     public static Direction getRandom() {
-        return Direction.valuesNoCenter().get((int)(Math.random()*4));
+        return Direction.valuesNoCenter().get((int) (Math.random() * 4));
     }
 }

@@ -251,7 +251,7 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public Timer getTimer() {
-    Timer newTimer = new Timer(1000, new ActionListener() {
+    final Timer newTimer = new Timer(1000, new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         second++;
