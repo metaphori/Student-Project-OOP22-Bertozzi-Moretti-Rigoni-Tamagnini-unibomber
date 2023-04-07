@@ -31,17 +31,17 @@ public final class MouseInputsImpl implements MouseListener {
   public void mousePressed(final MouseEvent e) {
     switch (Gamestate.getGamestate()) {
       case MENU:
-        worldPanel.getWorld().getMenu().mousePressed(e);
+        worldPanel.getMenu().mousePressed(e);
         break;
       case OPTION:
-        worldPanel.getWorld().getOption().mousePressed(e);
+        worldPanel.getOption().mousePressed(e);
         break;
       case PLAY:
         break;
       case PAUSE:
       case WIN:
       case LOSE:
-        worldPanel.getWorld().getEndGame().mousePressed(e);
+        worldPanel.getEndGame().mousePressed(e);
         break;
       default:
         break;
@@ -53,17 +53,17 @@ public final class MouseInputsImpl implements MouseListener {
   public void mouseReleased(final MouseEvent e) {
     switch (Gamestate.getGamestate()) {
       case MENU:
-        worldPanel.getWorld().getMenu().mouseReleased(e);
+        worldPanel.getMenu().mouseReleased(e);
         break;
       case OPTION:
-        worldPanel.getWorld().getOption().mouseReleased(e);
+        worldPanel.getOption().mouseReleased(e);
         break;
       case PLAY:
         break;
       case PAUSE:
       case WIN:
       case LOSE:
-        worldPanel.getWorld().getEndGame().mouseReleased(e);
+        worldPanel.getEndGame().mouseReleased(e);
         break;
       default:
         break;

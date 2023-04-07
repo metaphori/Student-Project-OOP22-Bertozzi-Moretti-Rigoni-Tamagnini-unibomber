@@ -2,6 +2,7 @@ package it.unibo.unibomber.utilities;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Direction enum.
@@ -30,6 +31,7 @@ public enum Direction {
 
     private int x;
     private int y;
+    private static final Random RANDOM = new Random();
 
     /**
      * @param x
@@ -155,6 +157,7 @@ public enum Direction {
      * @return a random direction
      */
     public static Direction getRandom() {
-        return Direction.valuesNoCenter().get((int) (Math.random() * 4));
+
+        return Direction.valuesNoCenter().get(RANDOM.nextInt(4));
     }
 }

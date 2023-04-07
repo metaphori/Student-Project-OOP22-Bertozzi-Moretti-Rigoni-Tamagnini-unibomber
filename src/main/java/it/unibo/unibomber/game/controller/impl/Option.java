@@ -12,7 +12,9 @@ import java.util.stream.IntStream;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
 import it.unibo.unibomber.game.controller.api.Handicap;
+import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
+import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.view.HandicapView;
 import it.unibo.unibomber.game.view.OptionView;
@@ -25,12 +27,12 @@ import static it.unibo.unibomber.utilities.Constants.UI.MapOption;
 /**
  * Option class.
  */
-public class Option extends StateImpl implements MouseListener, GameLoop {
+public final class Option extends StateImpl implements MouseListener, GameLoop {
 
     private OptionView view;
     private HandicapView hView;
     private final Map<Integer, OptionButtonImpl> optionButtons;
-    private final WorldImpl world;
+    private WorldImpl world;
     private int focusIndex;
     private final Map<Integer, List<PowerUpType>> powerUpListOfEntity;
     private int basedWidth;
@@ -42,7 +44,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
      */
     public Option(final WorldImpl world) {
         super();
-        this.world = world;
+        this.world = new WorldImpl(world);
         this.focusIndex = -1;
         this.basedWidth = 0;
         powerUpListOfEntity = new HashMap<>();
@@ -51,6 +53,15 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
         loadButtons();
         loadPowerUpList();
         view = new OptionView(this);
+    }
+
+    /**
+     * Set world class with update.
+     * 
+     * @param world
+     */
+    public void setClass(final WorldImpl world) {
+        this.world = new WorldImpl(world);
     }
 
     /**
@@ -149,17 +160,17 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     /**
      * @return button option pressed
      */
-    public final Map<Integer, OptionButtonImpl> getOptionButtons() {
+    public Map<Integer, OptionButtonImpl> getOptionButtons() {
         return new HashMap<>(optionButtons);
     }
 
     @Override
-    public final void update() {
+    public void update() {
         view.update();
     }
 
     @Override
-    public final void draw(final Graphics g) {
+    public void draw(final Graphics g) {
         view = new OptionView(this);
         hView = new HandicapView(this);
         view.draw(g);
@@ -179,7 +190,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     @Override
-    public final void mousePressed(final MouseEvent e) {
+    public void mousePressed(final MouseEvent e) {
         for (final OptionButtonImpl mb : optionButtons.values()) {
             if (isMouseIn(e, mb)) {
                 final Handicap hH = Handicap.PLAYER.getType().equals(mb.getType()) ? Handicap.PLAYER_HOVER
@@ -215,7 +226,7 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
     }
 
     @Override
-    public final void mouseReleased(final MouseEvent e) {
+    public void mouseReleased(final MouseEvent e) {
         for (final OptionButtonImpl mb : optionButtons.values()) {
             if (isMouseIn(e, mb)) {
                 if (mb.isMousePressed()) {
@@ -254,11 +265,39 @@ public class Option extends StateImpl implements MouseListener, GameLoop {
 
     }
 
+    private WorldImpl getWorld() {
+        return world;
+    }
+
     /**
-     * @return world.
+     * Create game.
      */
-    public WorldImpl getWorld() {
-        return this.world;
+    public void createGame() {
+        this.world.createGame();
+    }
+
+    /**
+     * Set play.
+     */
+    public void setPlay() {
+        this.world.setPlay();
+    }
+
+    /**
+     * @return game.
+     */
+    public Game getGame() {
+        return this.world.getGame();
+    }
+
+    /**
+     * Add entity to game.
+     * 
+     * @param <C>    extensions of entity
+     * @param entity entity to add
+     */
+    public <C extends Entity> void addEntity(final C entity) {
+        this.world.addEntity(entity);
     }
 
     /**

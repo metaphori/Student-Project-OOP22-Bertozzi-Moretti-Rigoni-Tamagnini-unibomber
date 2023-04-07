@@ -30,7 +30,7 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
     private final Explosion explosion;
     private final PlayView view;
     private final PlayImpl model;
-    private final WorldImpl world;
+    private WorldImpl world;
     private final SystemManager systems;
 
     /**
@@ -42,11 +42,20 @@ public class Play extends StateImpl implements KeyListener, GameLoop {
         super();
         this.view = new PlayView(this);
         this.model = new PlayImpl();
-        this.world = world;
+        this.world = new WorldImpl(world);
         this.keyQueue = new LinkedList<>();
         this.firstFrameKey = new HashMap<>();
         this.explosion = new Explosion();
         this.systems = new SystemManagerImpl();
+    }
+
+    /**
+     * Set world class with update.
+     * 
+     * @param world
+     */
+    public void setClass(final WorldImpl world) {
+        this.world = new WorldImpl(world);
     }
 
     @Override

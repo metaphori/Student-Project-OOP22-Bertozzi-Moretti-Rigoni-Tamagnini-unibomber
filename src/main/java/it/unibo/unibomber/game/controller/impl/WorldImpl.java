@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.Timer;
 
 import it.unibo.unibomber.game.controller.api.GameLoop;
@@ -27,7 +26,6 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   private final WorldPanelImpl unibomberPanel;
   private Menu menu;
-
   private Option option;
   private Play play;
   private StateGame endGame;
@@ -42,6 +40,8 @@ public final class WorldImpl implements World, Runnable, GameLoop {
     loadSprites();
     unibomberPanel = new WorldPanelImpl(this);
     initClasses();
+    unibomberPanel.setClass(this);
+    option.setClass(this);
     new WorldWindow(unibomberPanel);
     unibomberPanel.requestFocus();
     startGameLoop();
@@ -51,14 +51,11 @@ public final class WorldImpl implements World, Runnable, GameLoop {
    * @param world the world to copy
    */
   public WorldImpl(final World world) {
-    this.unibomberPanel = world.getUnibomberPanel();
     this.menu = world.getMenu();
     this.option = world.getOption();
-    this.play = world.getPlay();
     this.endGame = world.getEndGame();
-    this.game = world.getGame();
-    this.timer = world.getTimer();
-    this.second = world.getSecond();
+    this.unibomberPanel = world.getUnibomberPanel();
+    this.play = world.getPlay();
   }
 
   /**
@@ -179,7 +176,7 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public Option getOption() {
-    return option;
+      return new Option(option);
   }
 
   @Override
@@ -189,7 +186,9 @@ public final class WorldImpl implements World, Runnable, GameLoop {
 
   @Override
   public void setPlay() {
-    play = new Play(this);
+    this.play = new Play(this);
+    play.setClass(this);
+    unibomberPanel.setClass(this);
     simpleTimer();
     timer.start();
   }

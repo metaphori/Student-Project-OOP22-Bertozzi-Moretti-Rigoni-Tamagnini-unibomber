@@ -27,10 +27,10 @@ public final class KeyboardInputsImpl implements KeyListener {
       case MENU:
         break;
       case PLAY:
-        worldPanel.getWorld().getPlay().keyPressed(e);
+        worldPanel.getPlay().keyPressed(e);
         break;
       case PAUSE:
-        worldPanel.getWorld().getEndGame().keyPressed(e);
+        worldPanel.getEndGame().keyPressed(e);
         break;
       default:
         break;
@@ -43,10 +43,10 @@ public final class KeyboardInputsImpl implements KeyListener {
       case MENU:
         break;
       case PLAY:
-        worldPanel.getWorld().getPlay().keyReleased(e);
+        worldPanel.getPlay().keyReleased(e);
         break;
       case PAUSE:
-        worldPanel.getWorld().getEndGame().keyReleased(e);
+        worldPanel.getEndGame().keyReleased(e);
         break;
       default:
         break;
