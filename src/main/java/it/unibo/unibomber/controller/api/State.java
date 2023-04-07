@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.api;
+package it.unibo.unibomber.controller.api;
 
 import java.awt.event.MouseEvent;
 

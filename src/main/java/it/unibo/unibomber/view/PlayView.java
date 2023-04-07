@@ -1,12 +1,12 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Map;
 import java.awt.image.BufferedImage;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.Play;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.impl.Play;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.AIComponent;

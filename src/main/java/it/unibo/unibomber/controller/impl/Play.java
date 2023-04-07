@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.awt.image.BufferedImage;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.api.SystemManager;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.SystemManager;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -20,7 +20,7 @@ import it.unibo.unibomber.game.ecs.impl.DestroyComponent;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.PlayImpl;
-import it.unibo.unibomber.game.view.PlayView;
+import it.unibo.unibomber.view.PlayView;
 
 /**
  * This class manage playable game.

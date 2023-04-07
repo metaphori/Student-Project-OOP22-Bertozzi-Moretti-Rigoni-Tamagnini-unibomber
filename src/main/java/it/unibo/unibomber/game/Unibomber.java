@@ -1,6 +1,6 @@
 package it.unibo.unibomber.game;
 
-import it.unibo.unibomber.game.controller.impl.WorldImpl;
+import it.unibo.unibomber.controller.impl.WorldImpl;
 
 /**
  * Unibobmer class.

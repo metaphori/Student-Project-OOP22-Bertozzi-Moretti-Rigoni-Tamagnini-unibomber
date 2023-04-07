@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.unibomber.game.model.api.Gamestate;
-import it.unibo.unibomber.game.view.WorldPanelImpl;
+import it.unibo.unibomber.view.WorldPanelImpl;
 
 /**
  * MouseInputsImpl class.

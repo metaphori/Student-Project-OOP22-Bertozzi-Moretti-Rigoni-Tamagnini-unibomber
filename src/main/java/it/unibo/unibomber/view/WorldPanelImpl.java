@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import javax.swing.JPanel;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 import it.unibo.unibomber.inputs.MouseInputsImpl;
 import it.unibo.unibomber.utilities.Constants;
-import it.unibo.unibomber.game.controller.impl.WorldImpl;
+import it.unibo.unibomber.controller.impl.WorldImpl;
 import it.unibo.unibomber.inputs.KeyboardInputsImpl;
 import static it.unibo.unibomber.utilities.Constants.UI.Screen;
 import static it.unibo.unibomber.utilities.Constants.UI.Buttons;

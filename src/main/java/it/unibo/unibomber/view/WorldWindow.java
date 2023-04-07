@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

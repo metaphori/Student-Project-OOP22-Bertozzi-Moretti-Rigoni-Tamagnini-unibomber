@@ -2,7 +2,7 @@ package it.unibo.unibomber.game.model.api;
 
 import java.util.List;
 
-import it.unibo.unibomber.game.controller.api.World;
+import it.unibo.unibomber.controller.api.World;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.utilities.Pair;
 

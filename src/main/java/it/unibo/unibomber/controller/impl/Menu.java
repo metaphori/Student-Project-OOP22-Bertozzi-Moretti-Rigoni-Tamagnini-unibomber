@@ -1,10 +1,11 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
-import it.unibo.unibomber.game.view.MenuView;
 import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.view.MenuView;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

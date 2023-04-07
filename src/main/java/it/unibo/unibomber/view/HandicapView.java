@@ -1,11 +1,11 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.Option;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.impl.Option;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import it.unibo.unibomber.utilities.Constants.UI.OptionButton;

@@ -1,12 +1,12 @@
-package it.unibo.unibomber.game.controller.api;
+package it.unibo.unibomber.controller.api;
 
 import java.util.List;
 import javax.swing.Timer;
 
-import it.unibo.unibomber.game.controller.impl.Menu;
-import it.unibo.unibomber.game.controller.impl.Option;
-import it.unibo.unibomber.game.controller.impl.Play;
-import it.unibo.unibomber.game.controller.impl.StateGame;
+import it.unibo.unibomber.controller.impl.Menu;
+import it.unibo.unibomber.controller.impl.Option;
+import it.unibo.unibomber.controller.impl.Play;
+import it.unibo.unibomber.controller.impl.StateGame;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;

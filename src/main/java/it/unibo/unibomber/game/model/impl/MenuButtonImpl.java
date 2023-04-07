@@ -3,7 +3,7 @@ package it.unibo.unibomber.game.model.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.UploadRes;

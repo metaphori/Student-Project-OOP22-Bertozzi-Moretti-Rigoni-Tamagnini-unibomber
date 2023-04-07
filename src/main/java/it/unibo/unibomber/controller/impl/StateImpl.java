@@ -1,10 +1,10 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.awt.event.MouseEvent;
 
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
 import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
-import it.unibo.unibomber.game.controller.api.State;
+import it.unibo.unibomber.controller.api.State;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
 /**
  * State impl class.

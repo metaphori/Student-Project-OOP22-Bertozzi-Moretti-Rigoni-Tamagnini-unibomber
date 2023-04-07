@@ -3,7 +3,7 @@ package it.unibo.unibomber.game.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.unibomber.game.controller.api.World;
+import it.unibo.unibomber.controller.api.World;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.ecs.impl.AIComponent;

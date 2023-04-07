@@ -1,10 +1,10 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.Menu;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.impl.Menu;
 import it.unibo.unibomber.game.model.impl.MenuButtonImpl;
 import it.unibo.unibomber.utilities.UploadRes;
 import it.unibo.unibomber.utilities.Constants;

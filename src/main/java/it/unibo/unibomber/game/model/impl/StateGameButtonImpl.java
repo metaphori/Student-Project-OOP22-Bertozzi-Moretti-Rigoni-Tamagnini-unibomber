@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.GameLoop;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.utilities.UploadRes;
 

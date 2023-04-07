@@ -1,11 +1,11 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.StateGame;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.impl.StateGame;
 import it.unibo.unibomber.game.model.impl.StateGameButtonImpl;
 import it.unibo.unibomber.utilities.Constants;
 

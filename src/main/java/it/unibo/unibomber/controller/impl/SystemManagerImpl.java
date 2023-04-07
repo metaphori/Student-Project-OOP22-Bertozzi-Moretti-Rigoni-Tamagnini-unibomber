@@ -1,9 +1,9 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.unibomber.game.controller.api.SystemManager;
+import it.unibo.unibomber.controller.api.SystemManager;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.impl.AIComponent;
 import it.unibo.unibomber.game.ecs.impl.BombPlaceComponent;

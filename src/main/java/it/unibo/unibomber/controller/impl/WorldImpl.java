@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -7,18 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Timer;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.api.World;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.World;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.api.Field;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.api.Gamestate;
 import it.unibo.unibomber.game.model.impl.GameImpl;
-import it.unibo.unibomber.game.view.WorldPanelImpl;
-import it.unibo.unibomber.game.view.WorldWindow;
 import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Constants.UI.GameLoopConstants;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
+import it.unibo.unibomber.view.WorldPanelImpl;
+import it.unibo.unibomber.view.WorldWindow;
 
 /**
  * WordImpl constructor.

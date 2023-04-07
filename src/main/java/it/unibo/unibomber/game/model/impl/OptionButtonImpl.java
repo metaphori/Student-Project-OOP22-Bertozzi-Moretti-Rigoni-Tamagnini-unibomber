@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 import static java.util.logging.Level.SEVERE;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.api.Handicap;
-import it.unibo.unibomber.game.controller.impl.Option;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.Handicap;
+import it.unibo.unibomber.controller.impl.Option;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;

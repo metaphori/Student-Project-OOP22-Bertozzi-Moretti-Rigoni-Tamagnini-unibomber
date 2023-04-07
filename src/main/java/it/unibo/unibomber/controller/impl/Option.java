@@ -1,4 +1,4 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.api.Handicap;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.Handicap;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.model.impl.OptionButtonImpl;
-import it.unibo.unibomber.game.view.HandicapView;
-import it.unibo.unibomber.game.view.OptionView;
 import it.unibo.unibomber.utilities.Constants.UI.Screen;
+import it.unibo.unibomber.view.HandicapView;
+import it.unibo.unibomber.view.OptionView;
 import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Constants.UI.Buttons;
 import static it.unibo.unibomber.utilities.Constants.UI.OptionButton;

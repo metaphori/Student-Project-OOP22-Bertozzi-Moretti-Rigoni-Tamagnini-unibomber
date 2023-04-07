@@ -1,11 +1,11 @@
-package it.unibo.unibomber.game.view;
+package it.unibo.unibomber.view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
-import it.unibo.unibomber.game.controller.impl.Explosion;
+import it.unibo.unibomber.controller.api.GameLoop;
+import it.unibo.unibomber.controller.impl.Explosion;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.impl.ExplodeComponent;
 import it.unibo.unibomber.game.ecs.impl.PowerUpListComponent;

@@ -1,14 +1,14 @@
-package it.unibo.unibomber.game.controller.impl;
+package it.unibo.unibomber.controller.impl;
 
 import java.awt.Graphics;
 import java.util.List;
 import java.awt.image.BufferedImage;
 
-import it.unibo.unibomber.game.controller.api.GameLoop;
+import it.unibo.unibomber.controller.api.GameLoop;
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.impl.ExplosionImpl;
-import it.unibo.unibomber.game.view.ExplosionView;
 import it.unibo.unibomber.utilities.Direction;
+import it.unibo.unibomber.view.ExplosionView;
 
 /**
  * Explosion controller.
