@@ -10,7 +10,6 @@ import it.unibo.unibomber.game.ecs.impl.PowerUpHandlerComponent;
 import it.unibo.unibomber.game.ecs.impl.SlidingComponent;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.GameImpl;
-import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
@@ -117,19 +116,19 @@ class CollisionTest {
      private void moveOneTiles(final Entity player) {
           final MovementComponent movement = player.getComponent(MovementComponent.class).get();
           final CollisionComponent collision = player.getComponent(CollisionComponent.class).get();
-          movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
+          movement.moveBy(Direction.DOWN);
           movement.update();
           collision.update();
-          movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
+          movement.moveBy(Direction.DOWN);
           movement.update();
           collision.update();
-          movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
+          movement.moveBy(Direction.DOWN);
           movement.update();
           collision.update();
-          movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
+          movement.moveBy(Direction.DOWN);
           movement.update();
           collision.update();
-          movement.moveBy(new Pair<Float, Float>(0f, Constants.Entity.BASE_SPEED));
+          movement.moveBy(Direction.DOWN);
           movement.update();
           collision.update();
      }

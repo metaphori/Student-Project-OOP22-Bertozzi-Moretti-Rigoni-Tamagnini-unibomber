@@ -2,9 +2,7 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
-import it.unibo.unibomber.utilities.Constants;
 import it.unibo.unibomber.utilities.Direction;
-import it.unibo.unibomber.utilities.Pair;
 import it.unibo.unibomber.utilities.Utilities;
 
 /**
@@ -19,8 +17,7 @@ public class SlidingComponent extends AbstractComponent {
         final Entity placerEntity = this.getEntity().getComponent(ExplodeComponent.class).get().getPlacer();
         if (this.isSliding && Utilities.isAlive(placerEntity)) {
             final MovementComponent bombMove = this.getEntity().getComponent(MovementComponent.class).get();
-            bombMove.moveBy(new Pair<Float, Float>(direction.getX() * Constants.Input.POSITIVE_MOVE,
-                    direction.getY() * Constants.Input.POSITIVE_MOVE));
+            bombMove.moveBy(direction);
         }
     }
 
@@ -33,7 +30,7 @@ public class SlidingComponent extends AbstractComponent {
     public void setSliding(final boolean isSliding, final Direction direction) {
         if (!isSliding) {
             this.getEntity().getComponent(MovementComponent.class).get()
-                    .moveBy(new Pair<Float, Float>(0f, 0f));
+                    .moveBy(Direction.CENTER);
         }
         this.isSliding = isSliding;
         this.direction = direction;

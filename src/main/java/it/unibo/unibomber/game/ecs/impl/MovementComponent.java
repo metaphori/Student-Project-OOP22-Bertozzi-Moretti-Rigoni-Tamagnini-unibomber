@@ -49,11 +49,11 @@ public class MovementComponent extends AbstractComponent {
     }
 
     /**
-     * @param moveBy the coordinates to move by
+     * @param direction the direction to move by
      */
-    public final void moveBy(final Pair<Float, Float> moveBy) {
-        this.moveBy = new Pair<>(moveBy.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
-                moveBy.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
+    public final void moveBy(final Direction direction) {
+        this.moveBy = new Pair<>(direction.getX() * this.getEntity().getSpeed() * globalSpeedMultiplier,
+        direction.getY() * this.getEntity().getSpeed() * globalSpeedMultiplier);
         if (moveBy.equals(new Pair<Float, Float>(0f, 0f))) {
             hasMoved = false;
         } else {

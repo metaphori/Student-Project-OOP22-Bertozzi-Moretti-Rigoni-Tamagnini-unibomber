@@ -6,6 +6,7 @@ import it.unibo.unibomber.game.model.api.EntityFactory;
 import it.unibo.unibomber.game.model.api.Game;
 import it.unibo.unibomber.game.model.impl.EntityFactoryImpl;
 import it.unibo.unibomber.game.model.impl.GameImpl;
+import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,8 +20,6 @@ class BomberTest {
     private static final float PLAYER_STARTING_Y = 1.0f;
     private static final float PLAYER_EXCEPTED_X = 1.0f;
     private static final float PLAYER_EXCEPTED_Y = 1.0f;
-    private static final float PLAYER_MOVE_X = 0.0f;
-    private static final float PLAYER_MOVE_Y = 4.0f;
     private static final int FIELD_ROWS = 15;
     private static final int FIELD_COLS = 19;
 
@@ -41,7 +40,7 @@ class BomberTest {
     void testMovementBomber() {
         final Entity player = this.createPlayerEntity();
         assertEquals(new Pair<>(PLAYER_EXCEPTED_X, PLAYER_EXCEPTED_Y), player.getPosition());
-        player.getComponent(MovementComponent.class).get().moveBy(new Pair<Float, Float>(PLAYER_MOVE_X, PLAYER_MOVE_Y));
+        player.getComponent(MovementComponent.class).get().moveBy(Direction.DOWN);
         player.getComponent(MovementComponent.class).get().update();
         assertNotEquals(new Pair<>(PLAYER_EXCEPTED_X, PLAYER_EXCEPTED_Y), player.getPosition());
     }

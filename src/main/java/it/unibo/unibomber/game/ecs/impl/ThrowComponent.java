@@ -58,12 +58,11 @@ public class ThrowComponent extends AbstractComponent {
                     this.getEntity().setPosition(new Pair<Float, Float>((float) nextX, (float) nextY));
                 }
 
-                bombMovement.moveBy(new Pair<Float, Float>(playerDir.getX() * Constants.Input.POSITIVE_MOVE,
-                        playerDir.getY() * Constants.Input.POSITIVE_MOVE));
+                bombMovement.moveBy(playerDir);
 
             } else {
                 if (checkFinalPosition()) {
-                    bombMovement.moveBy(new Pair<Float, Float>(0f, 0f));
+                    bombMovement.moveBy(Direction.CENTER);
                     this.getEntity().setPosition(Utilities.getFloatPair(finalPos));
                     this.isThrowing = false;
                 } else {

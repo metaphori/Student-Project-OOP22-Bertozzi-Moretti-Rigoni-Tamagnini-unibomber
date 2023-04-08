@@ -10,6 +10,7 @@ import it.unibo.unibomber.game.ecs.api.PowerUpType;
 import it.unibo.unibomber.game.ecs.api.Type;
 import it.unibo.unibomber.game.model.impl.AbstractComponent;
 import it.unibo.unibomber.utilities.Constants;
+import it.unibo.unibomber.utilities.Direction;
 import it.unibo.unibomber.utilities.Pair;
 
 /**
@@ -22,7 +23,7 @@ public class InputComponent extends AbstractComponent {
 
           final Optional<Integer> moveKey = getMoveKey();
           final Optional<Integer> clickedKey = getClickedKey();
-          final Pair<Float, Float> moveBy = calculateMovement(moveKey);
+          final Direction moveTo = calculateMovement(moveKey);
           final Entity player = this.getEntity();
           if (clickedKey.isPresent() && clickedKey.get() == KeyEvent.VK_SPACE) {
                player.getComponent(BombPlaceComponent.class).get().placeBomb();
@@ -43,18 +44,18 @@ public class InputComponent extends AbstractComponent {
                               player.getComponent(MovementComponent.class).get().getDirection());
                }
           }
-          updateMovement(moveBy);
+          updateMovement(moveTo);
      }
 
      /**
-      * @param moveBy how much the player should move
-      *               updates the movementComponent relative to this player
+      * @param direction the direction where the player should move
+      *                  updates the movementComponent relative to this player
       */
-     private void updateMovement(final Pair<Float, Float> moveBy) {
+     private void updateMovement(final Direction direction) {
           final var movementComponent = this.getEntity().getComponent(MovementComponent.class);
           if (movementComponent.isPresent()) {
                final MovementComponent move = movementComponent.get();
-               move.moveBy(moveBy);
+               move.moveBy(direction);
           }
      }
 
@@ -62,19 +63,19 @@ public class InputComponent extends AbstractComponent {
       * @param moveKey the last movement Key pressed
       * @return how much the player should move given moveKey
       */
-     private Pair<Float, Float> calculateMovement(final Optional<Integer> moveKey) {
+     private Direction calculateMovement(final Optional<Integer> moveKey) {
           final Integer keyValue = moveKey.isPresent() ? moveKey.get() : Constants.Input.NO_KEYS_VALUE;
           switch (keyValue) {
                case KeyEvent.VK_W:
-                    return new Pair<Float, Float>(0f, Constants.Input.NEGATIVE_MOVE);
+                    return Direction.UP;
                case KeyEvent.VK_A:
-                    return new Pair<Float, Float>(Constants.Input.NEGATIVE_MOVE, 0f);
+                    return Direction.LEFT;
                case KeyEvent.VK_S:
-                    return new Pair<Float, Float>(0f, Constants.Input.POSITIVE_MOVE);
+                    return Direction.DOWN;
                case KeyEvent.VK_D:
-                    return new Pair<Float, Float>(Constants.Input.POSITIVE_MOVE, 0f);
+                    return Direction.RIGHT;
                default:
-                    return new Pair<Float, Float>(0f, 0f);
+                    return Direction.CENTER;
           }
      }
 

@@ -290,9 +290,7 @@ public final class AIComponent extends AbstractComponent {
       */
      private void move(final Direction moveTo) {
           final MovementComponent movementComponent = this.getEntity().getComponent(MovementComponent.class).get();
-          movementComponent.moveBy(new Pair<Float, Float>(
-                    moveTo.getX() * Constants.Input.POSITIVE_MOVE,
-                    moveTo.getY() * Constants.Input.POSITIVE_MOVE));
+          movementComponent.moveBy(moveTo);
      }
 
      /**

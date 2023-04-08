@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 class PowerUpTest {
     private static final float PLAYER_STARTING_X = 0.0f;
     private static final float PLAYER_STARTING_Y = 0.0f;
-    private static final float PLAYER_MOVE_X = 0.0f;
-    private static final float PLAYER_MOVE_Y = 0.2f;
     private static final float BOMB_EXCEPTED_X = 0;
     private static final float BOMB_EXCEPTED_Y = 3;
     private static final float SPEED_BASE = 0.3f;
@@ -98,7 +96,7 @@ class PowerUpTest {
         final Entity player = this.createPlayerEntity();
         assertEquals(new Pair<>(PLAYER_STARTING_X, PLAYER_STARTING_Y), player.getPosition());
         final MovementComponent movementComponent = player.getComponent(MovementComponent.class).get();
-        movementComponent.moveBy(new Pair<Float, Float>(PLAYER_MOVE_X, PLAYER_MOVE_Y));
+        movementComponent.moveBy(Direction.DOWN);
         movementComponent.update();
         final Direction playerDirection = movementComponent.getDirection();
         assertEquals(Direction.DOWN, playerDirection);
