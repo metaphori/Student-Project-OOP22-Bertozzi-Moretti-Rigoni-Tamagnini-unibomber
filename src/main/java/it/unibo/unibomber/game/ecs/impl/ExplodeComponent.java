@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.Type;
@@ -205,13 +204,9 @@ public class ExplodeComponent extends AbstractComponent {
      * @return the entity if is contained, an empty otherwise.
      */
     private Optional<Entity> checkContainedInList(final Pair<Float, Float> pos, final List<Entity> entities) {
-        final var entityInPos = entities.stream()
+        return entities.stream()
                 .filter(e -> this.checkRound(e.getPosition(), pos))
-                .collect(Collectors.toList());
-        if (!entityInPos.isEmpty()) {
-            return Optional.of(entityInPos.get(0));
-        }
-        return Optional.empty();
+                .findFirst();
     }
 
     /**
