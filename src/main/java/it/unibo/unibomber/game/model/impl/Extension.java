@@ -160,7 +160,7 @@ public final class Extension {
         final Pair<Integer, Integer> nextBombPosition = new Pair<>(
                 Math.round(bomb.getPosition().getX()) + playerDirection.getX(),
                 Math.round(bomb.getPosition().getY()) + playerDirection.getY());
-        return !fieldMap.containsKey(nextBombPosition);
+        return !fieldMap.containsKey(nextBombPosition) || fieldMap.get(nextBombPosition).getX().equals(Type.POWERUP);
     }
 
     /**
