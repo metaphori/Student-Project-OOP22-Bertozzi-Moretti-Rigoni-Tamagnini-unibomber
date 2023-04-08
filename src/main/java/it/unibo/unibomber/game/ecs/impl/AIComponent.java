@@ -32,8 +32,8 @@ public final class AIComponent extends AbstractComponent {
       * @param position position of entity.
       */
      public AIComponent(final Pair<Float, Float> position) {
-          oldPosition = position;
-          followingPath = new ArrayList<>(List.of(Direction.CENTER));
+          this.oldPosition = position;
+          resetPath();
      }
 
      @Override
@@ -45,7 +45,7 @@ public final class AIComponent extends AbstractComponent {
           move(this.followingPath.get(0));
           if (isPlacingBombAdvantageous(typesMatrix)) {
                placeBomb();
-               followingPath = new ArrayList<>(List.of(Direction.CENTER));
+               resetPath();
           }
           updatePath(oldPosition, entity.getPosition());
           oldPosition = entity.getPosition();
@@ -75,8 +75,7 @@ public final class AIComponent extends AbstractComponent {
                          .collect(Collectors.toList());
           }
           if (this.followingPath.isEmpty()) {
-               this.followingPath = new ArrayList<>(List.of(Direction.CENTER));
-
+               resetPath();
           }
      }
 
@@ -266,6 +265,13 @@ public final class AIComponent extends AbstractComponent {
      }
 
      /**
+      * Resents the path to follow.
+      */
+     private void resetPath() {
+          this.followingPath = new ArrayList<>(List.of(Direction.CENTER));
+     }
+
+     /**
       * @param typesMatrix matrix of game types
       * @return whether a cell is safe
       */
@@ -319,9 +325,9 @@ public final class AIComponent extends AbstractComponent {
                     - Math.abs(Math.round(currentPosition.getX()));
           final float currentDifferenceY = Math.abs(currentPosition.getY())
                     - Math.abs(Math.round(currentPosition.getY()));
-          final Pair<Float, Float> tryPosition = new Pair<>(currentPosition.getX() + followingPath.get(0).getX()
+          final Pair<Float, Float> tryPosition = new Pair<>(currentPosition.getX() + this.followingPath.get(0).getX()
                     * this.getEntity().getSpeed() * Constants.Movement.MULTIPLIER_GLOBAL_SPEED,
-                    currentPosition.getY() + followingPath.get(0).getY() * this.getEntity().getSpeed()
+                    currentPosition.getY() + this.followingPath.get(0).getY() * this.getEntity().getSpeed()
                               * Constants.Movement.MULTIPLIER_GLOBAL_SPEED);
           final float nextDifferenceX = Math.abs(tryPosition.getX()) - Math.abs(Math.round(currentPosition.getX()));
           final float nextDifferenceY = Math.abs(tryPosition.getY()) - Math.abs(Math.round(currentPosition.getY()));
