@@ -2,8 +2,6 @@ package it.unibo.unibomber.game.ecs.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.MissingFormatArgumentException;
-import java.util.Optional;
 
 import it.unibo.unibomber.game.ecs.api.Entity;
 import it.unibo.unibomber.game.ecs.api.PowerUpType;
@@ -19,7 +17,7 @@ public class PowerUpListComponent extends AbstractComponent {
     /**
      * This method sets all bomber's powerups.
      * 
-     * @param bombFire bomb power fire
+     * @param bombFire    bomb power fire
      * @param powerUpList bomb list of all powerUps
      */
     public PowerUpListComponent(final int bombFire, final List<PowerUpType> powerUpList) {
@@ -33,13 +31,9 @@ public class PowerUpListComponent extends AbstractComponent {
      * @param giver bomber entity
      */
     public PowerUpListComponent(final Entity giver) {
-        final Optional<PowerUpListComponent> giversList = giver.getComponent(PowerUpListComponent.class);
-        if (giversList.isPresent()) {
-            this.bombFire = giversList.get().getBombFire();
-            this.powerUpList = giversList.get().getPowerUpList();
-        } else {
-            throw new MissingFormatArgumentException("Giver does not contain a PowerUpListComponent itSelf");
-        }
+        final PowerUpListComponent giverPowerUpList = giver.getComponent(PowerUpListComponent.class).get();
+        this.bombFire = giverPowerUpList.getBombFire();
+        this.powerUpList = giverPowerUpList.getPowerUpList();
     }
 
     @Override
