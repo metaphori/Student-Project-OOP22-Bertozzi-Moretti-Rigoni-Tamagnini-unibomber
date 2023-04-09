@@ -28,7 +28,6 @@
 Il progetto si pone l’obiettivo di creare un videogioco arcade PvE ispirato a “Bomberman”. Con arcade si intende una categoria di videogiochi generalmente frenetici e basati su partite relativamente veloci. Nello specifico un PvE invece è un videogioco basato sull’ affrontare dei nemici gestiti dal computer, che noi chiameremo bot, che generalmente operano su regole di gioco equivalenti a quelle del player umano.
 
 \subsection*{Requisiti funzionali}
-\subsubsection{Requisiti Funzionali Obbligatori}
 \begin{itemize}
     \item Il gioco si occupa di gestire la partita dell’utente all’interno di una mappa scelta in precedenza con un dato numero di bot avversari.
     \item Prima dell’inizio della partita vera e propria sarà possibile scegliere la mappa di gioco, le regole di partita e dei relativi handicap, rendendo dunque i bot più o meno minacciosi verso il player.
@@ -46,7 +45,7 @@ Il progetto si pone l’obiettivo di creare un videogioco arcade PvE ispirato a 
 \end{itemize}
 \newpage
 \section{Analisi e modello del dominio}
-Unibomber dovrà garantire la possibilità di creare partite tramite un'interfaccia grafica. In particolare, sarà possibile aggiungere o rimuovere una serie di bot che competono tra loro e con il giocatore stesso. In fase di selezione, sarà inoltre possibile scegliere la mappa di gioco, ovvero l'ambientazione in cui si svolge la partita, e, eventualmente, aggiungere degli handicap, ovvero power up aggiuntivi per i bomber, ovvero player o bot; in modo tale da rendere o più difficoltoso vincere per l’utente, o facilitarlo assegnandosi degli handicap.
+Unibomber dovrà garantire la possibilità di creare partite tramite un'interfaccia grafica. In particolare, sarà possibile aggiungere o rimuovere una serie di bot che competono tra loro e con il giocatore stesso. In fase di selezione, sarà inoltre possibile scegliere la mappa di gioco, ovvero l'ambientazione in cui si svolge la partita. Intoltre l'utente potrà aggiungere degli handicap, ovvero power up aggiuntivi per i bomber, ovvero player o bot; in modo tale da rendere o più difficoltoso vincere per l’utente, o facilitarlo assegnandosi degli handicap.
 \\
 Una volta che la partita è iniziata, i bot e il giocatore possono muoversi liberamente, con il giocatore che utilizza la tastiera del proprio dispositivo per spostarsi e piazzare bombe.
 Le bombe piazzate esplodono dopo un tempo predeterminato, distruggendo tutti i muri distruttibili e i power up presenti nell'area di effetto e eliminando i bomber che si trovano al suo interno. Il raggio d'azione della bomba è determinato dal numero di power up FIREUP raccolti dal giocatore che ha piazzato la bomba, con un raggio d'azione iniziale di 1.
@@ -109,7 +108,12 @@ Come si può notare, la nostra struttura si centra su un controller generale ovv
 Inoltre in base al Gamestate il controller World andrà a richiamare i relativi controller dei vari stati di gioco i quali poi andranno a comunicare con i rispettivi Model e View.
 \\
 Questa suddivisione, organizzata, della struttura offre l'opportunità in una versione futura dell’applicazione di poter cambiare il motore grafico senza estreme difficoltà; andando semplicemente a modificare solo parte di view.
-
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=1\textwidth]{img/UMLMVC.png}
+    \caption{Schema UML della struttura MVC ,
+    NOTA: sono mostrate solo la struttura di Play, Menu e Explosion ma lo schema è equivalente per i restanti controller.}
+\end{figure}
 
 \section{Design dettagliato}
 %
@@ -120,7 +124,7 @@ Questa suddivisione, organizzata, della struttura offre l'opportunità in una ve
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.4\textwidth]{img/UMLEntita.png}
-    \caption{}
+    \caption{Schema UML dell'oggetto Entity}
 \end{figure}
 %
 \paragraph*{Problema} Diverse istanze di Entity richiedono specifiche che hanno intersezioni tra loro ma rimangono comunque distinte obbligando ad una ripetizione di codice.
@@ -153,7 +157,7 @@ mentazione. Tramite questo pattern, non sarà  dunque necessario ripetere la pro
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLAI.png}
-    \caption{}
+    \caption{Schema UML della gestione dell'AI}
     \label{}
 \end{figure}
 %
@@ -170,7 +174,7 @@ Visto l’approccio impiegato per la realizzazione di questa componente, si potr
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLMovement.png}
-    \caption{}
+    \caption{Schema UML della gestione del movimento}
 \end{figure}
 %
 \paragraph*{Problema} Sia bot che player devono poter muoversi tramite azioni (come l’input) per essere scatenate, ma l’evento scatenante è diverso.
@@ -298,10 +302,10 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLFinestraDiGioco.png}
-    \caption{}
+    \caption{UML struttura finestra di gioco}
 \end{figure}
 
-\paragraph{Problema} Ogni utente avrà uno monitor dove giocherà differente. Avendo eliminato la possibilità di ridimensionare la finestra occorre ridimensionare correttamente tutte le relative scale grafiche.
+\paragraph{Problema} Ogni utente avrà uno monitor, dove giocherà, differente. Avendo eliminato la possibilità di ridimensionare la finestra occorre ridimensionare correttamente tutte le relative scale grafiche.
 
 \paragraph{Soluzione} Al primo caricamento del gioco verrà creato un JFrame centrato orizzontalmente, mentre verticalmente in base alle dimensioni dello schermo dell’utente verrà inserito in modo tale da occupare il maggior spazio possibile per una giocabilità migliore. Inoltre il SetSize non solo va a ridimensionare la finestra ma va anche a scalare tutti i bottoni e i relativi componenti grafici in modo tale che possano essere visibili alla maggior parte degli utenti.
 
@@ -310,24 +314,24 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGameLoop.png}
-    \caption{}
+    \caption{UML struttura GameLoop}
 \end{figure}
 
 \paragraph{Problema} Il nucleo centrale dell’applicazione è il GameLoop il quale permette di controllare il gioco ad interazioni cicliche di aggiornamenti con una data frequenza. Ad ogni ciclo di frequenza il GameLoop deve essere in grado di aggiornare sia la logica che la grafica dell’applicazione.
 
-\paragraph{Soluzione} Per la gestione del GameLoop viene seguito un tradizionale diagramma a blocchi. All’avvio dell’applicazione il Controller base del gioco fa partire il Thread che gestirà il GameLoop. Sono andato a separare l’aggiornamento grafico e quello logico. Per quanto riguarda l'aggiornamento logico è stato settato un UPS (Update per second) il quale ad ogni ciclo va ad eseguire update logico del relativo gameState che è in corso in quel momento. Per la parte grafica invece è stato settato un FPS (Frame per second), il quale però attualmente è libero e questo indica che la parte grafica viene aggiornata frequentemente.
+\paragraph{Soluzione} Per la gestione del GameLoop viene seguito un tradizionale diagramma a blocchi. All’avvio dell’applicazione, il Controller base del gioco fa partire il Thread, che gestirà il GameLoop. Sono andato a separare l’aggiornamento grafico e quello logico. Per quanto riguarda l'aggiornamento logico, è stato settato un UPS (Update per second) il quale ad ogni ciclo va ad eseguire update logico del relativo gameState che è in corso in quel momento. Per la parte grafica, è stato settato un FPS (Frame per second), il quale però attualmente è libero e questo indica che la parte grafica viene aggiornata frequentemente.
 
 \subsubsection{Gestione logica delle collisioni tra entità}
 
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLCollisioni.png}
-    \caption{}
+    \caption{UML struttura CollisionComponent}
 \end{figure}
 
 \paragraph{Problema}  La gestione delle collisioni delle hitbox delle entità, sapendo appunto anche la tipologia di esse in modo tale da eseguire l’azione corretta. Un’altro problema è la collisione con la bomba in quanto inizialmente il bomber può passare al di sopra di essa, ma una volta uscito dalla sua hitbox non potrà più entrarci.
 
-\paragraph{Soluzione} Come prima cosa, dopo uno studio dell’applicazione originale, ho creato un hitbox (Rectangle) generale per ogni entità (wall, bomber, power up). Una volta create le varie hitbox, come prima cosa controllavo il flag IsSolid che mi mette in condizioni di sapere se quell’entità è solida (muro) o meno (bomer) e poi tramite un metodo già fornito da Java andavo a verificare se due Rectangle, e quindi appunto due hitbox, stavano collidendo tra di loro. Inizialmente avevo creato tutto all’interno del Collision Component, ma successivamente ad una analisi effettuata con Moretti, per alleggerire il codice e renderlo più leggibile e corretto, siamo andati a crearci una classe specifica che verificava questo ovvero Extension, la quale veniva semplicemente richiamata dalla CollisionComponent passandogli le due entità che collidevano. La classe Extension utilizza l’operatore BiConsumer il quale accetta due argomenti in input e non restituisce alcun risultato. In questo modo abbiamo potuto diversificare le varie entità, in modo tale che come primo argomento era presente il soggetto della collisione mentre come secondo argomento colui che veniva colpito. Facendo così eravamo in grado di conoscere esattamente le due entità e poter quindi successivamente, in base alla collisione che era avvenuta (bomber -> power up, bomber -> wall, bomb -> wall) eseguire la determinata azione necessaria.
+\paragraph{Soluzione} Come prima cosa, dopo uno studio dell’applicazione originale, ho creato un hitbox (Rectangle) generale per ogni entità (wall, bomber, power up). Una volta create le varie hitbox, ho controllato il flag IsSolid che mi mette in condizioni di sapere se quell’entità è solida (muro) o meno (bomer) e poi tramite un metodo già fornito da Java andavo a verificare se due Rectangle, e quindi appunto due hitbox, stavano collidendo tra di loro. Inizialmente avevo creato tutto all’interno del Collision Component, ma successivamente ad una analisi effettuata con Moretti, per alleggerire il codice e renderlo più leggibile e corretto, siamo andati a crearci una classe specifica che verificava questo ovvero Extension, la quale veniva semplicemente richiamata dalla CollisionComponent passandogli le due entità che collidevano. La classe Extension utilizza l’operatore BiConsumer il quale accetta due argomenti in input e non restituisce alcun risultato. In questo modo abbiamo potuto diversificare le varie entità. In tal modo come primo argomento era presente il soggetto della collisione, mentre come secondo argomento colui che veniva colpito. Facendo così eravamo in grado di conoscere esattamente le due entità e poter quindi successivamente, in base alla collisione che era avvenuta (bomber -> power up, bomber -> wall, bomb -> wall) eseguire la determinata azione necessaria.
 Per la gestione della collisione con la bomba inizialmente alla sua creazione viene settata con indice isOver a true, in modo tale che il plater possa collidere con lei senza problema. Ad ogni update il CollisionComponent andrà a verificare se il bomber è ancora all’interno dell’ hitbox della bomba o meno; nel momento in cui uscirà il flag IsOver verrà settato a false e ciò significa che nessuno potrà più entrarci.
 
 
@@ -336,7 +340,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneGameState.png}
-    \caption{}
+    \caption{UML struttura per la gestione degli stati del gioco}
 \end{figure}
 
 \paragraph{Problema} In base allo stato del gioco doveva essere messo in esecuzione il controller corretto, il quale andrà poi a disegnare con la relativa view a video tutti i dati offerti dal suo Model.
@@ -348,7 +352,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneMenu.png}
-    \caption{}
+    \caption{UML struttura MVC per il menu}
 \end{figure}
 
 \paragraph{Problema} Il gioco prevede che durante il menu tu possa iniziare una partita o uscire dal gioco
@@ -360,7 +364,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneOpzioni.png}
-    \caption{}
+    \caption{UML struttura MVC per la pagina degli option}
 \end{figure}
 
 \paragraph{Problema} Il gioco prevede che si possano settare delle impostazioni di base della partita ovvero scegliere la mappa, indicare contro quanti Bot si vuole giocare e assegnare degli handicap power up al player o ai bot.
@@ -373,24 +377,44 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=\textwidth]{img/UMLGestioneGioco.png}
-    \caption{}
+    \caption{UML struttura MVC per la gestiona della partita}
 \end{figure}
 
 \paragraph{Problema} In base alla frequenza del GameLoop il gioco dovrà aggiornare i dati e la grafica in modo fluido e gradevole all’utente. Inoltre nel caso in cui avvenga una perdita di prestazioni occorre non tener traccia di tutti i tasti cliccati dall’utente per evitare un ritardo che porterà poi ad un'esperienza di gioco poco gradevole.
 
-\paragraph{Soluzione} Come prima cosa sono andato come negli altri model a scaricarmi in un buffer tutte le immagini relative alle animazioni del player e alla stampa grafica delle varie entità. Successivamente il controller quando verrà chiamato da Word andrà ad aggiornare i dati calcolando in base a quanti frame sono passati e in che stato di gioco è il player l'animazione corretta. Il player inizialmente sarà in uno stato di STANDING, nel momento in cui l'utente muoverà il bomber, esso passerà in WALKING. Lo stato del player corrisponderà a quale animazione la View andrà poi a caricare. Per la gestione dei tasti invece, sono andato ad utilizzare una lista dove verranno inseriti secondo una struttura LIFO tutti i tasti premuti dall’utente. Quando il controller andrà a verificare quale tasto è stato premuto verrà preso solo l’ultimo quello in testa alla lista. In questo modo in caso di un calo di prestazioni anche se l’utente continuerà a cliccare verrà preso solo l'ultimo tasto premuto.
+\paragraph{Soluzione} Come prima cosa sono andato, come negli altri model, a scaricarmi in un buffer tutte le immagini relative alle animazioni del player e alla stampa grafica delle varie entità. Le animazioni sono state scaricate sotto forma di matrice, dove ogni riga corrispondeva ad una diversa animazione(standing, walking, defeat) e le colonne, invece, allo stato delle animazioni. Successivamente il controller quando verrà chiamato da Word andrà ad aggiornare i dati calcolando in base a quanti frame sono passati e in che stato di gioco è il player l'animazione corretta. Il player inizialmente sarà in uno stato di STANDING, nel momento in cui l'utente muoverà il bomber, esso passerà in WALKING. Lo stato del player corrisponderà a quale animazione la View andrà poi a caricare. In questo modo se si vorranno aggiungere delle animazioni basterà  semplicemente inserire un nuovo record nella nostra matrice e richiamare quest'ultimo per stampare l’animazione.  Per la gestione dei tasti invece, sono andato ad utilizzare una lista dove verranno inseriti secondo una struttura LIFO tutti i tasti premuti dall’utente. Quando il controller andrà a verificare quale tasto è stato premuto verrà preso solo l’ultimo quello in testa alla lista. In questo modo in caso di un calo di prestazioni anche se l’utente continuerà a cliccare verrà preso solo l'ultimo tasto premuto, eliminando quel effetto “scattoso”. Inoltre gestendo con una coda l’inserimento dei tasti, sono in grado di assicurarmi che l’ultimo tasto (di movimento) premuto sia quello su cui agisce la InputCompoent.
 
+\subsubsection{Gestione delle esplosioni}
+
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=\textwidth]{img/UMLExplosion.png}
+    \caption{UML struttura MVC per le esplosioni}
+\end{figure}
+
+\paragraph{Problema} Durante l'esperienza di gioco, per una migliore user experience, dovrà essere visibile la fiammata delle esplosioni le quali vengono gestite dal proprio component (ExplodeComponent).
+
+\paragraph{Soluzione} Per la realizzazione grafica delle esplosioni sono andato, secondo il pattern MVC, ad affidare la gestione ad un controller. Il controller di gioco (Play) ad ogni update logico dell'applicazione controlla se è presente una bomba che sta esplodendo; nel caso in cui venga trovata verrà interpellato il controller delle esplosioni il quale provvedera ad aggioranre la lista delle esplosioni presente nel Model (ExplosionImp). Successivamente la lista verrà passata alla view la quale provvederà a stamparla graficamente. Come per i model precedenti, gli sprites delle explosioni vengono caricate in fase di inizializzaione in un buffer per evitare un rallentamento successivo dell'applicazione. Gli sprites verrano caricati sotto forma di matrice dove ogni riga corrisponde alla potenza della fiammata, mentre invece ogni colonna corrisponde alla direzione della fiammata. Gestendo in questo modo le esplosioni posso distaccare completamente quello che è l'update logico della partita dall'update delle esplosioni rendendo separate le due attività. 
 \subsubsection{Gestione del schermate di Pausa-Win-Lose}
 
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLSchermatePWL.png}
-    \caption{}
+    \caption{UML struttura MVC per schermate di Pause, Win, Lose}
 \end{figure}
 
-\paragraph{Problema}
+\paragraph{Problema} Durante l’esperienza di gioco dovrà essere possibile poter mettere in pausa fermando quello che che il ciclo del gioco. Inoltre arrivati a fine partita l’utente dovrà essere avvisato graficamente se ha vinto o meno quella partita.
 
-\paragraph{Soluzione}
+\paragraph{Soluzione} Per la gestione della schermata di pausa, win, lose sono andato ad utilizzare un Controller unico il quale in base al Gamestate caricava la view con i bottoni corretti; andando a cambiare il press event del bottone. In questo modo se l’utente era in una situazione di pausa venivano caricati i bottoni che ti permettevano o di continuare la partita o tornare al menu; altrimenti, in situazione di win o di lose, é possibile o tornare al menu o chiudere l’applicazione con l’utilizzo dei medesimi bottoni. In questo modo ho evitato una ripetizione del codice inutile in quanto la schermata caricata graficamente era la medesima. Per la gestione della pausa mi sono affidato al keypress event il quale, nel caso in cui venisse premuto il ESC cambia il game state del gioco in PAUSE e successivamente il controller centrale, ovvero World, andrà a caricare graficamente la schermata di pausa mentre fermare update logico della partita.
+
+\subsubsection{Gestione dell KeyInput e MouseInput}
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=0.75\textwidth]{img/UMLGestioneInput.png}
+    \caption{UML struttura per la gestione degli input}
+\end{figure}
+\paragraph{Problema} Per controllare il gioco occorre avere un Handler sugli eventi del click del mouse e tastiera e indirizzare al controller corretto l’azione da effettuare. 
+\paragraph{Soluzione} Per la gestione degli input da tastiera e mouse mi sono creato un handler per i KeyInput e i MouseInput. Le due classi sono state strutturate similmente. Entrambi gli handler si basano sugli eventi forniti da java.awt KeyListener e MouseListener. Questi handler non fanno altro che indirizzare al controller corretto l’evento avvenuto. In questo modo vengono interpellati solo i controller interessati mentre gli altri rimangono in attesa di futuri eventi; questo evita quindi dei rallentamenti e appesantimenti di chiamate superflue.
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
@@ -419,7 +443,7 @@ Per quanto riguarda il DVCS, abbiamo optato per un utilizzo semplice come quello
 In autonomia mi sono occupato di:
 \begin{itemize}
     \item Realizzazione delle strutture iniziali quali Entity, Component, dell’enum Type e le relative implementazioni (package it.unibo.unibomber.game.ecs.api).
-    \item Realizzazione di AbstractComponent che va a generalizzare i metodi utilizzati da pressochè ogni componente package it.unibo.unibomber.game.model.impl).
+    \item Realizzazione di AbstractComponent che va a generalizzare i metodi utilizzati da pressochè ogni componente package (it.unibo.unibomber.game.model.impl).
     \item Realizzazione dell’ AIComponent (package it.unibo.unibomber.game.ecs.impl).
     \item Realizzazione della movementComponent(package it.unibo.unibomber.game.ecs.impl).
     \item Realizzazione della RaisingComponent (package it.unibo.unibomber.game.ecs.impl).
@@ -438,12 +462,14 @@ In collaborazione mi sono occupato:
 \subsection*{Tamagnini Alex}
 In autonomia mi sono occupato di:
 \begin{itemize}
-    \item Gestione dell’entità power up in PowerUpType (package it.unibo.unibomber.game.ecs.api) e PowerUpComponent (package it.unibo.unibomber.game.ecs.impl)
+    \item Gestione dell’entità power up in PowerUpType (package it.unibo.unibomber.game.ecs.api) 
+        \\e PowerUpComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione degli attributi dei power up legati alla bomba e al bomber in PowerUpListComponent e PowerUpHandlerComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione del piazzamento della bomba in BombPlaceComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione del calcio della bomba in SlidingComponent
-          (package it.unibo.unibomber.game.ecs.impl)
-    \item Gestione del lancio della bomba in ThrowComponent (package it.unibo.unibomber.game.ecs.impl)
+          \\(package it.unibo.unibomber.game.ecs.impl)
+    \item Gestione del lancio della bomba in ThrowComponent 
+    \\(package it.unibo.unibomber.game.ecs.impl)
     \item Creazione dei test, tra cui:
           \begin{itemize}
               \item PowerUpTest (package it.unibo.unibomber.model)
@@ -454,7 +480,8 @@ In autonomia mi sono occupato di:
 In collaborazione, mi sono occupato di:
 \begin{itemize}
     \item Implementazioni di controlli relativi a collisioni tra bomber e power up, e tra bomber e bomba con power up KICKBOMB in CollisionComponent (package it.unibo.unibomber.game.ecs.impl) ed in Extension (package it.unibo.unibomber.game.model.impl)
-    \item Inserimento di alcune costanti in Constants (package it.unibo.unibomber.utilities)
+    \item Inserimento di alcune costanti in Constants 
+    \\(package it.unibo.unibomber.utilities)
     \item Inserimento di alcuni metodi, utilizzati da più classi, in Utilities (package it.unibo.unibomber.utilities)
     \item Implementazione di alcuni controlli riguardanti il power up KICKBOMB in testCollisionsPlayerBombSliding in CollisionTest (package it.unibo.unibomber.model)
 \end{itemize}
@@ -462,20 +489,39 @@ In collaborazione, mi sono occupato di:
 \subsection*{Bertozzi Niccolò}
 In autonomia mi sono occupato di:
 \begin{itemize}
-    \item Gestione del GameLoop in GameLoop (package it.unibo.unibomber.controller.api) e WordImpl (package it.unibo.unibomber.controller.impl)
+    \item Gestione del GameLoop in GameLoop 
+        \\(package it.unibo.unibomber.controller.api) e WordImpl 
+        \\(package it.unibo.unibomber.controller.impl)
     \item Creazione della Windows iniziale andando a ridimensionare le sites dei vari componenti grafici in base alla risoluzione dello schermo utilizzato (package it.unibo.unibomber.view)
-    \item Gestione del Keyinput e MouseInput (package it.unibo.unibomber.inputs)
-    \item Gestione delle collisione tra le varie entità in CollisionComponent (package it.unibo.unibomber.game.ecs.impl) e Extension (package it.unibo.unibomber.game.model.impl)
-    \item Gestione della grafica del menu in Menu (package it.unibo.unibomber.controller.impl), MenuButtonImpl (package it.unibo.unibomber.game.model.impl) e MenuView (package it.unibo.unibomber.view)
-    \item Gestione della grafica delle opzioni in Option (package it.unibo.unibomber.controller.impl), OptionButtonImpl (package it.unibo.unibomber.game.model.impl), OptionView(package it.unibo.unibomber.view) e HandicapView (package it.unibo.unibomber.view)
-    \item Gestione della grafica della partita in Play (package it.unibo.unibomber.controller.impl), PlayImpl (package it.unibo.unibomber.game.model.impl) e PlayView (package it.unibo.unibomber.view)
-    \item Gestione della grafica delle esplosioni a livello grafico  in Explosion (package it.unibo.unibomber.controller.impl), ExplosionImpl (package it.unibo.unibomber.game.model.impl) e ExplosionView (package it.unibo.unibomber.view)
+    \item Gestione del Keyinput e MouseInput 
+    \\(package it.unibo.unibomber.inputs)
+    \item Gestione delle collisione tra le varie entità in CollisionComponent 
+    \\(package it.unibo.unibomber.game.ecs.impl) e Extension 
+    \\(package it.unibo.unibomber.game.model.impl)
+    \item Gestione della grafica del menu in Menu 
+    \\(package it.unibo.unibomber.controller.impl), MenuButtonImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e MenuView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica delle opzioni in Option 
+    \\(package it.unibo.unibomber.controller.impl), OptionButtonImpl 
+    \\(package it.unibo.unibomber.game.model.impl), OptionView
+    \\(package it.unibo.unibomber.view) e HandicapView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica della partita in Play 
+    \\(package it.unibo.unibomber.controller.impl), PlayImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e PlayView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica delle esplosioni a livello grafico  in Explosion 
+    \\(package it.unibo.unibomber.controller.impl), ExplosionImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e ExplosionView 
+    \\(package it.unibo.unibomber.view)
     \item Gestione della grafica degli stati del gioco (Pause, Victory, Lose) in StateGame (package it.unibo.unibomber.controller.impl), StateGameButtonImpl (package it.unibo.unibomber.game.model.impl) e StateGameView (package it.unibo.unibomber.view)
     \item Realizzazione dei test relativi alle Collisioni e al TimesUp  (package it.unibo.unibomber.model).
 \end{itemize}
 In collaborazione mi sono occupato di:
 \begin{itemize}
-    \item Alleggerire la struttura delle collisioni tramite Extension (package it.unibo.unibomber.game.model.impl).
+    \item Alleggerire la struttura delle collisioni tramite Extension 
+    \\(package it.unibo.unibomber.game.model.impl).
     \item Implementazione del Times Up finale.
     \item Gestione di un file contente tutte le costanti necessarie in Constants (package it.unibo.unibomber.utilities)
 \end{itemize}
@@ -487,19 +533,20 @@ In autonomia mi sono occupato di:
     \item Gestione della distruzione di un’entità con il DestroyComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione della esplosione della bomba con l’ExplodeComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Creazione dell’interfaccia Field
-          (package it.unibo.unibomber.game.model.api)
+        \\(package it.unibo.unibomber.game.model.api)
     \item Creazione dei test, tra cui:
           \begin{itemize}
               \item WallTest (package it.unibo.unibomber.model)
               \item GameTest (package it.unibo.unibomber.model)
-              \item testBombExplosion in BombTest (package it.unibo.unibomber.model)
+              \item testBombExplosion in BombTest 
+              \\(package it.unibo.unibomber.model)
           \end{itemize}
 \end{itemize}
 In collaborazione, mi sono occupato di:
 \begin{itemize}
     \item Implementazione dell’interfaccia Field in FieldImpl con Moretti Riccardo (package  it.unibo.unibomber.game.model.impl)
 \end{itemize}
-In gruppo:
+\subsection*{Lavoro in gruppo:}
 \begin{itemize}
     \item Gestire la generazione delle singole entità in EntityFactoryImpl (package it.unibo.unibomber.game.model.impl)
     \item Gestione di un file contente tutte le costanti necessarie in Constants (package it.unibo.unibomber.utilities)
@@ -523,14 +570,34 @@ In gruppo:
 \subsection*{Tamagnini Alex}
 
 \subsection*{Bertozzi Niccolò}
-
+\subsubsection*{Utilizzo di Stream e lambda expressions:}
+\begin{itemize}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/ecs/impl/CollisionComponent.java#L101-L106}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/model/impl/Extension.java#L127-L134}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/test/java/it/unibo/unibomber/model/WallTest.java#L81-L82}
+\end{itemize}
+\subsubsection*{Utilizzo di Optional:}
+\begin{itemize}
+    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/controller/impl/StateGame.java#L52-L54}
+\end{itemize}
 \subsection*{Rigoni Lorenzo}
 \subsubsection*{Utilizzo di Stream e lambda expressions:}
 \begin{itemize}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L117-L121}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L150-L153}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L167-L170}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L207-L209}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L117-L121}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L150-L153}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L167-L170}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L207-L209}
 \end{itemize}
 \subsubsection*{Utilizzo di Optional:}
 \begin{itemize}
@@ -564,7 +631,7 @@ Sono felice e soddisfatto del progetto svolto, in quanto mi ha aiutato a compren
 \appendix
 \chapter{Guida utente}
 
-All’avvio del gioco, si potrà scegliere la mappa in cui giocare, il numero di bot contro cui giocare (da 1 a 3) andando ad aumentare (+) o diminuire (-);  e la possibilità di mettere dei power up iniziali al player e/o ai bot.
+All’avvio del gioco, si potrà scegliere la mappa in cui giocare, il numero di bot contro cui giocare (da 1 a 3) andando ad aumentare (+) o diminuire (-); e la possibilità di mettere dei power up iniziali al player e/o ai bot.
 \\
 \\
 Per quanto riguarda i comandi di gioco durante la partita, sono i seguenti:
@@ -579,7 +646,7 @@ Per quanto riguarda i comandi di gioco durante la partita, sono i seguenti:
 \end{itemize}
 
 \bibliographystyle{alpha}
-\bibliography{Unibomber}
+\bibliography{report}
 \begin{itemize}
     \item Per gli sprites relativi al bomber e le sue animazioni  \url{https://www.spriters-resource.com/ds_dsi/bomberman/sheet/7999/}
     \item Per gli sprites relativi alle bombe \url{https://www.spriters-resource.com/ds_dsi/bomberman/sheet/107788/?source=genre}
