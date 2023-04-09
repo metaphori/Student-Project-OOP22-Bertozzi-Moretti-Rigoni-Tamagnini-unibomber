@@ -330,7 +330,7 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 
 \paragraph{Problema}  La gestione delle collisioni delle hitbox delle entità, sapendo appunto anche la tipologia di esse in modo tale da eseguire l’azione corretta. Un’altro problema è la collisione con la bomba in quanto inizialmente il bomber può passare al di sopra di essa, ma una volta uscito dalla sua hitbox non potrà più entrarci.
 
-\paragraph{Soluzione} Come prima cosa, dopo uno studio dell’applicazione originale, ho creato un hitbox (Rectangle) generale per ogni entità (wall, bomber, power up). Una volta create le varie hitbox, ho controllato il flag IsSolid che mi mette in condizioni di sapere se quell’entità è solida (muro) o meno (bomer) e poi tramite un metodo già fornito da Java andavo a verificare se due Rectangle, e quindi appunto due hitbox, stavano collidendo tra di loro. Inizialmente avevo creato tutto all’interno del Collision Component, ma successivamente ad una analisi effettuata con Moretti, per alleggerire il codice e renderlo più leggibile e corretto, siamo andati a crearci una classe specifica che verificava questo ovvero Extension, la quale veniva semplicemente richiamata dalla CollisionComponent passandogli le due entità che collidevano. La classe Extension utilizza l’operatore BiConsumer il quale accetta due argomenti in input e non restituisce alcun risultato. In questo modo abbiamo potuto diversificare le varie entità. In tal modo come primo argomento era presente il soggetto della collisione, mentre come secondo argomento colui che veniva colpito. Facendo così eravamo in grado di conoscere esattamente le due entità e poter quindi successivamente, in base alla collisione che era avvenuta (bomber -> power up, bomber -> wall, bomb -> wall) eseguire la determinata azione necessaria.
+\paragraph{Soluzione} Come prima cosa, dopo uno studio dell’applicazione originale, ho creato un hitbox (Rectangle) generale per ogni entità (wall, bomber, power up). Una volta create le varie hitbox, ho controllato il flag IsSolid che mi mette in condizioni di sapere se quell’entità è solida (muro) o meno (bomer) e poi tramite un metodo già fornito da Java andavo a verificare se due Rectangle, e quindi appunto due hitbox, stavano collidendo tra di loro. Inizialmente avevo creato tutto all’interno del Collision Component, ma successivamente ad una analisi effettuata con Moretti, per alleggerire il codice e renderlo più leggibile e corretto, siamo andati a crearci una classe specifica che verificava questo ovvero Extension, la quale veniva semplicemente richiamata dalla CollisionComponent passandogli le due entità che collidevano. La classe Extension utilizza l’operatore BiConsumer il quale accetta due argomenti in input e non restituisce alcun risultato. In questo modo abbiamo potuto diversificare le varie entità. In tal modo come primo argomento era presente il soggetto della collisione, mentre come secondo argomento colui che veniva colpito. Facendo così eravamo in grado di conoscere esattamente le due entità e poter quindi successivamente, in base alla collisione che era avvenuta (bomber → power up, bomber → wall, bomb → wall) eseguire la determinata azione necessaria.
 Per la gestione della collisione con la bomba inizialmente alla sua creazione viene settata con indice isOver a true, in modo tale che il plater possa collidere con lei senza problema. Ad ogni update il CollisionComponent andrà a verificare se il bomber è ancora all’interno dell’ hitbox della bomba o meno; nel momento in cui uscirà il flag IsOver verrà settato a false e ciò significa che nessuno potrà più entrarci.
 
 
@@ -356,7 +356,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 
 \paragraph{Problema} Il gioco prevede che durante il menu tu possa iniziare una partita o uscire dal gioco
 
-\paragraph{Soluzione} Il menu è la prima schermata che l’applicazione mostra come prima cosa vengono caricate nel Model tutti gli sprites relativi al background e ai bottoni di scelta in un buffer in modo tale che non dovranno poi essere ricaricati nuovamente. Successivamente il controller del menu nel momento in cui viene richiamato dal Word il quale gli comunica che deve disegnare il menu, provvederà a interpellare la view che disegnerà a video il background e i relativi bottoni di scelta (Battle game, quit).
+\paragraph{Soluzione} Il menu è la prima schermata che l’applicazione mostra come prima cosa vengono caricate nel Model tutti gli sprites relativi al background e ai bottoni di scelta in un buffer in modo tale che non dovranno poi essere ricaricati nuovamente. Successivamente il controller del menu nel momento in cui viene richiamato dal Word, il quale gli comunica che deve disegnare il menu, provvederà a interpellare la view che disegnerà a video il background e i relativi bottoni di scelta (Battle game, quit).
 
 \subsubsection{Gestione delle opzioni}
 
@@ -556,9 +556,9 @@ In collaborazione, mi sono occupato di:
 \subsection*{Moretti Riccardo}
 \subsubsection*{Utilizzo di Stream e lambda expressions (alcuni esempi):}
 \begin{itemize}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/ecs/impl/AIComponent.java#L371-L378}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/ecs/impl/AIComponent.java#L288-L292}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/5e7da7fbffe8675535689d9ca82e583edf1749c4/src/main/java/it/unibo/unibomber/game/ecs/impl/InputComponent.java#L92-L101}
+    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/AIComponent.java#L371-L378}
+    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/AIComponent.java#L288-L292}
+    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/InputComponent.java#L92-L101}
 \end{itemize}
 \subsubsection*{Utilizzo di Optional (alcuni esempi):}
 \begin{itemize}
@@ -593,15 +593,15 @@ In collaborazione, mi sono occupato di:
 \subsubsection*{Utilizzo di Stream e lambda expressions:}
 \begin{itemize}
     \item Permalink: 
-    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
     \item Permalink: 
-    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/ecs/impl/CollisionComponent.java#L101-L106}
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/CollisionComponent.java#L101-L106}
     \item Permalink: 
-    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/model/impl/Extension.java#L127-L134}
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/model/impl/Extension.java#L127-L134}
     \item Permalink: 
-    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
     \item Permalink: 
-    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/test/java/it/unibo/unibomber/model/WallTest.java#L81-L82}
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/test/java/it/unibo/unibomber/model/WallTest.java#L81-L82}
 \end{itemize}
 \subsubsection*{Utilizzo di Optional:}
 \begin{itemize}
