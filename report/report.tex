@@ -394,7 +394,7 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \paragraph{Problema} Durante l'esperienza di gioco, per una migliore user experience, dovrà essere visibile la fiammata delle esplosioni le quali vengono gestite dal proprio component (ExplodeComponent).
 
 \paragraph{Soluzione} Per la realizzazione grafica delle esplosioni sono andato, secondo il pattern MVC, ad affidare la gestione ad un controller. Il controller di gioco (Play) ad ogni update logico dell'applicazione controlla se è presente una bomba che sta esplodendo; nel caso in cui venga trovata verrà interpellato il controller delle esplosioni il quale provvedera ad aggioranre la lista delle esplosioni presente nel Model (ExplosionImp). Successivamente la lista verrà passata alla view la quale provvederà a stamparla graficamente. Come per i model precedenti, gli sprites delle explosioni vengono caricate in fase di inizializzaione in un buffer per evitare un rallentamento successivo dell'applicazione. Gli sprites verrano caricati sotto forma di matrice dove ogni riga corrisponde alla potenza della fiammata, mentre invece ogni colonna corrisponde alla direzione della fiammata. Gestendo in questo modo le esplosioni posso distaccare completamente quello che è l'update logico della partita dall'update delle esplosioni rendendo separate le due attività. 
-\subsubsection{Gestione del schermate di Pausa-Win-Lose}
+\subsubsection{Gestione del schermate di Pause-Win-Lose}
 
 \begin{figure}[H]
     \centering{}
