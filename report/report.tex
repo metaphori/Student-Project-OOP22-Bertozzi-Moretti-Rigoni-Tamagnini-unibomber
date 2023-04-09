@@ -255,7 +255,7 @@ Infine, anche per l’entità bomba è stato deciso dal gruppo di sviluppare la 
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.90\textwidth]{img/UMLPowerUp.png}
-    \caption{}
+    \caption{Schema UML della gestione logica dei power up}
 \end{figure}
 
 \paragraph{Problema} Il player e i bot possono usufruire di eventuali power up, i quali possono modificare la loro velocità, la loro potenza di esplosione e il numero di bombe che possono piazzare. Oltre ad aggiungere due abilità quali calciare la bomba e lanciare la bomba. Anche le bombe devono contenere la potenza di esplosione, inoltre, in una implementazione futura, possono contenere una lista di power up (come ad esempio bomba spinata).
@@ -272,7 +272,7 @@ Per quanto riguarda l’attributo speed, per generalizzare la gestione, si trova
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.4\textwidth]{img/UMLPlaceBomb.png}
-    \caption{}
+    \caption{Schema UML della gestione logica del piazzamento della bomba}
 \end{figure}
 
 \paragraph{Problema} Il gioco prevede che il player ed i bot possono piazzare delle bombe nel campo per distruggere muri distruttibili e uccidere nemici.
@@ -285,8 +285,7 @@ Per quanto riguarda l’attributo speed, per generalizzare la gestione, si trova
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.5\textwidth]{img/UMLKickThrowBomb.png}
-    \caption{}
-    \label{}
+    \caption{Schema UML della gestione logica delle abilità speciali del bomber}
 \end{figure}
 
 \paragraph{Problema}  Il gioco prevede che il bomber, possedendo il corretto power up, può calciare o lanciare la bomba. La bomba può essere calciata in tutte le direzioni e si muove fino a che non esplode oppure entra in collisione con un’altra entità. Per quanto riguarda il lancio invece, questo prevede un lancio in tutte le direzioni, con un raggio standard di 3, con conseguente rimbalzo di 1 fino a che non trova una posizione libera, la bomba può inoltre oltrepassare i bordi esterni e comparire dal lato opposto.
