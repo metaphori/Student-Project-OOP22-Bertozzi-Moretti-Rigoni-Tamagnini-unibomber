@@ -28,7 +28,6 @@
 Il progetto si pone l’obiettivo di creare un videogioco arcade PvE ispirato a “Bomberman”. Con arcade si intende una categoria di videogiochi generalmente frenetici e basati su partite relativamente veloci. Nello specifico un PvE invece è un videogioco basato sull’ affrontare dei nemici gestiti dal computer, che noi chiameremo bot, che generalmente operano su regole di gioco equivalenti a quelle del player umano.
 
 \subsection*{Requisiti funzionali}
-\subsubsection{Requisiti Funzionali Obbligatori}
 \begin{itemize}
     \item Il gioco si occupa di gestire la partita dell’utente all’interno di una mappa scelta in precedenza con un dato numero di bot avversari.
     \item Prima dell’inizio della partita vera e propria sarà possibile scegliere la mappa di gioco, le regole di partita e dei relativi handicap, rendendo dunque i bot più o meno minacciosi verso il player.
@@ -124,7 +123,7 @@ Questa suddivisione, organizzata, della struttura offre l'opportunità in una ve
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.4\textwidth]{img/UMLEntita.png}
-    \caption{}
+    \caption{Schema UML dell'oggetto Entity}
 \end{figure}
 %
 \paragraph*{Problema} Diverse istanze di Entity richiedono specifiche che hanno intersezioni tra loro ma rimangono comunque distinte obbligando ad una ripetizione di codice.
@@ -157,7 +156,7 @@ mentazione. Tramite questo pattern, non sarà  dunque necessario ripetere la pro
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLAI.png}
-    \caption{}
+    \caption{Schema UML della gestione dell'AI}
     \label{}
 \end{figure}
 %
@@ -174,7 +173,7 @@ Visto l’approccio impiegato per la realizzazione di questa componente, si potr
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLMovement.png}
-    \caption{}
+    \caption{Schema UML della gestione del movimento}
 \end{figure}
 %
 \paragraph*{Problema} Sia bot che player devono poter muoversi tramite azioni (come l’input) per essere scatenate, ma l’evento scatenante è diverso.
@@ -443,7 +442,7 @@ Per quanto riguarda il DVCS, abbiamo optato per un utilizzo semplice come quello
 In autonomia mi sono occupato di:
 \begin{itemize}
     \item Realizzazione delle strutture iniziali quali Entity, Component, dell’enum Type e le relative implementazioni (package it.unibo.unibomber.game.ecs.api).
-    \item Realizzazione di AbstractComponent che va a generalizzare i metodi utilizzati da pressochè ogni componente package it.unibo.unibomber.game.model.impl).
+    \item Realizzazione di AbstractComponent che va a generalizzare i metodi utilizzati da pressochè ogni componente package (it.unibo.unibomber.game.model.impl).
     \item Realizzazione dell’ AIComponent (package it.unibo.unibomber.game.ecs.impl).
     \item Realizzazione della movementComponent(package it.unibo.unibomber.game.ecs.impl).
     \item Realizzazione della RaisingComponent (package it.unibo.unibomber.game.ecs.impl).
@@ -462,12 +461,14 @@ In collaborazione mi sono occupato:
 \subsection*{Tamagnini Alex}
 In autonomia mi sono occupato di:
 \begin{itemize}
-    \item Gestione dell’entità power up in PowerUpType (package it.unibo.unibomber.game.ecs.api) e PowerUpComponent (package it.unibo.unibomber.game.ecs.impl)
+    \item Gestione dell’entità power up in PowerUpType (package it.unibo.unibomber.game.ecs.api) 
+        \\e PowerUpComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione degli attributi dei power up legati alla bomba e al bomber in PowerUpListComponent e PowerUpHandlerComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione del piazzamento della bomba in BombPlaceComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione del calcio della bomba in SlidingComponent
-          (package it.unibo.unibomber.game.ecs.impl)
-    \item Gestione del lancio della bomba in ThrowComponent (package it.unibo.unibomber.game.ecs.impl)
+          \\(package it.unibo.unibomber.game.ecs.impl)
+    \item Gestione del lancio della bomba in ThrowComponent 
+    \\(package it.unibo.unibomber.game.ecs.impl)
     \item Creazione dei test, tra cui:
           \begin{itemize}
               \item PowerUpTest (package it.unibo.unibomber.model)
@@ -478,7 +479,8 @@ In autonomia mi sono occupato di:
 In collaborazione, mi sono occupato di:
 \begin{itemize}
     \item Implementazioni di controlli relativi a collisioni tra bomber e power up, e tra bomber e bomba con power up KICKBOMB in CollisionComponent (package it.unibo.unibomber.game.ecs.impl) ed in Extension (package it.unibo.unibomber.game.model.impl)
-    \item Inserimento di alcune costanti in Constants (package it.unibo.unibomber.utilities)
+    \item Inserimento di alcune costanti in Constants 
+    \\(package it.unibo.unibomber.utilities)
     \item Inserimento di alcuni metodi, utilizzati da più classi, in Utilities (package it.unibo.unibomber.utilities)
     \item Implementazione di alcuni controlli riguardanti il power up KICKBOMB in testCollisionsPlayerBombSliding in CollisionTest (package it.unibo.unibomber.model)
 \end{itemize}
@@ -486,20 +488,39 @@ In collaborazione, mi sono occupato di:
 \subsection*{Bertozzi Niccolò}
 In autonomia mi sono occupato di:
 \begin{itemize}
-    \item Gestione del GameLoop in GameLoop (package it.unibo.unibomber.controller.api) e WordImpl (package it.unibo.unibomber.controller.impl)
+    \item Gestione del GameLoop in GameLoop 
+        \\(package it.unibo.unibomber.controller.api) e WordImpl 
+        \\(package it.unibo.unibomber.controller.impl)
     \item Creazione della Windows iniziale andando a ridimensionare le sites dei vari componenti grafici in base alla risoluzione dello schermo utilizzato (package it.unibo.unibomber.view)
-    \item Gestione del Keyinput e MouseInput (package it.unibo.unibomber.inputs)
-    \item Gestione delle collisione tra le varie entità in CollisionComponent (package it.unibo.unibomber.game.ecs.impl) e Extension (package it.unibo.unibomber.game.model.impl)
-    \item Gestione della grafica del menu in Menu (package it.unibo.unibomber.controller.impl), MenuButtonImpl (package it.unibo.unibomber.game.model.impl) e MenuView (package it.unibo.unibomber.view)
-    \item Gestione della grafica delle opzioni in Option (package it.unibo.unibomber.controller.impl), OptionButtonImpl (package it.unibo.unibomber.game.model.impl), OptionView(package it.unibo.unibomber.view) e HandicapView (package it.unibo.unibomber.view)
-    \item Gestione della grafica della partita in Play (package it.unibo.unibomber.controller.impl), PlayImpl (package it.unibo.unibomber.game.model.impl) e PlayView (package it.unibo.unibomber.view)
-    \item Gestione della grafica delle esplosioni a livello grafico  in Explosion (package it.unibo.unibomber.controller.impl), ExplosionImpl (package it.unibo.unibomber.game.model.impl) e ExplosionView (package it.unibo.unibomber.view)
+    \item Gestione del Keyinput e MouseInput 
+    \\(package it.unibo.unibomber.inputs)
+    \item Gestione delle collisione tra le varie entità in CollisionComponent 
+    \\(package it.unibo.unibomber.game.ecs.impl) e Extension 
+    \\(package it.unibo.unibomber.game.model.impl)
+    \item Gestione della grafica del menu in Menu 
+    \\(package it.unibo.unibomber.controller.impl), MenuButtonImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e MenuView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica delle opzioni in Option 
+    \\(package it.unibo.unibomber.controller.impl), OptionButtonImpl 
+    \\(package it.unibo.unibomber.game.model.impl), OptionView
+    \\(package it.unibo.unibomber.view) e HandicapView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica della partita in Play 
+    \\(package it.unibo.unibomber.controller.impl), PlayImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e PlayView 
+    \\(package it.unibo.unibomber.view)
+    \item Gestione della grafica delle esplosioni a livello grafico  in Explosion 
+    \\(package it.unibo.unibomber.controller.impl), ExplosionImpl 
+    \\(package it.unibo.unibomber.game.model.impl) e ExplosionView 
+    \\(package it.unibo.unibomber.view)
     \item Gestione della grafica degli stati del gioco (Pause, Victory, Lose) in StateGame (package it.unibo.unibomber.controller.impl), StateGameButtonImpl (package it.unibo.unibomber.game.model.impl) e StateGameView (package it.unibo.unibomber.view)
     \item Realizzazione dei test relativi alle Collisioni e al TimesUp  (package it.unibo.unibomber.model).
 \end{itemize}
 In collaborazione mi sono occupato di:
 \begin{itemize}
-    \item Alleggerire la struttura delle collisioni tramite Extension (package it.unibo.unibomber.game.model.impl).
+    \item Alleggerire la struttura delle collisioni tramite Extension 
+    \\(package it.unibo.unibomber.game.model.impl).
     \item Implementazione del Times Up finale.
     \item Gestione di un file contente tutte le costanti necessarie in Constants (package it.unibo.unibomber.utilities)
 \end{itemize}
@@ -511,19 +532,20 @@ In autonomia mi sono occupato di:
     \item Gestione della distruzione di un’entità con il DestroyComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Gestione della esplosione della bomba con l’ExplodeComponent (package it.unibo.unibomber.game.ecs.impl)
     \item Creazione dell’interfaccia Field
-          (package it.unibo.unibomber.game.model.api)
+        \\(package it.unibo.unibomber.game.model.api)
     \item Creazione dei test, tra cui:
           \begin{itemize}
               \item WallTest (package it.unibo.unibomber.model)
               \item GameTest (package it.unibo.unibomber.model)
-              \item testBombExplosion in BombTest (package it.unibo.unibomber.model)
+              \item testBombExplosion in BombTest 
+              \\(package it.unibo.unibomber.model)
           \end{itemize}
 \end{itemize}
 In collaborazione, mi sono occupato di:
 \begin{itemize}
     \item Implementazione dell’interfaccia Field in FieldImpl con Moretti Riccardo (package  it.unibo.unibomber.game.model.impl)
 \end{itemize}
-In gruppo:
+\subsection*{Lavoro in gruppo:}
 \begin{itemize}
     \item Gestire la generazione delle singole entità in EntityFactoryImpl (package it.unibo.unibomber.game.model.impl)
     \item Gestione di un file contente tutte le costanti necessarie in Constants (package it.unibo.unibomber.utilities)
@@ -540,10 +562,14 @@ In gruppo:
 \subsection*{Rigoni Lorenzo}
 \subsubsection*{Utilizzo di Stream e lambda expressions:}
 \begin{itemize}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L117-L121}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L150-L153}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L167-L170}
-    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L207-L209}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L117-L121}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/DestroyComponent.java#L150-L153}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L167-L170}
+    \item Permalink: 
+    \\\url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/game/ecs/impl/ExplodeComponent.java#L207-L209}
 \end{itemize}
 \subsubsection*{Utilizzo di Optional:}
 \begin{itemize}
@@ -573,7 +599,7 @@ Sono felice e soddisfatto del progetto svolto, in quanto mi ha aiutato a compren
 \appendix
 \chapter{Guida utente}
 
-All’avvio del gioco, si potrà scegliere la mappa in cui giocare, il numero di bot contro cui giocare (da 1 a 3) andando ad aumentare (+) o diminuire (-);  e la possibilità di mettere dei power up iniziali al player e/o ai bot.
+All’avvio del gioco, si potrà scegliere la mappa in cui giocare, il numero di bot contro cui giocare (da 1 a 3) andando ad aumentare (+) o diminuire (-); e la possibilità di mettere dei power up iniziali al player e/o ai bot.
 \\
 \\
 Per quanto riguarda i comandi di gioco durante la partita, sono i seguenti:
@@ -588,7 +614,7 @@ Per quanto riguarda i comandi di gioco durante la partita, sono i seguenti:
 \end{itemize}
 
 \bibliographystyle{alpha}
-\bibliography{Unibomber}
+\bibliography{report}
 \begin{itemize}
     \item Per gli sprites relativi al bomber e le sue animazioni  \url{https://www.spriters-resource.com/ds_dsi/bomberman/sheet/7999/}
     \item Per gli sprites relativi alle bombe \url{https://www.spriters-resource.com/ds_dsi/bomberman/sheet/107788/?source=genre}
