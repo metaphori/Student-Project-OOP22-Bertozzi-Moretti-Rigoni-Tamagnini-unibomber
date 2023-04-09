@@ -372,7 +372,7 @@ public final class AIComponent extends AbstractComponent {
                     .filter(e -> e.getType().equals(Type.BOMBER))
                     .map(Entity::getPosition)
                     .filter(e -> !e.equals(this.getEntity().getPosition()))
-                    .map(e -> Utilities.getRoundedPair(e))
+                    .map(Utilities::getRoundedPair)
                     .forEach(e -> {
                          typesWithBomber[e.getX()][e.getY()] = Type.BOMBER;
                     });
