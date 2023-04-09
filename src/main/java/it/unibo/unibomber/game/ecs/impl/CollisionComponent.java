@@ -142,7 +142,7 @@ public final class CollisionComponent extends AbstractComponent {
           final Entity player = this.getEntity();
           if (player.getType().equals(Type.BOMBER)) {
                final CollisionComponent playerCollision = player.getComponent(CollisionComponent.class).get();
-               this.getEntity().getGame().getEntities().stream()
+               player.getGame().getEntities().stream()
                          .filter(entity -> entity.getType() == Type.BOMB)
                          .filter(entity -> entity.getComponent(ExplodeComponent.class).get().getPlacer().equals(player))
                          .map(entity -> entity.getComponent(CollisionComponent.class))
