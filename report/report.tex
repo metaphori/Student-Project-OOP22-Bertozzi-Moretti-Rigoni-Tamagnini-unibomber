@@ -109,7 +109,11 @@ Come si può notare, la nostra struttura si centra su un controller generale ovv
 Inoltre in base al Gamestate il controller World andrà a richiamare i relativi controller dei vari stati di gioco i quali poi andranno a comunicare con i rispettivi Model e View.
 \\
 Questa suddivisione, organizzata, della struttura offre l'opportunità in una versione futura dell’applicazione di poter cambiare il motore grafico senza estreme difficoltà; andando semplicemente a modificare solo parte di view.
-
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=1\textwidth]{img/UMLMVC.png}
+    \caption{Schema UML della struttura MVC}
+\end{figure}
 
 \section{Design dettagliato}
 %
@@ -378,8 +382,19 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 
 \paragraph{Problema} In base alla frequenza del GameLoop il gioco dovrà aggiornare i dati e la grafica in modo fluido e gradevole all’utente. Inoltre nel caso in cui avvenga una perdita di prestazioni occorre non tener traccia di tutti i tasti cliccati dall’utente per evitare un ritardo che porterà poi ad un'esperienza di gioco poco gradevole.
 
-\paragraph{Soluzione} Come prima cosa sono andato come negli altri model a scaricarmi in un buffer tutte le immagini relative alle animazioni del player e alla stampa grafica delle varie entità. Successivamente il controller quando verrà chiamato da Word andrà ad aggiornare i dati calcolando in base a quanti frame sono passati e in che stato di gioco è il player l'animazione corretta. Il player inizialmente sarà in uno stato di STANDING, nel momento in cui l'utente muoverà il bomber, esso passerà in WALKING. Lo stato del player corrisponderà a quale animazione la View andrà poi a caricare. Per la gestione dei tasti invece, sono andato ad utilizzare una lista dove verranno inseriti secondo una struttura LIFO tutti i tasti premuti dall’utente. Quando il controller andrà a verificare quale tasto è stato premuto verrà preso solo l’ultimo quello in testa alla lista. In questo modo in caso di un calo di prestazioni anche se l’utente continuerà a cliccare verrà preso solo l'ultimo tasto premuto.
+\paragraph{Soluzione} Come prima cosa sono andato, come negli altri model, a scaricarmi in un buffer tutte le immagini relative alle animazioni del player e alla stampa grafica delle varie entità. Le animazioni sono state scaricate sotto forma di matrice, dove ogni riga corrispondeva ad una diversa animazione(standing, walking, defeat) e le colonne, invece, allo stato delle animazioni. Successivamente il controller quando verrà chiamato da Word andrà ad aggiornare i dati calcolando in base a quanti frame sono passati e in che stato di gioco è il player l'animazione corretta. Il player inizialmente sarà in uno stato di STANDING, nel momento in cui l'utente muoverà il bomber, esso passerà in WALKING. Lo stato del player corrisponderà a quale animazione la View andrà poi a caricare. In questo modo se si vorranno aggiungere delle animazioni basterà  semplicemente inserire un nuovo record nella nostra matrice e richiamare quest'ultimo per stampare l’animazione.  Per la gestione dei tasti invece, sono andato ad utilizzare una lista dove verranno inseriti secondo una struttura LIFO tutti i tasti premuti dall’utente. Quando il controller andrà a verificare quale tasto è stato premuto verrà preso solo l’ultimo quello in testa alla lista. In questo modo in caso di un calo di prestazioni anche se l’utente continuerà a cliccare verrà preso solo l'ultimo tasto premuto, eliminando quel effetto “scattoso”. Inoltre gestendo con una coda l’inserimento dei tasti, sono in grado di assicurarmi che l’ultimo tasto (di movimento) premuto sia quello su cui agisce la InputCompoent.
 
+\subsubsection{Gestione delle esplosioni}
+
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=\textwidth]{img/UMLExplosion.png}
+    \caption{}
+\end{figure}
+
+\paragraph{Problema} Durante l'esperienza di gioco, per una migliore user experience, dovrà essere visibile la fiammata delle esplosioni le quali vengono gestite dal proprio component (ExplodeComponent).
+
+\paragraph{Soluzione} Per la realizzazione grafica delle esplosioni sono andato, secondo il pattern MVC, ad affidare la gestione ad un controller. Il controller di gioco (Play) ad ogni update logico dell'applicazione controlla se è presente una bomba che sta esplodendo; nel caso in cui venga trovata verrà interpellato il controller delle esplosioni il quale provvedera ad aggioranre la lista delle esplosioni presente nel Model (ExplosionImp). Successivamente la lista verrà passata alla view la quale provvederà a stamparla graficamente. Come per i model precedenti, gli sprites delle explosioni vengono caricate in fase di inizializzaione in un buffer per evitare un rallentamento successivo dell'applicazione. Gli sprites verrano caricati sotto forma di matrice dove ogni riga corrisponde alla potenza della fiammata, mentre invece ogni colonna corrisponde alla direzione della fiammata. Gestendo in questo modo le esplosioni posso distaccare completamente quello che è l'update logico della partita dall'update delle esplosioni rendendo separate le due attività. 
 \subsubsection{Gestione del schermate di Pausa-Win-Lose}
 
 \begin{figure}[H]
@@ -388,9 +403,18 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
     \caption{}
 \end{figure}
 
-\paragraph{Problema}
+\paragraph{Problema} Durante l’esperienza di gioco dovrà essere possibile poter mettere in pausa fermando quello che che il ciclo del gioco. Inoltre arrivati a fine partita l’utente dovrà essere avvisato graficamente se ha vinto o meno quella partita.
 
-\paragraph{Soluzione}
+\paragraph{Soluzione} Per la gestione della schermata di pausa, win, lose sono andato ad utilizzare un Controller unico il quale in base al Gamestate caricava la view con i bottoni corretti; andando a cambiare il press event del bottone. In questo modo se l’utente era in una situazione di pausa venivano caricati i bottoni che ti permettevano o di continuare la partita o tornare al menu; altrimenti, in situazione di win o di lose, é possibile o tornare al menu o chiudere l’applicazione con l’utilizzo dei medesimi bottoni. In questo modo ho evitato una ripetizione del codice inutile in quanto la schermata caricata graficamente era la medesima. Per la gestione della pausa mi sono affidato al keypress event il quale, nel caso in cui venisse premuto il ESC cambia il game state del gioco in PAUSE e successivamente il controller centrale, ovvero World, andrà a caricare graficamente la schermata di pausa mentre fermare update logico della partita.
+
+\subsubsection{Gestione dell KeyInput e MouseInput}
+\begin{figure}[H]
+    \centering{}
+    \includegraphics[width=0.75\textwidth]{img/UMLGestioneInput.png}
+    \caption{}
+\end{figure}
+\paragraph{Problema} Per controllare il gioco occorre avere un Handler sugli eventi del click del mouse e tastiera e indirizzare al controller corretto l’azione da effettuare. 
+\paragraph{Soluzione} Per la gestione degli input da tastiera e mouse mi sono creato un handler per i KeyInput e i MouseInput. Le due classi sono state strutturate similmente. Entrambi gli handler si basano sugli eventi forniti da java.awt KeyListener e MouseListener. Questi handler non fanno altro che indirizzare al controller corretto l’evento avvenuto. In questo modo vengono interpellati solo i controller interessati mentre gli altri rimangono in attesa di futuri eventi; questo evita quindi dei rallentamenti e appesantimenti di chiamate superflue.
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
