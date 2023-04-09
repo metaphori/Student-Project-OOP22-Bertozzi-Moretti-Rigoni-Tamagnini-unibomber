@@ -111,7 +111,8 @@ Questa suddivisione, organizzata, della struttura offre l'opportunità in una ve
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=1\textwidth]{img/UMLMVC.png}
-    \caption{Schema UML della struttura MVC}
+    \caption{Schema UML della struttura MVC ,
+    NOTA: sono mostrate solo la struttura di Play, Menu e Explosion ma lo schema è equivalente per i restanti controller.}
 \end{figure}
 
 \section{Design dettagliato}
@@ -301,7 +302,7 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLFinestraDiGioco.png}
-    \caption{}
+    \caption{UML struttura finestra di gioco}
 \end{figure}
 
 \paragraph{Problema} Ogni utente avrà uno monitor, dove giocherà, differente. Avendo eliminato la possibilità di ridimensionare la finestra occorre ridimensionare correttamente tutte le relative scale grafiche.
@@ -313,7 +314,7 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGameLoop.png}
-    \caption{}
+    \caption{UML struttura GameLoop}
 \end{figure}
 
 \paragraph{Problema} Il nucleo centrale dell’applicazione è il GameLoop il quale permette di controllare il gioco ad interazioni cicliche di aggiornamenti con una data frequenza. Ad ogni ciclo di frequenza il GameLoop deve essere in grado di aggiornare sia la logica che la grafica dell’applicazione.
@@ -325,7 +326,7 @@ Anche per queste due componenti ho utilizzato il pattern Template Method eredita
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLCollisioni.png}
-    \caption{}
+    \caption{UML struttura CollisionComponent}
 \end{figure}
 
 \paragraph{Problema}  La gestione delle collisioni delle hitbox delle entità, sapendo appunto anche la tipologia di esse in modo tale da eseguire l’azione corretta. Un’altro problema è la collisione con la bomba in quanto inizialmente il bomber può passare al di sopra di essa, ma una volta uscito dalla sua hitbox non potrà più entrarci.
@@ -339,7 +340,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneGameState.png}
-    \caption{}
+    \caption{UML struttura per la gestione degli stati del gioco}
 \end{figure}
 
 \paragraph{Problema} In base allo stato del gioco doveva essere messo in esecuzione il controller corretto, il quale andrà poi a disegnare con la relativa view a video tutti i dati offerti dal suo Model.
@@ -351,7 +352,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneMenu.png}
-    \caption{}
+    \caption{UML struttura MVC per il menu}
 \end{figure}
 
 \paragraph{Problema} Il gioco prevede che durante il menu tu possa iniziare una partita o uscire dal gioco
@@ -363,7 +364,7 @@ Per la gestione della collisione con la bomba inizialmente alla sua creazione vi
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneOpzioni.png}
-    \caption{}
+    \caption{UML struttura MVC per la pagina degli option}
 \end{figure}
 
 \paragraph{Problema} Il gioco prevede che si possano settare delle impostazioni di base della partita ovvero scegliere la mappa, indicare contro quanti Bot si vuole giocare e assegnare degli handicap power up al player o ai bot.
@@ -376,7 +377,7 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=\textwidth]{img/UMLGestioneGioco.png}
-    \caption{}
+    \caption{UML struttura MVC per la gestiona della partita}
 \end{figure}
 
 \paragraph{Problema} In base alla frequenza del GameLoop il gioco dovrà aggiornare i dati e la grafica in modo fluido e gradevole all’utente. Inoltre nel caso in cui avvenga una perdita di prestazioni occorre non tener traccia di tutti i tasti cliccati dall’utente per evitare un ritardo che porterà poi ad un'esperienza di gioco poco gradevole.
@@ -388,7 +389,7 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=\textwidth]{img/UMLExplosion.png}
-    \caption{}
+    \caption{UML struttura MVC per le esplosioni}
 \end{figure}
 
 \paragraph{Problema} Durante l'esperienza di gioco, per una migliore user experience, dovrà essere visibile la fiammata delle esplosioni le quali vengono gestite dal proprio component (ExplodeComponent).
@@ -399,7 +400,7 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLSchermatePWL.png}
-    \caption{}
+    \caption{UML struttura MVC per schermate di Pause, Win, Lose}
 \end{figure}
 
 \paragraph{Problema} Durante l’esperienza di gioco dovrà essere possibile poter mettere in pausa fermando quello che che il ciclo del gioco. Inoltre arrivati a fine partita l’utente dovrà essere avvisato graficamente se ha vinto o meno quella partita.
@@ -410,7 +411,7 @@ Una volta settate tutte le impostazioni basterà cliccare sul bottone “Ok” p
 \begin{figure}[H]
     \centering{}
     \includegraphics[width=0.75\textwidth]{img/UMLGestioneInput.png}
-    \caption{}
+    \caption{UML struttura per la gestione degli input}
 \end{figure}
 \paragraph{Problema} Per controllare il gioco occorre avere un Handler sugli eventi del click del mouse e tastiera e indirizzare al controller corretto l’azione da effettuare. 
 \paragraph{Soluzione} Per la gestione degli input da tastiera e mouse mi sono creato un handler per i KeyInput e i MouseInput. Le due classi sono state strutturate similmente. Entrambi gli handler si basano sugli eventi forniti da java.awt KeyListener e MouseListener. Questi handler non fanno altro che indirizzare al controller corretto l’evento avvenuto. In questo modo vengono interpellati solo i controller interessati mentre gli altri rimangono in attesa di futuri eventi; questo evita quindi dei rallentamenti e appesantimenti di chiamate superflue.
@@ -558,7 +559,23 @@ In collaborazione, mi sono occupato di:
 \subsection*{Tamagnini Alex}
 
 \subsection*{Bertozzi Niccolò}
-
+\subsubsection*{Utilizzo di Stream e lambda expressions:}
+\begin{itemize}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/ecs/impl/CollisionComponent.java#L101-L106}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/game/model/impl/Extension.java#L127-L134}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/main/java/it/unibo/unibomber/controller/impl/Play.java#L61-L67}
+    \item Permalink: 
+    \\ \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/84d383be9de179a92d9b3358ab2a3eb2b514631d/src/test/java/it/unibo/unibomber/model/WallTest.java#L81-L82}
+\end{itemize}
+\subsubsection*{Utilizzo di Optional:}
+\begin{itemize}
+    \item Permalink: \url{https://github.com/TamagniniAlex/OOP22-unibomber/blob/main/src/main/java/it/unibo/unibomber/controller/impl/StateGame.java#L52-L54}
+\end{itemize}
 \subsection*{Rigoni Lorenzo}
 \subsubsection*{Utilizzo di Stream e lambda expressions:}
 \begin{itemize}
